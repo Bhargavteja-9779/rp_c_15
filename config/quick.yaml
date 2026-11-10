@@ -1,0 +1,27 @@
+# Overrides for `python run_all.py --mode quick` (pipeline verification, NOT for reporting).
+protocols:
+  forward:
+    targets: [2018]
+  loso:
+    targets: []
+models:
+  pls:
+    n_components_grid: [10, 14]
+  cnn:
+    epochs: 2
+    seeds: [0]
+  gbm:
+    n_estimators: 40
+    seeds: [0]
+  ensemble:
+    members: 2
+  qrf:
+    n_estimators: 20
+eval:
+  alphas: [0.1]
+  m_grid: [0, 5, 20]
+  n_draws: 10
+  n_episodes: 5
+stats:
+  n_boot: 200
+quick_subsample: 12000     # random source spectra kept per target (speed)

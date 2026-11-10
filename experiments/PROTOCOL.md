@@ -76,4 +76,14 @@ rank-biserial effect size, lot-level cluster bootstrap 95% CIs (2,000 resamples)
 results are always shown because seasons (n = 5) are the top-level cluster.
 
 ## Deviations
-(none yet)
+* D1 (2026-11-10, after the first smoke test on PLS / target season 2018, the only target results
+  seen at that time). The pre-specified location-only LotCP under-covered (0.85-0.87 at nominal
+  0.90) because the within-lot residual *scale* was larger in 2018 than in the source seasons.
+  Hypothesis: residual scale, not only bias, is lot specific. Change: a scale-adaptive variant
+  "LotCP-S" was added (score divided by a lot scale built from the shrunk variance of the m
+  reference residuals and from the label-free variance of repeated-scan predictions). The
+  design of the scale estimate was developed on source-season out-of-fold residuals only
+  (seasons <= 2018 of the 2019 configuration). Both the pre-specified LotCP and LotCP-S are
+  reported for all seasons and models; 2018/PLS must be read as development data for D1.
+* D2. Added baseline `target_only_centred` (bias-corrected target-only conformal with
+  leave-one-sample-out centring) as a stronger target-only competitor.

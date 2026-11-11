@@ -157,7 +157,9 @@ def fig_lot_coverage(cfg, fdir, d):
         ax.hlines(v.mean(), i - 0.25, i + 0.25, color=C["ink"], lw=1.2)
     ax.axhline(1 - a0, color=C["ink"], lw=0.8, ls=":")
     ax.set_xticks(range(1, len(items) + 1))
-    ax.set_xticklabels([f"{LABEL[k]}\n(m = {m})" for k, m in items], fontsize=6.5)
+    short = {"scp_sample": "Split CP\nsample folds", "scp_season": "Split CP\nseason folds", "biascorr_naive": "Bias corr.\n+ source CP",
+             "target_only_centred": "Target-only CP\ncentred", "lotcp": "LotCP", "lotcp_s": "LotCP-S"}
+    ax.set_xticklabels([f"{short[k]}\n(m = {m})" for k, m in items], fontsize=6.5)
     ax.set(ylabel="Coverage within lot", title="Lot-wise coverage on later-season lots (each dot = one lot; bar = mean)")
     fig.tight_layout(); _save(fig, fdir, "fig5_lot_coverage")
 
@@ -165,7 +167,7 @@ def fig_lot_coverage(cfg, fdir, d):
 def fig_ablation(cfg, fdir, d):
     a0 = cfg["eval"]["primary_alpha"]
     main = d[(d.model == "pls") & (d.protocol == "forward") & np.isclose(d.alpha, a0)]
-    order = ["lotcp_s", "lotcp_s_support", "lotcp_s_rep", "lotcp", "lotcp_noshrink", "lotcp_noepisodic", "lotcp_lotfold", "lotcp_samplefold", "lotcp_pooled"]
+    order = ["lotcp_s", "lotcp_s_support", "lotcp_s_rep", "lotcp_s_lotfold", "lotcp", "lotcp_noshrink", "lotcp_noepisodic", "lotcp_lotfold", "lotcp_samplefold", "lotcp_pooled"]
     s = summarise(main, cfg, set(order))
     fig, axes = plt.subplots(1, 2, figsize=(7.2, 3.0), sharey=True)
     for ax, m in zip(axes, (5, 20)):
@@ -208,7 +210,7 @@ def fig_robustness(cfg, fdir):
     p = out_dir(cfg, "results/robustness") / "robustness_raw.csv"
     if not p.exists():
         return
-    r = pd.read_csv(p).replace(np.inf, np.nan)
+    r = pd.read_csv(p, low_memory=False).replace(np.inf, np.nan)
     a0 = cfg["eval"]["primary_alpha"]
     fig, axes = plt.subplots(1, 3, figsize=(7.2, 2.5), sharey=True)
     base = seed_average(pd.read_csv(out_dir(cfg, "results") / "raw_results.csv"))
@@ -221,7 +223,9 @@ def fig_robustness(cfg, fdir):
         ax.plot(b.index, b.values, color=C["ink"], marker="o", label="Main setting")
         cols = [C["blue"], C["orange"], C["aqua"], C["violet"], C["magenta"], C["yellow"], C["green"]]
         if factor == "protocol":
-            g = g.assign(level=g["level"].str.split(":").str[0])
+            g = g.assign(level=g["level"].astype(str).str.split(":").str[0])
+        else:
+            g = g.assign(level=pd.to_numeric(g["level"]))
         for (lvl, gg), col, mk in zip(g.groupby("level"), cols, "s^DvPX*"):
             c = gg.groupby("m")["coverage"].mean()
             lab = {"recent2": "Two most recent seasons", "region": "Unseen region", "cultivar": "Unseen cultivar"}.get(lvl, fmt.format(int(lvl) if float(lvl).is_integer() else lvl) if factor != "protocol" else lvl)

@@ -90,3 +90,7 @@ results are always shown because seasons (n = 5) are the top-level cluster.
 * D3 (compute budget, decided before any CNN result existed). CNN epochs 30 -> 20; lot-grouped
   folds are computed for CNN seed 0 only; in the leave-one-season-out protocol the CNN (seed 0)
   uses season-grouped folds only. The machine is a 4-core CPU without GPU.
+* D4 (after the full evaluation). Ablation variant `lotcp_s_lotfold` (LotCP-S calibrated on
+  lot-fold instead of season-fold residuals) was added because the location-only ablation
+  showed that the fold unit matters much less once m > 0. It is reported as an ablation only;
+  the designated method (LotCP-S on season-fold residuals) was not changed.

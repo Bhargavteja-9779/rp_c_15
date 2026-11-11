@@ -20,11 +20,11 @@ LABEL = {
     "lotcp": "LotCP", "lotcp_s": "LotCP-S", "lotcp_noshrink": "HCP-mean (LotCP w/o shrinkage)",
     "lotcp_noepisodic": "LotCP w/o episodic quantile", "lotcp_lotfold": "LotCP, lot-fold residuals",
     "lotcp_samplefold": "LotCP, sample-fold residuals", "lotcp_pooled": "LotCP, spectrum-pooled weights",
-    "lotcp_s_support": "LotCP-S, reference scale only", "lotcp_s_rep": "LotCP-S, replicate scale only",
+    "lotcp_s_support": "LotCP-S, reference scale only", "lotcp_s_lotfold": "LotCP-S, lot-fold residuals", "lotcp_s_rep": "LotCP-S, replicate scale only",
 }
 M0 = ["gauss", "scp_sample", "scp_lot", "scp_season", "wcp", "cqr_sample", "cqr_season", "qrf", "ensemble", "mc_dropout", "lotcp", "lotcp_s"]
 MK = ["biascorr_naive", "pooled", "aci", "target_only", "target_only_centred", "lotcp_noshrink", "lotcp", "lotcp_s"]
-ABL = ["lotcp_s", "lotcp_s_support", "lotcp_s_rep", "lotcp", "lotcp_noshrink", "lotcp_noepisodic", "lotcp_lotfold", "lotcp_samplefold", "lotcp_pooled"]
+ABL = ["lotcp_s", "lotcp_s_support", "lotcp_s_rep", "lotcp_s_lotfold", "lotcp", "lotcp_noshrink", "lotcp_noepisodic", "lotcp_lotfold", "lotcp_samplefold", "lotcp_pooled"]
 
 
 def seed_average(df):

@@ -35,6 +35,7 @@ LOTCP_VARIANTS = {
     "lotcp_s": ("season", {"scale": "full"}),               # LotCP-S: + lot-specific scale
     "lotcp_s_support": ("season", {"scale": "support"}),    # scale from reference samples only
     "lotcp_s_rep": ("season", {"scale": "rep"}),            # scale from replicate scans only
+    "lotcp_s_lotfold": ("lot", {"scale": "full"}),          # LotCP-S on lot-fold residuals
 }
 
 

@@ -38,8 +38,7 @@ def _style_font(style, size, bold=None, italic=None):
 def make_reference_doc(path: Path) -> Path:
     """Start from pandoc's default reference document and set the journal styles."""
     path.parent.mkdir(parents=True, exist_ok=True)
-    with open(path, "wb") as fh:
-        fh.write(subprocess.run(["pandoc", "-o", "-", "--print-default-data-file", "reference.docx"], check=True, capture_output=True).stdout)
+    subprocess.run(["pandoc", "-o", str(path), "--print-default-data-file", "reference.docx"], check=True)
     doc = Document(str(path))
     names = {s.name: s for s in doc.styles}
     for name, size, bold, italic in (("Normal", 12, None, None), ("Body Text", 12, None, None), ("First Paragraph", 12, None, None),
@@ -87,6 +86,7 @@ def _borders(cell, **edges):
 def _page_number_footer(section):
     p = section.footer.paragraphs[0]
     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p._p.get_or_add_pPr().append(OxmlElement("w:suppressLineNumbers"))
     run = p.add_run()
     for kind, text in (("begin", None), (None, "PAGE"), ("end", None)):
         if kind:
@@ -103,6 +103,17 @@ def postprocess(path: Path, title: str):
     for t in doc.tables:
         t.alignment = WD_TABLE_ALIGNMENT.CENTER
         n = len(t.rows)
+        ncol = len(t.columns)
+        t.autofit = False
+        first = 5.2 if ncol >= 4 else 16.0 / ncol          # wide first column for method names
+        widths = [first] + [(16.0 - first) / max(ncol - 1, 1)] * (ncol - 1)
+        grid = t._tbl.find(qn("w:tblGrid"))
+        if grid is not None:
+            for gc, wd in zip(grid.findall(qn("w:gridCol")), widths):
+                gc.set(qn("w:w"), str(int(wd * 567)))
+        for row in t.rows:
+            for cell, wd in zip(row.cells, widths):
+                cell.width = Cm(wd)
         for i, row in enumerate(t.rows):
             trPr = row._tr.get_or_add_trPr()
             cs = OxmlElement("w:cantSplit"); trPr.append(cs)

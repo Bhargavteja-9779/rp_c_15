@@ -128,6 +128,17 @@ class R:
         tau = np.sqrt([x["tau2"] for x in rows]); sig = np.sqrt([x["sigma2"] for x in rows]); w3 = [x["tau2"] / (x["tau2"] + x["sigma2"] / 3) for x in rows]
         return dict(tau=f"{tau.min():.2f}–{tau.max():.2f}", sigma=f"{sig.min():.2f}–{sig.max():.2f}", w3=f"{min(w3):.2f}–{max(w3):.2f}")
 
+    def season_min(self, method, m):
+        """Lowest per-season lot-macro coverage (PLS, forward, primary alpha) from the raw results."""
+        if not hasattr(self, "_raw"):
+            raw = pd.read_csv(ROOT / "results" / "raw_results.csv")
+            self._raw = raw[(raw.model == "pls") & (raw.protocol == "forward") & np.isclose(raw.alpha, 0.1)]
+        g = self._raw[(self._raw.method == method) & (self._raw.m == m)]
+        return f"{g.groupby('target').coverage.mean().min():.2f}"
+
+    def worst_lot_ratio(self):
+        return f"{self._lotcov().sort_values('lotcp_s').ratio.iloc[0]:.1f}"
+
     def point(self, m, correction, field="rmse"):
         t = self.t["table9_point_correction"]
         return float(t[(t.m == m) & (t.correction == correction)][field].iloc[0])
@@ -138,10 +149,10 @@ def _pipe(df, caption, fmt=None):
     fmt = fmt or {}
     cols = list(df.columns)
     out = ["| " + " | ".join(cols) + " |", "|" + "|".join("---" if i == 0 else "---:" for i in range(len(cols))) + "|"]
-    for _, r in df.iterrows():
+    for k in range(len(df)):
         cells = []
         for c in cols:
-            v = r[c]
+            v = df[c].iloc[k]
             if isinstance(v, (float, np.floating)):
                 cells.append("–" if not np.isfinite(v) else fmt.get(c, "{:.3f}").format(v))
             else:
@@ -172,7 +183,8 @@ def tables(r: R) -> dict:
                        "The last column is the standard deviation of the lot mean residuals in the target season.", {c: "{:.2f}" for c in rows[0] if c != "Target season"})
 
     s = r.t["table3_main_intervals"]
-    a = s[s.m == 0].copy()
+    from src.statistics.analysis import M0
+    a = s[(s.m == 0) & s.method.isin(M0)].copy()
     a["Method"] = a.method.map(LABEL)
     a["CI"] = [f"{lo:.3f}–{hi:.3f}" for lo, hi in zip(a.cov_lo, a.cov_hi)]
     a["Under-covered lots (%)"] = 100 * a.under

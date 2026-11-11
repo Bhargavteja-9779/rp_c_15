@@ -5,16 +5,25 @@ import numpy as np
 from sklearn.model_selection import GroupKFold
 
 
-def protocol_masks(season: np.ndarray, protocol: str, target: int):
-    """Boolean (source, target) masks. forward: seasons < T train; loso: all other seasons train."""
-    tgt = season == target
+def protocol_masks(season: np.ndarray, protocol: str, target, meta=None):
+    """Boolean (source, target) masks.
+
+    forward : seasons < T train, season T test (primary, deployment-realistic)
+    loso    : all other seasons train (non-causal robustness check)
+    recent2 : only the two seasons preceding T train
+    region  : target = all lots of one growing region, source = the other region
+    cultivar: target = all lots of one cultivar, source = all other cultivars
+    """
     if protocol == "forward":
-        src = season < target
-    elif protocol == "loso":
-        src = season != target
-    else:
-        raise ValueError(protocol)
-    return src, tgt
+        return season < target, season == target
+    if protocol == "loso":
+        return season != target, season == target
+    if protocol == "recent2":
+        return (season < target) & (season >= target - 2), season == target
+    if protocol in ("region", "cultivar"):
+        col = meta[protocol].astype(str).to_numpy()
+        return col != str(target), col == str(target)
+    raise ValueError(protocol)
 
 
 def fold_ids(scheme: str, sample: np.ndarray, lot: np.ndarray, season: np.ndarray, k: int, seed: int = 0) -> np.ndarray:

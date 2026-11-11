@@ -20,6 +20,19 @@ def pred_path(cfg, model, seed, protocol, target) -> Path:
     return out_dir(cfg, "results/predictions") / f"{model}_s{seed}_{protocol}_{target}.npz"
 
 
+def _compact(out: dict) -> dict:
+    """Smaller files for version control: float32 predictions, int8 folds, int32 row indices."""
+    res = {}
+    for k, a in out.items():
+        a = np.asarray(a)
+        res[k] = a.astype(np.int8) if k.startswith("fold_") else a.astype(np.int32) if k.endswith("_idx") else a.astype(np.float32)
+    return res
+
+
+def _fold_seed(target) -> int:
+    return 1000 + (int(target) if isinstance(target, (int, np.integer)) else sum(map(ord, str(target))))
+
+
 def _oof(model_name, cfg, seed, X, y, folds, **override):
     oof = np.full(len(y), np.nan)
     for f in np.unique(folds):
@@ -37,7 +50,7 @@ def run_task(cfg, model_name, seed, protocol, target, schemes=SCHEMES):
 
         torch.set_num_threads(1)
     d = load_data(cfg)
-    src, tgt = protocol_masks(d.season, protocol, target)
+    src, tgt = protocol_masks(d.season, protocol, target, d.meta)
     src_idx, tgt_idx = np.flatnonzero(src), np.flatnonzero(tgt)
     if cfg.get("quick_subsample") and len(src_idx) > cfg["quick_subsample"]:
         src_idx = np.sort(np.random.default_rng(0).choice(src_idx, cfg["quick_subsample"], replace=False))
@@ -45,7 +58,7 @@ def run_task(cfg, model_name, seed, protocol, target, schemes=SCHEMES):
     t0 = time.time()
     info = {"model": model_name, "seed": seed, "protocol": protocol, "target": target, "n_source": len(src_idx), "n_target": len(tgt_idx)}
     folds = {s: fold_ids(s, d.sample[src_idx], d.lot[src_idx], d.season[src_idx],
-                         cfg["folds"]["k_sample" if s == "sample" else "k_lot"], seed=1000 + target) for s in schemes}
+                         cfg["folds"]["k_sample" if s == "sample" else "k_lot"], seed=_fold_seed(target)) for s in schemes}
     override = {}
     out = {"src_idx": src_idx, "tgt_idx": tgt_idx}
     if model_name == "pls":
@@ -74,7 +87,7 @@ def run_task(cfg, model_name, seed, protocol, target, schemes=SCHEMES):
     if model_name == "cnn":
         info["n_params"], info["train_loss_curve"] = final.n_params(), final.history
     info["total_seconds"] = time.time() - t0
-    np.savez_compressed(path, **out)
+    np.savez_compressed(path, **_compact(out))
     save_json(info, path.with_suffix(".json"))
     return str(path)
 
@@ -85,9 +98,11 @@ def task_list(cfg, protocols=("forward", "loso")):
         for target in cfg["protocols"][protocol]["targets"]:
             tasks.append(("pls", 0, protocol, target, SCHEMES))
             if protocol == "forward":
-                for name in ("gbm", "cnn"):
-                    for seed in cfg["models"][name]["seeds"]:
-                        tasks.append((name, seed, protocol, target, SCHEMES))
+                for seed in cfg["models"]["gbm"]["seeds"]:
+                    tasks.append(("gbm", seed, protocol, target, SCHEMES))
+                for i, seed in enumerate(cfg["models"]["cnn"]["seeds"]):
+                    # compute budget: lot-grouped folds only for the first CNN seed
+                    tasks.append(("cnn", seed, protocol, target, SCHEMES if i == 0 else ("sample", "season")))
             else:                                   # robustness protocol: one CNN seed, season folds only
                 tasks.append(("cnn", cfg["models"]["cnn"]["seeds"][0], protocol, target, ("season",)))
     return tasks

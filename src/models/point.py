@@ -135,6 +135,20 @@ class CNNModel:
         out = self._forward(X)
         return out[:, 0] * self.ysd + self.ymu, np.exp(np.clip(out[:, 1], -8, 6)) * self.ysd ** 2
 
+    def predict_mc_dropout(self, X, passes: int = 30, seed: int = 0):
+        """MC-dropout predictive mean and variance (Gal & Ghahramani, 2016); needs nll=True."""
+        import torch
+
+        torch.manual_seed(seed)
+        self.net.train()                      # keeps dropout active; the network has no batch-norm
+        means, vars_ = [], []
+        for _ in range(passes):
+            m, v = self.predict_dist(X)
+            means.append(m); vars_.append(v)
+        self.net.eval()
+        means, vars_ = np.stack(means), np.stack(vars_)
+        return means.mean(0), vars_.mean(0) + means.var(0)
+
     def n_params(self) -> int:
         return int(sum(p.numel() for p in self.net.parameters()))
 

@@ -53,7 +53,7 @@ def _metrics(r, b, q, w, alpha, margin):
 
 
 def evaluate(cfg, model, seed, protocol, target, alpha, variants=None, m_grid=None, label_noise_sd=0.0,
-             keep_mask=None, lot_filter=None, n_draws=None):
+             keep_mask=None, lot_filter=None, n_draws=None, cal_lots_k=None, cal_rep=0, baselines=True):
     """Return (interval rows, point rows, calibration info) for one configuration."""
     ev = cfg["eval"]
     d = load_data(cfg)
@@ -70,7 +70,7 @@ def evaluate(cfg, model, seed, protocol, target, alpha, variants=None, m_grid=No
     variants = LOTCP_VARIANTS if variants is None else variants
     m_grid = ev["m_grid"] if m_grid is None else m_grid
     n_draws = ev["n_draws"] if n_draws is None else n_draws
-    rng = np.random.default_rng([ev["seed"], target, seed, int(alpha * 1000)])
+    rng = np.random.default_rng([ev["seed"], target if isinstance(target, (int, np.integer)) else sum(map(ord, str(target))), seed, int(alpha * 1000)])
     z = norm.ppf(1 - alpha / 2)
     info = {}
 
@@ -83,17 +83,22 @@ def evaluate(cfg, model, seed, protocol, target, alpha, variants=None, m_grid=No
     if "lot" in res:
         q0["scp_lot"] = split_quantile(np.abs(res["lot"][ks]), alpha)
     q0["scp_season"] = split_quantile(np.abs(res["season"][ks]), alpha)
+    kl = ks.copy()                                   # rows available to LotCP calibration
+    if cal_lots_k is not None:                        # sensitivity: only k random past lots
+        lots_u = np.unique(lot_s[ks])
+        pick = np.random.default_rng([cal_rep, target if isinstance(target, int) else 0]).choice(lots_u, min(cal_lots_k, len(lots_u)), replace=False)
+        kl = ks & np.isin(lot_s, pick)
     lotcp = {}
     for name, (scheme, kw) in variants.items():
         if scheme not in res:
             continue
         for m in m_grid:
             cp = LotCP(m=m, alpha=alpha, n_episodes=ev["n_episodes"], min_query=ev["min_query_samples"],
-                       seed=ev["seed"] + m, **kw).fit(res[scheme][ks], lot_s[ks], smp_s[ks], P[f"oof_{scheme}"][ks])
+                       seed=ev["seed"] + m, **kw).fit(res[scheme][kl], lot_s[kl], smp_s[kl], P[f"oof_{scheme}"][kl])
             lotcp[(name, m)] = cp
             if name == "lotcp":
                 info[f"m{m}"] = dict(cp.info)
-    full_models = model == "pls" and seed == 0 and protocol == "forward" and keep_mask is None and label_noise_sd == 0
+    full_models = baselines and model == "pls" and seed == 0 and protocol == "forward" and keep_mask is None and label_noise_sd == 0
     U = np.load(uq_path(cfg, protocol, target)) if full_models and uq_path(cfg, protocol, target).exists() else None
     Zs = np.load(out_dir(cfg, "data/processed") / f"plsscores_{protocol}_{target}.npz") if full_models else None
 
@@ -141,6 +146,8 @@ def evaluate(cfg, model, seed, protocol, target, alpha, variants=None, m_grid=No
             ivs["qrf"] = (U["qrf_q"][li, lv.index(alpha / 2)], U["qrf_q"][li, lv.index(1 - alpha / 2)])
             sd = np.sqrt(U["ens_var"][li])
             ivs["ensemble"] = (U["ens_mean"][li] - z * sd, U["ens_mean"][li] + z * sd)
+            sd = np.sqrt(U["mcd_var"][li])
+            ivs["mc_dropout"] = (U["mcd_mean"][li] - z * sd, U["mcd_mean"][li] + z * sd)
             for name, (lo, hi) in ivs.items():
                 cov = float(np.sum(w_all * ((y >= lo) & (y <= hi))))
                 add(name, 0, cov, float(np.sum(w_all * (hi - lo))), float(np.sum(w_all * interval_score(lo, hi, y, alpha))),
@@ -164,7 +171,7 @@ def evaluate(cfg, model, seed, protocol, target, alpha, variants=None, m_grid=No
                 for name in variants:
                     if (name, m) in lotcp:
                         cand[name] = lotcp[(name, m)].predict(sup_means, rep_var)
-                if m > 0 and "sample" in res:
+                if m > 0 and "sample" in res and baselines:
                     pos = np.full(n_s, -1); pos[sup] = np.arange(m)
                     rows_sup = ~rowq
                     p_sup = pos[inv[rows_sup]]                # support-sample position of each support spectrum

@@ -87,3 +87,6 @@ results are always shown because seasons (n = 5) are the top-level cluster.
   reported for all seasons and models; 2018/PLS must be read as development data for D1.
 * D2. Added baseline `target_only_centred` (bias-corrected target-only conformal with
   leave-one-sample-out centring) as a stronger target-only competitor.
+* D3 (compute budget, decided before any CNN result existed). CNN epochs 30 -> 20; lot-grouped
+  folds are computed for CNN seed 0 only; in the leave-one-season-out protocol the CNN (seed 0)
+  uses season-grouped folds only. The machine is a 4-core CPU without GPU.

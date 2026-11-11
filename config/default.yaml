@@ -19,7 +19,7 @@ models:
     sg_poly: 2
     sg_deriv: 2
   cnn:
-    epochs: 30
+    epochs: 20
     batch_size: 256
     lr: 0.001
     weight_decay: 0.0001

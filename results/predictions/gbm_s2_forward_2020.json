@@ -1,0 +1,11 @@
+{
+ "model": "gbm",
+ "seed": 2,
+ "protocol": "forward",
+ "target": 2020,
+ "n_source": 79559,
+ "n_target": 4452,
+ "fit_seconds_final": 2.3120720386505127,
+ "predict_seconds_per_1000": 0.010378705630512358,
+ "total_seconds": 112.2550892829895
+}

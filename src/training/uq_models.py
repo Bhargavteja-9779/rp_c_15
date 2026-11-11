@@ -25,7 +25,10 @@ def _ens_member(cfg, Xs, ys, Xt, seed):
 
     torch.set_num_threads(1)
     mc = {k: v for k, v in cfg["models"]["cnn"].items() if k != "seeds"}
-    return CNNModel(seed=seed, nll=True, **mc).fit(Xs, ys).predict_dist(Xt)
+    model = CNNModel(seed=seed, nll=True, **mc).fit(Xs, ys)
+    mean, var = model.predict_dist(Xt)
+    mcd = model.predict_mc_dropout(Xt) if seed == 100 else None     # MC dropout on the first member
+    return mean, var, mcd
 
 
 def run_target(cfg, protocol, target, n_jobs=4):
@@ -66,6 +69,7 @@ def run_target(cfg, protocol, target, n_jobs=4):
     mu = np.stack([r[0] for r in res]); var = np.stack([r[1] for r in res])
     out["ens_mean"] = mu.mean(0)
     out["ens_var"] = (var + mu ** 2).mean(0) - mu.mean(0) ** 2
+    out["mcd_mean"], out["mcd_var"] = res[0][2]
     info["ensemble_seconds"] = time.time() - t
     np.savez_compressed(path, **out)
     save_json(info, path.with_suffix(".json"))

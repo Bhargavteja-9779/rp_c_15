@@ -233,10 +233,20 @@ def configurations(cfg):
 
 
 def _one(cfg, c):
+    """Evaluate one configuration; the result is cached so an interrupted run can resume."""
+    import pickle
+
+    cache = out_dir(cfg, "results/eval_cache") / ("_".join(map(str, c)) + ".pkl")
+    if cache.exists():
+        with open(cache, "rb") as fh:
+            return pickle.load(fh)
     full = c[0] == "pls" and c[2] == "forward"
     variants = None if full else {k: LOTCP_VARIANTS[k] for k in ("lotcp", "lotcp_s")}
     rows, prow, info = evaluate(cfg, *c, variants=variants)
-    return rows, prow, dict(model=c[0], seed=c[1], protocol=c[2], target=c[3], alpha=c[4], calib=info)
+    res = (rows, prow, dict(model=c[0], seed=c[1], protocol=c[2], target=c[3], alpha=c[4], calib=info))
+    with open(cache, "wb") as fh:
+        pickle.dump(res, fh)
+    return res
 
 
 def run(cfg, n_jobs: int = 4):

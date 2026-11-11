@@ -22,9 +22,21 @@ CORE = {k: LOTCP_VARIANTS[k] for k in ("lotcp", "lotcp_s")}
 
 
 def _ev(cfg, tag, value, *args, **kw):
+    """One robustness job, cached on disk so that an interrupted grid can resume."""
+    import hashlib
+    import pickle
+
+    key = hashlib.md5(repr((tag, value, args, sorted((k, repr(v)) for k, v in kw.items() if k != "keep_mask"),
+                            cfg["eval"]["n_episodes"])).encode()).hexdigest()[:16]
+    cache = out_dir(cfg, "results/eval_cache") / f"rob_{tag}_{key}.pkl"
+    if cache.exists():
+        with open(cache, "rb") as fh:
+            return pickle.load(fh)
     rows, _, _ = evaluate(cfg, *args, **kw)
     for r in rows:
         r["factor"], r["level"] = tag, value
+    with open(cache, "wb") as fh:
+        pickle.dump(rows, fh)
     return rows
 
 

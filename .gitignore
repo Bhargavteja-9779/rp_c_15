@@ -5,3 +5,5 @@ __pycache__/
 .pytest_cache/
 results/checkpoints/
 *.log.tmp
+results/eval_cache/
+quick_outputs/

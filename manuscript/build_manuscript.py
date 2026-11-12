@@ -136,8 +136,36 @@ class R:
         g = self._raw[(self._raw.method == method) & (self._raw.m == m)]
         return f"{g.groupby('target').coverage.mean().min():.2f}"
 
+    def unweighted(self, method):
+        """Scan-level coverage with every scan weighted equally (m = 10 reference draws excluded)."""
+        return f"{self.spec['cov_' + method].mean():.3f}"
+
     def worst_lot_ratio(self):
         return f"{self._lotcov().sort_values('lotcp_s').ratio.iloc[0]:.1f}"
+
+    def robf(self_, factor, method, m, field="coverage"):
+        g = self_.rob[(self_.rob.factor == factor) & (self_.rob.method == method) & (self_.rob.m == m)]
+        return float(g[field].mean())
+
+    def spk(self, method, field="rmse"):
+        t = self.t["table12_spiking"]
+        return float(t[t.method == method][field].iloc[0])
+
+    def jk(self, method, m, field):
+        t = self.t["table4b_season_jackknife"]
+        return float(t[(t.method == method) & (t.m == m)][field].iloc[0])
+
+    def test_b(self, other, m):
+        t = self.t["table6b_tests_no_replicates"]
+        return t[(t.other == other) & (t.m == m) & (t.outcome == "iscore")].iloc[0]
+
+    def pb(self, other, m):
+        v = float(self.test_b(other, m).p_holm)
+        return "< 0.001" if v < 0.001 else f"= {v:.3f}"
+
+    def xfit(self, model, field="total_seconds"):
+        t = self.t["table11b_crossfit_cost"]
+        return float(t[t.model == model][field].iloc[0])
 
     def point(self, m, correction, field="rmse"):
         t = self.t["table9_point_correction"]
@@ -194,7 +222,7 @@ def tables(r: R) -> dict:
                        "unless the method has its own model. Coverage is the lot-macro mean with a bootstrap 95% CI; under-covered lots have coverage below 0.80. "
                        "Width and interval score in % DMC.", {"Under-covered lots (%)": "{:.0f}", "Width": "{:.2f}", "Interval score": "{:.2f}"})
 
-    order = ["biascorr_naive", "pooled", "aci", "target_only", "target_only_centred", "lotcp_noshrink", "lotcp", "lotcp_s"]
+    order = ["biascorr_naive", "slopebias_naive", "pooled", "aci", "target_only", "target_only_centred", "lotcp_noshrink", "lotcp", "lotcp_s"]
     rows = []
     for k in order:
         row = {"Method": LABEL[k]}
@@ -276,6 +304,8 @@ def tables(r: R) -> dict:
             add(f"{ne} episodes per lot", rb[(rb.factor == "n_episodes") & (pd.to_numeric(rb.level, errors="coerce") == ne)])
         for nu in (5, 20, 80):
             add(f"Fixed pseudo-count ν₀ = {nu}", rb[(rb.factor == "nu0") & (pd.to_numeric(rb.level, errors="coerce") == nu)])
+        add("Constants and quantile from disjoint halves of the past lots", rb[rb.factor == "split_constants"])
+        add("Deployment unit: one instrument unit within a lot", rb[rb.factor == "unit"])
         for key, lab in (("recent2", "Source: two preceding seasons only"), ("region", "Unseen growing region"), ("cultivar", "Unseen cultivar")):
             add(lab, rb[(rb.factor == "protocol") & rb.level.astype(str).str.startswith(key)])
         T["robust"] = _pipe(pd.DataFrame(rows), "Table 9. Robustness and sensitivity of LotCP-S (PLS, nominal 0.90). Each cell: lot-macro coverage / mean width.")
@@ -293,6 +323,8 @@ def tables(r: R) -> dict:
     cost = p2.groupby("model").agg(fit=("fit_seconds", "mean"), pred=("predict_ms_per_1000", "mean")).reindex(["pls", "gbm", "cnn"])
     rows = [{"Component": {"pls": "PLS fit (final model)", "gbm": "LightGBM fit", "cnn": "1D-CNN fit (20 epochs)"}[k], "Time": f"{v.fit:.1f} s",
              "Per 1000 scans at deployment": f"{v.pred:.1f} ms"} for k, v in cost.iterrows()]
+    for k, lab in (("pls", "PLS: all cross-fits for one target season"), ("cnn", "1D-CNN: all cross-fits for one target season")):
+        rows.append({"Component": lab, "Time": f"{r.xfit(k):.0f} s", "Per 1000 scans at deployment": "–"})
     for key, lab in (("lotcp_m10", "LotCP calibration, m = 10"), ("lotcp_s_m10", "LotCP-S calibration, m = 10"), ("lotcp_s_m30", "LotCP-S calibration, m = 30")):
         if key in r.cost:
             rows.append({"Component": lab, "Time": f"{r.cost[key]['calibration_seconds']:.1f} s", "Per 1000 scans at deployment": "< 0.1 ms (one bias, one scale per lot)"})

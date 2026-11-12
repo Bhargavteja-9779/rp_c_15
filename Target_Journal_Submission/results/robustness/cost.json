@@ -1,0 +1,32 @@
+{
+ "lotcp_m0": {
+  "calibration_seconds": 0.03529413999967801,
+  "predict_microseconds": 0.2916630000981968,
+  "n_cal_lots": 188
+ },
+ "lotcp_m10": {
+  "calibration_seconds": 0.4935585910006921,
+  "predict_microseconds": 2.3745059997963835,
+  "n_cal_lots": 187
+ },
+ "lotcp_m30": {
+  "calibration_seconds": 0.2488710159996117,
+  "predict_microseconds": 2.583010000307695,
+  "n_cal_lots": 154
+ },
+ "lotcp_s_m0": {
+  "calibration_seconds": 0.03338581400021212,
+  "predict_microseconds": 1.2641960001928965,
+  "n_cal_lots": 188
+ },
+ "lotcp_s_m10": {
+  "calibration_seconds": 2.115257119000489,
+  "predict_microseconds": 20.501467999565648,
+  "n_cal_lots": 187
+ },
+ "lotcp_s_m30": {
+  "calibration_seconds": 1.173492484000235,
+  "predict_microseconds": 11.160271000335342,
+  "n_cal_lots": 154
+ }
+}

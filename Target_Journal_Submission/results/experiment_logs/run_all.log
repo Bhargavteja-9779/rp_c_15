@@ -1,0 +1,18 @@
+2026-11-11 17:59:51 run_all INFO mode=full device=cpu python=3.13.18
+2026-11-11 18:26:23 run_all INFO stage eval       1592 s
+2026-11-11 18:39:03 run_all INFO stage robustness 760 s
+2026-11-11 18:39:45 run_all INFO stage analysis   41 s
+2026-11-11 18:40:08 run_all INFO stage figures    23 s
+2026-11-11 18:40:08 run_all WARNING manuscript not built: No module named 'manuscript.docx_format'
+2026-11-11 18:40:08 run_all INFO stage manuscript 0 s
+2026-11-11 18:40:16 run_all INFO mode=full device=cpu python=3.13.18
+2026-11-11 19:07:13 run_all INFO stage eval       1617 s
+2026-11-11 19:07:29 run_all INFO stage robustness 17 s
+2026-11-11 19:08:15 run_all INFO stage analysis   46 s
+2026-11-11 19:08:37 run_all INFO stage figures    23 s
+2026-11-11 19:14:03 run_all INFO mode=full device=cpu python=3.13.18
+2026-11-11 19:21:53 run_all INFO stage eval       470 s
+2026-11-11 19:27:40 run_all INFO stage robustness 347 s
+2026-11-11 19:28:28 run_all INFO stage analysis   48 s
+2026-11-11 19:28:52 run_all INFO stage figures    23 s
+2026-11-11 19:28:58 run_all INFO stage manuscript 6 s

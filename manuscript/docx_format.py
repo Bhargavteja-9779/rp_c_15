@@ -105,8 +105,13 @@ def postprocess(path: Path, title: str):
         n = len(t.rows)
         ncol = len(t.columns)
         t.autofit = False
-        first = 5.2 if ncol >= 4 else 16.0 / ncol          # wide first column for method names
-        widths = [first] + [(16.0 - first) / max(ncol - 1, 1)] * (ncol - 1)
+        heads = [c.text.strip() for c in t.rows[0].cells]
+        wide = {"Method", "Variant", "Condition", "Component", "LotCP-S versus", "Predictor, protocol", "Per 1000 scans at deployment"}
+        is_wide = [h in wide for h in heads]
+        n_wide = max(sum(is_wide), 1)
+        w_wide = min(5.2, 9.0 / n_wide) if ncol >= 4 else 16.0 / ncol
+        w_rest = (16.0 - w_wide * sum(is_wide)) / max(ncol - sum(is_wide), 1)
+        widths = [w_wide if f else w_rest for f in is_wide] if any(is_wide) else [16.0 / ncol] * ncol
         grid = t._tbl.find(qn("w:tblGrid"))
         if grid is not None:
             for gc, wd in zip(grid.findall(qn("w:gridCol")), widths):

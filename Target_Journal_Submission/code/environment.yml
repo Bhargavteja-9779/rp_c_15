@@ -1,0 +1,8 @@
+name: lotcp
+channels: [conda-forge]
+dependencies:
+  - python=3.13
+  - pip
+  - pandoc          # manuscript build only
+  - pip:
+      - -r requirements.txt

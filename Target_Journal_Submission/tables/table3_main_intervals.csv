@@ -1,0 +1,58 @@
+method,label,m,n_lots,coverage,cov_lo,cov_hi,under,width,iscore,frac_infinite
+gauss,Gaussian ±z·RMSECV,0,137,0.840,0.806,0.871,0.241,4.005,6.714,0.000
+scp_sample,Split CP (sample folds),0,137,0.823,0.787,0.855,0.277,3.828,6.811,0.000
+scp_lot,Split CP (lot folds),0,137,0.846,0.813,0.877,0.234,4.082,6.708,0.000
+scp_season,Split CP (season folds),0,137,0.900,0.869,0.926,0.139,5.258,7.046,0.000
+wcp,Weighted CP (covariate shift),0,137,0.909,0.883,0.931,0.161,7.124,8.544,0.050
+cqr_sample,CQR (sample folds),0,137,0.794,0.758,0.827,0.380,3.869,7.271,0.000
+cqr_season,CQR (season folds),0,137,0.907,0.881,0.931,0.146,5.581,7.033,0.000
+qrf,Quantile regression forest,0,137,0.841,0.813,0.866,0.292,4.281,6.758,0.000
+ensemble,Deep ensemble,0,137,0.766,0.731,0.796,0.460,3.031,6.196,0.000
+mc_dropout,MC dropout,0,137,0.775,0.740,0.805,0.431,3.085,6.142,0.000
+lotcp,LotCP,0,137,0.899,0.868,0.926,0.124,5.448,7.293,0.000
+lotcp_s,LotCP-S,0,137,0.894,0.862,0.922,0.139,5.394,7.260,0.000
+lotcp_noshrink,HCP-mean (LotCP w/o shrinkage),0,137,0.899,0.868,0.926,0.124,5.448,7.293,0.000
+lotcp,LotCP,3,137,0.923,0.909,0.936,0.114,4.181,5.322,0.000
+lotcp_s,LotCP-S,3,137,0.919,0.908,0.929,0.093,3.765,4.860,0.000
+biascorr_naive,Bias corr. + source CP,3,137,0.921,0.908,0.934,0.090,3.828,4.957,0.000
+pooled,Pooled recalibration,3,137,0.823,0.787,0.855,0.279,3.829,6.808,0.000
+aci,ACI on references,3,137,0.873,0.856,0.890,0.208,4.056,5.943,0.018
+target_only,Target-only CP,3,137,1.000,1.000,1.000,0.000,,,1.000
+target_only_centred,"Target-only CP, centred",3,137,1.000,1.000,1.000,0.000,,,1.000
+lotcp_noshrink,HCP-mean (LotCP w/o shrinkage),3,137,0.924,0.910,0.937,0.111,4.255,5.398,0.000
+lotcp,LotCP,5,137,0.925,0.911,0.937,0.107,4.063,5.155,0.000
+lotcp_s,LotCP-S,5,137,0.918,0.907,0.927,0.087,3.565,4.629,0.000
+biascorr_naive,Bias corr. + source CP,5,137,0.931,0.918,0.943,0.069,3.828,4.797,0.000
+slopebias_naive,Slope/bias corr. + source CP,5,137,0.915,0.902,0.928,0.118,3.828,5.464,0.000
+pooled,Pooled recalibration,5,137,0.823,0.788,0.855,0.276,3.829,6.805,0.000
+aci,ACI on references,5,137,0.894,0.882,0.905,0.158,4.078,5.777,0.056
+target_only,Target-only CP,5,137,1.000,1.000,1.000,0.000,,,1.000
+target_only_centred,"Target-only CP, centred",5,137,1.000,1.000,1.000,0.000,,,1.000
+lotcp_noshrink,HCP-mean (LotCP w/o shrinkage),5,137,0.925,0.911,0.938,0.108,4.087,5.177,0.000
+lotcp,LotCP,10,137,0.926,0.912,0.939,0.104,3.966,5.015,0.000
+lotcp_s,LotCP-S,10,137,0.919,0.909,0.928,0.077,3.446,4.460,0.000
+biascorr_naive,Bias corr. + source CP,10,137,0.938,0.926,0.949,0.052,3.828,4.685,0.000
+slopebias_naive,Slope/bias corr. + source CP,10,137,0.941,0.929,0.951,0.059,3.828,4.746,0.000
+pooled,Pooled recalibration,10,137,0.823,0.788,0.855,0.278,3.830,6.801,0.000
+aci,ACI on references,10,137,0.914,0.905,0.922,0.093,4.159,5.625,0.091
+target_only,Target-only CP,10,137,0.957,0.954,0.960,0.027,5.645,6.083,0.000
+target_only_centred,"Target-only CP, centred",10,137,0.956,0.953,0.959,0.029,4.634,5.118,0.000
+lotcp_noshrink,HCP-mean (LotCP w/o shrinkage),10,137,0.927,0.912,0.939,0.102,3.972,5.015,0.000
+lotcp,LotCP,20,129,0.930,0.917,0.942,0.106,3.895,4.860,0.000
+lotcp_s,LotCP-S,20,129,0.918,0.910,0.926,0.056,3.285,4.255,0.000
+biascorr_naive,Bias corr. + source CP,20,129,0.945,0.934,0.954,0.039,3.821,4.577,0.000
+slopebias_naive,Slope/bias corr. + source CP,20,129,0.953,0.944,0.962,0.034,3.821,4.505,0.000
+pooled,Pooled recalibration,20,129,0.822,0.784,0.856,0.279,3.824,6.806,0.000
+aci,ACI on references,20,129,0.917,0.911,0.923,0.070,4.176,5.503,0.095
+target_only,Target-only CP,20,129,0.931,0.929,0.933,0.030,4.717,5.391,0.000
+target_only_centred,"Target-only CP, centred",20,129,0.932,0.930,0.933,0.030,3.577,4.286,0.000
+lotcp_noshrink,HCP-mean (LotCP w/o shrinkage),20,129,0.930,0.917,0.941,0.108,3.898,4.860,0.000
+lotcp,LotCP,30,112,0.921,0.907,0.935,0.127,3.738,4.856,0.000
+lotcp_s,LotCP-S,30,112,0.914,0.906,0.923,0.059,3.277,4.315,0.000
+biascorr_naive,Bias corr. + source CP,30,112,0.941,0.930,0.952,0.047,3.809,4.636,0.000
+slopebias_naive,Slope/bias corr. + source CP,30,112,0.952,0.942,0.962,0.035,3.809,4.526,0.000
+pooled,Pooled recalibration,30,112,0.827,0.791,0.861,0.277,3.813,6.778,0.000
+aci,ACI on references,30,112,0.914,0.909,0.919,0.076,4.164,5.447,0.096
+target_only,Target-only CP,30,112,0.921,0.919,0.922,0.037,4.527,5.328,0.000
+target_only_centred,"Target-only CP, centred",30,112,0.921,0.919,0.922,0.037,3.402,4.251,0.000
+lotcp_noshrink,HCP-mean (LotCP w/o shrinkage),30,112,0.921,0.907,0.935,0.131,3.741,4.856,0.000

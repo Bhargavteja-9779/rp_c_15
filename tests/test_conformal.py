@@ -111,3 +111,34 @@ def test_lotcp_s_coverage_with_heteroscedastic_lots():
         out[mode] = np.array(cov)
     assert abs(out["full"].mean() - 0.9) < 0.03 and abs(out["none"].mean() - 0.9) < 0.03
     assert out["full"].std() < 0.6 * out["none"].std()
+
+
+def test_eval_metrics_and_aci():
+    from src.evaluation.conformal import aci_alpha
+    from src.evaluation.run_eval import _metrics
+
+    r = np.array([0.0, 1.0, -3.0, 0.5]); w = np.full(4, 0.25)
+    cov, width, isc = _metrics(r, 0.0, 1.0, w, 0.1, 0.1)
+    assert cov == 0.75 and width == 2.0
+    assert np.isclose(isc, 2.0 + 0.25 * (2 / 0.1) * 2.0)           # one miss by 2 units
+    cov_b, _, _ = _metrics(r + 5.0, 5.0, 1.0, w, 0.1, 0.1)         # a bias correction shifts the interval
+    assert cov_b == cov
+    cal = np.sort(np.abs(np.random.default_rng(0).normal(size=500)))
+    wide = aci_alpha(cal, [np.array([10.0])] * 20, 0.1)             # always missed -> interval must grow
+    narrow = aci_alpha(cal, [np.array([0.0])] * 20, 0.1)            # always covered -> interval shrinks
+    assert wide > split_quantile(cal, 0.1) > narrow
+
+
+def test_split_constants_keeps_coverage():
+    rng = np.random.default_rng(8)
+    r, lot, sample = _simulate(rng, 200, tau=1.0, sigma=0.6)
+    cp = LotCP(m=5, alpha=0.1, n_episodes=10, split_constants=True).fit(r, lot, sample)
+    assert cp.info["n_cal_lots"] == 100
+    rt, lt, st = _simulate(rng, 200, tau=1.0, sigma=0.6)
+    cov = []
+    for l in np.unique(lt):
+        L = _build_lots(rt[lt == l], lt[lt == l], st[lt == l])[0]
+        sup = rng.choice(len(L.s_mean), 5, replace=False)
+        b, q = cp.predict(L.s_mean[sup])
+        cov.append(np.mean(np.abs(L.r[~np.isin(L.s_inv, sup)] - b) <= q))
+    assert abs(np.mean(cov) - 0.9) < 0.03

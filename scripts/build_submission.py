@@ -96,8 +96,8 @@ def cover_letter():
         "Handheld near-infrared spectrometers are used in orchards to decide when to harvest fruit. The calibrations behind "
         "them are built on previous seasons, and the error bars that accompany their predictions are derived from those same "
         "seasons. Using a public mango data set with seven harvest seasons and 199 harvest lots, we measure what happens to "
-        "such error bars on later seasons: at a nominal 90 %, nine common interval procedures, including split conformal "
-        "prediction, quantile models, deep ensembles and Monte-Carlo dropout, cover between about 77 % and 84 % of the "
+        "such error bars on later seasons: at a nominal 90 %, seven common interval procedures, including split conformal "
+        "prediction, quantile models, deep ensembles and Monte-Carlo dropout, cover between about 77 % and 85 % of the "
         "reference values, and the failures are concentrated in individual lots.",
         "The manuscript then asks the operational question of how many destructively measured reference fruit per lot are "
         "needed for a valid and useful interval, and how they should be used. We describe a calibration, LotCP, that applies "

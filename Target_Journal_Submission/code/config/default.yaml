@@ -1,0 +1,57 @@
+# Full scientific configuration. `config/quick.yaml` overrides a few entries for pipeline checks.
+data:
+  url: "https://data.mendeley.com/public-files/datasets/46htwnp833/files/747b2613-4d0a-4628-8aaf-8fc5547d286e/file_downloaded"
+  doi: "10.17632/46htwnp833.6"
+  raw_file: "data/raw/MangoDMC_NIR_Data_v4.csv"
+  sha256: "367c377255c350f322387236ed121629807055baa3f02aeaf5a76fe9ada518b6"
+  processed: "data/processed/mango_v4.npz"
+  wl_min: 684
+  wl_max: 990
+protocols:
+  forward:            # train on seasons < T, test on T
+    targets: [2017, 2018, 2019, 2020, 2021]
+  loso:               # leave-one-season-out (non-causal robustness check)
+    targets: [2015, 2016, 2017, 2018, 2019, 2020, 2021]
+models:
+  pls:
+    n_components_grid: [8, 10, 12, 14, 16, 18, 20]
+    sg_window: 17
+    sg_poly: 2
+    sg_deriv: 2
+  cnn:
+    epochs: 20
+    batch_size: 256
+    lr: 0.001
+    weight_decay: 0.0001
+    dropout: 0.1
+    seeds: [0, 1, 2]
+  gbm:
+    n_estimators: 400
+    learning_rate: 0.05
+    num_leaves: 31
+    min_child_samples: 40
+    subsample: 0.8
+    colsample_bytree: 0.5
+    seeds: [0, 1, 2]
+  ensemble:
+    members: 5
+  qrf:
+    n_estimators: 200
+    min_samples_leaf: 10
+    n_pls: 20
+folds:
+  k_sample: 5
+  k_lot: 5
+eval:
+  alphas: [0.1, 0.2, 0.05]
+  primary_alpha: 0.1
+  m_grid: [0, 3, 5, 10, 20, 30]
+  n_draws: 100
+  n_episodes: 30
+  min_lot_samples: 20
+  min_query_samples: 10
+  seed: 20261110
+  undercover_margin: 0.10
+stats:
+  n_boot: 2000
+  seed: 7

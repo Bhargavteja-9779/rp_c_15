@@ -16,14 +16,14 @@ LABEL = {
     "scp_season": "Split CP (season folds)", "wcp": "Weighted CP (covariate shift)", "cqr_sample": "CQR (sample folds)",
     "cqr_season": "CQR (season folds)", "qrf": "Quantile regression forest", "ensemble": "Deep ensemble",
     "mc_dropout": "MC dropout", "target_only": "Target-only CP", "target_only_centred": "Target-only CP, centred",
-    "biascorr_naive": "Bias corr. + source CP", "pooled": "Pooled recalibration", "aci": "ACI on references",
+    "biascorr_naive": "Bias corr. + source CP", "slopebias_naive": "Slope/bias corr. + source CP", "pooled": "Pooled recalibration", "aci": "ACI on references",
     "lotcp": "LotCP", "lotcp_s": "LotCP-S", "lotcp_noshrink": "HCP-mean (LotCP w/o shrinkage)",
     "lotcp_noepisodic": "LotCP w/o episodic quantile", "lotcp_lotfold": "LotCP, lot-fold residuals",
     "lotcp_samplefold": "LotCP, sample-fold residuals", "lotcp_pooled": "LotCP, spectrum-pooled weights",
     "lotcp_s_support": "LotCP-S, reference scale only", "lotcp_s_lotfold": "LotCP-S, lot-fold residuals", "lotcp_s_rep": "LotCP-S, replicate scale only",
 }
 M0 = ["gauss", "scp_sample", "scp_lot", "scp_season", "wcp", "cqr_sample", "cqr_season", "qrf", "ensemble", "mc_dropout", "lotcp", "lotcp_s"]
-MK = ["biascorr_naive", "pooled", "aci", "target_only", "target_only_centred", "lotcp_noshrink", "lotcp", "lotcp_s"]
+MK = ["biascorr_naive", "slopebias_naive", "pooled", "aci", "target_only", "target_only_centred", "lotcp_noshrink", "lotcp", "lotcp_s"]
 ABL = ["lotcp_s", "lotcp_s_support", "lotcp_s_rep", "lotcp_s_lotfold", "lotcp", "lotcp_noshrink", "lotcp_noepisodic", "lotcp_lotfold", "lotcp_samplefold", "lotcp_pooled"]
 
 
@@ -195,6 +195,28 @@ def run(cfg):
     _md(summarise(main, cfg, set(ABL)), tdir / "table5_ablation")
     tests = paired_tests(main, cfg, alpha_nom=a0)
     _md(tests, tdir / "table6_tests", floatfmt="%.4g")
+    # same comparison for the variant that uses no replicate-scan information (fairness check)
+    _md(paired_tests(main[main.method.isin(["lotcp_s_support", "biascorr_naive", "slopebias_naive", "target_only_centred"])], cfg,
+                     ref="lotcp_s_support", alpha_nom=a0), tdir / "table6b_tests_no_replicates", floatfmt="%.4g")
+    # leave-one-season-out jackknife of the pooled lot-macro coverage: how much one season moves it
+    jk = []
+    for (method, m), g in main[main.method.isin(["scp_sample", "scp_season", "biascorr_naive", "target_only_centred", "lotcp", "lotcp_s"])].groupby(["method", "m"]):
+        vals = [g[g.target != t]["coverage"].mean() for t in sorted(g.target.unique())]
+        seas = g.groupby("target")["coverage"].mean()
+        jk.append(dict(method=method, m=m, coverage=g["coverage"].mean(), jackknife_min=min(vals), jackknife_max=max(vals),
+                       season_min=seas.min(), season_max=seas.max(), season_mean_unweighted=seas.mean()))
+    _md(pd.DataFrame(jk), tdir / "table4b_season_jackknife")
+    sp = rdir / "robustness" / "spiking_raw.csv"
+    if sp.exists():
+        z = pd.read_csv(sp)
+        lotm = z.groupby(["method", "target", "lot"], as_index=False)[["mse", "bias", "coverage", "width"]].mean()
+        lotm["rmse"], lotm["abs_bias"] = np.sqrt(lotm["mse"]), lotm["bias"].abs()
+        _md(lotm.groupby("method", as_index=False)[["rmse", "abs_bias", "coverage", "width"]].mean(), tdir / "table12_spiking")
+    # total cross-fitting cost per target (PLS), i.e. the price of season-held-out residuals
+    import glob
+    cf = [json.load(open(f)) for f in glob.glob(str(rdir / "predictions" / "*_forward_*.json")) if "uq_" not in f]
+    cf = pd.DataFrame([{"model": c["model"], "target": c["target"], "total_seconds": c["total_seconds"], "fit_seconds_final": c["fit_seconds_final"]} for c in cf if "model" in c])
+    _md(cf.groupby("model", as_index=False)[["total_seconds", "fit_seconds_final"]].mean(), tdir / "table11b_crossfit_cost")
 
     # generalisation: other predictors (forward) and the leave-one-season-out protocol
     gen = []

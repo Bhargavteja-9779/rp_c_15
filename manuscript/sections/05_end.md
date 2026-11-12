@@ -26,7 +26,7 @@
 
 *Scores.* The score does not adapt to the predicted DMC, and coverage was lower at the extremes of the DMC range. One-sided bounds, which are what a minimum-DMC specification needs, were not studied.
 
-*Details taken from the data description.* The measurement geometry, instrument model and reference method are described here as in the publications that accompany the data set; we did not collect the data.
+*Details taken from the data description.* The measurement geometry and reference method are described here as in the publications that accompany the data set; we did not collect the data, and we interpret the file's "population" field as a harvest lot following those publications.
 
 # 14. Conclusion
 

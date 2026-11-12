@@ -1,0 +1,4 @@
+model,total_seconds,fit_seconds_final
+cnn,1395.042,147.606
+gbm,37.664,2.034
+pls,39.705,1.132

@@ -54,7 +54,8 @@ def _metrics(r, b, q, w, alpha, margin):
 
 
 def evaluate(cfg, model, seed, protocol, target, alpha, variants=None, m_grid=None, label_noise_sd=0.0,
-             keep_mask=None, lot_filter=None, n_draws=None, cal_lots_k=None, cal_rep=0, baselines=True):
+             keep_mask=None, lot_filter=None, n_draws=None, cal_lots_k=None, cal_rep=0, baselines=True,
+             unit="lot"):
     """Return (interval rows, point rows, calibration info) for one configuration."""
     ev = cfg["eval"]
     d = load_data(cfg)
@@ -63,6 +64,10 @@ def evaluate(cfg, model, seed, protocol, target, alpha, variants=None, m_grid=No
     y_s, y_t = d.y[src], d.y[tgt]
     lot_s, smp_s = d.lot[src], d.sample[src]
     lot_t, smp_t = d.lot[tgt], d.sample[tgt]
+    if unit == "lot_instrument":                     # deployment unit = one instrument unit within one lot
+        inst = d.meta["instrument"].to_numpy().astype(np.int64)
+        lot_s = lot_s.astype(np.int64) * 100000 + inst[src]
+        lot_t = lot_t.astype(np.int64) * 100000 + inst[tgt]
     r_t = y_t - P["pred_tgt"]
     res = {s: y_s - P[f"oof_{s}"] for s in ("sample", "lot", "season") if f"oof_{s}" in P.files}
     ks, kt = np.ones(len(src), bool), np.ones(len(tgt), bool)
@@ -99,7 +104,7 @@ def evaluate(cfg, model, seed, protocol, target, alpha, variants=None, m_grid=No
             lotcp[(name, m)] = cp
             if name == "lotcp":
                 info[f"m{m}"] = dict(cp.info)
-    full_models = baselines and model == "pls" and seed == 0 and protocol == "forward" and keep_mask is None and label_noise_sd == 0
+    full_models = unit == "lot" and baselines and model == "pls" and seed == 0 and protocol == "forward" and keep_mask is None and label_noise_sd == 0
     U = np.load(uq_path(cfg, protocol, target)) if full_models and uq_path(cfg, protocol, target).exists() else None
     Zs = np.load(out_dir(cfg, "data/processed") / f"plsscores_{protocol}_{target}.npz") if full_models else None
 
@@ -112,6 +117,8 @@ def evaluate(cfg, model, seed, protocol, target, alpha, variants=None, m_grid=No
         r, smp = r_t[li], smp_t[li]
         inv, smean, scnt = _lot_struct(r, smp)
         rep_var = replicate_variance(P["pred_tgt"][li], inv)
+        yh_lot, y_lot = P["pred_tgt"][li].astype(float), y_t[li]
+        yh_smean = np.bincount(inv, weights=yh_lot) / scnt
         n_s = len(smean)
         if n_s < ev["min_lot_samples"]:
             continue
@@ -197,6 +204,13 @@ def evaluate(cfg, model, seed, protocol, target, alpha, variants=None, m_grid=No
                     else:
                         c, wd, isc = 1.0, np.inf, np.inf
                     acc.setdefault(name, []).append((c, wd, isc))
+                if m >= 5 and "sample" in res and baselines:
+                    # (f) slope-and-bias correction (chemometric model maintenance) + source quantile:
+                    # regress the reference values of the m samples on their mean predictions
+                    xs, ys_ = yh_smean[sup], yh_smean[sup] + sup_means
+                    slope, icpt = np.polyfit(xs, ys_, 1) if np.ptp(xs) > 1e-6 else (1.0, float(np.mean(sup_means)))
+                    e_sb = y_lot[rowq] - (icpt + slope * yh_lot[rowq])
+                    acc.setdefault("slopebias_naive", []).append(_metrics(e_sb, 0.0, q0["scp_sample"], wq, alpha, ev["undercover_margin"]))
                 # point prediction after bias correction: none / plain mean / shrinkage
                 bs = [0.0, float(np.mean(sup_means)) if m > 0 else 0.0,
                       lotcp[("lotcp", m)].predict(sup_means)[0] if ("lotcp", m) in lotcp else 0.0]

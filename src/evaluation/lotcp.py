@@ -71,6 +71,7 @@ class LotCP:
     lot_balanced: bool = True  # False: every spectrum weighted equally
     scale: str = "none"        # 'none' | 'support' | 'rep' | 'full' (lot-specific score scale)
     nu_grid: tuple = (5, 10, 20, 40)
+    split_constants: bool = False   # True: constants from one random half of the lots, quantile from the other
     seed: int = 0
     info: dict = field(default_factory=dict)
 
@@ -98,8 +99,13 @@ class LotCP:
     # ---- calibration ---------------------------------------------------------------------
     def fit(self, r, lot, sample, pred=None):
         lots = _build_lots(np.asarray(r, float), np.asarray(lot), np.asarray(sample), pred)
-        self.mu, self.tau2, self.sigma2 = variance_components(lots)
-        rv = np.array([L.rep_var for L in lots])
+        const_lots = lots
+        if self.split_constants:                    # sample splitting removes any reuse of calibration lots
+            perm = np.random.default_rng(self.seed + 991).permutation(len(lots))
+            const_lots = [lots[i] for i in perm[: len(lots) // 2]]
+            lots = [lots[i] for i in perm[len(lots) // 2:]]
+        self.mu, self.tau2, self.sigma2 = variance_components(const_lots)
+        rv = np.array([L.rep_var for L in const_lots])
         self.e0 = float(np.nanmean(rv)) if np.isfinite(rv).any() else 0.0
         if self.m == 0:
             self.w = 0.0
@@ -122,7 +128,8 @@ class LotCP:
                 episodes.append((L, rng.choice(len(L.s_mean), self.m, replace=False), 1.0 / n_ep))
         best = None
         scaled = self.scale != "none"
-        for nu0 in (self.nu_grid if self.scale in ("support", "full") and self.m >= 2 else (None,)):
+        grid = self.nu_grid if not self.split_constants else (10,)      # no data-driven choice when splitting
+        for nu0 in (grid if self.scale in ("support", "full") and self.m >= 2 else (None,)):
             sc, wt, scales = [], [], []
             for L, sup, ep_w in episodes:
                 qmask = np.ones(len(L.s_mean), bool)

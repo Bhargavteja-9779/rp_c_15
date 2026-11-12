@@ -66,6 +66,11 @@ def run(cfg, n_jobs=4):
     for grid in ((5,), (20,), (80,)):
         v = {"lotcp_s": ("season", {"scale": "full", "nu_grid": grid})}
         jobs += [delayed(_ev)(cfg, "nu0", grid[0], "pls", 0, "forward", t, a, variants=v, baselines=False, n_draws=30) for t in targets]
+    # (e2) constants estimated on one half of the past lots, quantile on the other half
+    v = {"lotcp_s": ("season", {"scale": "full", "split_constants": True}), "lotcp": ("season", {"split_constants": True})}
+    jobs += [delayed(_ev)(cfg, "split_constants", 1, "pls", 0, "forward", t, a, variants=v, baselines=False, n_draws=30) for t in targets]
+    # (e3) deployment unit = one instrument unit within a lot (reference fruit scanned by that unit only)
+    jobs += [delayed(_ev)(cfg, "unit", "lot_instrument", "pls", 0, "forward", t, a, variants=CORE, unit="lot_instrument", n_draws=30) for t in targets]
     # (f) other shift protocols
     extra = [e for e in EXTRA if pred_path(cfg, "pls", 0, *e).exists()]
     jobs += [delayed(_ev)(cfg, "protocol", f"{p}:{t}", "pls", 0, p, t, a, variants=CORE) for p, t in extra]

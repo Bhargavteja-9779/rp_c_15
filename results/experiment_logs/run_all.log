@@ -10,3 +10,9 @@
 2026-11-11 19:07:29 run_all INFO stage robustness 17 s
 2026-11-11 19:08:15 run_all INFO stage analysis   46 s
 2026-11-11 19:08:37 run_all INFO stage figures    23 s
+2026-11-11 19:14:03 run_all INFO mode=full device=cpu python=3.13.18
+2026-11-11 19:21:53 run_all INFO stage eval       470 s
+2026-11-11 19:27:40 run_all INFO stage robustness 347 s
+2026-11-11 19:28:28 run_all INFO stage analysis   48 s
+2026-11-11 19:28:52 run_all INFO stage figures    23 s
+2026-11-11 19:28:58 run_all INFO stage manuscript 6 s

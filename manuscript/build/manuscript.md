@@ -132,7 +132,7 @@ Calibration needs one additional model fit per source season, which is done once
 
 ## 5.1 Data
 
-We use the public "Mango DMC and NIR spectra" data set, version 6 [@mangodata] (CC BY 4.0), which extends the data of Anderson et al. [@anderson2020; @anderson2021] and Walsh et al. [@walsh2024] with further seasons and instrument units. It contains 85,401 interactance spectra of intact mango fruit acquired with handheld F-750 spectrometers (Felix Instruments), each paired with the oven-dry DMC of the tissue under the scanned position. The file identifies the harvest season (7 seasons, 2015–2021), the growing region (Northern Territory or Queensland, Australia), the cultivar (10 cultivars), the physiological stage, the fruit temperature class, the instrument unit (31 units), the reference sample (10,560 samples) and the population (199 populations). A population is a set of fruit from one orchard block and harvest date; we call it a lot. Every sample was scanned repeatedly (median 6 scans per sample; different instrument units, and for a subset three fruit temperatures). Table 1 summarises the data by season and Fig. 2 shows the distribution of reference values, the number of lots and the mean spectra.
+We use the public "Mango DMC and NIR spectra" data set, version 6 [@mangodata] (CC BY 4.0), which extends the data of Anderson et al. [@anderson2020; @anderson2021] and Walsh et al. [@walsh2024] with further seasons and instrument units. It contains 85,401 spectra of intact mango fruit acquired with handheld spectrometers in interactance geometry [@anderson2021], each paired with the oven-dry DMC of the tissue under the scanned position. The file identifies the harvest season (7 seasons, 2015–2021), the growing region (Northern Territory or Queensland, Australia), the cultivar (10 cultivars), the physiological stage, the fruit temperature class, the instrument unit (31 units), the reference sample (10,560 samples) and the population (199 populations). A population is a set of fruit from one orchard block and harvest date; we call it a lot. Every sample was scanned repeatedly (median 6 scans per sample; different instrument units, and for a subset three fruit temperatures). Table 1 summarises the data by season and Fig. 2 shows the distribution of reference values, the number of lots and the mean spectra.
 
 | Season | Spectra | Samples | Lots | Cultivars | Instrument units | DMC mean (%) | DMC SD (%) | Median samples per lot |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
@@ -150,7 +150,7 @@ Table: Table 1. The data set by harvest season.
 
 ![Fig. 2. The data set. (a) Reference dry matter content by season. (b) Number of harvest lots by season. (c) Mean absorbance spectra of three seasons in the analysis window.](figures/fig2_data.png){width=6.3in}
 
-We use the 684–990 nm window at 3 nm steps (103 variables), the range used in the original studies [@anderson2020]. All spectra are retained. The provider's outlier flags are not applied in the main analysis because we cannot establish that they were assigned without reference to prediction residuals; their effect is examined in Section 9.
+We use the 684–990 nm window at 3 nm steps (103 variables), the range that gave the best PLS results in the original study [@anderson2020]. All spectra are retained. The provider's outlier flags are not applied in the main analysis because we cannot establish that they were assigned without reference to prediction residuals; their effect is examined in Section 9.
 
 ## 5.2 Protocols and leakage control
 
@@ -284,7 +284,7 @@ Table: Table 4. Intervals with m reference samples per lot (PLS, nominal 0.90). 
 
 ![Fig. 5. Coverage within each of the 137 target lots (PLS, nominal 0.90, dotted line). Marginal coverage near the nominal level can coexist with many badly covered lots.](figures/fig5_lot_coverage.png){width=6.5in}
 
-*Paired tests.* Table 7 compares the per-lot interval score of LotCP-S with its competitors. Against bias correction with the source quantile the difference is not significant at $m=3$ (Holm-adjusted p = 1.000) and is significant from $m=5$ on (p = 0.002 at $m=5$, p < 0.001 at $m=10$), with the mean difference favouring LotCP-S in all five seasons from $m=5$. Against the centred target-only method LotCP-S is better at $m=10$ (p < 0.001), marginally better at $m=20$ (p = 0.042, mean difference -0.03) and not different at $m=30$ (p = 1.000). On absolute coverage error the centred target-only method is better than LotCP-S at $m=20$ and $m=30$ (mean difference 0.014 and 0.020; all tests are in the supplementary table S6), which reflects its lot-conditional validity. The conclusion for RQ2 is therefore bounded: LotCP-S is the best of the compared methods when few reference samples are available, roughly $3\le m\le 10$, and offers no advantage over target-only calibration once 20 to 30 samples per lot can be afforded.
+*Paired tests.* Table 7 compares the per-lot interval score of LotCP-S with its competitors. Against bias correction with the source quantile the difference is not significant at $m=3$ (Holm-adjusted p = 1.000) and is significant from $m=5$ on (p = 0.002 at $m=5$, p < 0.001 at $m=10$), with the mean difference favouring LotCP-S in all five seasons from $m=5$. Against the centred target-only method LotCP-S is better at $m=10$ (p < 0.001), marginally better at $m=20$ (p = 0.044, mean difference -0.03) and not different at $m=30$ (p = 1.000). On absolute coverage error the centred target-only method is better than LotCP-S at $m=20$ and $m=30$ (mean difference 0.014 and 0.020; all tests are in the supplementary table S6), which reflects its lot-conditional validity. The conclusion for RQ2 is therefore bounded: LotCP-S is the best of the compared methods when few reference samples are available, roughly $3\le m\le 10$, and offers no advantage over target-only calibration once 20 to 30 samples per lot can be afforded.
 
 | LotCP-S versus | m | Lots | Mean difference | 95% CI | Holm p | Rank-biserial r | Seasons favouring LotCP-S |
 |---|---:|---:|---:|---:|---:|---:|---:|
@@ -294,7 +294,7 @@ Table: Table 4. Intervals with m reference samples per lot (PLS, nominal 0.90). 
 | Bias corr. + source CP | 20 | 129 | -0.32 | -0.42 to -0.22 | <0.001 | -0.66 | 5/5 |
 | Bias corr. + source CP | 30 | 112 | -0.32 | -0.43 to -0.21 | <0.001 | -0.66 | 5/5 |
 | Target-only CP, centred | 10 | 137 | -0.66 | -0.85 to -0.50 | <0.001 | -0.83 | 5/5 |
-| Target-only CP, centred | 20 | 129 | -0.03 | -0.10 to 0.07 | 0.042 | -0.31 | 4/5 |
+| Target-only CP, centred | 20 | 129 | -0.03 | -0.10 to 0.07 | 0.044 | -0.31 | 4/5 |
 | Target-only CP, centred | 30 | 112 | 0.06 | -0.01 to 0.17 | 1.000 | -0.01 | 1/5 |
 | HCP-mean (LotCP w/o shrinkage) | 3 | 137 | -0.54 | -0.66 to -0.42 | <0.001 | -0.80 | 4/5 |
 | HCP-mean (LotCP w/o shrinkage) | 5 | 137 | -0.55 | -0.68 to -0.42 | <0.001 | -0.80 | 4/5 |
@@ -452,14 +452,14 @@ Table: Table 10. Other nominal levels (PLS, forward chaining).
 | PLS fit (final model) | 1.1 s | 6.6 ms |
 | LightGBM fit | 2.0 s | 11.2 ms |
 | 1D-CNN fit (20 epochs) | 147.6 s | 58.3 ms |
-| LotCP calibration, m = 10 | 0.4 s | < 0.1 ms (one bias, one scale per lot) |
-| LotCP-S calibration, m = 10 | 1.8 s | < 0.1 ms (one bias, one scale per lot) |
-| LotCP-S calibration, m = 30 | 1.0 s | < 0.1 ms (one bias, one scale per lot) |
+| LotCP calibration, m = 10 | 0.5 s | < 0.1 ms (one bias, one scale per lot) |
+| LotCP-S calibration, m = 10 | 2.1 s | < 0.1 ms (one bias, one scale per lot) |
+| LotCP-S calibration, m = 30 | 1.2 s | < 0.1 ms (one bias, one scale per lot) |
 
 Table: Table 11. Computing time on a 4-core CPU without GPU (mean over target seasons; CNN fits used one thread each).
 
 
-The cost of the method is dominated by the season-held-out fits, one per source season, which are done once when the calibration is built (Table 11). The episodic calibration itself takes about 1.8 s for 187 past lots and 30 episodes, and the deployment step is a bias and a scale per lot, which is negligible on the embedded processor of a handheld instrument. The relevant cost is the number of destructive reference measurements. Fig. 4 expresses the trade-off: with LotCP-S and PLS, three reference samples per lot give a mean width of 3.76 % DMC, ten give 3.45, and thirty give 3.28; most of the gain is obtained with the first five to ten samples.
+The cost of the method is dominated by the season-held-out fits, one per source season, which are done once when the calibration is built (Table 11). The episodic calibration itself takes about 2.1 s for 187 past lots and 30 episodes, and the deployment step is a bias and a scale per lot, which is negligible on the embedded processor of a handheld instrument. The relevant cost is the number of destructive reference measurements. Fig. 4 expresses the trade-off: with LotCP-S and PLS, three reference samples per lot give a mean width of 3.76 % DMC, ten give 3.45, and thirty give 3.28; most of the gain is obtained with the first five to ten samples.
 
 # 11. Error analysis (RQ5)
 
@@ -467,7 +467,7 @@ The cost of the method is dominated by the season-held-out fits, one per source 
 
 We examined coverage at the level of the lot and of the scan for $m=10$ (Fig. 9). Of the 137 target lots, 38 have coverage below 0.80 under sample-fold split conformal prediction, 13 under LotCP and 4 under LotCP-S. For split conformal prediction, lot coverage is governed by the absolute lot bias (Spearman correlation -0.79). After bias correction the bias no longer matters much, and the remaining failures are lots whose residual spread exceeds what past lots suggest: the correlation between lot coverage and the ratio of the lot's residual standard deviation to the prior scale is -0.95 for LotCP and -0.84 for LotCP-S. The scale estimate of LotCP-S reduces the number of badly covered lots but cannot identify a wide lot reliably from ten reference samples and the repeated scans; the lot with the lowest coverage has a residual spread of 2.2 times the prior scale.
 
-By subgroup, LotCP-S coverage is 0.93 for fruit at the green stage and 0.90 for fruit at the ripening stage; 0.91, 0.90 and 0.89 for the low, medium and high fruit-temperature classes; 0.92 for instrument units present in the source seasons and 0.92 for units that are new in the target season; and 0.91 and 0.96 for cultivars present in and absent from the source seasons. Among cultivars the lowest coverage is 0.85 for Keitt. Scans carrying the provider's first outlier flag are covered at 0.80 (0.50 under sample-fold split conformal prediction). Coverage is lower at the extremes of the DMC range (Fig. 9c), a known limitation of scores that do not adapt to the predicted value. These figures are a reminder that the guarantee is marginal: a lot of ripening fruit, or a lot measured with atypical scatter, can be covered below the nominal level even when coverage is nominal on average.
+By subgroup, LotCP-S coverage is 0.93 for fruit at the green stage and 0.90 for fruit at the ripening stage; 0.91, 0.90 and 0.89 for the low, medium and high fruit-temperature classes; 0.92 for instrument units present in the source seasons and 0.92 for units that are new in the target season; and 0.91 and 0.96 for cultivars present in and absent from the source seasons. The lower coverage at the ripening stage is in line with the finding of the data set's authors that physiological stage affects model performance more than cultivar, season or region [@anderson2020]. Among cultivars the lowest coverage is 0.85 for Keitt. Scans carrying the provider's first outlier flag are covered at 0.80 (0.50 under sample-fold split conformal prediction). Coverage is lower at the extremes of the DMC range (Fig. 9c), a known limitation of scores that do not adapt to the predicted value. These figures are a reminder that the guarantee is marginal: a lot of ripening fruit, or a lot measured with atypical scatter, can be covered below the nominal level even when coverage is nominal on average.
 
 
 # 12. Discussion
@@ -498,7 +498,7 @@ By subgroup, LotCP-S coverage is 0.93 for fruit at the green stage and 0.90 for 
 
 *Scores.* The score does not adapt to the predicted DMC, and coverage was lower at the extremes of the DMC range. One-sided bounds, which are what a minimum-DMC specification needs, were not studied.
 
-*Details taken from the data description.* The measurement geometry, instrument model and reference method are described here as in the publications that accompany the data set; we did not collect the data.
+*Details taken from the data description.* The measurement geometry and reference method are described here as in the publications that accompany the data set; we did not collect the data, and we interpret the file's "population" field as a harvest lot following those publications.
 
 # 14. Conclusion
 

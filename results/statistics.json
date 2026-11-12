@@ -78,7 +78,7 @@
    "rank_biserial": 0.414577382841426,
    "seasons_ref_better": 0,
    "n_seasons": 5,
-   "p_holm": 0.0006383549783854481
+   "p_holm": 0.0006894233766562841
   },
   {
    "m": 0,
@@ -110,7 +110,7 @@
    "rank_biserial": 0.4685285094678938,
    "seasons_ref_better": 2,
    "n_seasons": 5,
-   "p_holm": 5.6729582256860204e-05
+   "p_holm": 6.259815973170781e-05
   },
   {
    "m": 0,
@@ -174,7 +174,7 @@
    "rank_biserial": 0.4733946895165556,
    "seasons_ref_better": 2,
    "n_seasons": 5,
-   "p_holm": 4.5891485401393205e-05
+   "p_holm": 5.0480633941532526e-05
   },
   {
    "m": 0,
@@ -222,7 +222,7 @@
    "rank_biserial": -0.39035812672176307,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 0.006813971706530441
+   "p_holm": 0.007020455697637424
   },
   {
    "m": 0,
@@ -302,7 +302,7 @@
    "rank_biserial": 0.5262879509150534,
    "seasons_ref_better": 4,
    "n_seasons": 5,
-   "p_holm": 3.265019052189175e-06
+   "p_holm": 3.5371039732049395e-06
   },
   {
    "m": 0,
@@ -398,7 +398,7 @@
    "rank_biserial": 0.38474558341267323,
    "seasons_ref_better": 2,
    "n_seasons": 5,
-   "p_holm": 0.002092005150180794
+   "p_holm": 0.002273918641500863
   },
   {
    "m": 0,
@@ -430,7 +430,7 @@
    "rank_biserial": 0.43806199090235903,
    "seasons_ref_better": 0,
    "n_seasons": 5,
-   "p_holm": 0.00022481567488225697
+   "p_holm": 0.00024210918833473828
   },
   {
    "m": 0,
@@ -494,7 +494,7 @@
    "rank_biserial": 0.4966677245318946,
    "seasons_ref_better": 2,
    "n_seasons": 5,
-   "p_holm": 1.4615406470909282e-05
+   "p_holm": 1.598560082755703e-05
   },
   {
    "m": 0,
@@ -526,7 +526,7 @@
    "rank_biserial": 0.390669628689305,
    "seasons_ref_better": 2,
    "n_seasons": 5,
-   "p_holm": 0.0017450069049876314
+   "p_holm": 0.001890424147069934
   },
   {
    "m": 0,
@@ -622,7 +622,7 @@
    "rank_biserial": -0.5531577277054903,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 7.56434618602977e-07
+   "p_holm": 8.146218969570521e-07
   },
   {
    "m": 3,
@@ -638,7 +638,7 @@
    "rank_biserial": -0.25119825708061,
    "seasons_ref_better": 4,
    "n_seasons": 5,
-   "p_holm": 0.2946301162241829
+   "p_holm": 0.3059620437712669
   },
   {
    "m": 3,
@@ -686,7 +686,7 @@
    "rank_biserial": -0.7571141436580979,
    "seasons_ref_better": 3,
    "n_seasons": 5,
-   "p_holm": 9.231409691284131e-13
+   "p_holm": 9.678090805378524e-13
   },
   {
    "m": 3,
@@ -702,7 +702,7 @@
    "rank_biserial": -0.6657952069716776,
    "seasons_ref_better": 4,
    "n_seasons": 5,
-   "p_holm": 1.1151012778384686e-09
+   "p_holm": 1.1535530460397952e-09
   },
   {
    "m": 3,
@@ -734,7 +734,7 @@
    "rank_biserial": -0.214161220043573,
    "seasons_ref_better": 4,
    "n_seasons": 5,
-   "p_holm": 0.7405381147597134
+   "p_holm": 0.7713938695413681
   },
   {
    "m": 3,
@@ -750,7 +750,7 @@
    "rank_biserial": -0.6902570612503967,
    "seasons_ref_better": 4,
    "n_seasons": 5,
-   "p_holm": 1.1954527097066593e-10
+   "p_holm": 1.267179872289059e-10
   },
   {
    "m": 3,
@@ -766,7 +766,7 @@
    "rank_biserial": -0.6150359314538419,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 3.524175428466841e-08
+   "p_holm": 3.654700444335983e-08
   },
   {
    "m": 3,
@@ -782,7 +782,7 @@
    "rank_biserial": -0.8009097640960542,
    "seasons_ref_better": 4,
    "n_seasons": 5,
-   "p_holm": 3.009769082290918e-14
+   "p_holm": 3.1769784757515247e-14
   },
   {
    "m": 3,
@@ -798,7 +798,7 @@
    "rank_biserial": -0.675599128540305,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 5.733715627955786e-10
+   "p_holm": 5.928078869581405e-10
   },
   {
    "m": 3,
@@ -814,7 +814,7 @@
    "rank_biserial": -0.7042208822596001,
    "seasons_ref_better": 4,
    "n_seasons": 5,
-   "p_holm": 4.468299918470152e-11
+   "p_holm": 4.726086452228046e-11
   },
   {
    "m": 3,
@@ -830,7 +830,7 @@
    "rank_biserial": -0.6130718954248366,
    "seasons_ref_better": 4,
    "n_seasons": 5,
-   "p_holm": 3.5191569465248344e-08
+   "p_holm": 3.6471262900348285e-08
   },
   {
    "m": 3,
@@ -846,7 +846,7 @@
    "rank_biserial": 0.5028033428541204,
    "seasons_ref_better": 4,
    "n_seasons": 5,
-   "p_holm": 1.0861033455600606e-05
+   "p_holm": 1.184840013338248e-05
   },
   {
    "m": 3,
@@ -862,7 +862,7 @@
    "rank_biserial": 0.2608415629025333,
    "seasons_ref_better": 4,
    "n_seasons": 5,
-   "p_holm": 0.2243811266845691
+   "p_holm": 0.23269153878399762
   },
   {
    "m": 3,
@@ -878,7 +878,7 @@
    "rank_biserial": -0.7571141436580979,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 9.231409691284131e-13
+   "p_holm": 9.678090805378524e-13
   },
   {
    "m": 3,
@@ -894,7 +894,7 @@
    "rank_biserial": -0.9164179104477612,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 2.9969542687652494e-18
+   "p_holm": 3.1347452696280197e-18
   },
   {
    "m": 3,
@@ -910,7 +910,7 @@
    "rank_biserial": -0.6602136887760499,
    "seasons_ref_better": 3,
    "n_seasons": 5,
-   "p_holm": 9.703495200214715e-10
+   "p_holm": 1.0309963650228133e-09
   },
   {
    "m": 3,
@@ -926,7 +926,7 @@
    "rank_biserial": -0.4429193899782135,
    "seasons_ref_better": 4,
    "n_seasons": 5,
-   "p_holm": 0.0003362798372575016
+   "p_holm": 0.0003522931628411922
   },
   {
    "m": 3,
@@ -958,7 +958,7 @@
    "rank_biserial": -0.22309368191721132,
    "seasons_ref_better": 4,
    "n_seasons": 5,
-   "p_holm": 0.612852448045495
+   "p_holm": 0.6373665459673148
   },
   {
    "m": 3,
@@ -974,7 +974,7 @@
    "rank_biserial": -0.6060509891039881,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 3.239837075660902e-08
+   "p_holm": 3.4658722204744536e-08
   },
   {
    "m": 3,
@@ -990,7 +990,7 @@
    "rank_biserial": -0.4381263616557734,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 0.00041092166872413864
+   "p_holm": 0.00043096662817409664
   },
   {
    "m": 3,
@@ -1006,7 +1006,7 @@
    "rank_biserial": -0.8464052287581699,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 1.1172255595862279e-15
+   "p_holm": 1.1745191780265473e-15
   },
   {
    "m": 3,
@@ -1022,7 +1022,7 @@
    "rank_biserial": -0.8464052287581699,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 1.1172255595862279e-15
+   "p_holm": 1.1745191780265473e-15
   },
   {
    "m": 5,
@@ -1038,7 +1038,7 @@
    "rank_biserial": -0.7170459424645771,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 2.1278595586970852e-11
+   "p_holm": 2.2483044393780522e-11
   },
   {
    "m": 5,
@@ -1070,7 +1070,7 @@
    "rank_biserial": -0.3853803025494552,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 0.002092005150180794
+   "p_holm": 0.002273918641500863
   },
   {
    "m": 5,
@@ -1086,7 +1086,7 @@
    "rank_biserial": -0.3291938997821351,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 0.027612155181142226
+   "p_holm": 0.028502869864404878
   },
   {
    "m": 5,
@@ -1102,7 +1102,7 @@
    "rank_biserial": -0.7715011107584894,
    "seasons_ref_better": 4,
    "n_seasons": 5,
-   "p_holm": 3.0577050722656316e-13
+   "p_holm": 3.1988299217548145e-13
   },
   {
    "m": 5,
@@ -1118,7 +1118,7 @@
    "rank_biserial": -0.7405228758169935,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 5.5767119794912946e-12
+   "p_holm": 5.909650008117641e-12
   },
   {
    "m": 5,
@@ -1150,7 +1150,7 @@
    "rank_biserial": -0.32559912854030504,
    "seasons_ref_better": 4,
    "n_seasons": 5,
-   "p_holm": 0.029857626766686258
+   "p_holm": 0.030887200103468543
   },
   {
    "m": 5,
@@ -1166,7 +1166,7 @@
    "rank_biserial": -0.729821220776473,
    "seasons_ref_better": 4,
    "n_seasons": 5,
-   "p_holm": 6.752588688746852e-12
+   "p_holm": 7.1277325047883436e-12
   },
   {
    "m": 5,
@@ -1182,7 +1182,7 @@
    "rank_biserial": -0.7272331154684096,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 1.460599999071357e-11
+   "p_holm": 1.551887499013317e-11
   },
   {
    "m": 5,
@@ -1198,7 +1198,7 @@
    "rank_biserial": -0.7975245953665503,
    "seasons_ref_better": 4,
    "n_seasons": 5,
-   "p_holm": 3.939257980533897e-14
+   "p_holm": 4.161188007606229e-14
   },
   {
    "m": 5,
@@ -1214,7 +1214,7 @@
    "rank_biserial": -0.75119825708061,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 2.4853304058916328e-12
+   "p_holm": 2.6315263121205524e-12
   },
   {
    "m": 5,
@@ -1230,7 +1230,7 @@
    "rank_biserial": -0.7393420078282027,
    "seasons_ref_better": 4,
    "n_seasons": 5,
-   "p_holm": 3.3619990896738633e-12
+   "p_holm": 3.5421061837635343e-12
   },
   {
    "m": 5,
@@ -1246,7 +1246,7 @@
    "rank_biserial": -0.7154684095860566,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 3.460004167526827e-11
+   "p_holm": 3.6796869718142446e-11
   },
   {
    "m": 5,
@@ -1262,7 +1262,7 @@
    "rank_biserial": 0.5482915476568285,
    "seasons_ref_better": 3,
    "n_seasons": 5,
-   "p_holm": 9.798005315362367e-07
+   "p_holm": 1.0571532050785712e-06
   },
   {
    "m": 5,
@@ -1278,7 +1278,7 @@
    "rank_biserial": 0.4728424216401889,
    "seasons_ref_better": 1,
    "n_seasons": 5,
-   "p_holm": 7.552936841736054e-05
+   "p_holm": 7.896252152724058e-05
   },
   {
    "m": 5,
@@ -1294,7 +1294,7 @@
    "rank_biserial": -0.7016820057124722,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 5.286294742963384e-11
+   "p_holm": 5.5972532572553485e-11
   },
   {
    "m": 5,
@@ -1310,7 +1310,7 @@
    "rank_biserial": -0.9106688778330569,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 5.063078799775742e-18
+   "p_holm": 5.298570836974614e-18
   },
   {
    "m": 5,
@@ -1326,7 +1326,7 @@
    "rank_biserial": -0.6411721146725907,
    "seasons_ref_better": 3,
    "n_seasons": 5,
-   "p_holm": 3.431928796333112e-09
+   "p_holm": 3.655750239572228e-09
   },
   {
    "m": 5,
@@ -1342,7 +1342,7 @@
    "rank_biserial": -0.46013071895424834,
    "seasons_ref_better": 4,
    "n_seasons": 5,
-   "p_holm": 0.00015089946410709043
+   "p_holm": 0.0001579180438330016
   },
   {
    "m": 5,
@@ -1374,7 +1374,7 @@
    "rank_biserial": -0.3296296296296296,
    "seasons_ref_better": 4,
    "n_seasons": 5,
-   "p_holm": 0.027612155181142226
+   "p_holm": 0.028502869864404878
   },
   {
    "m": 5,
@@ -1390,7 +1390,7 @@
    "rank_biserial": -0.780598751719031,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 1.5045911806634855e-13
+   "p_holm": 1.594417519807574e-13
   },
   {
    "m": 5,
@@ -1406,7 +1406,39 @@
    "rank_biserial": -0.530718954248366,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 4.043653752779856e-06
+   "p_holm": 4.219464785509415e-06
+  },
+  {
+   "m": 5,
+   "reference": "lotcp_s",
+   "other": "slopebias_naive",
+   "outcome": "iscore",
+   "n_lots": 137,
+   "mean_diff": -0.8349101615653932,
+   "median_diff": -0.6767059051918283,
+   "ci_lo": -1.0117826682371105,
+   "ci_hi": -0.6684175675788894,
+   "p": 2.9092670259624247e-15,
+   "rank_biserial": -0.7774251560351211,
+   "seasons_ref_better": 5,
+   "n_seasons": 5,
+   "p_holm": 2.0364869181736972e-13
+  },
+  {
+   "m": 5,
+   "reference": "lotcp_s",
+   "other": "slopebias_naive",
+   "outcome": "abs_cov_err",
+   "n_lots": 137,
+   "mean_diff": -0.006794206544750268,
+   "median_diff": -0.0017674418604651798,
+   "ci_lo": -0.013451341953146867,
+   "ci_hi": -0.0002693372817763685,
+   "p": 0.16745605872573655,
+   "rank_biserial": -0.13593568179413942,
+   "seasons_ref_better": 4,
+   "n_seasons": 5,
+   "p_holm": 1.0
   },
   {
    "m": 5,
@@ -1422,7 +1454,7 @@
    "rank_biserial": -0.8864923747276688,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 3.411282633628973e-17
+   "p_holm": 3.571813581093866e-17
   },
   {
    "m": 5,
@@ -1438,7 +1470,7 @@
    "rank_biserial": -0.8864923747276688,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 3.411282633628973e-17
+   "p_holm": 3.571813581093866e-17
   },
   {
    "m": 10,
@@ -1454,7 +1486,7 @@
    "rank_biserial": -0.78531558608845,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 1.3311723378976539e-13
+   "p_holm": 1.4083417487902714e-13
   },
   {
    "m": 10,
@@ -1470,7 +1502,7 @@
    "rank_biserial": 0.37161872048089306,
    "seasons_ref_better": 2,
    "n_seasons": 5,
-   "p_holm": 0.005776297935471035
+   "p_holm": 0.005946189051220183
   },
   {
    "m": 10,
@@ -1486,7 +1518,7 @@
    "rank_biserial": -0.5064000846292183,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 9.21844509735696e-06
+   "p_holm": 1.0031837311829634e-05
   },
   {
    "m": 10,
@@ -1502,7 +1534,7 @@
    "rank_biserial": -0.37712418300653594,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 0.005029046974595817
+   "p_holm": 0.005172734031012841
   },
   {
    "m": 10,
@@ -1518,7 +1550,7 @@
    "rank_biserial": -0.8070453824182799,
    "seasons_ref_better": 4,
    "n_seasons": 5,
-   "p_holm": 1.8711789442048438e-14
+   "p_holm": 1.9709751545624354e-14
   },
   {
    "m": 10,
@@ -1534,7 +1566,7 @@
    "rank_biserial": -0.7943355119825708,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 8.306103841858252e-14
+   "p_holm": 8.774053354075619e-14
   },
   {
    "m": 10,
@@ -1566,7 +1598,7 @@
    "rank_biserial": -0.3896514161220044,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 0.0031689767038181813
+   "p_holm": 0.003254624722840294
   },
   {
    "m": 10,
@@ -1582,7 +1614,7 @@
    "rank_biserial": -0.7820797630381889,
    "seasons_ref_better": 4,
    "n_seasons": 5,
-   "p_holm": 1.3527843331396483e-13
+   "p_holm": 1.4323598821478627e-13
   },
   {
    "m": 10,
@@ -1598,7 +1630,7 @@
    "rank_biserial": -0.7875816993464052,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 1.4210301388912162e-13
+   "p_holm": 1.5022318611135715e-13
   },
   {
    "m": 10,
@@ -1614,7 +1646,7 @@
    "rank_biserial": -0.804294932825558,
    "seasons_ref_better": 4,
    "n_seasons": 5,
-   "p_holm": 2.2964767763769957e-14
+   "p_holm": 2.422311120288064e-14
   },
   {
    "m": 10,
@@ -1630,7 +1662,7 @@
    "rank_biserial": -0.796078431372549,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 7.300917904248369e-14
+   "p_holm": 7.70652445448439e-14
   },
   {
    "m": 10,
@@ -1646,7 +1678,7 @@
    "rank_biserial": -0.7848302126309108,
    "seasons_ref_better": 4,
    "n_seasons": 5,
-   "p_holm": 1.1112978177265863e-13
+   "p_holm": 1.1748005501681055e-13
   },
   {
    "m": 10,
@@ -1662,7 +1694,7 @@
    "rank_biserial": -0.7657952069716776,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 8.034816882140028e-13
+   "p_holm": 8.500603368061189e-13
   },
   {
    "m": 10,
@@ -1678,7 +1710,7 @@
    "rank_biserial": 0.5999153707817624,
    "seasons_ref_better": 3,
    "n_seasons": 5,
-   "p_holm": 4.679588054281436e-08
+   "p_holm": 5.0138443438729676e-08
   },
   {
    "m": 10,
@@ -1694,7 +1726,7 @@
    "rank_biserial": 0.5618291112065265,
    "seasons_ref_better": 1,
    "n_seasons": 5,
-   "p_holm": 6.294444048148675e-07
+   "p_holm": 6.55671255015487e-07
   },
   {
    "m": 10,
@@ -1710,7 +1742,7 @@
    "rank_biserial": -0.7494975140167143,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 1.575881095036758e-12
+   "p_holm": 1.6573921861593488e-12
   },
   {
    "m": 10,
@@ -1726,7 +1758,7 @@
    "rank_biserial": -0.9451630735212825,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 2.001202359550633e-19
+   "p_holm": 2.0911440386315602e-19
   },
   {
    "m": 10,
@@ -1742,7 +1774,7 @@
    "rank_biserial": -0.6267851475721993,
    "seasons_ref_better": 3,
    "n_seasons": 5,
-   "p_holm": 8.593242170446536e-09
+   "p_holm": 9.179145045704256e-09
   },
   {
    "m": 10,
@@ -1758,7 +1790,7 @@
    "rank_biserial": -0.3427015250544662,
    "seasons_ref_better": 3,
    "n_seasons": 5,
-   "p_holm": 0.01762740390218502
+   "p_holm": 0.0181782602741283
   },
   {
    "m": 10,
@@ -1790,7 +1822,7 @@
    "rank_biserial": -0.3847494553376906,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 0.0037820885679007315
+   "p_holm": 0.003887146583675752
   },
   {
    "m": 10,
@@ -1806,7 +1838,7 @@
    "rank_biserial": -0.8747487570083571,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 5.398957174780789e-17
+   "p_holm": 5.65914788199914e-17
   },
   {
    "m": 10,
@@ -1822,7 +1854,39 @@
    "rank_biserial": -0.5559912854030501,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 9.795505390225816e-07
+   "p_holm": 1.021233540683117e-06
+  },
+  {
+   "m": 10,
+   "reference": "lotcp_s",
+   "other": "slopebias_naive",
+   "outcome": "iscore",
+   "n_lots": 137,
+   "mean_diff": -0.2857750903058674,
+   "median_diff": -0.36058049265643355,
+   "ci_lo": -0.3981229987634956,
+   "ci_hi": -0.15988474352459767,
+   "p": 3.0785000983060897e-06,
+   "rank_biserial": -0.45943086850735215,
+   "seasons_ref_better": 5,
+   "n_seasons": 5,
+   "p_holm": 8.92765028508766e-05
+  },
+  {
+   "m": 10,
+   "reference": "lotcp_s",
+   "other": "slopebias_naive",
+   "outcome": "abs_cov_err",
+   "n_lots": 137,
+   "mean_diff": -0.012553152378719788,
+   "median_diff": -0.013224489795918615,
+   "ci_lo": -0.01858892939183862,
+   "ci_hi": -0.006497598768597615,
+   "p": 1.5912602638795365e-05,
+   "rank_biserial": -0.42810457516339867,
+   "seasons_ref_better": 5,
+   "n_seasons": 5,
+   "p_holm": 0.00065241670819061
   },
   {
    "m": 10,
@@ -1838,7 +1902,7 @@
    "rank_biserial": -0.9344123558658627,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 1.9838690667865168e-19
+   "p_holm": 2.0772276111058823e-19
   },
   {
    "m": 10,
@@ -1870,7 +1934,7 @@
    "rank_biserial": -0.8262985295673331,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 3.854693951433985e-15
+   "p_holm": 4.047428649005683e-15
   },
   {
    "m": 10,
@@ -1902,7 +1966,7 @@
    "rank_biserial": -0.8561046511627907,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 3.4839874616417494e-15
+   "p_holm": 3.6560362251796134e-15
   },
   {
    "m": 20,
@@ -1918,7 +1982,7 @@
    "rank_biserial": 0.5980918306499702,
    "seasons_ref_better": 0,
    "n_seasons": 5,
-   "p_holm": 1.9192979271835206e-07
+   "p_holm": 1.9945645125632665e-07
   },
   {
    "m": 20,
@@ -1934,7 +1998,7 @@
    "rank_biserial": -0.6562909958258796,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 4.473854871396284e-09
+   "p_holm": 4.772111862822703e-09
   },
   {
    "m": 20,
@@ -1950,7 +2014,7 @@
    "rank_biserial": -0.625484496124031,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 4.3631071388698173e-08
+   "p_holm": 4.527752691279999e-08
   },
   {
    "m": 20,
@@ -1966,7 +2030,7 @@
    "rank_biserial": -0.8442456768038163,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 6.940348548500147e-15
+   "p_holm": 7.291758601588761e-15
   },
   {
    "m": 20,
@@ -1982,7 +2046,7 @@
    "rank_biserial": -0.8702761627906976,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 1.0286534074596281e-15
+   "p_holm": 1.0807371242930268e-15
   },
   {
    "m": 20,
@@ -1998,7 +2062,7 @@
    "rank_biserial": -0.49767441860465117,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 2.9014872256790268e-05
+   "p_holm": 3.182276312035062e-05
   },
   {
    "m": 20,
@@ -2014,7 +2078,7 @@
    "rank_biserial": -0.6489825581395349,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 1.051242687546589e-08
+   "p_holm": 1.0887870692446813e-08
   },
   {
    "m": 20,
@@ -2030,7 +2094,7 @@
    "rank_biserial": -0.8313655336911151,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 1.882127273496504e-14
+   "p_holm": 1.9838638828746933e-14
   },
   {
    "m": 20,
@@ -2046,7 +2110,7 @@
    "rank_biserial": -0.8771802325581395,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 5.924407067949546e-16
+   "p_holm": 6.213402534678792e-16
   },
   {
    "m": 20,
@@ -2062,7 +2126,7 @@
    "rank_biserial": -0.8425760286225402,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 7.871970284334354e-15
+   "p_holm": 8.275661068146373e-15
   },
   {
    "m": 20,
@@ -2078,7 +2142,7 @@
    "rank_biserial": -0.8665213178294574,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 1.360728207370312e-15
+   "p_holm": 1.4323454814424335e-15
   },
   {
    "m": 20,
@@ -2094,7 +2158,7 @@
    "rank_biserial": -0.83231961836613,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 1.7875998611609164e-14
+   "p_holm": 1.881684064379912e-14
   },
   {
    "m": 20,
@@ -2110,7 +2174,7 @@
    "rank_biserial": -0.846656976744186,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 6.890714885964762e-15
+   "p_holm": 7.26828830437379e-15
   },
   {
    "m": 20,
@@ -2126,7 +2190,7 @@
    "rank_biserial": 0.478592725104353,
    "seasons_ref_better": 2,
    "n_seasons": 5,
-   "p_holm": 6.475333293416511e-05
+   "p_holm": 7.19481477046279e-05
   },
   {
    "m": 20,
@@ -2142,7 +2206,7 @@
    "rank_biserial": 0.27434070741157357,
    "seasons_ref_better": 2,
    "n_seasons": 5,
-   "p_holm": 0.21101753095901926
+   "p_holm": 0.21855387135041282
   },
   {
    "m": 20,
@@ -2158,7 +2222,7 @@
    "rank_biserial": -0.7805605247465712,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 9.088402197834703e-13
+   "p_holm": 9.52118325487445e-13
   },
   {
    "m": 20,
@@ -2174,7 +2238,7 @@
    "rank_biserial": -0.9647544056992876,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 4.940192163268313e-19
+   "p_holm": 5.164746352507782e-19
   },
   {
    "m": 20,
@@ -2190,7 +2254,7 @@
    "rank_biserial": -0.667262969588551,
    "seasons_ref_better": 4,
    "n_seasons": 5,
-   "p_holm": 2.271959410869205e-09
+   "p_holm": 2.4169780966693666e-09
   },
   {
    "m": 20,
@@ -2206,7 +2270,7 @@
    "rank_biserial": -0.5109011627906976,
    "seasons_ref_better": 3,
    "n_seasons": 5,
-   "p_holm": 2.3800620094065044e-05
+   "p_holm": 2.4858425431579046e-05
   },
   {
    "m": 20,
@@ -2222,7 +2286,7 @@
    "rank_biserial": -0.4824090638044126,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 5.6729582256860204e-05
+   "p_holm": 6.259815973170781e-05
   },
   {
    "m": 20,
@@ -2238,7 +2302,7 @@
    "rank_biserial": -0.6194282945736435,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 6.213378413534111e-08
+   "p_holm": 6.452354506362346e-08
   },
   {
    "m": 20,
@@ -2254,7 +2318,7 @@
    "rank_biserial": -0.9253428741800834,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 6.347076380409041e-18
+   "p_holm": 6.6493181128094716e-18
   },
   {
    "m": 20,
@@ -2270,7 +2334,39 @@
    "rank_biserial": -0.715843023255814,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 1.2622079529993644e-10
+   "p_holm": 1.3253183506493325e-10
+  },
+  {
+   "m": 20,
+   "reference": "lotcp_s",
+   "other": "slopebias_naive",
+   "outcome": "iscore",
+   "n_lots": 129,
+   "mean_diff": -0.24988911496217275,
+   "median_diff": -0.3725478457687994,
+   "ci_lo": -0.3910961379629848,
+   "ci_hi": -0.10552917616946644,
+   "p": 0.0001919995975761307,
+   "rank_biserial": -0.37841383422778774,
+   "seasons_ref_better": 4,
+   "n_seasons": 5,
+   "p_holm": 0.004415990744251006
+  },
+  {
+   "m": 20,
+   "reference": "lotcp_s",
+   "other": "slopebias_naive",
+   "outcome": "abs_cov_err",
+   "n_lots": 129,
+   "mean_diff": -0.02464229939220073,
+   "median_diff": -0.025775000000000214,
+   "ci_lo": -0.03039202964989767,
+   "ci_hi": -0.018749333371677224,
+   "p": 3.00496559570751e-12,
+   "rank_biserial": -0.7107558139534884,
+   "seasons_ref_better": 5,
+   "n_seasons": 5,
+   "p_holm": 1.863078669338656e-10
   },
   {
    "m": 20,
@@ -2286,7 +2382,7 @@
    "rank_biserial": -0.8358974358974359,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 1.3497647938822914e-14
+   "p_holm": 1.4198824455125403e-14
   },
   {
    "m": 20,
@@ -2302,7 +2398,7 @@
    "rank_biserial": 0.4394752534287418,
    "seasons_ref_better": 0,
    "n_seasons": 5,
-   "p_holm": 0.0005935015920858058
+   "p_holm": 0.0006231766716900961
   },
   {
    "m": 20,
@@ -2318,7 +2414,7 @@
    "rank_biserial": -0.313536076326774,
    "seasons_ref_better": 4,
    "n_seasons": 5,
-   "p_holm": 0.0420416062098361
+   "p_holm": 0.044043587457923535
   },
   {
    "m": 20,
@@ -2334,7 +2430,7 @@
    "rank_biserial": 0.43017292784734645,
    "seasons_ref_better": 0,
    "n_seasons": 5,
-   "p_holm": 0.0008740237734514723
+   "p_holm": 0.0008964346394374075
   },
   {
    "m": 30,
@@ -2350,7 +2446,7 @@
    "rank_biserial": -0.8513513513513513,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 4.4528534150276475e-13
+   "p_holm": 4.661580918857069e-13
   },
   {
    "m": 30,
@@ -2366,7 +2462,7 @@
    "rank_biserial": 0.7989886219974716,
    "seasons_ref_better": 0,
    "n_seasons": 5,
-   "p_holm": 1.3976575420039948e-11
+   "p_holm": 1.4836672368965485e-11
   },
   {
    "m": 30,
@@ -2382,7 +2478,7 @@
    "rank_biserial": -0.6624525916561315,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 4.7774702499724915e-08
+   "p_holm": 5.127041243872917e-08
   },
   {
    "m": 30,
@@ -2398,7 +2494,7 @@
    "rank_biserial": -0.7147683397683398,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 3.5952881087488516e-09
+   "p_holm": 3.7214385687049515e-09
   },
   {
    "m": 30,
@@ -2414,7 +2510,7 @@
    "rank_biserial": -0.8347029077117573,
    "seasons_ref_better": 4,
    "n_seasons": 5,
-   "p_holm": 1.0374930730478717e-12
+   "p_holm": 1.0902469581181024e-12
   },
   {
    "m": 30,
@@ -2430,7 +2526,7 @@
    "rank_biserial": -0.9369469026548672,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 6.110339150058047e-16
+   "p_holm": 6.412084293270791e-16
   },
   {
    "m": 30,
@@ -2446,7 +2542,7 @@
    "rank_biserial": -0.5913400758533502,
    "seasons_ref_better": 4,
    "n_seasons": 5,
-   "p_holm": 2.064729725258251e-06
+   "p_holm": 2.2321402435224336e-06
   },
   {
    "m": 30,
@@ -2462,7 +2558,7 @@
    "rank_biserial": -0.8018331226295828,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 1.167113327711771e-11
+   "p_holm": 1.2378474687852116e-11
   },
   {
    "m": 30,
@@ -2478,7 +2574,7 @@
    "rank_biserial": -0.8277496839443742,
    "seasons_ref_better": 4,
    "n_seasons": 5,
-   "p_holm": 1.6455486874404848e-12
+   "p_holm": 1.7321565130952473e-12
   },
   {
    "m": 30,
@@ -2494,7 +2590,7 @@
    "rank_biserial": -0.9355246523388117,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 6.763007429532627e-16
+   "p_holm": 7.101157801009258e-16
   },
   {
    "m": 30,
@@ -2510,7 +2606,7 @@
    "rank_biserial": -0.8356510745891277,
    "seasons_ref_better": 4,
    "n_seasons": 5,
-   "p_holm": 9.858023766776587e-13
+   "p_holm": 1.0350924955115415e-12
   },
   {
    "m": 30,
@@ -2526,7 +2622,7 @@
    "rank_biserial": -0.9388432364096081,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 5.37833651194734e-16
+   "p_holm": 5.637533452282151e-16
   },
   {
    "m": 30,
@@ -2542,7 +2638,7 @@
    "rank_biserial": -0.854614412136536,
    "seasons_ref_better": 4,
    "n_seasons": 5,
-   "p_holm": 2.7445960096062987e-13
+   "p_holm": 2.869350373679312e-13
   },
   {
    "m": 30,
@@ -2558,7 +2654,7 @@
    "rank_biserial": -0.9108723135271808,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 4.3805868197715406e-15
+   "p_holm": 4.617375296515949e-15
   },
   {
    "m": 30,
@@ -2606,7 +2702,7 @@
    "rank_biserial": -0.7575853350189633,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 1.6816348774077927e-10
+   "p_holm": 1.7845921148001065e-10
   },
   {
    "m": 30,
@@ -2622,7 +2718,7 @@
    "rank_biserial": -0.9272727272727272,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 2.3513749818733305e-15
+   "p_holm": 2.4767816475732415e-15
   },
   {
    "m": 30,
@@ -2638,7 +2734,7 @@
    "rank_biserial": -0.6346396965865992,
    "seasons_ref_better": 4,
    "n_seasons": 5,
-   "p_holm": 2.224010720076612e-07
+   "p_holm": 2.3908115240823583e-07
   },
   {
    "m": 30,
@@ -2654,7 +2750,7 @@
    "rank_biserial": -0.4595448798988622,
    "seasons_ref_better": 3,
    "n_seasons": 5,
-   "p_holm": 0.0009236163997909388
+   "p_holm": 0.0009479220945222793
   },
   {
    "m": 30,
@@ -2670,7 +2766,7 @@
    "rank_biserial": -0.5764854614412137,
    "seasons_ref_better": 4,
    "n_seasons": 5,
-   "p_holm": 4.158632136265929e-06
+   "p_holm": 4.515086319374438e-06
   },
   {
    "m": 30,
@@ -2686,7 +2782,7 @@
    "rank_biserial": -0.7778128950695322,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 5.595981677873822e-11
+   "p_holm": 5.957012753865682e-11
   },
   {
    "m": 30,
@@ -2702,7 +2798,7 @@
    "rank_biserial": -0.9390012642225032,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 5.246779356911708e-16
+   "p_holm": 5.502719813346425e-16
   },
   {
    "m": 30,
@@ -2718,7 +2814,39 @@
    "rank_biserial": -0.7695954487989887,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 9.511110336082195e-11
+   "p_holm": 9.97886986080755e-11
+  },
+  {
+   "m": 30,
+   "reference": "lotcp_s",
+   "other": "slopebias_naive",
+   "outcome": "iscore",
+   "n_lots": 112,
+   "mean_diff": -0.2108231171726523,
+   "median_diff": -0.33324594062206736,
+   "ci_lo": -0.35945582736291015,
+   "ci_hi": -0.057682386168928165,
+   "p": 0.0020887424700944276,
+   "rank_biserial": -0.3350189633375474,
+   "seasons_ref_better": 4,
+   "n_seasons": 5,
+   "p_holm": 0.044043587457923535
+  },
+  {
+   "m": 30,
+   "reference": "lotcp_s",
+   "other": "slopebias_naive",
+   "outcome": "abs_cov_err",
+   "n_lots": 112,
+   "mean_diff": -0.028778889814045534,
+   "median_diff": -0.03254999999999986,
+   "ci_lo": -0.03515097845601931,
+   "ci_hi": -0.02265116873812219,
+   "p": 1.1624528909832198e-12,
+   "rank_biserial": -0.7740202275600506,
+   "seasons_ref_better": 5,
+   "n_seasons": 5,
+   "p_holm": 7.555943791390928e-11
   },
   {
    "m": 30,
@@ -2734,7 +2862,7 @@
    "rank_biserial": -0.8075221238938053,
    "seasons_ref_better": 5,
    "n_seasons": 5,
-   "p_holm": 6.564784442731627e-12
+   "p_holm": 6.9228635941533524e-12
   },
   {
    "m": 30,
@@ -2750,7 +2878,7 @@
    "rank_biserial": 0.634007585335019,
    "seasons_ref_better": 1,
    "n_seasons": 5,
-   "p_holm": 2.820822760426965e-07
+   "p_holm": 2.935958383301535e-07
   },
   {
    "m": 30,
@@ -2782,7 +2910,7 @@
    "rank_biserial": 0.6376422250316056,
    "seasons_ref_better": 0,
    "n_seasons": 5,
-   "p_holm": 2.355577428500967e-07
+   "p_holm": 2.449800525641006e-07
   }
  ]
 }

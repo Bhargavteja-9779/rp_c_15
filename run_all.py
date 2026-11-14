@@ -46,6 +46,9 @@ def main():
             robustness.run(cfg, args.jobs)
             from experiments import spiking
             spiking.run(cfg, args.jobs)
+            from experiments import decision, soil_external
+            decision.run(cfg, args.jobs)
+            soil_external.run(cfg)
         elif stage == "analysis":
             from src.statistics import analysis
             analysis.run(cfg)

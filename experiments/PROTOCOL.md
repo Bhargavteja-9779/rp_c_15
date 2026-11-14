@@ -94,3 +94,13 @@ results are always shown because seasons (n = 5) are the top-level cluster.
   lot-fold instead of season-fold residuals) was added because the location-only ablation
   showed that the fold unit matters much less once m > 0. It is reported as an ablation only;
   the designated method (LotCP-S on season-fold residuals) was not changed.
+* D5 (after external validation on the Open Soil Spectral Library, added in revision). The
+  pre-specified empirical-Bayes shrinkage of the bias estimate was immaterial on the mango data
+  (identical coverage and interval score from m = 5) and harmful on the LUCAS 2009 -> 2015 campaign
+  shift, where the between-campaign offset exceeds the between-lot variance seen in the source and
+  shrinkage under-corrects (coverage 0.70 vs 0.87 at m = 5 for pH). Change: the plain mean of the
+  reference residuals is now the default bias estimate of LotCP and LotCP-S; the shrinkage
+  versions are kept and reported as ablations ("+ shrinkage") on every data set. All mango
+  results were recomputed with the new default.
+* D6 (revision). Added: external validation on OSSL vis-NIR soil data (LUCAS, KSSL) and a
+  harvest-decision analysis with one-sided lower bounds.

@@ -17,14 +17,14 @@ LABEL = {
     "cqr_season": "CQR (season folds)", "qrf": "Quantile regression forest", "ensemble": "Deep ensemble",
     "mc_dropout": "MC dropout", "target_only": "Target-only CP", "target_only_centred": "Target-only CP, centred",
     "biascorr_naive": "Bias corr. + source CP", "slopebias_naive": "Slope/bias corr. + source CP", "pooled": "Pooled recalibration", "aci": "ACI on references",
-    "lotcp": "LotCP", "lotcp_s": "LotCP-S", "lotcp_noshrink": "HCP-mean (LotCP w/o shrinkage)",
+    "lotcp": "LotCP", "lotcp_s": "LotCP-S", "lotcp_shrink": "LotCP + shrinkage", "lotcp_s_shrink": "LotCP-S + shrinkage",
     "lotcp_noepisodic": "LotCP w/o episodic quantile", "lotcp_lotfold": "LotCP, lot-fold residuals",
     "lotcp_samplefold": "LotCP, sample-fold residuals", "lotcp_pooled": "LotCP, spectrum-pooled weights",
     "lotcp_s_support": "LotCP-S, reference scale only", "lotcp_s_lotfold": "LotCP-S, lot-fold residuals", "lotcp_s_rep": "LotCP-S, replicate scale only",
 }
 M0 = ["gauss", "scp_sample", "scp_lot", "scp_season", "wcp", "cqr_sample", "cqr_season", "qrf", "ensemble", "mc_dropout", "lotcp", "lotcp_s"]
-MK = ["biascorr_naive", "slopebias_naive", "pooled", "aci", "target_only", "target_only_centred", "lotcp_noshrink", "lotcp", "lotcp_s"]
-ABL = ["lotcp_s", "lotcp_s_support", "lotcp_s_rep", "lotcp_s_lotfold", "lotcp", "lotcp_noshrink", "lotcp_noepisodic", "lotcp_lotfold", "lotcp_samplefold", "lotcp_pooled"]
+MK = ["biascorr_naive", "slopebias_naive", "pooled", "aci", "target_only", "target_only_centred", "lotcp", "lotcp_s"]
+ABL = ["lotcp_s", "lotcp_s_shrink", "lotcp_s_support", "lotcp_s_rep", "lotcp_s_lotfold", "lotcp", "lotcp_shrink", "lotcp_noepisodic", "lotcp_lotfold", "lotcp_samplefold", "lotcp_pooled"]
 
 
 def seed_average(df):
@@ -212,6 +212,26 @@ def run(cfg):
         lotm = z.groupby(["method", "target", "lot"], as_index=False)[["mse", "bias", "coverage", "width"]].mean()
         lotm["rmse"], lotm["abs_bias"] = np.sqrt(lotm["mse"]), lotm["bias"].abs()
         _md(lotm.groupby("method", as_index=False)[["rmse", "abs_bias", "coverage", "width"]].mean(), tdir / "table12_spiking")
+    so = rdir / "soil" / "soil_raw.csv"
+    if so.exists():
+        z = pd.read_csv(so, low_memory=False).replace(np.inf, np.nan)
+        z["target"] = z["split"].astype(str)
+        st = []
+        for task, g in z.groupby("task"):
+            s_ = summarise(g, cfg)
+            s_.insert(0, "task", task)
+            st.append(s_)
+        _md(pd.concat(st, ignore_index=True), tdir / "table13_soil")
+        _md(pd.read_csv(rdir / "soil" / "soil_point.csv"), tdir / "table13b_soil_point")
+        stt = []
+        for task, g in z.groupby("task"):
+            t_ = paired_tests(g[g.method.isin(["lotcp_s", "lotcp_s_shrink", "biascorr_naive", "target_only_centred", "slopebias_naive"])], cfg, alpha_nom=a0)
+            t_.insert(0, "task", task)
+            stt.append(t_)
+        _md(pd.concat(stt, ignore_index=True), tdir / "table13c_soil_tests", floatfmt="%.4g")
+    dc = rdir / "robustness" / "decision_summary.csv"
+    if dc.exists():
+        _md(pd.read_csv(dc), tdir / "table14_decision")
     # total cross-fitting cost per target (PLS), i.e. the price of season-held-out residuals
     import glob
     cf = [json.load(open(f)) for f in glob.glob(str(rdir / "predictions" / "*_forward_*.json")) if "uq_" not in f]
@@ -221,7 +241,7 @@ def run(cfg):
     # generalisation: other predictors (forward) and the leave-one-season-out protocol
     gen = []
     for (model, protocol), g in d[np.isclose(d.alpha, a0)].groupby(["model", "protocol"]):
-        s = summarise(g, cfg, {"scp_sample", "scp_season", "lotcp", "lotcp_s", "target_only_centred", "biascorr_naive"})
+        s = summarise(g, cfg, {"scp_sample", "scp_season", "lotcp", "lotcp_s", "lotcp_s_shrink", "target_only_centred", "biascorr_naive"})
         s.insert(0, "protocol", protocol); s.insert(0, "model", model)
         gen.append(s)
     gen = pd.concat(gen, ignore_index=True)

@@ -26,16 +26,17 @@ from src.utils import get_logger, out_dir
 
 # LotCP variants: name -> (residual scheme, constructor overrides).  'lotcp' is the full method.
 LOTCP_VARIANTS = {
-    "lotcp": ("season", {}),
-    "lotcp_noshrink": ("season", {"shrink": False}),
+    "lotcp": ("season", {}),                                 # location only (plain mean correction)
+    "lotcp_s": ("season", {"scale": "full"}),               # LotCP-S: + lot-specific scale (reported method)
+    "lotcp_shrink": ("season", {"shrink": True}),           # ablation: empirical-Bayes shrinkage of the bias
+    "lotcp_s_shrink": ("season", {"scale": "full", "shrink": True}),
+    "lotcp_s_support": ("season", {"scale": "support"}),    # scale from reference samples only
+    "lotcp_s_rep": ("season", {"scale": "rep"}),            # scale from replicate scans only
+    "lotcp_s_lotfold": ("lot", {"scale": "full"}),          # LotCP-S on lot-fold residuals
     "lotcp_noepisodic": ("season", {"episodic": False}),
     "lotcp_lotfold": ("lot", {}),
     "lotcp_samplefold": ("sample", {}),
     "lotcp_pooled": ("season", {"lot_balanced": False}),
-    "lotcp_s": ("season", {"scale": "full"}),               # LotCP-S: + lot-specific scale
-    "lotcp_s_support": ("season", {"scale": "support"}),    # scale from reference samples only
-    "lotcp_s_rep": ("season", {"scale": "rep"}),            # scale from replicate scans only
-    "lotcp_s_lotfold": ("lot", {"scale": "full"}),          # LotCP-S on lot-fold residuals
 }
 
 
@@ -55,11 +56,12 @@ def _metrics(r, b, q, w, alpha, margin):
 
 def evaluate(cfg, model, seed, protocol, target, alpha, variants=None, m_grid=None, label_noise_sd=0.0,
              keep_mask=None, lot_filter=None, n_draws=None, cal_lots_k=None, cal_rep=0, baselines=True,
-             unit="lot"):
+             unit="lot", data=None, P=None):
     """Return (interval rows, point rows, calibration info) for one configuration."""
     ev = cfg["eval"]
-    d = load_data(cfg)
-    P = np.load(pred_path(cfg, model, seed, protocol, target))
+    d = load_data(cfg) if data is None else data          # `data`/`P` let external data sets reuse this loop
+    P = np.load(pred_path(cfg, model, seed, protocol, target)) if P is None else P
+    files = P.files if hasattr(P, "files") else list(P)
     src, tgt = P["src_idx"], P["tgt_idx"]
     y_s, y_t = d.y[src], d.y[tgt]
     lot_s, smp_s = d.lot[src], d.sample[src]
@@ -69,7 +71,7 @@ def evaluate(cfg, model, seed, protocol, target, alpha, variants=None, m_grid=No
         lot_s = lot_s.astype(np.int64) * 100000 + inst[src]
         lot_t = lot_t.astype(np.int64) * 100000 + inst[tgt]
     r_t = y_t - P["pred_tgt"]
-    res = {s: y_s - P[f"oof_{s}"] for s in ("sample", "lot", "season") if f"oof_{s}" in P.files}
+    res = {s: y_s - P[f"oof_{s}"] for s in ("sample", "lot", "season") if f"oof_{s}" in files}
     ks, kt = np.ones(len(src), bool), np.ones(len(tgt), bool)
     if keep_mask is not None:                       # sensitivity analyses on row subsets
         ks, kt = keep_mask[src], keep_mask[tgt]
@@ -256,7 +258,7 @@ def _one(cfg, c):
         with open(cache, "rb") as fh:
             return pickle.load(fh)
     full = c[0] == "pls" and c[2] == "forward"
-    variants = None if full else {k: LOTCP_VARIANTS[k] for k in ("lotcp", "lotcp_s")}
+    variants = None if full else {k: LOTCP_VARIANTS[k] for k in ("lotcp", "lotcp_s", "lotcp_s_shrink")}
     rows, prow, info = evaluate(cfg, *c, variants=variants)
     res = (rows, prow, dict(model=c[0], seed=c[1], protocol=c[2], target=c[3], alpha=c[4], calib=info))
     with open(cache, "wb") as fh:

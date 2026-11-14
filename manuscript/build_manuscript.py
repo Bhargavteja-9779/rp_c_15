@@ -167,6 +167,34 @@ class R:
         t = self.t["table11b_crossfit_cost"]
         return float(t[t.model == model][field].iloc[0])
 
+    # ---- external soil data -----------------------------------------------------------------
+    def soil(self, task, method, m, field="coverage"):
+        t = self.t["table13_soil"]
+        g = t[(t.task == task) & (t.method == method) & (t.m == m)]
+        return float(g[field].iloc[0])
+
+    def soilp(self, task, field):
+        t = self.t["table13b_soil_point"]
+        g = t[t.task == task]
+        return float(g[field].mean()) if field not in ("n_source", "n_target", "target_lots", "source_lots") else int(g[field].sum() if task == "kssl_oc" and field in ("n_target", "target_lots") else g[field].mean())
+
+    def soiltest(self, task, other, m):
+        t = self.t["table13c_soil_tests"]
+        return t[(t.task == task) & (t.other == other) & (t.m == m) & (t.outcome == "iscore")].iloc[0]
+
+    def soilpv(self, task, other, m):
+        v = float(self.soiltest(task, other, m).p_holm)
+        return "< 0.001" if v < 0.001 else f"= {v:.3f}"
+
+    # ---- decision analysis ------------------------------------------------------------------
+    def dec(self, rule, m, thr, field):
+        t = self.t["table14_decision"]
+        g = t[(t.rule == rule) & (t.m == m) & np.isclose(t.threshold, thr)]
+        return float(g[field].iloc[0])
+
+    def decp(self, rule, m, thr, field):
+        return f"{100 * self.dec(rule, m, thr, field):.0f}"
+
     def point(self, m, correction, field="rmse"):
         t = self.t["table9_point_correction"]
         return float(t[(t.m == m) & (t.correction == correction)][field].iloc[0])
@@ -222,7 +250,7 @@ def tables(r: R) -> dict:
                        "unless the method has its own model. Coverage is the lot-macro mean with a bootstrap 95% CI; under-covered lots have coverage below 0.80. "
                        "Width and interval score in % DMC.", {"Under-covered lots (%)": "{:.0f}", "Width": "{:.2f}", "Interval score": "{:.2f}"})
 
-    order = ["biascorr_naive", "slopebias_naive", "pooled", "aci", "target_only", "target_only_centred", "lotcp_noshrink", "lotcp", "lotcp_s"]
+    order = ["biascorr_naive", "slopebias_naive", "pooled", "aci", "target_only", "target_only_centred", "lotcp", "lotcp_s"]
     rows = []
     for k in order:
         row = {"Method": LABEL[k]}
@@ -246,7 +274,7 @@ def tables(r: R) -> dict:
 
     ab = r.t["table5_ablation"]
     rows = []
-    for k in ["lotcp_s", "lotcp_s_support", "lotcp_s_rep", "lotcp_s_lotfold", "lotcp", "lotcp_noshrink", "lotcp_noepisodic", "lotcp_lotfold", "lotcp_samplefold", "lotcp_pooled"]:
+    for k in ["lotcp_s", "lotcp_s_shrink", "lotcp_s_support", "lotcp_s_rep", "lotcp_s_lotfold", "lotcp", "lotcp_shrink", "lotcp_noepisodic", "lotcp_lotfold", "lotcp_samplefold", "lotcp_pooled"]:
         row = {"Variant": LABEL[k]}
         for m in (0, 3, 10, 30):
             g = ab[(ab.method == k) & (ab.m == m)]
@@ -256,7 +284,7 @@ def tables(r: R) -> dict:
 
     tt = r.t["table6_tests"]
     rows = []
-    for other in ("biascorr_naive", "target_only_centred", "lotcp_noshrink", "lotcp"):
+    for other in ("biascorr_naive", "target_only_centred", "lotcp_s_shrink", "lotcp"):
         for m in (3, 5, 10, 20, 30):
             g = tt[(tt.other == other) & (tt.m == m) & (tt.outcome == "iscore")]
             if g.empty:
@@ -319,6 +347,35 @@ def tables(r: R) -> dict:
                     rows.append({"Nominal": f"{nominal:.2f}", "Method": f"{LABEL[k]} (m={m})", "Coverage": g.coverage.iloc[0], "Width": g.width.iloc[0]})
         T["alpha"] = _pipe(pd.DataFrame(rows), "Table 10. Other nominal levels (PLS, forward chaining).", {"Width": "{:.2f}"})
 
+    if "table13_soil" in r.t:
+        so, rows = r.t["table13_soil"], []
+        names = {"lucas_oc": "LUCAS organic C, 2009 → 2015", "lucas_ph": "LUCAS pH, 2009 → 2015", "kssl_oc": "KSSL total C, held-out projects"}
+        for task, name in names.items():
+            for k, m in (("scp_sample", 0), ("scp_lot", 0), ("biascorr_naive", 5), ("lotcp_s_shrink", 5), ("lotcp", 5), ("lotcp_s", 5),
+                         ("biascorr_naive", 10), ("slopebias_naive", 10), ("target_only_centred", 10), ("lotcp_s_shrink", 10), ("lotcp", 10), ("lotcp_s", 10),
+                         ("target_only_centred", 20), ("lotcp_s", 20)):
+                g = so[(so.task == task) & (so.method == k) & (so.m == m)]
+                if g.empty:
+                    continue
+                rows.append({"Data set and task": name, "Method": f"{LABEL[k]} (m={m})", "Lots": int(g.n_lots.iloc[0]), "Coverage": g.coverage.iloc[0],
+                             "Under-covered lots (%)": 100 * g.under.iloc[0], "Width": g.width.iloc[0], "Interval score": g.iscore.iloc[0]})
+        T["soil"] = _pipe(pd.DataFrame(rows), "Table 12. External validation on vis–NIR soil spectra (PLS, nominal 0.90). Carbon is modelled as log(1 + %); widths and "
+                          "interval scores are in the units of the modelled quantity. Calibration residuals are held out by lot (grid cell or project).",
+                          {"Under-covered lots (%)": "{:.0f}", "Width": "{:.2f}", "Interval score": "{:.2f}"})
+    if "table14_decision" in r.t:
+        dc, rows = r.t["table14_decision"], []
+        lab = {"point": "Point prediction ≥ t", "scp_lower": "Split-CP lower bound ≥ t", "point_bc": "Bias-corrected point prediction ≥ t", "lotcp_s_lower": "LotCP-S lower bound ≥ t"}
+        for k, m in (("point", 0), ("scp_lower", 0), ("lotcp_s_lower", 0), ("point_bc", 5), ("lotcp_s_lower", 5), ("point_bc", 10), ("lotcp_s_lower", 10), ("lotcp_s_lower", 20)):
+            g = dc[(dc.rule == k) & (dc.m == m) & np.isclose(dc.threshold, 15.0)]
+            if g.empty:
+                continue
+            g = g.iloc[0]
+            rows.append({"Acceptance rule": f"{lab[k]} (m={m})", "Coverage of lower bound": g.lower_cov if k not in ("point", "point_bc") else np.nan,
+                         "Accepted (%)": 100 * g.accepted, "Non-compliant among accepted (%)": 100 * g.false_accept_share,
+                         "Lots with > 10 % non-compliant (%)": 100 * g.lots_over_10pct, "Compliant fruit accepted (%)": 100 * g["yield"]})
+        T["decision"] = _pipe(pd.DataFrame(rows), "Table 13. Harvest decision against a minimum dry-matter specification t = 15 % (PLS, forward chaining, one-sided nominal level 0.90). "
+                              "A fruit is accepted when the rule's statistic is at least t; it is compliant when its reference DMC is at least t.",
+                              {c: "{:.0f}" for c in ("Accepted (%)", "Non-compliant among accepted (%)", "Lots with > 10 % non-compliant (%)", "Compliant fruit accepted (%)")})
     p2 = r.t["table2_point_models_by_seed"]
     cost = p2.groupby("model").agg(fit=("fit_seconds", "mean"), pred=("predict_ms_per_1000", "mean")).reindex(["pls", "gbm", "cnn"])
     rows = [{"Component": {"pls": "PLS fit (final model)", "gbm": "LightGBM fit", "cnn": "1D-CNN fit (20 epochs)"}[k], "Time": f"{v.fit:.1f} s",

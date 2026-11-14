@@ -7,6 +7,7 @@ import matplotlib
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+import matplotlib.ticker
 import numpy as np
 import pandas as pd
 
@@ -21,7 +22,7 @@ C = {"blue": "#2a78d6", "orange": "#eb6834", "aqua": "#1baf7a", "yellow": "#eda1
 STYLE = {  # method -> (colour, marker, linestyle)
     "scp_sample": (C["red"], "s", "--"), "scp_lot": (C["yellow"], "D", "--"), "scp_season": (C["orange"], "^", "--"),
     "biascorr_naive": (C["magenta"], "v", "-"), "target_only_centred": (C["violet"], "P", "-"),
-    "lotcp_noshrink": (C["aqua"], "X", "-"), "lotcp": (C["green"], "o", "-"), "lotcp_s": (C["blue"], "o", "-"),
+    "lotcp_shrink": (C["aqua"], "X", "-"), "lotcp_s_shrink": (C["aqua"], "X", "--"), "lotcp": (C["green"], "o", "-"), "lotcp_s": (C["blue"], "o", "-"),
     "pooled": (C["yellow"], "D", "-"), "aci": (C["orange"], "^", "-"), "target_only": (C["red"], "s", "-"),
 }
 
@@ -54,11 +55,11 @@ def fig_workflow(fdir):
 
     box(1, 24, 20, 13, "Past seasons\n(lots × samples × scans)\nwith reference DMC", "#e8f1fc")
     box(26, 24, 21, 13, "Season-held-out\nresiduals\n(leave-one-season-out)", "#e8f1fc")
-    box(52, 28, 21, 9, "Variance components\nτ², σ², e₀", "#e8f1fc")
+    box(52, 28, 21, 9, "Variance components\nσ², e₀", "#e8f1fc")
     box(52, 16, 21, 9, "Replay m-shot protocol\non every past lot", "#e8f1fc")
     box(78, 20, 21, 13, "Lot-balanced\nconformal quantile\nq(m)", "#e8f1fc")
     box(1, 3, 20, 13, "New lot, later season:\nall fruit scanned,\nm reference samples", "#fdeee6")
-    box(26, 3, 21, 13, "Shrunk bias b̂\nlot scale ŝ\n(references + replicate scans)", "#fdeee6")
+    box(26, 3, 21, 13, "Lot bias b̂, lot scale ŝ\n(references +\nreplicate scans)", "#fdeee6")
     box(78, 3, 21, 13, "Interval\nŷ + b̂ ± q(m)·ŝ", "#e6f6ee")
     arrow(21, 30.5, 26, 30.5); arrow(47, 32, 52, 32.5); arrow(47, 28, 52, 21.5); arrow(73, 32.5, 78, 29); arrow(73, 20.5, 78, 24)
     arrow(21, 9.5, 26, 9.5); arrow(47, 9.5, 78, 9.5); arrow(88.5, 20, 88.5, 16); arrow(62.5, 28, 40, 16)
@@ -122,7 +123,7 @@ def fig_main(cfg, fdir, d):
     main = d[(d.model == "pls") & (d.protocol == "forward") & np.isclose(d.alpha, a0)]
     s = summarise(main, cfg)
     fig, axes = plt.subplots(1, 3, figsize=(7.2, 2.7))
-    for method in ("biascorr_naive", "target_only_centred", "lotcp_noshrink", "lotcp", "lotcp_s"):
+    for method in ("biascorr_naive", "target_only_centred", "lotcp", "lotcp_s"):
         g = s[(s.method == method) & (s.frac_infinite < 0.5)]
         for ax, col in zip(axes, ("coverage", "width", "iscore")):
             _curve(ax, g, method, col)
@@ -167,7 +168,7 @@ def fig_lot_coverage(cfg, fdir, d):
 def fig_ablation(cfg, fdir, d):
     a0 = cfg["eval"]["primary_alpha"]
     main = d[(d.model == "pls") & (d.protocol == "forward") & np.isclose(d.alpha, a0)]
-    order = ["lotcp_s", "lotcp_s_support", "lotcp_s_rep", "lotcp_s_lotfold", "lotcp", "lotcp_noshrink", "lotcp_noepisodic", "lotcp_lotfold", "lotcp_samplefold", "lotcp_pooled"]
+    order = ["lotcp_s", "lotcp_s_shrink", "lotcp_s_support", "lotcp_s_rep", "lotcp_s_lotfold", "lotcp", "lotcp_shrink", "lotcp_noepisodic", "lotcp_lotfold", "lotcp_samplefold", "lotcp_pooled"]
     s = summarise(main, cfg, set(order))
     fig, axes = plt.subplots(1, 2, figsize=(7.2, 3.0), sharey=True)
     for ax, m in zip(axes, (5, 20)):
@@ -264,6 +265,53 @@ def fig_error(cfg, fdir):
     fig.tight_layout(); _save(fig, fdir, "fig9_error_analysis")
 
 
+def fig_soil(cfg, fdir):
+    p = out_dir(cfg, "results/soil") / "soil_raw.csv"
+    if not p.exists():
+        return
+    r = pd.read_csv(p, low_memory=False).replace(np.inf, np.nan)
+    a0 = cfg["eval"]["primary_alpha"]
+    names = {"lucas_oc": "LUCAS organic C\n2009 → 2015", "lucas_ph": "LUCAS pH\n2009 → 2015", "kssl_oc": "KSSL total C\nheld-out projects"}
+    fig, axes = plt.subplots(1, 3, figsize=(7.2, 2.6), sharey=True)
+    for ax, (task, title) in zip(axes, names.items()):
+        g = r[r.task == task]
+        if g.empty:
+            continue
+        for method in ("biascorr_naive", "target_only_centred", "lotcp_s_shrink", "lotcp", "lotcp_s"):
+            x = g[g.method == method].groupby("m").agg(c=("coverage", "mean"), inf=("frac_infinite", "mean")).reset_index()
+            x = x[x.inf.fillna(0) < 0.5]
+            c, mk, ls = STYLE[method]
+            ax.plot(x.m, x.c, color=c, marker=mk, ls=ls, label=LABEL[method])
+        v = g[(g.method == "scp_sample") & (g.m == 0)].coverage.mean()
+        ax.axhline(v, color=STYLE["scp_sample"][0], ls="--", lw=1.2, label=LABEL["scp_sample"] + " (m = 0)")
+        ax.axhline(1 - a0, color=C["ink"], lw=0.8, ls=":")
+        ax.set(title=title, xlabel="Reference samples per lot, m")
+    axes[0].set_ylabel("Lot-macro coverage")
+    h, l = axes[0].get_legend_handles_labels()
+    fig.legend(h, l, loc="lower center", ncol=3, bbox_to_anchor=(0.5, -0.16))
+    fig.tight_layout(); _save(fig, fdir, "fig10_soil")
+
+
+def fig_decision(cfg, fdir):
+    p = out_dir(cfg, "results/robustness") / "decision_summary.csv"
+    if not p.exists():
+        return
+    d = pd.read_csv(p)
+    d = d[np.isclose(d.threshold, 15.0)]
+    items = [("point", 0, "Point prediction", C["red"]), ("scp_lower", 0, "Split-CP lower bound", C["orange"]), ("point_bc", 10, "Bias-corrected point (m = 10)", C["magenta"]),
+             ("lotcp_s_lower", 5, "LotCP-S lower bound (m = 5)", C["aqua"]), ("lotcp_s_lower", 10, "LotCP-S lower bound (m = 10)", C["blue"])]
+    fig, axes = plt.subplots(1, 3, figsize=(7.2, 2.5))
+    for ax, (col, lab) in zip(axes, (("false_accept_share", "Non-compliant share of accepted fruit"), ("lots_over_10pct", "Lots with > 10 % non-compliant\namong accepted"), ("yield", "Share of compliant fruit accepted"))):
+        vals = [float(d[(d.rule == k) & (d.m == m)][col].iloc[0]) for k, m, _, _ in items]
+        ax.barh(range(len(items))[::-1], vals, color=[c for *_, c in items], height=0.6)
+        for y, v in zip(range(len(items))[::-1], vals):
+            ax.text(v + 0.01 * max(vals), y, f"{100 * v:.0f} %", va="center", fontsize=7, color=C["ink"])
+        ax.set_yticks(range(len(items))[::-1]); ax.set_yticklabels([lab_ for _, _, lab_, _ in items] if ax is axes[0] else [], fontsize=6.5)
+        ax.set_title(lab, fontsize=8); ax.set_xlim(0, max(vals) * 1.25); ax.grid(axis="y", visible=False)
+        ax.xaxis.set_major_formatter(matplotlib.ticker.PercentFormatter(1.0, decimals=0))
+    fig.tight_layout(); _save(fig, fdir, "fig11_decision")
+
+
 def fig_training(cfg, fdir):
     fig, ax = plt.subplots(figsize=(3.5, 2.4))
     cols = [C["blue"], C["orange"], C["aqua"], C["violet"], C["magenta"]]
@@ -282,7 +330,7 @@ def run(cfg):
     fdir = out_dir(cfg, "figures")
     d = seed_average(pd.read_csv(out_dir(cfg, "results") / "raw_results.csv"))
     fig_workflow(fdir); fig_data(cfg, fdir); fig_lot_bias(cfg, fdir); fig_main(cfg, fdir, d); fig_lot_coverage(cfg, fdir, d)
-    fig_ablation(cfg, fdir, d); fig_generalisation(cfg, fdir, d); fig_robustness(cfg, fdir); fig_error(cfg, fdir); fig_training(cfg, fdir)
+    fig_ablation(cfg, fdir, d); fig_generalisation(cfg, fdir, d); fig_robustness(cfg, fdir); fig_error(cfg, fdir); fig_soil(cfg, fdir); fig_decision(cfg, fdir); fig_training(cfg, fdir)
     log.info("figures written to %s", fdir)
 
 

@@ -351,16 +351,15 @@ def tables(r: R) -> dict:
         so, rows = r.t["table13_soil"], []
         names = {"lucas_oc": "LUCAS organic C, 2009 → 2015", "lucas_ph": "LUCAS pH, 2009 → 2015", "kssl_oc": "KSSL total C, held-out projects"}
         for task, name in names.items():
-            for k, m in (("scp_sample", 0), ("scp_lot", 0), ("biascorr_naive", 5), ("lotcp_s_shrink", 5), ("lotcp", 5), ("lotcp_s", 5),
-                         ("biascorr_naive", 10), ("slopebias_naive", 10), ("target_only_centred", 10), ("lotcp_s_shrink", 10), ("lotcp", 10), ("lotcp_s", 10),
-                         ("target_only_centred", 20), ("lotcp_s", 20)):
+            for k, m in (("scp_sample", 0), ("scp_lot", 0), ("lotcp_s", 5), ("biascorr_naive", 10), ("slopebias_naive", 10),
+                         ("target_only_centred", 10), ("lotcp_s_shrink", 10), ("lotcp_s", 10), ("lotcp_s", 20)):
                 g = so[(so.task == task) & (so.method == k) & (so.m == m)]
                 if g.empty:
                     continue
                 rows.append({"Data set and task": name, "Method": f"{LABEL[k]} (m={m})", "Lots": int(g.n_lots.iloc[0]), "Coverage": g.coverage.iloc[0],
                              "Under-covered lots (%)": 100 * g.under.iloc[0], "Width": g.width.iloc[0], "Interval score": g.iscore.iloc[0]})
         T["soil"] = _pipe(pd.DataFrame(rows), "Table 12. External validation on vis–NIR soil spectra (PLS, nominal 0.90). Carbon is modelled as log(1 + %); widths and "
-                          "interval scores are in the units of the modelled quantity. Calibration residuals are held out by lot (grid cell or project).",
+                          "interval scores are in the units of the modelled quantity. Calibration residuals are held out by lot (grid cell or project). All methods and m: supplementary table S13.",
                           {"Under-covered lots (%)": "{:.0f}", "Width": "{:.2f}", "Interval score": "{:.2f}"})
     if "table14_decision" in r.t:
         dc, rows = r.t["table14_decision"], []

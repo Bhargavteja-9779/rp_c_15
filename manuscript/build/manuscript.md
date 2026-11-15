@@ -499,48 +499,33 @@ The experiments so far use one fruit and one instrument family. We therefore rep
 |---|---:|---:|---:|---:|---:|---:|
 | LUCAS organic C, 2009 → 2015 | Split CP (sample folds) (m=0) | 467 | 0.628 | 73 | 1.03 | 3.00 |
 | LUCAS organic C, 2009 → 2015 | Split CP (lot folds) (m=0) | 467 | 0.635 | 70 | 1.04 | 2.97 |
-| LUCAS organic C, 2009 → 2015 | Bias corr. + source CP (m=5) | 467 | 0.879 | 19 | 1.03 | 1.59 |
-| LUCAS organic C, 2009 → 2015 | LotCP-S + shrinkage (m=5) | 467 | 0.846 | 29 | 1.02 | 1.73 |
-| LUCAS organic C, 2009 → 2015 | LotCP (m=5) | 467 | 0.880 | 18 | 1.04 | 1.59 |
 | LUCAS organic C, 2009 → 2015 | LotCP-S (m=5) | 467 | 0.888 | 16 | 1.05 | 1.55 |
 | LUCAS organic C, 2009 → 2015 | Bias corr. + source CP (m=10) | 467 | 0.891 | 15 | 1.03 | 1.52 |
 | LUCAS organic C, 2009 → 2015 | Slope/bias corr. + source CP (m=10) | 467 | 0.885 | 17 | 1.03 | 1.61 |
 | LUCAS organic C, 2009 → 2015 | Target-only CP, centred (m=10) | 467 | 0.906 | 14 | 1.26 | 1.64 |
 | LUCAS organic C, 2009 → 2015 | LotCP-S + shrinkage (m=10) | 467 | 0.875 | 19 | 1.01 | 1.57 |
-| LUCAS organic C, 2009 → 2015 | LotCP (m=10) | 467 | 0.882 | 18 | 0.99 | 1.52 |
 | LUCAS organic C, 2009 → 2015 | LotCP-S (m=10) | 467 | 0.892 | 14 | 1.01 | 1.48 |
-| LUCAS organic C, 2009 → 2015 | Target-only CP, centred (m=20) | 330 | 0.906 | 12 | 1.06 | 1.43 |
 | LUCAS organic C, 2009 → 2015 | LotCP-S (m=20) | 330 | 0.899 | 11 | 0.97 | 1.38 |
 | LUCAS pH, 2009 → 2015 | Split CP (sample folds) (m=0) | 467 | 0.395 | 96 | 1.94 | 9.61 |
 | LUCAS pH, 2009 → 2015 | Split CP (lot folds) (m=0) | 467 | 0.397 | 96 | 1.95 | 9.57 |
-| LUCAS pH, 2009 → 2015 | Bias corr. + source CP (m=5) | 467 | 0.854 | 24 | 1.94 | 3.08 |
-| LUCAS pH, 2009 → 2015 | LotCP-S + shrinkage (m=5) | 467 | 0.698 | 73 | 1.91 | 4.42 |
-| LUCAS pH, 2009 → 2015 | LotCP (m=5) | 467 | 0.867 | 20 | 2.01 | 3.05 |
 | LUCAS pH, 2009 → 2015 | LotCP-S (m=5) | 467 | 0.872 | 18 | 2.03 | 3.00 |
 | LUCAS pH, 2009 → 2015 | Bias corr. + source CP (m=10) | 467 | 0.872 | 19 | 1.94 | 2.89 |
 | LUCAS pH, 2009 → 2015 | Slope/bias corr. + source CP (m=10) | 467 | 0.893 | 14 | 1.94 | 2.77 |
 | LUCAS pH, 2009 → 2015 | Target-only CP, centred (m=10) | 467 | 0.907 | 14 | 2.52 | 3.19 |
 | LUCAS pH, 2009 → 2015 | LotCP-S + shrinkage (m=10) | 467 | 0.797 | 45 | 1.92 | 3.43 |
-| LUCAS pH, 2009 → 2015 | LotCP (m=10) | 467 | 0.870 | 19 | 1.93 | 2.90 |
 | LUCAS pH, 2009 → 2015 | LotCP-S (m=10) | 467 | 0.878 | 16 | 1.97 | 2.86 |
-| LUCAS pH, 2009 → 2015 | Target-only CP, centred (m=20) | 330 | 0.905 | 12 | 2.25 | 2.94 |
 | LUCAS pH, 2009 → 2015 | LotCP-S (m=20) | 330 | 0.885 | 14 | 1.97 | 2.83 |
 | KSSL total C, held-out projects | Split CP (sample folds) (m=0) | 79 | 0.881 | 15 | 1.34 | 2.19 |
 | KSSL total C, held-out projects | Split CP (lot folds) (m=0) | 79 | 0.895 | 13 | 1.42 | 2.19 |
-| KSSL total C, held-out projects | Bias corr. + source CP (m=5) | 79 | 0.864 | 22 | 1.34 | 2.19 |
-| KSSL total C, held-out projects | LotCP-S + shrinkage (m=5) | 79 | 0.913 | 7 | 1.50 | 2.05 |
-| KSSL total C, held-out projects | LotCP (m=5) | 79 | 0.913 | 10 | 1.60 | 2.18 |
 | KSSL total C, held-out projects | LotCP-S (m=5) | 79 | 0.914 | 8 | 1.56 | 2.10 |
 | KSSL total C, held-out projects | Bias corr. + source CP (m=10) | 79 | 0.878 | 17 | 1.34 | 2.09 |
 | KSSL total C, held-out projects | Slope/bias corr. + source CP (m=10) | 79 | 0.895 | 12 | 1.34 | 2.02 |
 | KSSL total C, held-out projects | Target-only CP, centred (m=10) | 79 | 0.907 | 13 | 1.71 | 2.23 |
 | KSSL total C, held-out projects | LotCP-S + shrinkage (m=10) | 79 | 0.916 | 7 | 1.48 | 2.01 |
-| KSSL total C, held-out projects | LotCP (m=10) | 79 | 0.913 | 10 | 1.54 | 2.10 |
 | KSSL total C, held-out projects | LotCP-S (m=10) | 79 | 0.916 | 6 | 1.50 | 2.02 |
-| KSSL total C, held-out projects | Target-only CP, centred (m=20) | 79 | 0.904 | 9 | 1.49 | 2.02 |
 | KSSL total C, held-out projects | LotCP-S (m=20) | 79 | 0.913 | 6 | 1.44 | 1.97 |
 
-Table: Table 12. External validation on vis–NIR soil spectra (PLS, nominal 0.90). Carbon is modelled as log(1 + %); widths and interval scores are in the units of the modelled quantity. Calibration residuals are held out by lot (grid cell or project).
+Table: Table 12. External validation on vis–NIR soil spectra (PLS, nominal 0.90). Carbon is modelled as log(1 + %); widths and interval scores are in the units of the modelled quantity. Calibration residuals are held out by lot (grid cell or project). All methods and m: supplementary table S13.
 
 
 ![Fig. 10. Lot-macro coverage on the soil data as a function of the number of local reference samples (PLS, nominal 0.90, dotted line). Dashed line: split conformal prediction with sample folds and no reference samples.](figures/fig10_soil.png){width=6.5in}
@@ -551,7 +536,7 @@ Table: Table 12. External validation on vis–NIR soil spectra (PLS, nominal 0.9
 
 *Comparison with the alternatives.* On LUCAS organic carbon LotCP-S has a lower interval score than bias correction with the source quantile and slope/bias correction at $m=5$, 10 and 20, and than centred target-only calibration at $m=10$ and 20 (Holm-adjusted p ≤ 0.003 against the first two; p < 0.001 and < 0.001 against the third; supplementary table S13c). On LUCAS pH it is better than bias correction at $m=5$ and 10 (p < 0.001 and = 0.021) and not different at $m=20$ (p = 0.204); slope/bias correction has a numerically lower score from $m=10$, a difference that is not significant. On KSSL it does not differ from bias correction at $m=5$ and 10 (p = 1.000 and = 1.000) and is better at $m=20$ (p = 0.024); slope/bias correction has the numerically best score there at $m=20$. Bias correction with the source quantile under-covers on all three soil tasks (0.878, 0.891 and 0.872 at $m=10$), where it over-covered with PLS on mango: its coverage is again not under control. Centred target-only calibration is valid and wider, as before. Since soil samples have a single spectrum, these comparisons involve no replicate-scan information; the advantage of LotCP-S on LUCAS comes from calibrating the half-width for the estimation error and from the reference-sample scale.
 
-*Shrinkage fails under a campaign shift.* The pre-specified shrinkage variant covers only 0.70 for pH and 0.85 for organic carbon at $m=5$, against 0.87 and 0.89 with the plain mean. The between-lot variance estimated inside the 2009 campaign is small, so the shrinkage weight is low and the estimate is pulled towards the 2009 mean, which the 2015 campaign has left. On KSSL, where lots are exchangeable, shrinkage gives a small gain at $m=5$ (interval score 2.05 against 2.10). Shrinkage thus helps a little when its assumption holds and fails badly when it does not, and the user cannot know in advance which case applies. This is why the reported method does not use it.
+*Shrinkage fails under a campaign shift.* The pre-specified shrinkage variant covers only 0.70 for pH and 0.85 for organic carbon at $m=5$, against 0.87 and 0.89 with the plain mean (supplementary table S13). The between-lot variance estimated inside the 2009 campaign is small, so the shrinkage weight is low and the estimate is pulled towards the 2009 mean, which the 2015 campaign has left. On KSSL, where lots are exchangeable, shrinkage gives a small gain at $m=5$ (interval score 2.05 against 2.10). Shrinkage thus helps a little when its assumption holds and fails badly when it does not, and the user cannot know in advance which case applies. This is why the reported method does not use it.
 
 Taken together, the soil data reproduce the three main findings on independent material: intervals calibrated within the source population lose coverage on a new population, drastically so across survey campaigns; a handful of local reference samples restores most of the coverage; and LotCP-S is not significantly worse than any competing method at $m\le10$ and is significantly better where the shift is large. They also show a limit: under a between-campaign change of residual scale, coverage remains a few points short of nominal.
 

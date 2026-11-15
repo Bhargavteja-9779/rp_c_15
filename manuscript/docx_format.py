@@ -106,7 +106,7 @@ def postprocess(path: Path, title: str):
         ncol = len(t.columns)
         t.autofit = False
         heads = [c.text.strip() for c in t.rows[0].cells]
-        wide = {"Method", "Variant", "Condition", "Component", "LotCP-S versus", "Predictor, protocol", "Per 1000 scans at deployment"}
+        wide = {"Data set and task", "Acceptance rule", "Method", "Variant", "Condition", "Component", "LotCP-S versus", "Predictor, protocol", "Per 1000 scans at deployment"}
         is_wide = [h in wide for h in heads]
         n_wide = max(sum(is_wide), 1)
         w_wide = min(5.2, 9.0 / n_wide) if ncol >= 4 else 16.0 / ncol

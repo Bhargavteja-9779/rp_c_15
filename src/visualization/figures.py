@@ -22,7 +22,7 @@ C = {"blue": "#2a78d6", "orange": "#eb6834", "aqua": "#1baf7a", "yellow": "#eda1
 STYLE = {  # method -> (colour, marker, linestyle)
     "scp_sample": (C["red"], "s", "--"), "scp_lot": (C["yellow"], "D", "--"), "scp_season": (C["orange"], "^", "--"),
     "biascorr_naive": (C["magenta"], "v", "-"), "target_only_centred": (C["violet"], "P", "-"),
-    "lotcp_shrink": (C["aqua"], "X", "-"), "lotcp_s_shrink": (C["aqua"], "X", "--"), "lotcp": (C["green"], "o", "-"), "lotcp_s": (C["blue"], "o", "-"),
+    "lotcp_a": (C["violet"], "D", "-"), "lotcp_a20": (C["violet"], "D", "--"), "lotcp_shrink": (C["aqua"], "X", "-"), "lotcp_s_shrink": (C["aqua"], "X", "--"), "lotcp": (C["green"], "o", "-"), "lotcp_s": (C["blue"], "o", "-"),
     "pooled": (C["yellow"], "D", "-"), "aci": (C["orange"], "^", "-"), "target_only": (C["red"], "s", "-"),
 }
 
@@ -312,6 +312,29 @@ def fig_decision(cfg, fdir):
     fig.tight_layout(); _save(fig, fdir, "fig11_decision")
 
 
+def fig_assurance(cfg, fdir, d):
+    """Lot-level assurance: share of lots whose realised coverage reaches the nominal level."""
+    a0 = cfg["eval"]["primary_alpha"]
+    main = d[(d.model == "pls") & (d.protocol == "forward") & np.isclose(d.alpha, a0)]
+    if "meets" not in main or "lotcp_a" not in set(main.method):
+        return
+    s = summarise(main, cfg, {"biascorr_naive", "target_only_centred", "lotcp_s", "lotcp_a", "lotcp_a20"})
+    style = {"biascorr_naive": STYLE["biascorr_naive"], "target_only_centred": (C["orange"], "P", "-"), "lotcp_s": STYLE["lotcp_s"],
+             "lotcp_a20": STYLE["lotcp_a20"], "lotcp_a": STYLE["lotcp_a"]}
+    fig, axes = plt.subplots(1, 2, figsize=(7.2, 2.7))
+    for method, (c, mk, ls) in style.items():
+        g = s[(s.method == method) & (s.frac_infinite < 0.5) & (s.m > 0)].sort_values("m")
+        axes[0].plot(g.m, g.meets, color=c, marker=mk, ls=ls, label=LABEL[method])
+        axes[1].plot(g.m, g.width, color=c, marker=mk, ls=ls)
+    axes[0].axhline(0.9, color=C["ink"], lw=0.8, ls=":"); axes[0].axhline(0.8, color=C["ink"], lw=0.8, ls=":")
+    axes[0].text(30, 0.905, "target for δ = 0.10", ha="right", fontsize=6.5); axes[0].text(30, 0.805, "target for δ = 0.20", ha="right", fontsize=6.5)
+    axes[0].set(xlabel="Reference samples per lot, m", ylabel="Share of lot-draws with\ncoverage ≥ 0.90", title="(a) Lots reaching the nominal coverage")
+    axes[1].set(xlabel="Reference samples per lot, m", ylabel="Mean interval width (% DMC)", title="(b) Price in width")
+    h, l = axes[0].get_legend_handles_labels()
+    fig.legend(h, l, loc="lower center", ncol=5, bbox_to_anchor=(0.5, -0.08))
+    fig.tight_layout(); _save(fig, fdir, "fig12_assurance")
+
+
 def fig_training(cfg, fdir):
     fig, ax = plt.subplots(figsize=(3.5, 2.4))
     cols = [C["blue"], C["orange"], C["aqua"], C["violet"], C["magenta"]]
@@ -330,7 +353,7 @@ def run(cfg):
     fdir = out_dir(cfg, "figures")
     d = seed_average(pd.read_csv(out_dir(cfg, "results") / "raw_results.csv"))
     fig_workflow(fdir); fig_data(cfg, fdir); fig_lot_bias(cfg, fdir); fig_main(cfg, fdir, d); fig_lot_coverage(cfg, fdir, d)
-    fig_ablation(cfg, fdir, d); fig_generalisation(cfg, fdir, d); fig_robustness(cfg, fdir); fig_error(cfg, fdir); fig_soil(cfg, fdir); fig_decision(cfg, fdir); fig_training(cfg, fdir)
+    fig_ablation(cfg, fdir, d); fig_generalisation(cfg, fdir, d); fig_robustness(cfg, fdir); fig_error(cfg, fdir); fig_soil(cfg, fdir); fig_decision(cfg, fdir); fig_assurance(cfg, fdir, d); fig_training(cfg, fdir)
     log.info("figures written to %s", fdir)
 
 

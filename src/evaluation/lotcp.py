@@ -12,6 +12,9 @@ Given residuals of *past* lots that were produced by models which had not seen t
      predictions in the lot,
   3. obtains the interval half-width by *replaying* exactly that m-shot procedure on every past
      lot (episodes) and taking a lot-balanced conformal quantile of |r - b_hat|.
+With `assure=delta` (LotCP-A) step 3 instead takes the (1 - delta) quantile over past lots of each
+lot's own (1 - alpha) score quantile, so that the realised coverage *within* a new lot is at least
+1 - alpha with probability >= 1 - delta over lots.
 Under exchangeability of lots (and of samples within lots) step 3 yields marginal coverage
 >= 1 - alpha for a random sample of a new lot, for every m, because the m-shot score of the test
 lot is exchangeable with the m-shot scores of the calibration lots.
@@ -73,6 +76,7 @@ class LotCP:
     lot_balanced: bool = True  # False: every spectrum weighted equally
     scale: str = "none"        # 'none' | 'support' | 'rep' | 'full' (lot-specific score scale)
     nu_grid: tuple = (5, 10, 20, 40)
+    assure: float | None = None     # delta: calibrate so that a lot's realised coverage is >= 1 - alpha with prob. >= 1 - delta
     side: str = "two"               # 'two': |r - b| / s (interval);  'lower': (b - r) / s (one-sided lower bound)
     split_constants: bool = False   # True: constants from one random half of the lots, quantile from the other
     seed: int = 0
@@ -133,7 +137,7 @@ class LotCP:
         scaled = self.scale != "none"
         grid = self.nu_grid if not self.split_constants else (10,)      # no data-driven choice when splitting
         for nu0 in (grid if self.scale in ("support", "full") and self.m >= 2 else (None,)):
-            sc, wt, scales = [], [], []
+            sc, wt, scales, lotq, lotw = [], [], [], [], []
             for L, sup, ep_w in episodes:
                 qmask = np.ones(len(L.s_mean), bool)
                 qmask[sup] = False
@@ -144,7 +148,13 @@ class LotCP:
                 sc.append((np.abs(e) if self.side == "two" else -e) / s_hat)
                 wt.append(self._w_query(L, qmask)[rows] * ep_w)
                 scales.append(s_hat)
-            q = weighted_quantile(np.concatenate(sc), np.concatenate(wt), 1 - self.alpha, inf_mass=1.0)
+                if self.assure is not None:          # the lot's own (1 - alpha) score quantile in this episode
+                    lotq.append(weighted_quantile(sc[-1], wt[-1], 1 - self.alpha))
+                    lotw.append(ep_w)
+            if self.assure is None:
+                q = weighted_quantile(np.concatenate(sc), np.concatenate(wt), 1 - self.alpha, inf_mass=1.0)
+            else:                                    # (1 - delta) quantile over lots of the lot-wise quantiles
+                q = weighted_quantile(np.array(lotq), np.array(lotw), 1 - self.assure, inf_mass=1.0)
             width = q * float(np.mean(scales))
             if best is None or width < best[0]:
                 best = (width, nu0, q)

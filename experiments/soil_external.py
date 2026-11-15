@@ -24,7 +24,7 @@ from src.utils import get_logger, out_dir, save_json
 
 GRID = (10, 15, 20, 25, 30)
 SG = dict(sg_window=11, sg_poly=2, sg_deriv=1)
-VARIANTS = {k: LOTCP_VARIANTS[k] for k in ("lotcp", "lotcp_s", "lotcp_shrink", "lotcp_s_shrink")}
+VARIANTS = {k: LOTCP_VARIANTS[k] for k in ("lotcp", "lotcp_s", "lotcp_shrink", "lotcp_s_shrink", "lotcp_a")}
 
 
 def _gkf(groups, k, seed):

@@ -62,6 +62,14 @@ Suppose the predictor and the constants $(\hat\mu,\hat\sigma^2,e_0,\nu_0)$ are f
 
 The assumptions are not met exactly in our use. (i) Calibration residuals come from season-held-out predictors, not from the deployed predictor. (ii) The constants are estimated from the calibration lots themselves. (iii) Lots of a future season are not exchangeable with past lots if the new season differs systematically; season-held-out residuals emulate such a difference but cannot guarantee that the next one is of the same size. (iv) The guarantee is marginal over lots; it does not promise the nominal coverage within each lot [@barber2021limits]. The experiments measure how much these gaps matter.
 
-## 4.8 Computational cost
+## 4.8 Lot-level assurance (LotCP-A)
+
+A marginal guarantee averages over lots: some lots are covered above the nominal level and others below it, and a grower harvests one lot at a time. A statement about the lot itself is more useful: *in at least a fraction $1-\delta$ of lots, at least a fraction $1-\alpha$ of the fruit is covered*. The lot structure makes such a statement available. For a lot $k$ and a reference draw $e$, let $Q_{ke}$ be the weighted $(1-\alpha)$ quantile of the scores of Eq. (5) over the non-reference scans of that lot, with the within-lot weights of Eq. (6). The interval of Eq. (7) with multiplier $q$ covers at least $1-\alpha$ of those scans exactly when $q\ge Q_{ke}$. LotCP-A therefore replaces Eq. (6) by a quantile over lots of the lot-wise quantiles,
+
+$$\hat q^{\,A}_m = Q_{1-\delta}\Big(\sum_{k=1}^{K_m}\frac{1}{K_m+1}\sum_{e=1}^{E}\frac1E\,\delta_{Q_{ke}}+\frac{1}{K_m+1}\,\delta_{+\infty}\Big). \qquad\text{(8)}$$
+
+If the calibration lots and the new lot are exchangeable, including their numbers of samples and scans, then $Q$ of the new lot is exchangeable with the calibration values, and by the same argument as in Section 4.7 the realised coverage among the non-reference scans of the new lot is at least $1-\alpha$ with probability at least $1-\delta$ over lots and reference draws. This is a guarantee of the probably-approximately-correct type, in the spirit of prediction sets that hold for most tasks in meta-learning [@park2022] and of the second-moment coverage of Lee et al. [@lee2023]; here the task is a harvest lot and the few-shot adaptation is the bias and scale correction. It concerns the scanned fruit of the lot, not a hypothetical infinite population, and it is subject to the same caveats as the marginal guarantee. We use $\delta=0.10$ and, for comparison, $\delta=0.20$, with $1-\alpha=0.90$. A unit test of the released code checks the statement on simulated lots that differ in bias and scale.
+
+## 4.9 Computational cost
 
 Calibration needs one additional model fit per source season, which is done once and offline. The episodic quantile costs $O(K E N)$ score evaluations for $N$ scans per lot. At deployment the method computes two means and one variance per lot.

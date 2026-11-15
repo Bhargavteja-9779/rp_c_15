@@ -104,3 +104,7 @@ results are always shown because seasons (n = 5) are the top-level cluster.
   results were recomputed with the new default.
 * D6 (revision). Added: external validation on OSSL vis-NIR soil data (LUCAS, KSSL) and a
   harvest-decision analysis with one-sided lower bounds.
+* D7 (revision). Added LotCP-A (lot-level assurance, Eq. 8): the (1 - delta) quantile over past lots of
+  each lot's own (1 - alpha) score quantile, delta = 0.10 and 0.20. Outcome metric added: share of
+  lot-draws whose realised coverage is >= 1 - alpha. Motivation: 8 % of lot-draws remained below 0.80
+  coverage under the marginal method.

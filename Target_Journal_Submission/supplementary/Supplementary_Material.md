@@ -74,51 +74,45 @@ Table: Table S2. Point predictors: every seed and target season (RMSE, bias, R²
 | mc_dropout | MC dropout | 0 | 137 | 0.775 | 0.740 | 0.805 | 0.431 | 3.085 | 6.142 | 0.000 |
 | lotcp | LotCP | 0 | 137 | 0.899 | 0.868 | 0.926 | 0.124 | 5.448 | 7.293 | 0.000 |
 | lotcp_s | LotCP-S | 0 | 137 | 0.894 | 0.862 | 0.922 | 0.139 | 5.394 | 7.260 | 0.000 |
-| lotcp_noshrink | HCP-mean (LotCP w/o shrinkage) | 0 | 137 | 0.899 | 0.868 | 0.926 | 0.124 | 5.448 | 7.293 | 0.000 |
-| lotcp | LotCP | 3 | 137 | 0.923 | 0.909 | 0.936 | 0.114 | 4.181 | 5.322 | 0.000 |
-| lotcp_s | LotCP-S | 3 | 137 | 0.919 | 0.908 | 0.929 | 0.093 | 3.765 | 4.860 | 0.000 |
+| lotcp | LotCP | 3 | 137 | 0.924 | 0.910 | 0.937 | 0.111 | 4.255 | 5.398 | 0.000 |
+| lotcp_s | LotCP-S | 3 | 137 | 0.921 | 0.909 | 0.931 | 0.089 | 3.828 | 4.906 | 0.000 |
 | biascorr_naive | Bias corr. + source CP | 3 | 137 | 0.921 | 0.908 | 0.934 | 0.090 | 3.828 | 4.957 | 0.000 |
 | pooled | Pooled recalibration | 3 | 137 | 0.823 | 0.787 | 0.855 | 0.279 | 3.829 | 6.808 | 0.000 |
 | aci | ACI on references | 3 | 137 | 0.873 | 0.856 | 0.890 | 0.208 | 4.056 | 5.943 | 0.018 |
 | target_only | Target-only CP | 3 | 137 | 1.000 | 1.000 | 1.000 | 0.000 | nan | nan | 1.000 |
 | target_only_centred | Target-only CP, centred | 3 | 137 | 1.000 | 1.000 | 1.000 | 0.000 | nan | nan | 1.000 |
-| lotcp_noshrink | HCP-mean (LotCP w/o shrinkage) | 3 | 137 | 0.924 | 0.910 | 0.937 | 0.111 | 4.255 | 5.398 | 0.000 |
-| lotcp | LotCP | 5 | 137 | 0.925 | 0.911 | 0.937 | 0.107 | 4.063 | 5.155 | 0.000 |
-| lotcp_s | LotCP-S | 5 | 137 | 0.918 | 0.907 | 0.927 | 0.087 | 3.565 | 4.629 | 0.000 |
+| lotcp | LotCP | 5 | 137 | 0.925 | 0.911 | 0.938 | 0.108 | 4.087 | 5.177 | 0.000 |
+| lotcp_s | LotCP-S | 5 | 137 | 0.920 | 0.911 | 0.929 | 0.078 | 3.603 | 4.620 | 0.000 |
 | biascorr_naive | Bias corr. + source CP | 5 | 137 | 0.931 | 0.918 | 0.943 | 0.069 | 3.828 | 4.797 | 0.000 |
 | slopebias_naive | Slope/bias corr. + source CP | 5 | 137 | 0.915 | 0.902 | 0.928 | 0.118 | 3.828 | 5.464 | 0.000 |
 | pooled | Pooled recalibration | 5 | 137 | 0.823 | 0.788 | 0.855 | 0.276 | 3.829 | 6.805 | 0.000 |
 | aci | ACI on references | 5 | 137 | 0.894 | 0.882 | 0.905 | 0.158 | 4.078 | 5.777 | 0.056 |
 | target_only | Target-only CP | 5 | 137 | 1.000 | 1.000 | 1.000 | 0.000 | nan | nan | 1.000 |
 | target_only_centred | Target-only CP, centred | 5 | 137 | 1.000 | 1.000 | 1.000 | 0.000 | nan | nan | 1.000 |
-| lotcp_noshrink | HCP-mean (LotCP w/o shrinkage) | 5 | 137 | 0.925 | 0.911 | 0.938 | 0.108 | 4.087 | 5.177 | 0.000 |
-| lotcp | LotCP | 10 | 137 | 0.926 | 0.912 | 0.939 | 0.104 | 3.966 | 5.015 | 0.000 |
-| lotcp_s | LotCP-S | 10 | 137 | 0.919 | 0.909 | 0.928 | 0.077 | 3.446 | 4.460 | 0.000 |
+| lotcp | LotCP | 10 | 137 | 0.927 | 0.912 | 0.939 | 0.102 | 3.972 | 5.015 | 0.000 |
+| lotcp_s | LotCP-S | 10 | 137 | 0.919 | 0.909 | 0.928 | 0.076 | 3.451 | 4.457 | 0.000 |
 | biascorr_naive | Bias corr. + source CP | 10 | 137 | 0.938 | 0.926 | 0.949 | 0.052 | 3.828 | 4.685 | 0.000 |
 | slopebias_naive | Slope/bias corr. + source CP | 10 | 137 | 0.941 | 0.929 | 0.951 | 0.059 | 3.828 | 4.746 | 0.000 |
 | pooled | Pooled recalibration | 10 | 137 | 0.823 | 0.788 | 0.855 | 0.278 | 3.830 | 6.801 | 0.000 |
 | aci | ACI on references | 10 | 137 | 0.914 | 0.905 | 0.922 | 0.093 | 4.159 | 5.625 | 0.091 |
 | target_only | Target-only CP | 10 | 137 | 0.957 | 0.954 | 0.960 | 0.027 | 5.645 | 6.083 | 0.000 |
 | target_only_centred | Target-only CP, centred | 10 | 137 | 0.956 | 0.953 | 0.959 | 0.029 | 4.634 | 5.118 | 0.000 |
-| lotcp_noshrink | HCP-mean (LotCP w/o shrinkage) | 10 | 137 | 0.927 | 0.912 | 0.939 | 0.102 | 3.972 | 5.015 | 0.000 |
-| lotcp | LotCP | 20 | 129 | 0.930 | 0.917 | 0.942 | 0.106 | 3.895 | 4.860 | 0.000 |
-| lotcp_s | LotCP-S | 20 | 129 | 0.918 | 0.910 | 0.926 | 0.056 | 3.285 | 4.255 | 0.000 |
+| lotcp | LotCP | 20 | 129 | 0.930 | 0.917 | 0.941 | 0.108 | 3.898 | 4.860 | 0.000 |
+| lotcp_s | LotCP-S | 20 | 129 | 0.918 | 0.910 | 0.926 | 0.055 | 3.286 | 4.252 | 0.000 |
 | biascorr_naive | Bias corr. + source CP | 20 | 129 | 0.945 | 0.934 | 0.954 | 0.039 | 3.821 | 4.577 | 0.000 |
 | slopebias_naive | Slope/bias corr. + source CP | 20 | 129 | 0.953 | 0.944 | 0.962 | 0.034 | 3.821 | 4.505 | 0.000 |
 | pooled | Pooled recalibration | 20 | 129 | 0.822 | 0.784 | 0.856 | 0.279 | 3.824 | 6.806 | 0.000 |
 | aci | ACI on references | 20 | 129 | 0.917 | 0.911 | 0.923 | 0.070 | 4.176 | 5.503 | 0.095 |
 | target_only | Target-only CP | 20 | 129 | 0.931 | 0.929 | 0.933 | 0.030 | 4.717 | 5.391 | 0.000 |
 | target_only_centred | Target-only CP, centred | 20 | 129 | 0.932 | 0.930 | 0.933 | 0.030 | 3.577 | 4.286 | 0.000 |
-| lotcp_noshrink | HCP-mean (LotCP w/o shrinkage) | 20 | 129 | 0.930 | 0.917 | 0.941 | 0.108 | 3.898 | 4.860 | 0.000 |
-| lotcp | LotCP | 30 | 112 | 0.921 | 0.907 | 0.935 | 0.127 | 3.738 | 4.856 | 0.000 |
-| lotcp_s | LotCP-S | 30 | 112 | 0.914 | 0.906 | 0.923 | 0.059 | 3.277 | 4.315 | 0.000 |
+| lotcp | LotCP | 30 | 112 | 0.921 | 0.907 | 0.935 | 0.131 | 3.741 | 4.856 | 0.000 |
+| lotcp_s | LotCP-S | 30 | 112 | 0.914 | 0.906 | 0.923 | 0.059 | 3.276 | 4.312 | 0.000 |
 | biascorr_naive | Bias corr. + source CP | 30 | 112 | 0.941 | 0.930 | 0.952 | 0.047 | 3.809 | 4.636 | 0.000 |
 | slopebias_naive | Slope/bias corr. + source CP | 30 | 112 | 0.952 | 0.942 | 0.962 | 0.035 | 3.809 | 4.526 | 0.000 |
 | pooled | Pooled recalibration | 30 | 112 | 0.827 | 0.791 | 0.861 | 0.277 | 3.813 | 6.778 | 0.000 |
 | aci | ACI on references | 30 | 112 | 0.914 | 0.909 | 0.919 | 0.076 | 4.164 | 5.447 | 0.096 |
 | target_only | Target-only CP | 30 | 112 | 0.921 | 0.919 | 0.922 | 0.037 | 4.527 | 5.328 | 0.000 |
 | target_only_centred | Target-only CP, centred | 30 | 112 | 0.921 | 0.919 | 0.922 | 0.037 | 3.402 | 4.251 | 0.000 |
-| lotcp_noshrink | HCP-mean (LotCP w/o shrinkage) | 30 | 112 | 0.921 | 0.907 | 0.935 | 0.131 | 3.741 | 4.856 | 0.000 |
 
 Table: Table S3. All interval methods, all m (PLS, forward chaining, nominal 0.90), with bootstrap CIs.
 
@@ -134,17 +128,17 @@ Table: Table S3. All interval methods, all m (PLS, forward chaining, nominal 0.9
 | biascorr_naive | 20 | 0.945 | 0.937 | 0.955 | 0.920 | 0.956 | 0.948 |
 | biascorr_naive | 30 | 0.941 | 0.929 | 0.951 | 0.918 | 0.956 | 0.940 |
 | lotcp | 0 | 0.899 | 0.840 | 0.929 | 0.821 | 0.985 | 0.877 |
-| lotcp | 3 | 0.923 | 0.881 | 0.950 | 0.853 | 0.984 | 0.912 |
-| lotcp | 5 | 0.925 | 0.884 | 0.951 | 0.855 | 0.984 | 0.914 |
-| lotcp | 10 | 0.926 | 0.886 | 0.953 | 0.857 | 0.984 | 0.916 |
-| lotcp | 20 | 0.930 | 0.889 | 0.954 | 0.868 | 0.984 | 0.917 |
+| lotcp | 3 | 0.924 | 0.882 | 0.951 | 0.854 | 0.985 | 0.913 |
+| lotcp | 5 | 0.925 | 0.884 | 0.952 | 0.856 | 0.985 | 0.914 |
+| lotcp | 10 | 0.927 | 0.887 | 0.953 | 0.857 | 0.985 | 0.916 |
+| lotcp | 20 | 0.930 | 0.889 | 0.954 | 0.868 | 0.984 | 0.916 |
 | lotcp | 30 | 0.921 | 0.874 | 0.950 | 0.859 | 0.980 | 0.903 |
 | lotcp_s | 0 | 0.894 | 0.835 | 0.915 | 0.786 | 0.980 | 0.865 |
-| lotcp_s | 3 | 0.919 | 0.887 | 0.935 | 0.878 | 0.966 | 0.906 |
-| lotcp_s | 5 | 0.918 | 0.890 | 0.932 | 0.880 | 0.958 | 0.908 |
-| lotcp_s | 10 | 0.919 | 0.893 | 0.933 | 0.882 | 0.957 | 0.910 |
-| lotcp_s | 20 | 0.918 | 0.899 | 0.927 | 0.894 | 0.944 | 0.910 |
-| lotcp_s | 30 | 0.914 | 0.896 | 0.922 | 0.882 | 0.936 | 0.904 |
+| lotcp_s | 3 | 0.921 | 0.889 | 0.937 | 0.878 | 0.967 | 0.909 |
+| lotcp_s | 5 | 0.920 | 0.893 | 0.933 | 0.887 | 0.959 | 0.910 |
+| lotcp_s | 10 | 0.919 | 0.893 | 0.934 | 0.882 | 0.957 | 0.911 |
+| lotcp_s | 20 | 0.918 | 0.899 | 0.928 | 0.895 | 0.944 | 0.910 |
+| lotcp_s | 30 | 0.914 | 0.897 | 0.922 | 0.881 | 0.936 | 0.904 |
 | scp_sample | 0 | 0.823 | 0.781 | 0.843 | 0.760 | 0.884 | 0.806 |
 | scp_season | 0 | 0.900 | 0.839 | 0.931 | 0.819 | 0.987 | 0.877 |
 | target_only_centred | 3 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 | 1.000 |
@@ -159,217 +153,111 @@ Table: Table S4b. Leave-one-season-out jackknife of the pooled lot-macro coverag
 | method | label | m | n_lots | coverage | cov_lo | cov_hi | under | width | iscore | frac_infinite |
 |---|---|---|---|---|---|---|---|---|---|---|
 | lotcp | LotCP | 0 | 137 | 0.899 | 0.868 | 0.926 | 0.124 | 5.448 | 7.293 | 0.000 |
-| lotcp | LotCP | 3 | 137 | 0.923 | 0.909 | 0.936 | 0.114 | 4.181 | 5.322 | 0.000 |
-| lotcp | LotCP | 5 | 137 | 0.925 | 0.911 | 0.937 | 0.107 | 4.063 | 5.155 | 0.000 |
-| lotcp | LotCP | 10 | 137 | 0.926 | 0.912 | 0.939 | 0.104 | 3.966 | 5.015 | 0.000 |
-| lotcp | LotCP | 20 | 129 | 0.930 | 0.917 | 0.942 | 0.106 | 3.895 | 4.860 | 0.000 |
-| lotcp | LotCP | 30 | 112 | 0.921 | 0.907 | 0.935 | 0.127 | 3.738 | 4.856 | 0.000 |
+| lotcp | LotCP | 3 | 137 | 0.924 | 0.910 | 0.937 | 0.111 | 4.255 | 5.398 | 0.000 |
+| lotcp | LotCP | 5 | 137 | 0.925 | 0.911 | 0.938 | 0.108 | 4.087 | 5.177 | 0.000 |
+| lotcp | LotCP | 10 | 137 | 0.927 | 0.912 | 0.939 | 0.102 | 3.972 | 5.015 | 0.000 |
+| lotcp | LotCP | 20 | 129 | 0.930 | 0.917 | 0.941 | 0.108 | 3.898 | 4.860 | 0.000 |
+| lotcp | LotCP | 30 | 112 | 0.921 | 0.907 | 0.935 | 0.131 | 3.741 | 4.856 | 0.000 |
 | lotcp_lotfold | LotCP, lot-fold residuals | 0 | 137 | 0.846 | 0.813 | 0.877 | 0.241 | 4.114 | 6.777 | 0.000 |
-| lotcp_lotfold | LotCP, lot-fold residuals | 3 | 137 | 0.886 | 0.870 | 0.901 | 0.174 | 3.300 | 4.886 | 0.000 |
-| lotcp_lotfold | LotCP, lot-fold residuals | 5 | 137 | 0.888 | 0.872 | 0.903 | 0.167 | 3.215 | 4.727 | 0.000 |
-| lotcp_lotfold | LotCP, lot-fold residuals | 10 | 137 | 0.891 | 0.875 | 0.906 | 0.164 | 3.133 | 4.585 | 0.000 |
-| lotcp_lotfold | LotCP, lot-fold residuals | 20 | 129 | 0.893 | 0.878 | 0.908 | 0.176 | 3.071 | 4.439 | 0.000 |
-| lotcp_lotfold | LotCP, lot-fold residuals | 30 | 112 | 0.884 | 0.868 | 0.901 | 0.208 | 3.023 | 4.554 | 0.000 |
+| lotcp_lotfold | LotCP, lot-fold residuals | 3 | 137 | 0.889 | 0.873 | 0.904 | 0.163 | 3.390 | 4.960 | 0.000 |
+| lotcp_lotfold | LotCP, lot-fold residuals | 5 | 137 | 0.890 | 0.874 | 0.905 | 0.165 | 3.254 | 4.755 | 0.000 |
+| lotcp_lotfold | LotCP, lot-fold residuals | 10 | 137 | 0.892 | 0.875 | 0.907 | 0.166 | 3.148 | 4.591 | 0.000 |
+| lotcp_lotfold | LotCP, lot-fold residuals | 20 | 129 | 0.893 | 0.878 | 0.908 | 0.177 | 3.076 | 4.439 | 0.000 |
+| lotcp_lotfold | LotCP, lot-fold residuals | 30 | 112 | 0.884 | 0.868 | 0.901 | 0.211 | 3.023 | 4.553 | 0.000 |
 | lotcp_noepisodic | LotCP w/o episodic quantile | 0 | 137 | 0.782 | 0.746 | 0.817 | 0.394 | 3.778 | 7.884 | 0.000 |
-| lotcp_noepisodic | LotCP w/o episodic quantile | 3 | 137 | 0.902 | 0.887 | 0.917 | 0.175 | 3.799 | 5.230 | 0.000 |
-| lotcp_noepisodic | LotCP w/o episodic quantile | 5 | 137 | 0.911 | 0.896 | 0.925 | 0.152 | 3.799 | 5.082 | 0.000 |
-| lotcp_noepisodic | LotCP w/o episodic quantile | 10 | 137 | 0.918 | 0.903 | 0.931 | 0.135 | 3.799 | 4.960 | 0.000 |
-| lotcp_noepisodic | LotCP w/o episodic quantile | 20 | 129 | 0.925 | 0.912 | 0.937 | 0.125 | 3.800 | 4.822 | 0.000 |
-| lotcp_noepisodic | LotCP w/o episodic quantile | 30 | 112 | 0.918 | 0.904 | 0.932 | 0.142 | 3.673 | 4.833 | 0.000 |
-| lotcp_noshrink | HCP-mean (LotCP w/o shrinkage) | 0 | 137 | 0.899 | 0.868 | 0.926 | 0.124 | 5.448 | 7.293 | 0.000 |
-| lotcp_noshrink | HCP-mean (LotCP w/o shrinkage) | 3 | 137 | 0.924 | 0.910 | 0.937 | 0.111 | 4.255 | 5.398 | 0.000 |
-| lotcp_noshrink | HCP-mean (LotCP w/o shrinkage) | 5 | 137 | 0.925 | 0.911 | 0.938 | 0.108 | 4.087 | 5.177 | 0.000 |
-| lotcp_noshrink | HCP-mean (LotCP w/o shrinkage) | 10 | 137 | 0.927 | 0.912 | 0.939 | 0.102 | 3.972 | 5.015 | 0.000 |
-| lotcp_noshrink | HCP-mean (LotCP w/o shrinkage) | 20 | 129 | 0.930 | 0.917 | 0.941 | 0.108 | 3.898 | 4.860 | 0.000 |
-| lotcp_noshrink | HCP-mean (LotCP w/o shrinkage) | 30 | 112 | 0.921 | 0.907 | 0.935 | 0.131 | 3.741 | 4.856 | 0.000 |
+| lotcp_noepisodic | LotCP w/o episodic quantile | 3 | 137 | 0.899 | 0.883 | 0.914 | 0.183 | 3.799 | 5.298 | 0.000 |
+| lotcp_noepisodic | LotCP w/o episodic quantile | 5 | 137 | 0.909 | 0.894 | 0.924 | 0.157 | 3.799 | 5.104 | 0.000 |
+| lotcp_noepisodic | LotCP w/o episodic quantile | 10 | 137 | 0.917 | 0.903 | 0.931 | 0.138 | 3.799 | 4.963 | 0.000 |
+| lotcp_noepisodic | LotCP w/o episodic quantile | 20 | 129 | 0.925 | 0.912 | 0.937 | 0.126 | 3.800 | 4.820 | 0.000 |
+| lotcp_noepisodic | LotCP w/o episodic quantile | 30 | 112 | 0.918 | 0.904 | 0.932 | 0.144 | 3.673 | 4.832 | 0.000 |
 | lotcp_pooled | LotCP, spectrum-pooled weights | 0 | 137 | 0.897 | 0.867 | 0.924 | 0.124 | 5.327 | 7.173 | 0.000 |
-| lotcp_pooled | LotCP, spectrum-pooled weights | 3 | 137 | 0.927 | 0.913 | 0.940 | 0.101 | 4.154 | 5.237 | 0.000 |
-| lotcp_pooled | LotCP, spectrum-pooled weights | 5 | 137 | 0.930 | 0.916 | 0.942 | 0.090 | 4.048 | 5.071 | 0.000 |
-| lotcp_pooled | LotCP, spectrum-pooled weights | 10 | 137 | 0.931 | 0.917 | 0.944 | 0.084 | 3.952 | 4.937 | 0.000 |
-| lotcp_pooled | LotCP, spectrum-pooled weights | 20 | 129 | 0.935 | 0.922 | 0.946 | 0.080 | 3.883 | 4.786 | 0.000 |
-| lotcp_pooled | LotCP, spectrum-pooled weights | 30 | 112 | 0.930 | 0.917 | 0.943 | 0.092 | 3.881 | 4.885 | 0.000 |
+| lotcp_pooled | LotCP, spectrum-pooled weights | 3 | 137 | 0.929 | 0.915 | 0.941 | 0.096 | 4.238 | 5.316 | 0.000 |
+| lotcp_pooled | LotCP, spectrum-pooled weights | 5 | 137 | 0.931 | 0.917 | 0.943 | 0.090 | 4.088 | 5.101 | 0.000 |
+| lotcp_pooled | LotCP, spectrum-pooled weights | 10 | 137 | 0.932 | 0.918 | 0.944 | 0.086 | 3.966 | 4.942 | 0.000 |
+| lotcp_pooled | LotCP, spectrum-pooled weights | 20 | 129 | 0.935 | 0.923 | 0.946 | 0.080 | 3.888 | 4.787 | 0.000 |
+| lotcp_pooled | LotCP, spectrum-pooled weights | 30 | 112 | 0.930 | 0.917 | 0.943 | 0.092 | 3.885 | 4.886 | 0.000 |
 | lotcp_s | LotCP-S | 0 | 137 | 0.894 | 0.862 | 0.922 | 0.139 | 5.394 | 7.260 | 0.000 |
-| lotcp_s | LotCP-S | 3 | 137 | 0.919 | 0.908 | 0.929 | 0.093 | 3.765 | 4.860 | 0.000 |
-| lotcp_s | LotCP-S | 5 | 137 | 0.918 | 0.907 | 0.927 | 0.087 | 3.565 | 4.629 | 0.000 |
-| lotcp_s | LotCP-S | 10 | 137 | 0.919 | 0.909 | 0.928 | 0.077 | 3.446 | 4.460 | 0.000 |
-| lotcp_s | LotCP-S | 20 | 129 | 0.918 | 0.910 | 0.926 | 0.056 | 3.285 | 4.255 | 0.000 |
-| lotcp_s | LotCP-S | 30 | 112 | 0.914 | 0.906 | 0.923 | 0.059 | 3.277 | 4.315 | 0.000 |
+| lotcp_s | LotCP-S | 3 | 137 | 0.921 | 0.909 | 0.931 | 0.089 | 3.828 | 4.906 | 0.000 |
+| lotcp_s | LotCP-S | 5 | 137 | 0.920 | 0.911 | 0.929 | 0.078 | 3.603 | 4.620 | 0.000 |
+| lotcp_s | LotCP-S | 10 | 137 | 0.919 | 0.909 | 0.928 | 0.076 | 3.451 | 4.457 | 0.000 |
+| lotcp_s | LotCP-S | 20 | 129 | 0.918 | 0.910 | 0.926 | 0.055 | 3.286 | 4.252 | 0.000 |
+| lotcp_s | LotCP-S | 30 | 112 | 0.914 | 0.906 | 0.923 | 0.059 | 3.276 | 4.312 | 0.000 |
 | lotcp_s_lotfold | LotCP-S, lot-fold residuals | 0 | 137 | 0.861 | 0.826 | 0.892 | 0.190 | 4.422 | 6.797 | 0.000 |
-| lotcp_s_lotfold | LotCP-S, lot-fold residuals | 3 | 137 | 0.902 | 0.890 | 0.913 | 0.118 | 3.457 | 4.724 | 0.000 |
-| lotcp_s_lotfold | LotCP-S, lot-fold residuals | 5 | 137 | 0.906 | 0.896 | 0.916 | 0.098 | 3.368 | 4.527 | 0.000 |
-| lotcp_s_lotfold | LotCP-S, lot-fold residuals | 10 | 137 | 0.908 | 0.898 | 0.917 | 0.082 | 3.256 | 4.355 | 0.000 |
-| lotcp_s_lotfold | LotCP-S, lot-fold residuals | 20 | 129 | 0.909 | 0.900 | 0.918 | 0.071 | 3.171 | 4.232 | 0.000 |
-| lotcp_s_lotfold | LotCP-S, lot-fold residuals | 30 | 112 | 0.908 | 0.900 | 0.918 | 0.071 | 3.206 | 4.305 | 0.000 |
+| lotcp_s_lotfold | LotCP-S, lot-fold residuals | 3 | 137 | 0.905 | 0.893 | 0.916 | 0.109 | 3.528 | 4.763 | 0.000 |
+| lotcp_s_lotfold | LotCP-S, lot-fold residuals | 5 | 137 | 0.907 | 0.897 | 0.917 | 0.094 | 3.387 | 4.529 | 0.000 |
+| lotcp_s_lotfold | LotCP-S, lot-fold residuals | 10 | 137 | 0.908 | 0.899 | 0.917 | 0.079 | 3.268 | 4.357 | 0.000 |
+| lotcp_s_lotfold | LotCP-S, lot-fold residuals | 20 | 129 | 0.909 | 0.900 | 0.918 | 0.071 | 3.172 | 4.234 | 0.000 |
+| lotcp_s_lotfold | LotCP-S, lot-fold residuals | 30 | 112 | 0.908 | 0.900 | 0.917 | 0.070 | 3.207 | 4.304 | 0.000 |
 | lotcp_s_rep | LotCP-S, replicate scale only | 0 | 137 | 0.894 | 0.862 | 0.922 | 0.139 | 5.394 | 7.260 | 0.000 |
-| lotcp_s_rep | LotCP-S, replicate scale only | 3 | 137 | 0.920 | 0.907 | 0.932 | 0.101 | 3.925 | 5.049 | 0.000 |
-| lotcp_s_rep | LotCP-S, replicate scale only | 5 | 137 | 0.922 | 0.909 | 0.933 | 0.095 | 3.805 | 4.876 | 0.000 |
-| lotcp_s_rep | LotCP-S, replicate scale only | 10 | 137 | 0.924 | 0.910 | 0.935 | 0.095 | 3.708 | 4.739 | 0.000 |
-| lotcp_s_rep | LotCP-S, replicate scale only | 20 | 129 | 0.926 | 0.914 | 0.937 | 0.091 | 3.619 | 4.594 | 0.000 |
-| lotcp_s_rep | LotCP-S, replicate scale only | 30 | 112 | 0.920 | 0.907 | 0.933 | 0.103 | 3.546 | 4.642 | 0.000 |
+| lotcp_s_rep | LotCP-S, replicate scale only | 3 | 137 | 0.921 | 0.908 | 0.933 | 0.097 | 3.994 | 5.110 | 0.000 |
+| lotcp_s_rep | LotCP-S, replicate scale only | 5 | 137 | 0.923 | 0.909 | 0.934 | 0.092 | 3.829 | 4.892 | 0.000 |
+| lotcp_s_rep | LotCP-S, replicate scale only | 10 | 137 | 0.924 | 0.910 | 0.935 | 0.095 | 3.716 | 4.739 | 0.000 |
+| lotcp_s_rep | LotCP-S, replicate scale only | 20 | 129 | 0.926 | 0.914 | 0.937 | 0.092 | 3.622 | 4.594 | 0.000 |
+| lotcp_s_rep | LotCP-S, replicate scale only | 30 | 112 | 0.920 | 0.907 | 0.933 | 0.103 | 3.547 | 4.642 | 0.000 |
+| lotcp_s_shrink | LotCP-S + shrinkage | 0 | 137 | 0.894 | 0.862 | 0.922 | 0.139 | 5.394 | 7.260 | 0.000 |
+| lotcp_s_shrink | LotCP-S + shrinkage | 3 | 137 | 0.919 | 0.908 | 0.929 | 0.093 | 3.765 | 4.860 | 0.000 |
+| lotcp_s_shrink | LotCP-S + shrinkage | 5 | 137 | 0.918 | 0.907 | 0.927 | 0.087 | 3.565 | 4.629 | 0.000 |
+| lotcp_s_shrink | LotCP-S + shrinkage | 10 | 137 | 0.919 | 0.909 | 0.928 | 0.077 | 3.446 | 4.460 | 0.000 |
+| lotcp_s_shrink | LotCP-S + shrinkage | 20 | 129 | 0.918 | 0.910 | 0.926 | 0.056 | 3.285 | 4.255 | 0.000 |
+| lotcp_s_shrink | LotCP-S + shrinkage | 30 | 112 | 0.914 | 0.906 | 0.923 | 0.059 | 3.277 | 4.315 | 0.000 |
 | lotcp_s_support | LotCP-S, reference scale only | 0 | 137 | 0.899 | 0.868 | 0.926 | 0.124 | 5.448 | 7.293 | 0.000 |
-| lotcp_s_support | LotCP-S, reference scale only | 3 | 137 | 0.924 | 0.912 | 0.935 | 0.111 | 3.998 | 5.090 | 0.000 |
-| lotcp_s_support | LotCP-S, reference scale only | 5 | 137 | 0.926 | 0.915 | 0.936 | 0.091 | 3.809 | 4.825 | 0.000 |
-| lotcp_s_support | LotCP-S, reference scale only | 10 | 137 | 0.926 | 0.916 | 0.935 | 0.080 | 3.609 | 4.581 | 0.000 |
-| lotcp_s_support | LotCP-S, reference scale only | 20 | 129 | 0.925 | 0.916 | 0.934 | 0.068 | 3.448 | 4.387 | 0.000 |
-| lotcp_s_support | LotCP-S, reference scale only | 30 | 112 | 0.925 | 0.917 | 0.934 | 0.049 | 3.455 | 4.399 | 0.000 |
+| lotcp_s_support | LotCP-S, reference scale only | 3 | 137 | 0.925 | 0.914 | 0.936 | 0.104 | 4.069 | 5.143 | 0.000 |
+| lotcp_s_support | LotCP-S, reference scale only | 5 | 137 | 0.927 | 0.916 | 0.937 | 0.090 | 3.837 | 4.841 | 0.000 |
+| lotcp_s_support | LotCP-S, reference scale only | 10 | 137 | 0.926 | 0.916 | 0.936 | 0.078 | 3.616 | 4.579 | 0.000 |
+| lotcp_s_support | LotCP-S, reference scale only | 20 | 129 | 0.927 | 0.919 | 0.936 | 0.057 | 3.467 | 4.367 | 0.000 |
+| lotcp_s_support | LotCP-S, reference scale only | 30 | 112 | 0.925 | 0.917 | 0.933 | 0.051 | 3.450 | 4.398 | 0.000 |
 | lotcp_samplefold | LotCP, sample-fold residuals | 0 | 137 | 0.830 | 0.795 | 0.862 | 0.270 | 3.927 | 6.847 | 0.000 |
-| lotcp_samplefold | LotCP, sample-fold residuals | 3 | 137 | 0.881 | 0.864 | 0.896 | 0.185 | 3.247 | 4.892 | 0.000 |
-| lotcp_samplefold | LotCP, sample-fold residuals | 5 | 137 | 0.884 | 0.868 | 0.899 | 0.178 | 3.169 | 4.729 | 0.000 |
-| lotcp_samplefold | LotCP, sample-fold residuals | 10 | 137 | 0.887 | 0.871 | 0.902 | 0.175 | 3.086 | 4.583 | 0.000 |
-| lotcp_samplefold | LotCP, sample-fold residuals | 20 | 129 | 0.890 | 0.874 | 0.905 | 0.186 | 3.027 | 4.434 | 0.000 |
-| lotcp_samplefold | LotCP, sample-fold residuals | 30 | 112 | 0.880 | 0.864 | 0.898 | 0.222 | 2.981 | 4.554 | 0.000 |
+| lotcp_samplefold | LotCP, sample-fold residuals | 3 | 137 | 0.885 | 0.869 | 0.901 | 0.170 | 3.341 | 4.956 | 0.000 |
+| lotcp_samplefold | LotCP, sample-fold residuals | 5 | 137 | 0.886 | 0.869 | 0.902 | 0.173 | 3.207 | 4.753 | 0.000 |
+| lotcp_samplefold | LotCP, sample-fold residuals | 10 | 137 | 0.888 | 0.871 | 0.903 | 0.175 | 3.102 | 4.588 | 0.000 |
+| lotcp_samplefold | LotCP, sample-fold residuals | 20 | 129 | 0.889 | 0.874 | 0.905 | 0.188 | 3.028 | 4.433 | 0.000 |
+| lotcp_samplefold | LotCP, sample-fold residuals | 30 | 112 | 0.880 | 0.864 | 0.897 | 0.222 | 2.982 | 4.553 | 0.000 |
+| lotcp_shrink | LotCP + shrinkage | 0 | 137 | 0.899 | 0.868 | 0.926 | 0.124 | 5.448 | 7.293 | 0.000 |
+| lotcp_shrink | LotCP + shrinkage | 3 | 137 | 0.923 | 0.909 | 0.936 | 0.114 | 4.181 | 5.322 | 0.000 |
+| lotcp_shrink | LotCP + shrinkage | 5 | 137 | 0.925 | 0.911 | 0.937 | 0.107 | 4.063 | 5.155 | 0.000 |
+| lotcp_shrink | LotCP + shrinkage | 10 | 137 | 0.926 | 0.912 | 0.939 | 0.104 | 3.966 | 5.015 | 0.000 |
+| lotcp_shrink | LotCP + shrinkage | 20 | 129 | 0.930 | 0.917 | 0.942 | 0.106 | 3.895 | 4.860 | 0.000 |
+| lotcp_shrink | LotCP + shrinkage | 30 | 112 | 0.921 | 0.907 | 0.935 | 0.127 | 3.738 | 4.856 | 0.000 |
 
 Table: Table S5. Ablation variants, all m.
 
 
-**Table S6.** All paired Wilcoxon tests of LotCP-S against every other method (interval score and absolute coverage error). (182 rows; provided as `table6_tests.csv` only.)
+**Table S6.** All paired Wilcoxon tests of LotCP-S against every other method (interval score and absolute coverage error). (194 rows; provided as `table6_tests.csv` only.)
 
 
 | m | reference | other | outcome | n_lots | mean_diff | median_diff | ci_lo | ci_hi | p | rank_biserial | seasons_ref_better | n_seasons | p_holm |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| 3 | lotcp_s_support | biascorr_naive | iscore | 137 | 0.1327 | 0.0174 | 0.054 | 0.2046 | 0.0106 | 0.2517 | 4 | 5 | 0.05299 |
-| 3 | lotcp_s_support | biascorr_naive | abs_cov_err | 137 | 0.004758 | 0.008184 | -0.0005223 | 0.00991 | 0.05159 | 0.1938 | 3 | 5 | 0.258 |
-| 3 | lotcp_s_support | target_only_centred | abs_cov_err | 137 | -0.02664 | -0.02514 | -0.03329 | -0.0189 | 1.247e-14 | -0.7794 | 5 | 5 | 1.621e-13 |
-| 5 | lotcp_s_support | biascorr_naive | iscore | 137 | 0.02776 | 0.1217 | -0.04628 | 0.09201 | 0.1681 | 0.1357 | 4 | 5 | 0.3362 |
-| 5 | lotcp_s_support | biascorr_naive | abs_cov_err | 137 | 0.0001766 | 0.004086 | -0.005141 | 0.005115 | 0.3609 | 0.09063 | 3 | 5 | 0.5283 |
-| 5 | lotcp_s_support | slopebias_naive | iscore | 137 | -0.6388 | -0.6097 | -0.8136 | -0.4787 | 2.641e-09 | -0.5862 | 4 | 5 | 2.905e-08 |
-| 5 | lotcp_s_support | slopebias_naive | abs_cov_err | 137 | 0.002515 | 0.005183 | -0.003454 | 0.008236 | 0.2607 | 0.1108 | 4 | 5 | 0.5283 |
-| 5 | lotcp_s_support | target_only_centred | abs_cov_err | 137 | -0.03199 | -0.0288 | -0.03813 | -0.025 | 1.008e-16 | -0.8299 | 5 | 5 | 1.411e-15 |
-| 10 | lotcp_s_support | biascorr_naive | iscore | 137 | -0.1038 | 0.0673 | -0.1701 | -0.04412 | 0.2861 | -0.105 | 4 | 5 | 0.3362 |
-| 10 | lotcp_s_support | biascorr_naive | abs_cov_err | 137 | -0.005267 | -0.0003667 | -0.01009 | -0.0006837 | 0.1761 | -0.1342 | 4 | 5 | 0.5283 |
-| 10 | lotcp_s_support | slopebias_naive | iscore | 137 | -0.165 | -0.1184 | -0.2688 | -0.05939 | 0.005204 | -0.2752 | 4 | 5 | 0.03643 |
-| 10 | lotcp_s_support | slopebias_naive | abs_cov_err | 137 | -0.006796 | -0.0032 | -0.01248 | -0.001478 | 0.03654 | -0.2074 | 4 | 5 | 0.2193 |
-| 10 | lotcp_s_support | target_only_centred | iscore | 137 | -0.5372 | -0.4942 | -0.7872 | -0.3513 | 8.129e-11 | -0.6399 | 5 | 5 | 9.754e-10 |
-| 10 | lotcp_s_support | target_only_centred | abs_cov_err | 137 | 0.006043 | 0.009114 | -0.0003324 | 0.01326 | 0.1193 | 0.1534 | 2 | 5 | 0.4772 |
-| 20 | lotcp_s_support | biascorr_naive | iscore | 129 | -0.1897 | -0.1123 | -0.2535 | -0.1287 | 2.514e-05 | -0.4275 | 5 | 5 | 0.0002262 |
-| 20 | lotcp_s_support | biascorr_naive | abs_cov_err | 129 | -0.007431 | -0.005167 | -0.01214 | -0.002848 | 0.003573 | -0.3003 | 4 | 5 | 0.02501 |
-| 20 | lotcp_s_support | slopebias_naive | iscore | 129 | -0.1178 | -0.2475 | -0.246 | 0.01165 | 0.008267 | -0.268 | 3 | 5 | 0.0496 |
-| 20 | lotcp_s_support | slopebias_naive | abs_cov_err | 129 | -0.01287 | -0.009773 | -0.01846 | -0.006951 | 1.663e-05 | -0.4421 | 5 | 5 | 0.000133 |
-| 20 | lotcp_s_support | target_only_centred | iscore | 129 | 0.1014 | -0.003332 | 0.03728 | 0.1705 | 0.0785 | 0.1785 | 1 | 5 | 0.2355 |
-| 20 | lotcp_s_support | target_only_centred | abs_cov_err | 129 | 0.02616 | 0.02474 | 0.02061 | 0.03234 | 2.534e-12 | 0.7104 | 0 | 5 | 2.787e-11 |
-| 30 | lotcp_s_support | biascorr_naive | iscore | 112 | -0.2371 | -0.1726 | -0.3122 | -0.1687 | 2.446e-07 | -0.5619 | 5 | 5 | 2.446e-06 |
-| 30 | lotcp_s_support | biascorr_naive | abs_cov_err | 112 | -0.01444 | -0.01116 | -0.01969 | -0.009343 | 2.054e-06 | -0.5239 | 4 | 5 | 1.849e-05 |
-| 30 | lotcp_s_support | slopebias_naive | iscore | 112 | -0.1264 | -0.2571 | -0.2622 | 0.00363 | 0.01439 | -0.2664 | 4 | 5 | 0.05757 |
-| 30 | lotcp_s_support | slopebias_naive | abs_cov_err | 112 | -0.02021 | -0.0155 | -0.02536 | -0.0154 | 1.423e-10 | -0.7045 | 5 | 5 | 1.423e-09 |
-| 30 | lotcp_s_support | target_only_centred | iscore | 112 | 0.1478 | 0.05347 | 0.09454 | 0.2036 | 5.728e-05 | 0.4381 | 1 | 5 | 0.0004583 |
-| 30 | lotcp_s_support | target_only_centred | abs_cov_err | 112 | 0.02838 | 0.02581 | 0.02323 | 0.03355 | 6.733e-14 | 0.8157 | 0 | 5 | 8.079e-13 |
+| 3 | lotcp_s_support | biascorr_naive | iscore | 137 | 0.1857 | 0.1608 | 0.1163 | 0.2459 | 0.0006081 | 0.3376 | 4 | 5 | 0.004257 |
+| 3 | lotcp_s_support | biascorr_naive | abs_cov_err | 137 | 0.005475 | 0.008316 | 0.0006762 | 0.01016 | 0.01945 | 0.2318 | 3 | 5 | 0.1167 |
+| 3 | lotcp_s_support | target_only_centred | abs_cov_err | 137 | -0.02593 | -0.02406 | -0.03252 | -0.01834 | 6.605e-15 | -0.7787 | 5 | 5 | 8.587e-14 |
+| 5 | lotcp_s_support | biascorr_naive | iscore | 137 | 0.04365 | 0.1751 | -0.02257 | 0.1019 | 0.1155 | 0.155 | 4 | 5 | 0.3466 |
+| 5 | lotcp_s_support | biascorr_naive | abs_cov_err | 137 | 0.001186 | 0.003235 | -0.003689 | 0.005939 | 0.3241 | 0.09782 | 3 | 5 | 0.4428 |
+| 5 | lotcp_s_support | slopebias_naive | iscore | 137 | -0.623 | -0.653 | -0.791 | -0.463 | 2.857e-09 | -0.5849 | 4 | 5 | 3.143e-08 |
+| 5 | lotcp_s_support | slopebias_naive | abs_cov_err | 137 | 0.003525 | 0.004833 | -0.002319 | 0.008927 | 0.1476 | 0.1426 | 4 | 5 | 0.4428 |
+| 5 | lotcp_s_support | target_only_centred | abs_cov_err | 137 | -0.03098 | -0.0309 | -0.03716 | -0.02394 | 3.979e-17 | -0.8377 | 5 | 5 | 5.571e-16 |
+| 10 | lotcp_s_support | biascorr_naive | iscore | 137 | -0.1056 | 0.06946 | -0.17 | -0.04587 | 0.2979 | -0.1025 | 4 | 5 | 0.4213 |
+| 10 | lotcp_s_support | biascorr_naive | abs_cov_err | 137 | -0.00516 | 0 | -0.009734 | -0.0007883 | 0.1641 | -0.139 | 4 | 5 | 0.4428 |
+| 10 | lotcp_s_support | slopebias_naive | iscore | 137 | -0.1668 | -0.1131 | -0.2688 | -0.06352 | 0.005 | -0.2764 | 4 | 5 | 0.03 |
+| 10 | lotcp_s_support | slopebias_naive | abs_cov_err | 137 | -0.006689 | -0.004633 | -0.01218 | -0.001463 | 0.03314 | -0.2113 | 4 | 5 | 0.1657 |
+| 10 | lotcp_s_support | target_only_centred | iscore | 137 | -0.539 | -0.4815 | -0.7901 | -0.351 | 1.112e-10 | -0.6352 | 5 | 5 | 1.334e-09 |
+| 10 | lotcp_s_support | target_only_centred | abs_cov_err | 137 | 0.00615 | 0.008833 | -0.0002398 | 0.01334 | 0.09525 | 0.1643 | 2 | 5 | 0.381 |
+| 20 | lotcp_s_support | biascorr_naive | iscore | 129 | -0.2101 | -0.1094 | -0.2726 | -0.1511 | 2.186e-06 | -0.4805 | 5 | 5 | 1.968e-05 |
+| 20 | lotcp_s_support | biascorr_naive | abs_cov_err | 129 | -0.01045 | -0.006143 | -0.01498 | -0.005928 | 6.134e-05 | -0.4131 | 4 | 5 | 0.0004294 |
+| 20 | lotcp_s_support | slopebias_naive | iscore | 129 | -0.1382 | -0.2425 | -0.2617 | -0.01133 | 0.005286 | -0.283 | 3 | 5 | 0.03 |
+| 20 | lotcp_s_support | slopebias_naive | abs_cov_err | 129 | -0.01589 | -0.0115 | -0.02119 | -0.0104 | 3.089e-07 | -0.5234 | 5 | 5 | 2.78e-06 |
+| 20 | lotcp_s_support | target_only_centred | iscore | 129 | 0.08102 | -0.005398 | 0.02022 | 0.1453 | 0.2107 | 0.127 | 3 | 5 | 0.4213 |
+| 20 | lotcp_s_support | target_only_centred | abs_cov_err | 129 | 0.02315 | 0.02217 | 0.01797 | 0.0288 | 2.25e-11 | 0.6787 | 1 | 5 | 2.475e-10 |
+| 30 | lotcp_s_support | biascorr_naive | iscore | 112 | -0.238 | -0.1778 | -0.3099 | -0.1704 | 1.207e-07 | -0.5762 | 5 | 5 | 1.207e-06 |
+| 30 | lotcp_s_support | biascorr_naive | abs_cov_err | 112 | -0.01366 | -0.01115 | -0.01882 | -0.008581 | 4.047e-06 | -0.5086 | 4 | 5 | 3.238e-05 |
+| 30 | lotcp_s_support | slopebias_naive | iscore | 112 | -0.1273 | -0.2593 | -0.2636 | 0.003835 | 0.01382 | -0.268 | 4 | 5 | 0.05529 |
+| 30 | lotcp_s_support | slopebias_naive | abs_cov_err | 112 | -0.01943 | -0.01547 | -0.02452 | -0.01468 | 3.57e-10 | -0.6921 | 5 | 5 | 3.57e-09 |
+| 30 | lotcp_s_support | target_only_centred | iscore | 112 | 0.1469 | 0.0501 | 0.09411 | 0.2023 | 6.72e-05 | 0.4339 | 1 | 5 | 0.0005376 |
+| 30 | lotcp_s_support | target_only_centred | abs_cov_err | 112 | 0.02916 | 0.02538 | 0.02399 | 0.0342 | 1.882e-14 | 0.8338 | 0 | 5 | 2.258e-13 |
 
 Table: Table S6b. Paired tests for LotCP-S without replicate-scan information against the bias-correction and target-only baselines.
 
 
-| model | protocol | method | label | m | n_lots | coverage | cov_lo | cov_hi | under | width | iscore | frac_infinite |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| cnn | forward | biascorr_naive | Bias corr. + source CP | 3 | 137 | 0.890 | 0.874 | 0.904 | 0.171 | 3.068 | 4.315 | 0.000 |
-| cnn | forward | biascorr_naive | Bias corr. + source CP | 5 | 137 | 0.901 | 0.886 | 0.914 | 0.144 | 3.068 | 4.147 | 0.000 |
-| cnn | forward | biascorr_naive | Bias corr. + source CP | 10 | 137 | 0.909 | 0.895 | 0.922 | 0.124 | 3.068 | 4.030 | 0.000 |
-| cnn | forward | biascorr_naive | Bias corr. + source CP | 20 | 129 | 0.918 | 0.906 | 0.929 | 0.105 | 3.069 | 3.892 | 0.000 |
-| cnn | forward | biascorr_naive | Bias corr. + source CP | 30 | 112 | 0.913 | 0.899 | 0.926 | 0.122 | 3.072 | 3.971 | 0.000 |
-| cnn | forward | lotcp | LotCP | 0 | 137 | 0.918 | 0.894 | 0.939 | 0.129 | 4.882 | 6.076 | 0.000 |
-| cnn | forward | lotcp | LotCP | 3 | 137 | 0.926 | 0.913 | 0.939 | 0.140 | 4.039 | 4.933 | 0.000 |
-| cnn | forward | lotcp | LotCP | 5 | 137 | 0.928 | 0.914 | 0.940 | 0.142 | 3.978 | 4.837 | 0.000 |
-| cnn | forward | lotcp | LotCP | 10 | 137 | 0.929 | 0.915 | 0.941 | 0.137 | 3.934 | 4.759 | 0.000 |
-| cnn | forward | lotcp | LotCP | 20 | 129 | 0.935 | 0.923 | 0.946 | 0.122 | 3.937 | 4.648 | 0.000 |
-| cnn | forward | lotcp | LotCP | 30 | 112 | 0.932 | 0.919 | 0.945 | 0.131 | 3.993 | 4.769 | 0.000 |
-| cnn | forward | lotcp_s | LotCP-S | 0 | 137 | 0.915 | 0.889 | 0.937 | 0.122 | 4.605 | 5.849 | 0.000 |
-| cnn | forward | lotcp_s | LotCP-S | 3 | 137 | 0.911 | 0.901 | 0.922 | 0.100 | 3.235 | 4.160 | 0.000 |
-| cnn | forward | lotcp_s | LotCP-S | 5 | 137 | 0.913 | 0.903 | 0.922 | 0.088 | 3.144 | 4.016 | 0.000 |
-| cnn | forward | lotcp_s | LotCP-S | 10 | 137 | 0.913 | 0.904 | 0.922 | 0.071 | 3.055 | 3.875 | 0.000 |
-| cnn | forward | lotcp_s | LotCP-S | 20 | 129 | 0.917 | 0.909 | 0.925 | 0.052 | 3.005 | 3.744 | 0.000 |
-| cnn | forward | lotcp_s | LotCP-S | 30 | 112 | 0.917 | 0.909 | 0.924 | 0.044 | 3.040 | 3.798 | 0.000 |
-| cnn | forward | scp_sample | Split CP (sample folds) | 0 | 137 | 0.789 | 0.759 | 0.817 | 0.418 | 3.068 | 5.999 | 0.000 |
-| cnn | forward | scp_season | Split CP (season folds) | 0 | 137 | 0.928 | 0.904 | 0.949 | 0.112 | 5.018 | 6.052 | 0.000 |
-| cnn | forward | target_only_centred | Target-only CP, centred | 3 | 137 | 1.000 | 1.000 | 1.000 | 0.000 | nan | nan | 1.000 |
-| cnn | forward | target_only_centred | Target-only CP, centred | 5 | 137 | 1.000 | 1.000 | 1.000 | 0.000 | nan | nan | 1.000 |
-| cnn | forward | target_only_centred | Target-only CP, centred | 10 | 137 | 0.959 | 0.956 | 0.962 | 0.027 | 4.110 | 4.463 | 0.000 |
-| cnn | forward | target_only_centred | Target-only CP, centred | 20 | 129 | 0.932 | 0.931 | 0.934 | 0.024 | 3.237 | 3.783 | 0.000 |
-| cnn | forward | target_only_centred | Target-only CP, centred | 30 | 112 | 0.922 | 0.921 | 0.924 | 0.027 | 3.131 | 3.774 | 0.000 |
-| cnn | loso | lotcp | LotCP | 0 | 198 | 0.913 | 0.895 | 0.931 | 0.126 | 4.189 | 5.359 | 0.000 |
-| cnn | loso | lotcp | LotCP | 3 | 198 | 0.912 | 0.902 | 0.923 | 0.128 | 3.172 | 4.211 | 0.000 |
-| cnn | loso | lotcp | LotCP | 5 | 198 | 0.913 | 0.902 | 0.924 | 0.122 | 3.088 | 4.103 | 0.000 |
-| cnn | loso | lotcp | LotCP | 10 | 198 | 0.914 | 0.903 | 0.925 | 0.112 | 3.013 | 3.998 | 0.000 |
-| cnn | loso | lotcp | LotCP | 20 | 184 | 0.915 | 0.904 | 0.926 | 0.110 | 2.953 | 3.902 | 0.000 |
-| cnn | loso | lotcp | LotCP | 30 | 161 | 0.916 | 0.903 | 0.928 | 0.121 | 3.001 | 3.956 | 0.000 |
-| cnn | loso | lotcp_s | LotCP-S | 0 | 198 | 0.910 | 0.890 | 0.929 | 0.131 | 4.234 | 5.398 | 0.000 |
-| cnn | loso | lotcp_s | LotCP-S | 3 | 198 | 0.911 | 0.902 | 0.919 | 0.092 | 3.090 | 4.030 | 0.000 |
-| cnn | loso | lotcp_s | LotCP-S | 5 | 198 | 0.909 | 0.901 | 0.917 | 0.087 | 2.968 | 3.895 | 0.000 |
-| cnn | loso | lotcp_s | LotCP-S | 10 | 198 | 0.908 | 0.901 | 0.915 | 0.064 | 2.869 | 3.751 | 0.000 |
-| cnn | loso | lotcp_s | LotCP-S | 20 | 184 | 0.908 | 0.902 | 0.915 | 0.062 | 2.797 | 3.662 | 0.000 |
-| cnn | loso | lotcp_s | LotCP-S | 30 | 161 | 0.908 | 0.901 | 0.914 | 0.059 | 2.812 | 3.662 | 0.000 |
-| cnn | loso | scp_season | Split CP (season folds) | 0 | 198 | 0.923 | 0.906 | 0.939 | 0.106 | 4.341 | 5.392 | 0.000 |
-| gbm | forward | biascorr_naive | Bias corr. + source CP | 3 | 137 | 0.858 | 0.839 | 0.875 | 0.253 | 3.087 | 5.011 | 0.000 |
-| gbm | forward | biascorr_naive | Bias corr. + source CP | 5 | 137 | 0.871 | 0.852 | 0.888 | 0.217 | 3.087 | 4.771 | 0.000 |
-| gbm | forward | biascorr_naive | Bias corr. + source CP | 10 | 137 | 0.882 | 0.864 | 0.898 | 0.187 | 3.087 | 4.600 | 0.000 |
-| gbm | forward | biascorr_naive | Bias corr. + source CP | 20 | 129 | 0.891 | 0.875 | 0.906 | 0.167 | 3.082 | 4.428 | 0.000 |
-| gbm | forward | biascorr_naive | Bias corr. + source CP | 30 | 112 | 0.887 | 0.870 | 0.904 | 0.182 | 3.079 | 4.532 | 0.000 |
-| gbm | forward | lotcp | LotCP | 0 | 137 | 0.895 | 0.868 | 0.919 | 0.192 | 4.986 | 6.832 | 0.000 |
-| gbm | forward | lotcp | LotCP | 3 | 137 | 0.912 | 0.896 | 0.925 | 0.127 | 3.775 | 5.035 | 0.000 |
-| gbm | forward | lotcp | LotCP | 5 | 137 | 0.913 | 0.898 | 0.927 | 0.119 | 3.675 | 4.885 | 0.000 |
-| gbm | forward | lotcp | LotCP | 10 | 137 | 0.914 | 0.899 | 0.928 | 0.114 | 3.584 | 4.750 | 0.000 |
-| gbm | forward | lotcp | LotCP | 20 | 129 | 0.918 | 0.903 | 0.931 | 0.111 | 3.536 | 4.595 | 0.000 |
-| gbm | forward | lotcp | LotCP | 30 | 112 | 0.913 | 0.897 | 0.928 | 0.128 | 3.505 | 4.671 | 0.000 |
-| gbm | forward | lotcp_s | LotCP-S | 0 | 137 | 0.898 | 0.870 | 0.922 | 0.168 | 4.968 | 6.703 | 0.000 |
-| gbm | forward | lotcp_s | LotCP-S | 3 | 137 | 0.913 | 0.901 | 0.923 | 0.106 | 3.686 | 4.790 | 0.000 |
-| gbm | forward | lotcp_s | LotCP-S | 5 | 137 | 0.913 | 0.902 | 0.923 | 0.097 | 3.547 | 4.599 | 0.000 |
-| gbm | forward | lotcp_s | LotCP-S | 10 | 137 | 0.912 | 0.902 | 0.921 | 0.085 | 3.398 | 4.409 | 0.000 |
-| gbm | forward | lotcp_s | LotCP-S | 20 | 129 | 0.914 | 0.906 | 0.922 | 0.064 | 3.320 | 4.227 | 0.000 |
-| gbm | forward | lotcp_s | LotCP-S | 30 | 112 | 0.915 | 0.907 | 0.922 | 0.056 | 3.343 | 4.264 | 0.000 |
-| gbm | forward | scp_sample | Split CP (sample folds) | 0 | 137 | 0.759 | 0.724 | 0.792 | 0.511 | 3.087 | 7.115 | 0.000 |
-| gbm | forward | scp_season | Split CP (season folds) | 0 | 137 | 0.902 | 0.875 | 0.925 | 0.178 | 4.980 | 6.687 | 0.000 |
-| gbm | forward | target_only_centred | Target-only CP, centred | 3 | 137 | 1.000 | 1.000 | 1.000 | 0.000 | nan | nan | 1.000 |
-| gbm | forward | target_only_centred | Target-only CP, centred | 5 | 137 | 1.000 | 1.000 | 1.000 | 0.000 | nan | nan | 1.000 |
-| gbm | forward | target_only_centred | Target-only CP, centred | 10 | 137 | 0.957 | 0.953 | 0.960 | 0.029 | 4.621 | 5.026 | 0.000 |
-| gbm | forward | target_only_centred | Target-only CP, centred | 20 | 129 | 0.931 | 0.929 | 0.932 | 0.031 | 3.643 | 4.281 | 0.000 |
-| gbm | forward | target_only_centred | Target-only CP, centred | 30 | 112 | 0.921 | 0.920 | 0.922 | 0.036 | 3.496 | 4.253 | 0.000 |
-| pls | forward | biascorr_naive | Bias corr. + source CP | 3 | 137 | 0.921 | 0.908 | 0.934 | 0.090 | 3.828 | 4.957 | 0.000 |
-| pls | forward | biascorr_naive | Bias corr. + source CP | 5 | 137 | 0.931 | 0.918 | 0.943 | 0.069 | 3.828 | 4.797 | 0.000 |
-| pls | forward | biascorr_naive | Bias corr. + source CP | 10 | 137 | 0.938 | 0.926 | 0.949 | 0.052 | 3.828 | 4.685 | 0.000 |
-| pls | forward | biascorr_naive | Bias corr. + source CP | 20 | 129 | 0.945 | 0.934 | 0.954 | 0.039 | 3.821 | 4.577 | 0.000 |
-| pls | forward | biascorr_naive | Bias corr. + source CP | 30 | 112 | 0.941 | 0.930 | 0.952 | 0.047 | 3.809 | 4.636 | 0.000 |
-| pls | forward | lotcp | LotCP | 0 | 137 | 0.899 | 0.868 | 0.926 | 0.124 | 5.448 | 7.293 | 0.000 |
-| pls | forward | lotcp | LotCP | 3 | 137 | 0.923 | 0.909 | 0.936 | 0.114 | 4.181 | 5.322 | 0.000 |
-| pls | forward | lotcp | LotCP | 5 | 137 | 0.925 | 0.911 | 0.937 | 0.107 | 4.063 | 5.155 | 0.000 |
-| pls | forward | lotcp | LotCP | 10 | 137 | 0.926 | 0.912 | 0.939 | 0.104 | 3.966 | 5.015 | 0.000 |
-| pls | forward | lotcp | LotCP | 20 | 129 | 0.930 | 0.917 | 0.942 | 0.106 | 3.895 | 4.860 | 0.000 |
-| pls | forward | lotcp | LotCP | 30 | 112 | 0.921 | 0.907 | 0.935 | 0.127 | 3.738 | 4.856 | 0.000 |
-| pls | forward | lotcp_s | LotCP-S | 0 | 137 | 0.894 | 0.862 | 0.922 | 0.139 | 5.394 | 7.260 | 0.000 |
-| pls | forward | lotcp_s | LotCP-S | 3 | 137 | 0.919 | 0.908 | 0.929 | 0.093 | 3.765 | 4.860 | 0.000 |
-| pls | forward | lotcp_s | LotCP-S | 5 | 137 | 0.918 | 0.907 | 0.927 | 0.087 | 3.565 | 4.629 | 0.000 |
-| pls | forward | lotcp_s | LotCP-S | 10 | 137 | 0.919 | 0.909 | 0.928 | 0.077 | 3.446 | 4.460 | 0.000 |
-| pls | forward | lotcp_s | LotCP-S | 20 | 129 | 0.918 | 0.910 | 0.926 | 0.056 | 3.285 | 4.255 | 0.000 |
-| pls | forward | lotcp_s | LotCP-S | 30 | 112 | 0.914 | 0.906 | 0.923 | 0.059 | 3.277 | 4.315 | 0.000 |
-| pls | forward | scp_sample | Split CP (sample folds) | 0 | 137 | 0.823 | 0.787 | 0.855 | 0.277 | 3.828 | 6.811 | 0.000 |
-| pls | forward | scp_season | Split CP (season folds) | 0 | 137 | 0.900 | 0.869 | 0.926 | 0.139 | 5.258 | 7.046 | 0.000 |
-| pls | forward | target_only_centred | Target-only CP, centred | 3 | 137 | 1.000 | 1.000 | 1.000 | 0.000 | nan | nan | 1.000 |
-| pls | forward | target_only_centred | Target-only CP, centred | 5 | 137 | 1.000 | 1.000 | 1.000 | 0.000 | nan | nan | 1.000 |
-| pls | forward | target_only_centred | Target-only CP, centred | 10 | 137 | 0.956 | 0.953 | 0.959 | 0.029 | 4.634 | 5.118 | 0.000 |
-| pls | forward | target_only_centred | Target-only CP, centred | 20 | 129 | 0.932 | 0.930 | 0.933 | 0.030 | 3.577 | 4.286 | 0.000 |
-| pls | forward | target_only_centred | Target-only CP, centred | 30 | 112 | 0.921 | 0.919 | 0.922 | 0.037 | 3.402 | 4.251 | 0.000 |
-| pls | loso | biascorr_naive | Bias corr. + source CP | 3 | 198 | 0.934 | 0.924 | 0.943 | 0.064 | 4.069 | 5.019 | 0.000 |
-| pls | loso | biascorr_naive | Bias corr. + source CP | 5 | 198 | 0.942 | 0.933 | 0.951 | 0.046 | 4.069 | 4.889 | 0.000 |
-| pls | loso | biascorr_naive | Bias corr. + source CP | 10 | 198 | 0.949 | 0.941 | 0.957 | 0.032 | 4.069 | 4.785 | 0.000 |
-| pls | loso | biascorr_naive | Bias corr. + source CP | 20 | 184 | 0.954 | 0.947 | 0.962 | 0.025 | 4.068 | 4.731 | 0.000 |
-| pls | loso | biascorr_naive | Bias corr. + source CP | 30 | 161 | 0.954 | 0.946 | 0.961 | 0.027 | 4.068 | 4.702 | 0.000 |
-| pls | loso | lotcp | LotCP | 0 | 198 | 0.901 | 0.879 | 0.922 | 0.146 | 4.847 | 6.483 | 0.000 |
-| pls | loso | lotcp | LotCP | 3 | 198 | 0.906 | 0.895 | 0.917 | 0.131 | 3.558 | 4.850 | 0.000 |
-| pls | loso | lotcp | LotCP | 5 | 198 | 0.907 | 0.895 | 0.918 | 0.128 | 3.456 | 4.710 | 0.000 |
-| pls | loso | lotcp | LotCP | 10 | 198 | 0.908 | 0.897 | 0.919 | 0.122 | 3.361 | 4.570 | 0.000 |
-| pls | loso | lotcp | LotCP | 20 | 184 | 0.909 | 0.897 | 0.920 | 0.122 | 3.285 | 4.473 | 0.000 |
-| pls | loso | lotcp | LotCP | 30 | 161 | 0.909 | 0.897 | 0.921 | 0.124 | 3.293 | 4.448 | 0.000 |
-| pls | loso | lotcp_s | LotCP-S | 0 | 198 | 0.902 | 0.880 | 0.923 | 0.152 | 4.936 | 6.472 | 0.000 |
-| pls | loso | lotcp_s | LotCP-S | 3 | 198 | 0.905 | 0.897 | 0.914 | 0.105 | 3.477 | 4.675 | 0.000 |
-| pls | loso | lotcp_s | LotCP-S | 5 | 198 | 0.905 | 0.896 | 0.913 | 0.097 | 3.349 | 4.514 | 0.000 |
-| pls | loso | lotcp_s | LotCP-S | 10 | 198 | 0.905 | 0.898 | 0.913 | 0.080 | 3.235 | 4.345 | 0.000 |
-| pls | loso | lotcp_s | LotCP-S | 20 | 184 | 0.906 | 0.899 | 0.913 | 0.071 | 3.152 | 4.237 | 0.000 |
-| pls | loso | lotcp_s | LotCP-S | 30 | 161 | 0.905 | 0.898 | 0.912 | 0.074 | 3.130 | 4.193 | 0.000 |
-| pls | loso | scp_sample | Split CP (sample folds) | 0 | 198 | 0.849 | 0.824 | 0.874 | 0.232 | 4.069 | 6.567 | 0.000 |
-| pls | loso | scp_season | Split CP (season folds) | 0 | 198 | 0.896 | 0.874 | 0.917 | 0.157 | 4.694 | 6.430 | 0.000 |
-| pls | loso | target_only_centred | Target-only CP, centred | 3 | 198 | 1.000 | 1.000 | 1.000 | 0.000 | nan | nan | 1.000 |
-| pls | loso | target_only_centred | Target-only CP, centred | 5 | 198 | 1.000 | 1.000 | 1.000 | 0.000 | nan | nan | 1.000 |
-| pls | loso | target_only_centred | Target-only CP, centred | 10 | 198 | 0.957 | 0.955 | 0.960 | 0.028 | 4.633 | 5.105 | 0.000 |
-| pls | loso | target_only_centred | Target-only CP, centred | 20 | 184 | 0.932 | 0.930 | 0.933 | 0.031 | 3.615 | 4.328 | 0.000 |
-| pls | loso | target_only_centred | Target-only CP, centred | 30 | 161 | 0.921 | 0.920 | 0.922 | 0.039 | 3.368 | 4.175 | 0.000 |
-
-Table: Table S7. Predictors and protocols.
+**Table S7.** Predictors and protocols. (139 rows; provided as `table7_generalisation.csv` only.)
 
 
 | model | method | m | n_seeds | coverage_mean | width_mean | iscore_mean | coverage_sd | width_sd | iscore_sd |
@@ -386,17 +274,23 @@ Table: Table S7. Predictors and protocols.
 | cnn | biascorr_naive | 30 | 3 | 0.913 | 3.072 | 3.971 | 0.004 | 0.020 | 0.042 |
 | cnn | gauss | 0 | 3 | 0.797 | 3.122 | 5.933 | 0.004 | 0.021 | 0.032 |
 | cnn | lotcp | 0 | 3 | 0.918 | 4.882 | 6.076 | 0.001 | 0.041 | 0.033 |
-| cnn | lotcp | 3 | 3 | 0.926 | 4.039 | 4.933 | 0.002 | 0.071 | 0.034 |
-| cnn | lotcp | 5 | 3 | 0.928 | 3.978 | 4.837 | 0.002 | 0.070 | 0.043 |
-| cnn | lotcp | 10 | 3 | 0.929 | 3.934 | 4.759 | 0.001 | 0.072 | 0.041 |
-| cnn | lotcp | 20 | 3 | 0.935 | 3.937 | 4.648 | 0.002 | 0.064 | 0.032 |
-| cnn | lotcp | 30 | 3 | 0.932 | 3.993 | 4.769 | 0.002 | 0.078 | 0.034 |
+| cnn | lotcp | 3 | 3 | 0.927 | 4.102 | 5.014 | 0.001 | 0.079 | 0.037 |
+| cnn | lotcp | 5 | 3 | 0.928 | 4.009 | 4.870 | 0.002 | 0.077 | 0.048 |
+| cnn | lotcp | 10 | 3 | 0.929 | 3.948 | 4.768 | 0.001 | 0.076 | 0.045 |
+| cnn | lotcp | 20 | 3 | 0.935 | 3.943 | 4.652 | 0.002 | 0.065 | 0.034 |
+| cnn | lotcp | 30 | 3 | 0.932 | 3.997 | 4.773 | 0.002 | 0.080 | 0.037 |
 | cnn | lotcp_s | 0 | 3 | 0.915 | 4.605 | 5.849 | 0.002 | 0.016 | 0.030 |
-| cnn | lotcp_s | 3 | 3 | 0.911 | 3.235 | 4.160 | 0.001 | 0.014 | 0.024 |
-| cnn | lotcp_s | 5 | 3 | 0.913 | 3.144 | 4.016 | 0.002 | 0.014 | 0.023 |
-| cnn | lotcp_s | 10 | 3 | 0.913 | 3.055 | 3.875 | 0.001 | 0.010 | 0.024 |
-| cnn | lotcp_s | 20 | 3 | 0.917 | 3.005 | 3.744 | 0.001 | 0.006 | 0.021 |
-| cnn | lotcp_s | 30 | 3 | 0.917 | 3.040 | 3.798 | 0.001 | 0.005 | 0.025 |
+| cnn | lotcp_s | 3 | 3 | 0.912 | 3.279 | 4.198 | 0.001 | 0.008 | 0.024 |
+| cnn | lotcp_s | 5 | 3 | 0.913 | 3.157 | 4.021 | 0.001 | 0.013 | 0.019 |
+| cnn | lotcp_s | 10 | 3 | 0.914 | 3.061 | 3.874 | 0.001 | 0.011 | 0.024 |
+| cnn | lotcp_s | 20 | 3 | 0.917 | 3.004 | 3.741 | 0.001 | 0.007 | 0.021 |
+| cnn | lotcp_s | 30 | 3 | 0.917 | 3.039 | 3.796 | 0.001 | 0.005 | 0.025 |
+| cnn | lotcp_s_shrink | 0 | 3 | 0.915 | 4.605 | 5.849 | 0.002 | 0.016 | 0.030 |
+| cnn | lotcp_s_shrink | 3 | 3 | 0.911 | 3.235 | 4.160 | 0.001 | 0.014 | 0.024 |
+| cnn | lotcp_s_shrink | 5 | 3 | 0.913 | 3.144 | 4.016 | 0.002 | 0.014 | 0.023 |
+| cnn | lotcp_s_shrink | 10 | 3 | 0.913 | 3.055 | 3.875 | 0.001 | 0.010 | 0.024 |
+| cnn | lotcp_s_shrink | 20 | 3 | 0.917 | 3.005 | 3.744 | 0.001 | 0.006 | 0.021 |
+| cnn | lotcp_s_shrink | 30 | 3 | 0.917 | 3.040 | 3.798 | 0.001 | 0.005 | 0.025 |
 | cnn | pooled | 3 | 3 | 0.790 | 3.069 | 5.996 | 0.004 | 0.020 | 0.031 |
 | cnn | pooled | 5 | 3 | 0.789 | 3.069 | 5.997 | 0.004 | 0.020 | 0.032 |
 | cnn | pooled | 10 | 3 | 0.790 | 3.070 | 5.993 | 0.004 | 0.020 | 0.031 |
@@ -405,6 +299,10 @@ Table: Table S7. Predictors and protocols.
 | cnn | scp_lot | 0 | 1 | 0.845 | 3.548 | 5.636 | nan | nan | nan |
 | cnn | scp_sample | 0 | 3 | 0.789 | 3.068 | 5.999 | 0.004 | 0.020 | 0.032 |
 | cnn | scp_season | 0 | 3 | 0.928 | 5.018 | 6.052 | 0.001 | 0.065 | 0.055 |
+| cnn | slopebias_naive | 5 | 3 | 0.867 | 3.068 | 5.005 | 0.003 | 0.020 | 0.043 |
+| cnn | slopebias_naive | 10 | 3 | 0.899 | 3.068 | 4.211 | 0.003 | 0.020 | 0.022 |
+| cnn | slopebias_naive | 20 | 3 | 0.916 | 3.069 | 3.939 | 0.003 | 0.020 | 0.016 |
+| cnn | slopebias_naive | 30 | 3 | 0.912 | 3.072 | 3.975 | 0.003 | 0.020 | 0.011 |
 | cnn | target_only | 3 | 3 | 1.000 | nan | nan | 0.000 | nan | nan |
 | cnn | target_only | 5 | 3 | 1.000 | nan | nan | 0.000 | nan | nan |
 | cnn | target_only | 10 | 3 | 0.959 | 5.056 | 5.409 | 0.001 | 0.024 | 0.019 |
@@ -427,17 +325,23 @@ Table: Table S7. Predictors and protocols.
 | gbm | biascorr_naive | 30 | 3 | 0.887 | 3.079 | 4.532 | 0.001 | 0.001 | 0.028 |
 | gbm | gauss | 0 | 3 | 0.770 | 3.160 | 7.016 | 0.001 | 0.005 | 0.046 |
 | gbm | lotcp | 0 | 3 | 0.895 | 4.986 | 6.832 | 0.001 | 0.025 | 0.060 |
-| gbm | lotcp | 3 | 3 | 0.912 | 3.775 | 5.035 | 0.001 | 0.010 | 0.023 |
-| gbm | lotcp | 5 | 3 | 0.913 | 3.675 | 4.885 | 0.001 | 0.007 | 0.020 |
-| gbm | lotcp | 10 | 3 | 0.914 | 3.584 | 4.750 | 0.000 | 0.008 | 0.022 |
-| gbm | lotcp | 20 | 3 | 0.918 | 3.536 | 4.595 | 0.001 | 0.009 | 0.027 |
-| gbm | lotcp | 30 | 3 | 0.913 | 3.505 | 4.671 | 0.000 | 0.007 | 0.031 |
+| gbm | lotcp | 3 | 3 | 0.912 | 3.848 | 5.095 | 0.001 | 0.009 | 0.027 |
+| gbm | lotcp | 5 | 3 | 0.913 | 3.703 | 4.894 | 0.001 | 0.007 | 0.018 |
+| gbm | lotcp | 10 | 3 | 0.915 | 3.596 | 4.744 | 0.001 | 0.008 | 0.023 |
+| gbm | lotcp | 20 | 3 | 0.918 | 3.538 | 4.590 | 0.001 | 0.011 | 0.028 |
+| gbm | lotcp | 30 | 3 | 0.913 | 3.505 | 4.667 | 0.000 | 0.007 | 0.031 |
 | gbm | lotcp_s | 0 | 3 | 0.898 | 4.968 | 6.703 | 0.001 | 0.034 | 0.058 |
-| gbm | lotcp_s | 3 | 3 | 0.913 | 3.686 | 4.790 | 0.000 | 0.013 | 0.014 |
-| gbm | lotcp_s | 5 | 3 | 0.913 | 3.547 | 4.599 | 0.001 | 0.005 | 0.022 |
-| gbm | lotcp_s | 10 | 3 | 0.912 | 3.398 | 4.409 | 0.001 | 0.014 | 0.013 |
-| gbm | lotcp_s | 20 | 3 | 0.914 | 3.320 | 4.227 | 0.002 | 0.041 | 0.030 |
-| gbm | lotcp_s | 30 | 3 | 0.915 | 3.343 | 4.264 | 0.003 | 0.038 | 0.020 |
+| gbm | lotcp_s | 3 | 3 | 0.914 | 3.761 | 4.833 | 0.001 | 0.017 | 0.008 |
+| gbm | lotcp_s | 5 | 3 | 0.914 | 3.577 | 4.600 | 0.001 | 0.012 | 0.011 |
+| gbm | lotcp_s | 10 | 3 | 0.914 | 3.428 | 4.407 | 0.002 | 0.022 | 0.019 |
+| gbm | lotcp_s | 20 | 3 | 0.917 | 3.354 | 4.237 | 0.000 | 0.014 | 0.018 |
+| gbm | lotcp_s | 30 | 3 | 0.916 | 3.357 | 4.265 | 0.001 | 0.020 | 0.013 |
+| gbm | lotcp_s_shrink | 0 | 3 | 0.898 | 4.968 | 6.703 | 0.001 | 0.034 | 0.058 |
+| gbm | lotcp_s_shrink | 3 | 3 | 0.913 | 3.686 | 4.790 | 0.000 | 0.013 | 0.014 |
+| gbm | lotcp_s_shrink | 5 | 3 | 0.913 | 3.547 | 4.599 | 0.001 | 0.005 | 0.022 |
+| gbm | lotcp_s_shrink | 10 | 3 | 0.912 | 3.398 | 4.409 | 0.001 | 0.014 | 0.013 |
+| gbm | lotcp_s_shrink | 20 | 3 | 0.914 | 3.320 | 4.227 | 0.002 | 0.041 | 0.030 |
+| gbm | lotcp_s_shrink | 30 | 3 | 0.915 | 3.343 | 4.264 | 0.003 | 0.038 | 0.020 |
 | gbm | pooled | 3 | 3 | 0.760 | 3.089 | 7.110 | 0.002 | 0.001 | 0.047 |
 | gbm | pooled | 5 | 3 | 0.760 | 3.089 | 7.112 | 0.002 | 0.002 | 0.053 |
 | gbm | pooled | 10 | 3 | 0.760 | 3.091 | 7.107 | 0.002 | 0.002 | 0.050 |
@@ -446,6 +350,10 @@ Table: Table S7. Predictors and protocols.
 | gbm | scp_lot | 0 | 3 | 0.833 | 3.715 | 6.536 | 0.002 | 0.007 | 0.039 |
 | gbm | scp_sample | 0 | 3 | 0.759 | 3.087 | 7.115 | 0.002 | 0.001 | 0.051 |
 | gbm | scp_season | 0 | 3 | 0.902 | 4.980 | 6.687 | 0.000 | 0.037 | 0.059 |
+| gbm | slopebias_naive | 5 | 3 | 0.831 | 3.087 | 6.018 | 0.001 | 0.001 | 0.058 |
+| gbm | slopebias_naive | 10 | 3 | 0.868 | 3.087 | 4.943 | 0.002 | 0.001 | 0.038 |
+| gbm | slopebias_naive | 20 | 3 | 0.884 | 3.082 | 4.579 | 0.001 | 0.001 | 0.022 |
+| gbm | slopebias_naive | 30 | 3 | 0.884 | 3.079 | 4.582 | 0.001 | 0.001 | 0.021 |
 | gbm | target_only | 3 | 3 | 1.000 | nan | nan | 0.000 | nan | nan |
 | gbm | target_only | 5 | 3 | 1.000 | nan | nan | 0.000 | nan | nan |
 | gbm | target_only | 10 | 3 | 0.956 | 5.610 | 6.033 | 0.000 | 0.034 | 0.030 |
@@ -463,17 +371,17 @@ Table: Table S7b. Seed-to-seed spread of lot-macro metrics (LightGBM, CNN).
 | nominal | method | label | m | n_lots | coverage | cov_lo | cov_hi | under | width | iscore | frac_infinite |
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | 0.950 | lotcp | LotCP | 0 | 137 | 0.945 | 0.921 | 0.964 | 0.102 | 7.485 | 9.383 | 0.000 |
-| 0.950 | lotcp | LotCP | 3 | 137 | 0.963 | 0.952 | 0.971 | 0.067 | 5.617 | 6.780 | 0.000 |
-| 0.950 | lotcp | LotCP | 5 | 137 | 0.964 | 0.954 | 0.972 | 0.058 | 5.437 | 6.559 | 0.000 |
-| 0.950 | lotcp | LotCP | 10 | 137 | 0.964 | 0.954 | 0.973 | 0.056 | 5.310 | 6.385 | 0.000 |
-| 0.950 | lotcp | LotCP | 20 | 129 | 0.968 | 0.960 | 0.975 | 0.045 | 5.298 | 6.247 | 0.000 |
-| 0.950 | lotcp | LotCP | 30 | 112 | 0.962 | 0.953 | 0.971 | 0.060 | 5.018 | 6.169 | 0.000 |
+| 0.950 | lotcp | LotCP | 3 | 137 | 0.963 | 0.953 | 0.972 | 0.066 | 5.730 | 6.899 | 0.000 |
+| 0.950 | lotcp | LotCP | 5 | 137 | 0.964 | 0.954 | 0.973 | 0.060 | 5.479 | 6.594 | 0.000 |
+| 0.950 | lotcp | LotCP | 10 | 137 | 0.964 | 0.954 | 0.973 | 0.056 | 5.310 | 6.384 | 0.000 |
+| 0.950 | lotcp | LotCP | 20 | 129 | 0.968 | 0.960 | 0.975 | 0.046 | 5.293 | 6.241 | 0.000 |
+| 0.950 | lotcp | LotCP | 30 | 112 | 0.962 | 0.953 | 0.971 | 0.061 | 5.017 | 6.167 | 0.000 |
 | 0.950 | lotcp_s | LotCP-S | 0 | 137 | 0.938 | 0.912 | 0.959 | 0.124 | 7.050 | 9.068 | 0.000 |
-| 0.950 | lotcp_s | LotCP-S | 3 | 137 | 0.961 | 0.953 | 0.968 | 0.051 | 4.844 | 5.950 | 0.000 |
-| 0.950 | lotcp_s | LotCP-S | 5 | 137 | 0.962 | 0.955 | 0.968 | 0.041 | 4.539 | 5.589 | 0.000 |
-| 0.950 | lotcp_s | LotCP-S | 10 | 137 | 0.962 | 0.957 | 0.967 | 0.030 | 4.270 | 5.265 | 0.000 |
-| 0.950 | lotcp_s | LotCP-S | 20 | 129 | 0.963 | 0.957 | 0.968 | 0.025 | 4.135 | 5.109 | 0.000 |
-| 0.950 | lotcp_s | LotCP-S | 30 | 112 | 0.964 | 0.959 | 0.968 | 0.024 | 4.158 | 5.153 | 0.000 |
+| 0.950 | lotcp_s | LotCP-S | 3 | 137 | 0.963 | 0.956 | 0.970 | 0.047 | 4.951 | 6.020 | 0.000 |
+| 0.950 | lotcp_s | LotCP-S | 5 | 137 | 0.963 | 0.956 | 0.969 | 0.040 | 4.584 | 5.610 | 0.000 |
+| 0.950 | lotcp_s | LotCP-S | 10 | 137 | 0.963 | 0.957 | 0.967 | 0.029 | 4.285 | 5.265 | 0.000 |
+| 0.950 | lotcp_s | LotCP-S | 20 | 129 | 0.963 | 0.958 | 0.968 | 0.025 | 4.137 | 5.106 | 0.000 |
+| 0.950 | lotcp_s | LotCP-S | 30 | 112 | 0.964 | 0.959 | 0.968 | 0.023 | 4.156 | 5.152 | 0.000 |
 | 0.950 | scp_sample | Split CP (sample folds) | 0 | 137 | 0.889 | 0.858 | 0.915 | 0.197 | 4.632 | 8.306 | 0.000 |
 | 0.950 | scp_season | Split CP (season folds) | 0 | 137 | 0.940 | 0.916 | 0.960 | 0.117 | 6.782 | 8.749 | 0.000 |
 | 0.950 | target_only_centred | Target-only CP, centred | 3 | 137 | 1.000 | 1.000 | 1.000 | 0.000 | nan | nan | 1.000 |
@@ -482,17 +390,17 @@ Table: Table S7b. Seed-to-seed spread of lot-macro metrics (LightGBM, CNN).
 | 0.950 | target_only_centred | Target-only CP, centred | 20 | 129 | 0.981 | 0.979 | 0.983 | 0.010 | 5.544 | 6.008 | 0.000 |
 | 0.950 | target_only_centred | Target-only CP, centred | 30 | 112 | 0.972 | 0.971 | 0.974 | 0.013 | 4.745 | 5.434 | 0.000 |
 | 0.900 | lotcp | LotCP | 0 | 137 | 0.899 | 0.868 | 0.926 | 0.124 | 5.448 | 7.293 | 0.000 |
-| 0.900 | lotcp | LotCP | 3 | 137 | 0.923 | 0.909 | 0.936 | 0.114 | 4.181 | 5.322 | 0.000 |
-| 0.900 | lotcp | LotCP | 5 | 137 | 0.925 | 0.911 | 0.937 | 0.107 | 4.063 | 5.155 | 0.000 |
-| 0.900 | lotcp | LotCP | 10 | 137 | 0.926 | 0.912 | 0.939 | 0.104 | 3.966 | 5.015 | 0.000 |
-| 0.900 | lotcp | LotCP | 20 | 129 | 0.930 | 0.917 | 0.942 | 0.106 | 3.895 | 4.860 | 0.000 |
-| 0.900 | lotcp | LotCP | 30 | 112 | 0.921 | 0.907 | 0.935 | 0.127 | 3.738 | 4.856 | 0.000 |
+| 0.900 | lotcp | LotCP | 3 | 137 | 0.924 | 0.910 | 0.937 | 0.111 | 4.255 | 5.398 | 0.000 |
+| 0.900 | lotcp | LotCP | 5 | 137 | 0.925 | 0.911 | 0.938 | 0.108 | 4.087 | 5.177 | 0.000 |
+| 0.900 | lotcp | LotCP | 10 | 137 | 0.927 | 0.912 | 0.939 | 0.102 | 3.972 | 5.015 | 0.000 |
+| 0.900 | lotcp | LotCP | 20 | 129 | 0.930 | 0.917 | 0.941 | 0.108 | 3.898 | 4.860 | 0.000 |
+| 0.900 | lotcp | LotCP | 30 | 112 | 0.921 | 0.907 | 0.935 | 0.131 | 3.741 | 4.856 | 0.000 |
 | 0.900 | lotcp_s | LotCP-S | 0 | 137 | 0.894 | 0.862 | 0.922 | 0.139 | 5.394 | 7.260 | 0.000 |
-| 0.900 | lotcp_s | LotCP-S | 3 | 137 | 0.919 | 0.908 | 0.929 | 0.093 | 3.765 | 4.860 | 0.000 |
-| 0.900 | lotcp_s | LotCP-S | 5 | 137 | 0.918 | 0.907 | 0.927 | 0.087 | 3.565 | 4.629 | 0.000 |
-| 0.900 | lotcp_s | LotCP-S | 10 | 137 | 0.919 | 0.909 | 0.928 | 0.077 | 3.446 | 4.460 | 0.000 |
-| 0.900 | lotcp_s | LotCP-S | 20 | 129 | 0.918 | 0.910 | 0.926 | 0.056 | 3.285 | 4.255 | 0.000 |
-| 0.900 | lotcp_s | LotCP-S | 30 | 112 | 0.914 | 0.906 | 0.923 | 0.059 | 3.277 | 4.315 | 0.000 |
+| 0.900 | lotcp_s | LotCP-S | 3 | 137 | 0.921 | 0.909 | 0.931 | 0.089 | 3.828 | 4.906 | 0.000 |
+| 0.900 | lotcp_s | LotCP-S | 5 | 137 | 0.920 | 0.911 | 0.929 | 0.078 | 3.603 | 4.620 | 0.000 |
+| 0.900 | lotcp_s | LotCP-S | 10 | 137 | 0.919 | 0.909 | 0.928 | 0.076 | 3.451 | 4.457 | 0.000 |
+| 0.900 | lotcp_s | LotCP-S | 20 | 129 | 0.918 | 0.910 | 0.926 | 0.055 | 3.286 | 4.252 | 0.000 |
+| 0.900 | lotcp_s | LotCP-S | 30 | 112 | 0.914 | 0.906 | 0.923 | 0.059 | 3.276 | 4.312 | 0.000 |
 | 0.900 | scp_sample | Split CP (sample folds) | 0 | 137 | 0.823 | 0.787 | 0.855 | 0.277 | 3.828 | 6.811 | 0.000 |
 | 0.900 | scp_season | Split CP (season folds) | 0 | 137 | 0.900 | 0.869 | 0.926 | 0.139 | 5.258 | 7.046 | 0.000 |
 | 0.900 | target_only_centred | Target-only CP, centred | 3 | 137 | 1.000 | 1.000 | 1.000 | 0.000 | nan | nan | 1.000 |
@@ -501,17 +409,17 @@ Table: Table S7b. Seed-to-seed spread of lot-macro metrics (LightGBM, CNN).
 | 0.900 | target_only_centred | Target-only CP, centred | 20 | 129 | 0.932 | 0.930 | 0.933 | 0.030 | 3.577 | 4.286 | 0.000 |
 | 0.900 | target_only_centred | Target-only CP, centred | 30 | 112 | 0.921 | 0.919 | 0.922 | 0.037 | 3.402 | 4.251 | 0.000 |
 | 0.800 | lotcp | LotCP | 0 | 137 | 0.809 | 0.773 | 0.842 | 0.190 | 4.038 | 5.797 | 0.000 |
-| 0.800 | lotcp | LotCP | 3 | 137 | 0.840 | 0.821 | 0.857 | 0.160 | 2.950 | 4.082 | 0.000 |
-| 0.800 | lotcp | LotCP | 5 | 137 | 0.843 | 0.824 | 0.861 | 0.162 | 2.873 | 3.954 | 0.000 |
-| 0.800 | lotcp | LotCP | 10 | 137 | 0.845 | 0.827 | 0.863 | 0.164 | 2.801 | 3.843 | 0.000 |
-| 0.800 | lotcp | LotCP | 20 | 129 | 0.846 | 0.827 | 0.864 | 0.170 | 2.714 | 3.704 | 0.000 |
-| 0.800 | lotcp | LotCP | 30 | 112 | 0.832 | 0.813 | 0.852 | 0.196 | 2.630 | 3.723 | 0.000 |
+| 0.800 | lotcp | LotCP | 3 | 137 | 0.840 | 0.821 | 0.858 | 0.161 | 2.994 | 4.139 | 0.000 |
+| 0.800 | lotcp | LotCP | 5 | 137 | 0.843 | 0.824 | 0.861 | 0.162 | 2.894 | 3.978 | 0.000 |
+| 0.800 | lotcp | LotCP | 10 | 137 | 0.845 | 0.827 | 0.863 | 0.163 | 2.806 | 3.847 | 0.000 |
+| 0.800 | lotcp | LotCP | 20 | 129 | 0.846 | 0.827 | 0.864 | 0.171 | 2.716 | 3.705 | 0.000 |
+| 0.800 | lotcp | LotCP | 30 | 112 | 0.832 | 0.813 | 0.852 | 0.198 | 2.630 | 3.722 | 0.000 |
 | 0.800 | lotcp_s | LotCP-S | 0 | 137 | 0.809 | 0.772 | 0.844 | 0.212 | 4.020 | 5.786 | 0.000 |
-| 0.800 | lotcp_s | LotCP-S | 3 | 137 | 0.831 | 0.815 | 0.845 | 0.140 | 2.806 | 3.916 | 0.000 |
-| 0.800 | lotcp_s | LotCP-S | 5 | 137 | 0.832 | 0.816 | 0.845 | 0.124 | 2.692 | 3.752 | 0.000 |
-| 0.800 | lotcp_s | LotCP-S | 10 | 137 | 0.837 | 0.822 | 0.850 | 0.113 | 2.651 | 3.656 | 0.000 |
-| 0.800 | lotcp_s | LotCP-S | 20 | 129 | 0.835 | 0.822 | 0.848 | 0.095 | 2.549 | 3.507 | 0.000 |
-| 0.800 | lotcp_s | LotCP-S | 30 | 112 | 0.830 | 0.818 | 0.843 | 0.097 | 2.542 | 3.531 | 0.000 |
+| 0.800 | lotcp_s | LotCP-S | 3 | 137 | 0.833 | 0.817 | 0.847 | 0.137 | 2.847 | 3.948 | 0.000 |
+| 0.800 | lotcp_s | LotCP-S | 5 | 137 | 0.831 | 0.816 | 0.845 | 0.128 | 2.704 | 3.766 | 0.000 |
+| 0.800 | lotcp_s | LotCP-S | 10 | 137 | 0.833 | 0.818 | 0.847 | 0.114 | 2.617 | 3.636 | 0.000 |
+| 0.800 | lotcp_s | LotCP-S | 20 | 129 | 0.835 | 0.822 | 0.848 | 0.096 | 2.550 | 3.506 | 0.000 |
+| 0.800 | lotcp_s | LotCP-S | 30 | 112 | 0.830 | 0.818 | 0.843 | 0.098 | 2.541 | 3.530 | 0.000 |
 | 0.800 | scp_sample | Split CP (sample folds) | 0 | 137 | 0.716 | 0.677 | 0.753 | 0.372 | 2.943 | 5.444 | 0.000 |
 | 0.800 | scp_season | Split CP (season folds) | 0 | 137 | 0.820 | 0.785 | 0.853 | 0.175 | 3.916 | 5.568 | 0.000 |
 | 0.800 | target_only_centred | Target-only CP, centred | 3 | 137 | 1.000 | 1.000 | 1.000 | 0.000 | nan | nan | 1.000 |
@@ -530,19 +438,19 @@ Table: Table S8. Nominal levels 0.80, 0.90, 0.95.
 | 0 | shrinkage | 1.422 | 0.933 | 137 |
 | 3 | mean | 1.057 | 0.382 | 137 |
 | 3 | none | 1.362 | 0.861 | 137 |
-| 3 | shrinkage | 1.046 | 0.365 | 137 |
+| 3 | shrinkage | 1.057 | 0.382 | 137 |
 | 5 | mean | 1.015 | 0.306 | 137 |
 | 5 | none | 1.362 | 0.863 | 137 |
-| 5 | shrinkage | 1.012 | 0.301 | 137 |
+| 5 | shrinkage | 1.015 | 0.306 | 137 |
 | 10 | mean | 0.982 | 0.231 | 137 |
 | 10 | none | 1.362 | 0.864 | 137 |
-| 10 | shrinkage | 0.980 | 0.229 | 137 |
+| 10 | shrinkage | 0.982 | 0.231 | 137 |
 | 20 | mean | 0.958 | 0.191 | 129 |
 | 20 | none | 1.365 | 0.880 | 129 |
-| 20 | shrinkage | 0.958 | 0.190 | 129 |
+| 20 | shrinkage | 0.958 | 0.191 | 129 |
 | 30 | mean | 0.978 | 0.197 | 112 |
 | 30 | none | 1.361 | 0.862 | 112 |
-| 30 | shrinkage | 0.977 | 0.196 | 112 |
+| 30 | shrinkage | 0.978 | 0.197 | 112 |
 
 Table: Table S9. Point-prediction error after bias correction as a function of m.
 
@@ -564,6 +472,175 @@ Table: Table S10. Cross-fitting time per target season (three fold schemes plus 
 | spiking_x20 | 1.164 | 0.638 | 0.884 | 3.828 |
 
 Table: Table S11. Spiking baseline (refit with the reference samples added) at m = 10.
+
+
+**Table S13.** External validation on OSSL soil vis-NIR spectra: all methods and m. (171 rows; provided as `table13_soil.csv` only.)
+
+
+| task | split | n_source | n_target | n_components | rmse_cv_sample | rmse_cv_lot | rmse_target | bias_target | sd_lot_bias | source_lots | target_lots |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| lucas_oc | 2015 | 18393 | 21782 | 30 | 0.317 | 0.321 | 0.570 | 0.429 | 0.234 | 674 | 744 |
+| lucas_ph | 2015 | 18393 | 21782 | 30 | 0.606 | 0.610 | 1.362 | -1.148 | 0.428 | 674 | 744 |
+| kssl_oc | fold0 | 16357 | 3450 | 30 | 0.452 | 0.474 | 0.380 | -0.039 | 0.220 | 69 | 15 |
+| kssl_oc | fold1 | 15581 | 4226 | 25 | 0.444 | 0.501 | 0.491 | 0.058 | 0.140 | 68 | 16 |
+| kssl_oc | fold2 | 15816 | 3991 | 30 | 0.419 | 0.466 | 0.484 | 0.014 | 0.193 | 68 | 16 |
+| kssl_oc | fold3 | 15520 | 4287 | 30 | 0.430 | 0.461 | 0.448 | -0.000 | 0.311 | 61 | 23 |
+| kssl_oc | fold4 | 15954 | 3853 | 30 | 0.432 | 0.456 | 0.448 | -0.026 | 0.213 | 70 | 14 |
+
+Table: Table S13b. Soil data: point-prediction error in the source (cross-validation) and on the target.
+
+
+| task | m | reference | other | outcome | n_lots | mean_diff | median_diff | ci_lo | ci_hi | p | rank_biserial | seasons_ref_better | n_seasons | p_holm |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| kssl_oc | 0 | lotcp_s | lotcp_s_shrink | iscore | 79 | 0 | 0 | 0 | 0 | nan | 0 | 0 | 5 | 1 |
+| kssl_oc | 0 | lotcp_s | lotcp_s_shrink | abs_cov_err | 79 | 0 | 0 | 0 | 0 | nan | 0 | 0 | 5 | 1 |
+| kssl_oc | 3 | lotcp_s | biascorr_naive | iscore | 79 | -0.1696 | -0.003231 | -0.2719 | -0.08054 | 0.07057 | -0.2342 | 4 | 5 | 0.4234 |
+| kssl_oc | 3 | lotcp_s | biascorr_naive | abs_cov_err | 79 | -0.03075 | -0.01004 | -0.04525 | -0.01625 | 0.005342 | -0.3608 | 4 | 5 | 0.05342 |
+| kssl_oc | 3 | lotcp_s | lotcp_s_shrink | iscore | 79 | 0.1366 | 0.1325 | 0.09676 | 0.1718 | 3.003e-11 | 0.8608 | 0 | 5 | 5.229e-10 |
+| kssl_oc | 3 | lotcp_s | lotcp_s_shrink | abs_cov_err | 79 | -0.004147 | -0.001737 | -0.008663 | -0.0002326 | 0.1712 | -0.1772 | 5 | 5 | 0.9644 |
+| kssl_oc | 3 | lotcp_s | target_only_centred | abs_cov_err | 79 | -0.04363 | -0.04776 | -0.05144 | -0.0349 | 5.437e-11 | -0.8494 | 5 | 5 | 8.699e-10 |
+| kssl_oc | 5 | lotcp_s | biascorr_naive | iscore | 79 | -0.09094 | 0.006838 | -0.1529 | -0.03732 | 0.2331 | -0.1544 | 4 | 5 | 1 |
+| kssl_oc | 5 | lotcp_s | biascorr_naive | abs_cov_err | 79 | -0.02678 | 0.005206 | -0.03951 | -0.01512 | 0.01164 | -0.3288 | 4 | 5 | 0.09315 |
+| kssl_oc | 5 | lotcp_s | lotcp_s_shrink | iscore | 79 | 0.0522 | 0.0622 | 0.02691 | 0.07306 | 2.642e-09 | 0.7709 | 0 | 5 | 4.227e-08 |
+| kssl_oc | 5 | lotcp_s | lotcp_s_shrink | abs_cov_err | 79 | -0.004704 | -0.002355 | -0.008665 | -0.001569 | 0.003012 | -0.3842 | 5 | 5 | 0.03314 |
+| kssl_oc | 5 | lotcp_s | slopebias_naive | iscore | 79 | -0.3684 | -0.2166 | -0.5129 | -0.2339 | 1.414e-07 | -0.6816 | 5 | 5 | 2.122e-06 |
+| kssl_oc | 5 | lotcp_s | slopebias_naive | abs_cov_err | 79 | -0.01695 | -0.0002165 | -0.02941 | -0.005272 | 0.1607 | -0.1816 | 4 | 5 | 0.9644 |
+| kssl_oc | 5 | lotcp_s | target_only_centred | abs_cov_err | 79 | -0.04985 | -0.05102 | -0.05672 | -0.04255 | 4.562e-13 | -0.9373 | 5 | 5 | 9.124e-12 |
+| kssl_oc | 10 | lotcp_s | biascorr_naive | iscore | 79 | -0.07688 | 0.01522 | -0.1361 | -0.02731 | 0.6994 | -0.05 | 4 | 5 | 1 |
+| kssl_oc | 10 | lotcp_s | biascorr_naive | abs_cov_err | 79 | -0.02633 | -0.000995 | -0.04077 | -0.01381 | 0.03007 | -0.2827 | 5 | 5 | 0.2105 |
+| kssl_oc | 10 | lotcp_s | lotcp_s_shrink | iscore | 79 | 0.009594 | 0.02246 | -0.008838 | 0.02429 | 1.525e-05 | 0.5601 | 1 | 5 | 0.0002135 |
+| kssl_oc | 10 | lotcp_s | lotcp_s_shrink | abs_cov_err | 79 | -0.002817 | -0.001938 | -0.00611 | -0.0004724 | 0.0001774 | -0.4982 | 3 | 5 | 0.002306 |
+| kssl_oc | 10 | lotcp_s | slopebias_naive | iscore | 79 | 0.001246 | -0.01381 | -0.08973 | 0.08811 | 0.6778 | -0.0538 | 2 | 5 | 1 |
+| kssl_oc | 10 | lotcp_s | slopebias_naive | abs_cov_err | 79 | -0.006423 | 0.00194 | -0.01606 | 0.001895 | 0.6958 | 0.05096 | 3 | 5 | 1 |
+| kssl_oc | 10 | lotcp_s | target_only_centred | iscore | 79 | -0.2163 | -0.1987 | -0.2769 | -0.164 | 2.905e-11 | -0.8614 | 5 | 5 | 5.229e-10 |
+| kssl_oc | 10 | lotcp_s | target_only_centred | abs_cov_err | 79 | 0.02962 | 0.02451 | 0.02365 | 0.03581 | 2.46e-11 | 0.8646 | 0 | 5 | 4.182e-10 |
+| kssl_oc | 20 | lotcp_s | biascorr_naive | iscore | 79 | -0.07357 | -0.01251 | -0.1265 | -0.02921 | 0.002406 | -0.393 | 5 | 5 | 0.02406 |
+| kssl_oc | 20 | lotcp_s | biascorr_naive | abs_cov_err | 79 | -0.02775 | -0.007602 | -0.04286 | -0.01561 | 2.132e-07 | -0.6761 | 5 | 5 | 3.198e-06 |
+| kssl_oc | 20 | lotcp_s | lotcp_s_shrink | iscore | 79 | 0.002511 | 0.00662 | -0.002621 | 0.007442 | 0.000178 | 0.4854 | 2 | 5 | 0.002314 |
+| kssl_oc | 20 | lotcp_s | lotcp_s_shrink | abs_cov_err | 79 | -0.0002762 | -8.17e-05 | -0.001149 | 0.0005739 | 0.3206 | -0.1347 | 3 | 5 | 1 |
+| kssl_oc | 20 | lotcp_s | slopebias_naive | iscore | 79 | 0.1236 | 0.01911 | 0.03766 | 0.2116 | 0.04305 | 0.262 | 0 | 5 | 0.3013 |
+| kssl_oc | 20 | lotcp_s | slopebias_naive | abs_cov_err | 79 | -0.01117 | -0.007322 | -0.0197 | -0.003777 | 0.005787 | -0.362 | 4 | 5 | 0.05342 |
+| kssl_oc | 20 | lotcp_s | target_only_centred | iscore | 79 | -0.04975 | -0.06465 | -0.07285 | -0.02592 | 0.0003603 | -0.462 | 5 | 5 | 0.004324 |
+| kssl_oc | 20 | lotcp_s | target_only_centred | abs_cov_err | 79 | 0.0301 | 0.02452 | 0.02358 | 0.03677 | 8.657e-12 | 0.8842 | 0 | 5 | 1.645e-10 |
+| kssl_oc | 30 | lotcp_s | biascorr_naive | iscore | 76 | -0.07614 | -0.01562 | -0.1319 | -0.03016 | 0.003618 | -0.3841 | 4 | 5 | 0.03256 |
+| kssl_oc | 30 | lotcp_s | biascorr_naive | abs_cov_err | 76 | -0.02941 | -0.009097 | -0.04465 | -0.01672 | 3.593e-07 | -0.6719 | 5 | 5 | 5.03e-06 |
+| kssl_oc | 30 | lotcp_s | lotcp_s_shrink | iscore | 76 | 0.00182 | 0.002719 | -0.002238 | 0.005755 | 0.004626 | 0.3739 | 3 | 5 | 0.037 |
+| kssl_oc | 30 | lotcp_s | lotcp_s_shrink | abs_cov_err | 76 | -0.0004182 | -0.0002151 | -0.001595 | 0.0005691 | 0.6185 | -0.06948 | 2 | 5 | 1 |
+| kssl_oc | 30 | lotcp_s | slopebias_naive | iscore | 76 | 0.1586 | 0.04053 | 0.07412 | 0.2527 | 0.001927 | 0.4094 | 0 | 5 | 0.0212 |
+| kssl_oc | 30 | lotcp_s | slopebias_naive | abs_cov_err | 76 | -0.0117 | -0.008093 | -0.01985 | -0.003738 | 0.001532 | -0.4183 | 5 | 5 | 0.01838 |
+| kssl_oc | 30 | lotcp_s | target_only_centred | iscore | 76 | -0.002573 | -0.01445 | -0.02195 | 0.02008 | 0.2933 | -0.1388 | 3 | 5 | 1 |
+| kssl_oc | 30 | lotcp_s | target_only_centred | abs_cov_err | 76 | 0.0282 | 0.0245 | 0.02258 | 0.03472 | 2.167e-11 | 0.8838 | 0 | 5 | 3.9e-10 |
+| lucas_oc | 0 | lotcp_s | lotcp_s_shrink | iscore | 467 | 0 | 0 | 0 | 0 | nan | 0 | 0 | 1 | 0.3835 |
+| lucas_oc | 0 | lotcp_s | lotcp_s_shrink | abs_cov_err | 467 | 0 | 0 | 0 | 0 | nan | 0 | 0 | 1 | 1 |
+| lucas_oc | 3 | lotcp_s | biascorr_naive | iscore | 467 | -0.05713 | -0.009341 | -0.07073 | -0.04491 | 3.445e-19 | -0.4782 | 1 | 1 | 3.445e-18 |
+| lucas_oc | 3 | lotcp_s | biascorr_naive | abs_cov_err | 467 | -0.01916 | -0.008414 | -0.02184 | -0.01658 | 7.072e-37 | -0.7068 | 1 | 1 | 9.901e-36 |
+| lucas_oc | 3 | lotcp_s | lotcp_s_shrink | iscore | 467 | -0.2689 | -0.1366 | -0.3105 | -0.2298 | 2.863e-30 | -0.6106 | 1 | 1 | 4.008e-29 |
+| lucas_oc | 3 | lotcp_s | lotcp_s_shrink | abs_cov_err | 467 | -0.04057 | -0.01905 | -0.04814 | -0.03355 | 6.733e-20 | -0.4919 | 1 | 1 | 5.386e-19 |
+| lucas_oc | 3 | lotcp_s | target_only_centred | abs_cov_err | 467 | -0.03682 | -0.04409 | -0.04123 | -0.03246 | 2.409e-41 | -0.7271 | 1 | 1 | 3.854e-40 |
+| lucas_oc | 5 | lotcp_s | biascorr_naive | iscore | 467 | -0.04186 | -0.007086 | -0.05494 | -0.03068 | 4.841e-10 | -0.3324 | 1 | 1 | 3.873e-09 |
+| lucas_oc | 5 | lotcp_s | biascorr_naive | abs_cov_err | 467 | -0.01849 | -0.012 | -0.02097 | -0.01598 | 5.773e-53 | -0.8334 | 1 | 1 | 1.097e-51 |
+| lucas_oc | 5 | lotcp_s | lotcp_s_shrink | iscore | 467 | -0.1768 | -0.1017 | -0.2026 | -0.1521 | 2.077e-34 | -0.6533 | 1 | 1 | 3.323e-33 |
+| lucas_oc | 5 | lotcp_s | lotcp_s_shrink | abs_cov_err | 467 | -0.0192 | -0.006349 | -0.02409 | -0.0145 | 8.038e-10 | -0.3321 | 1 | 1 | 3.215e-09 |
+| lucas_oc | 5 | lotcp_s | slopebias_naive | iscore | 467 | -0.4863 | -0.3512 | -0.5407 | -0.4341 | 2.627e-62 | -0.8896 | 1 | 1 | 4.728e-61 |
+| lucas_oc | 5 | lotcp_s | slopebias_naive | abs_cov_err | 467 | -0.02985 | -0.01545 | -0.03492 | -0.02493 | 3.584e-22 | -0.5193 | 1 | 1 | 3.226e-21 |
+| lucas_oc | 5 | lotcp_s | target_only_centred | abs_cov_err | 467 | -0.04453 | -0.05098 | -0.04839 | -0.04089 | 4.54e-56 | -0.8507 | 1 | 1 | 9.08e-55 |
+| lucas_oc | 10 | lotcp_s | biascorr_naive | iscore | 467 | -0.0394 | 0.002568 | -0.05209 | -0.02749 | 0.0009312 | -0.1768 | 1 | 1 | 0.002794 |
+| lucas_oc | 10 | lotcp_s | biascorr_naive | abs_cov_err | 467 | -0.02477 | -0.02037 | -0.02829 | -0.02147 | 3.562e-47 | -0.7813 | 1 | 1 | 6.412e-46 |
+| lucas_oc | 10 | lotcp_s | lotcp_s_shrink | iscore | 467 | -0.08625 | -0.05273 | -0.0997 | -0.0738 | 8.679e-31 | -0.6161 | 1 | 1 | 1.302e-29 |
+| lucas_oc | 10 | lotcp_s | lotcp_s_shrink | abs_cov_err | 467 | -0.003969 | 0 | -0.00656 | -0.001376 | 0.06589 | -0.09995 | 1 | 1 | 0.1977 |
+| lucas_oc | 10 | lotcp_s | slopebias_naive | iscore | 467 | -0.1275 | -0.1258 | -0.1583 | -0.09541 | 9.834e-26 | -0.5601 | 1 | 1 | 1.18e-24 |
+| lucas_oc | 10 | lotcp_s | slopebias_naive | abs_cov_err | 467 | -0.02536 | -0.01619 | -0.02945 | -0.02146 | 2.584e-37 | -0.6899 | 1 | 1 | 3.876e-36 |
+| lucas_oc | 10 | lotcp_s | target_only_centred | iscore | 467 | -0.1599 | -0.1353 | -0.1775 | -0.1439 | 2.922e-59 | -0.8669 | 1 | 1 | 4.968e-58 |
+| lucas_oc | 10 | lotcp_s | target_only_centred | abs_cov_err | 467 | 0.02631 | 0.02179 | 0.02328 | 0.02918 | 3.15e-45 | 0.7578 | 0 | 1 | 5.356e-44 |
+| lucas_oc | 20 | lotcp_s | biascorr_naive | iscore | 330 | -0.04941 | -0.001082 | -0.06679 | -0.03228 | 0.0002226 | -0.2345 | 1 | 1 | 0.001051 |
+| lucas_oc | 20 | lotcp_s | biascorr_naive | abs_cov_err | 330 | -0.02901 | -0.0239 | -0.03352 | -0.02472 | 1.452e-36 | -0.8159 | 1 | 1 | 1.887e-35 |
+| lucas_oc | 20 | lotcp_s | lotcp_s_shrink | iscore | 330 | -0.04132 | -0.03461 | -0.04916 | -0.03374 | 8.239e-22 | -0.6096 | 1 | 1 | 9.063e-21 |
+| lucas_oc | 20 | lotcp_s | lotcp_s_shrink | abs_cov_err | 330 | -0.009111 | -0.005083 | -0.01105 | -0.007218 | 7.767e-17 | -0.5524 | 1 | 1 | 3.883e-16 |
+| lucas_oc | 20 | lotcp_s | slopebias_naive | iscore | 330 | -0.02568 | -0.03478 | -0.05635 | 0.007851 | 0.0002103 | -0.2354 | 1 | 1 | 0.001051 |
+| lucas_oc | 20 | lotcp_s | slopebias_naive | abs_cov_err | 330 | -0.02877 | -0.02412 | -0.03333 | -0.02449 | 5.812e-35 | -0.7907 | 1 | 1 | 6.975e-34 |
+| lucas_oc | 20 | lotcp_s | target_only_centred | iscore | 330 | -0.04692 | -0.04556 | -0.0566 | -0.03674 | 5.927e-27 | -0.6828 | 1 | 1 | 7.705e-26 |
+| lucas_oc | 20 | lotcp_s | target_only_centred | abs_cov_err | 330 | 0.01728 | 0.01167 | 0.01459 | 0.01995 | 5.996e-26 | 0.6742 | 0 | 1 | 6.596e-25 |
+| lucas_oc | 30 | lotcp_s | biascorr_naive | iscore | 204 | -0.05859 | -0.009269 | -0.08091 | -0.03564 | 5.94e-06 | -0.3657 | 1 | 1 | 3.564e-05 |
+| lucas_oc | 30 | lotcp_s | biascorr_naive | abs_cov_err | 204 | -0.02659 | -0.02105 | -0.03206 | -0.02197 | 1.174e-23 | -0.8238 | 1 | 1 | 1.174e-22 |
+| lucas_oc | 30 | lotcp_s | lotcp_s_shrink | iscore | 204 | -0.02394 | -0.01522 | -0.03098 | -0.01717 | 5.733e-11 | -0.5289 | 1 | 1 | 5.16e-10 |
+| lucas_oc | 30 | lotcp_s | lotcp_s_shrink | abs_cov_err | 204 | -0.0003605 | 0 | -0.002276 | 0.001607 | 0.935 | 0.006933 | 1 | 1 | 1 |
+| lucas_oc | 30 | lotcp_s | slopebias_naive | iscore | 204 | 0.01266 | -0.02094 | -0.02712 | 0.05795 | 0.1918 | -0.1054 | 0 | 1 | 0.3835 |
+| lucas_oc | 30 | lotcp_s | slopebias_naive | abs_cov_err | 204 | -0.02423 | -0.02118 | -0.02937 | -0.01946 | 3.5e-19 | -0.7374 | 1 | 1 | 2.45e-18 |
+| lucas_oc | 30 | lotcp_s | target_only_centred | iscore | 204 | -0.01607 | -0.02425 | -0.0277 | -0.001109 | 1.353e-06 | -0.3901 | 1 | 1 | 9.473e-06 |
+| lucas_oc | 30 | lotcp_s | target_only_centred | abs_cov_err | 204 | 0.0205 | 0.01342 | 0.01666 | 0.02425 | 5.76e-19 | 0.7201 | 0 | 1 | 3.456e-18 |
+| lucas_ph | 0 | lotcp_s | lotcp_s_shrink | iscore | 467 | 0 | 0 | 0 | 0 | nan | 0 | 0 | 1 | 1 |
+| lucas_ph | 0 | lotcp_s | lotcp_s_shrink | abs_cov_err | 467 | 0 | 0 | 0 | 0 | nan | 0 | 0 | 1 | 0.3502 |
+| lucas_ph | 3 | lotcp_s | biascorr_naive | iscore | 467 | -0.1367 | -0.07028 | -0.1732 | -0.1079 | 4.004e-29 | -0.5982 | 1 | 1 | 4.805e-28 |
+| lucas_ph | 3 | lotcp_s | biascorr_naive | abs_cov_err | 467 | -0.02611 | -0.03561 | -0.02912 | -0.02307 | 1.996e-44 | -0.7475 | 1 | 1 | 2.595e-43 |
+| lucas_ph | 3 | lotcp_s | lotcp_s_shrink | iscore | 467 | -2.251 | -1.993 | -2.38 | -2.113 | 5.527e-78 | -0.9984 | 1 | 1 | 9.948e-77 |
+| lucas_ph | 3 | lotcp_s | lotcp_s_shrink | abs_cov_err | 467 | -0.2206 | -0.2061 | -0.2331 | -0.2082 | 1.374e-76 | -0.9892 | 1 | 1 | 2.749e-75 |
+| lucas_ph | 3 | lotcp_s | target_only_centred | abs_cov_err | 467 | -0.04305 | -0.05484 | -0.04708 | -0.03907 | 2.607e-52 | -0.8137 | 1 | 1 | 4.172e-51 |
+| lucas_ph | 5 | lotcp_s | biascorr_naive | iscore | 467 | -0.0805 | -0.008808 | -0.1289 | -0.04627 | 2.812e-15 | -0.4218 | 1 | 1 | 2.531e-14 |
+| lucas_ph | 5 | lotcp_s | biascorr_naive | abs_cov_err | 467 | -0.01431 | -0.01296 | -0.01625 | -0.01233 | 1.786e-39 | -0.7128 | 1 | 1 | 2.143e-38 |
+| lucas_ph | 5 | lotcp_s | lotcp_s_shrink | iscore | 467 | -1.418 | -1.273 | -1.502 | -1.334 | 6.008e-78 | -0.9981 | 1 | 1 | 1.021e-76 |
+| lucas_ph | 5 | lotcp_s | lotcp_s_shrink | abs_cov_err | 467 | -0.1481 | -0.1378 | -0.1581 | -0.1387 | 4.215e-74 | -0.9726 | 1 | 1 | 8.008e-73 |
+| lucas_ph | 5 | lotcp_s | slopebias_naive | iscore | 467 | -0.4888 | -0.58 | -0.5847 | -0.3933 | 4.416e-25 | -0.5525 | 1 | 1 | 4.858e-24 |
+| lucas_ph | 5 | lotcp_s | slopebias_naive | abs_cov_err | 467 | -0.0223 | -0.02299 | -0.02739 | -0.01718 | 3.178e-16 | -0.4371 | 1 | 1 | 2.225e-15 |
+| lucas_ph | 5 | lotcp_s | target_only_centred | abs_cov_err | 467 | -0.04362 | -0.05238 | -0.04761 | -0.03972 | 1.667e-52 | -0.8161 | 1 | 1 | 2.834e-51 |
+| lucas_ph | 10 | lotcp_s | biascorr_naive | iscore | 467 | -0.03527 | 0.0002936 | -0.05243 | -0.02144 | 0.003036 | -0.1583 | 1 | 1 | 0.02125 |
+| lucas_ph | 10 | lotcp_s | biascorr_naive | abs_cov_err | 467 | -0.0122 | -0.007843 | -0.01395 | -0.0105 | 1.207e-52 | -0.8326 | 1 | 1 | 2.173e-51 |
+| lucas_ph | 10 | lotcp_s | lotcp_s_shrink | iscore | 467 | -0.5709 | -0.5197 | -0.6115 | -0.5325 | 3.038e-73 | -0.9668 | 1 | 1 | 4.862e-72 |
+| lucas_ph | 10 | lotcp_s | lotcp_s_shrink | abs_cov_err | 467 | -0.05879 | -0.0529 | -0.06498 | -0.05293 | 1.056e-51 | -0.8088 | 1 | 1 | 1.584e-50 |
+| lucas_ph | 10 | lotcp_s | slopebias_naive | iscore | 467 | 0.08403 | -0.07919 | 0.01053 | 0.1588 | 0.5948 | -0.0284 | 0 | 1 | 1 |
+| lucas_ph | 10 | lotcp_s | slopebias_naive | abs_cov_err | 467 | -0.008226 | -0.004348 | -0.01156 | -0.004964 | 3.346e-06 | -0.2507 | 1 | 1 | 1.004e-05 |
+| lucas_ph | 10 | lotcp_s | target_only_centred | iscore | 467 | -0.3367 | -0.2518 | -0.3797 | -0.3 | 2.339e-68 | -0.9331 | 1 | 1 | 3.509e-67 |
+| lucas_ph | 10 | lotcp_s | target_only_centred | abs_cov_err | 467 | 0.03064 | 0.02424 | 0.02693 | 0.03428 | 1.766e-44 | 0.7512 | 0 | 1 | 2.473e-43 |
+| lucas_ph | 20 | lotcp_s | biascorr_naive | iscore | 330 | -0.03607 | 0.002379 | -0.05337 | -0.02021 | 0.06799 | -0.1159 | 1 | 1 | 0.204 |
+| lucas_ph | 20 | lotcp_s | biascorr_naive | abs_cov_err | 330 | -0.01703 | -0.009924 | -0.02016 | -0.01419 | 4.479e-33 | -0.7776 | 1 | 1 | 4.479e-32 |
+| lucas_ph | 20 | lotcp_s | lotcp_s_shrink | iscore | 330 | -0.1935 | -0.1813 | -0.2167 | -0.1708 | 1.859e-38 | -0.8237 | 1 | 1 | 2.603e-37 |
+| lucas_ph | 20 | lotcp_s | lotcp_s_shrink | abs_cov_err | 330 | -0.01373 | -0.009915 | -0.01752 | -0.009958 | 8.659e-11 | -0.414 | 1 | 1 | 3.464e-10 |
+| lucas_ph | 20 | lotcp_s | slopebias_naive | iscore | 330 | 0.173 | -0.007219 | 0.1022 | 0.2515 | 0.01788 | 0.1504 | 0 | 1 | 0.09682 |
+| lucas_ph | 20 | lotcp_s | slopebias_naive | abs_cov_err | 330 | -0.01314 | -0.01111 | -0.01696 | -0.009554 | 2.089e-12 | -0.4478 | 1 | 1 | 1.254e-11 |
+| lucas_ph | 20 | lotcp_s | target_only_centred | iscore | 330 | -0.1103 | -0.1083 | -0.1311 | -0.08912 | 1.832e-33 | -0.7657 | 1 | 1 | 2.381e-32 |
+| lucas_ph | 20 | lotcp_s | target_only_centred | abs_cov_err | 330 | 0.02514 | 0.01818 | 0.02173 | 0.0286 | 1.325e-34 | 0.7829 | 0 | 1 | 1.457e-33 |
+| lucas_ph | 30 | lotcp_s | biascorr_naive | iscore | 204 | -0.03165 | -0.002359 | -0.06072 | 6.014e-05 | 0.01614 | -0.1943 | 1 | 1 | 0.09682 |
+| lucas_ph | 30 | lotcp_s | biascorr_naive | abs_cov_err | 204 | -0.01963 | -0.01159 | -0.02426 | -0.01552 | 6.542e-20 | -0.7583 | 1 | 1 | 5.888e-19 |
+| lucas_ph | 30 | lotcp_s | lotcp_s_shrink | iscore | 204 | -0.08807 | -0.09296 | -0.1078 | -0.0685 | 2.423e-15 | -0.6393 | 1 | 1 | 2.423e-14 |
+| lucas_ph | 30 | lotcp_s | lotcp_s_shrink | abs_cov_err | 204 | -0.003438 | -0.001581 | -0.006733 | -0.0002598 | 0.1751 | -0.1114 | 1 | 1 | 0.3502 |
+| lucas_ph | 30 | lotcp_s | slopebias_naive | iscore | 204 | 0.1957 | 0.004328 | 0.1053 | 0.2966 | 0.0233 | 0.1832 | 0 | 1 | 0.09682 |
+| lucas_ph | 30 | lotcp_s | slopebias_naive | abs_cov_err | 204 | -0.01686 | -0.01376 | -0.02154 | -0.01208 | 2.106e-11 | -0.5504 | 1 | 1 | 1.053e-10 |
+| lucas_ph | 30 | lotcp_s | target_only_centred | iscore | 204 | -0.0393 | -0.06002 | -0.06591 | -0.001276 | 6.878e-11 | -0.5267 | 1 | 1 | 5.502e-10 |
+| lucas_ph | 30 | lotcp_s | target_only_centred | abs_cov_err | 204 | 0.01941 | 0.01588 | 0.0159 | 0.02316 | 2.113e-18 | 0.7136 | 0 | 1 | 1.691e-17 |
+
+Table: Table S13c. Soil data: paired Wilcoxon tests of LotCP-S against competing methods.
+
+
+| rule | m | threshold | n_lots | lower_cov | accepted | false_accept | compliant | true_accept | false_accept_share | yield | lots_over_10pct |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| lotcp_s_lower | 0 | 14.000 | 137 | 0.874 | 0.458 | 0.007 | 0.728 | 0.451 | 0.016 | 0.619 | 0.079 |
+| lotcp_s_lower | 0 | 15.000 | 137 | 0.874 | 0.304 | 0.007 | 0.580 | 0.297 | 0.024 | 0.512 | 0.078 |
+| lotcp_s_lower | 0 | 16.000 | 137 | 0.874 | 0.186 | 0.010 | 0.450 | 0.177 | 0.051 | 0.393 | 0.146 |
+| lotcp_s_lower | 5 | 14.000 | 137 | 0.919 | 0.515 | 0.005 | 0.728 | 0.510 | 0.010 | 0.700 | 0.055 |
+| lotcp_s_lower | 5 | 15.000 | 137 | 0.919 | 0.377 | 0.005 | 0.580 | 0.372 | 0.014 | 0.642 | 0.051 |
+| lotcp_s_lower | 5 | 16.000 | 137 | 0.919 | 0.254 | 0.005 | 0.450 | 0.248 | 0.020 | 0.552 | 0.151 |
+| lotcp_s_lower | 10 | 14.000 | 137 | 0.920 | 0.522 | 0.005 | 0.728 | 0.517 | 0.010 | 0.711 | 0.062 |
+| lotcp_s_lower | 10 | 15.000 | 137 | 0.920 | 0.383 | 0.005 | 0.580 | 0.379 | 0.012 | 0.654 | 0.060 |
+| lotcp_s_lower | 10 | 16.000 | 137 | 0.920 | 0.258 | 0.005 | 0.450 | 0.254 | 0.018 | 0.564 | 0.106 |
+| lotcp_s_lower | 20 | 14.000 | 129 | 0.918 | 0.551 | 0.005 | 0.744 | 0.546 | 0.010 | 0.733 | 0.057 |
+| lotcp_s_lower | 20 | 15.000 | 129 | 0.918 | 0.406 | 0.005 | 0.596 | 0.401 | 0.012 | 0.673 | 0.045 |
+| lotcp_s_lower | 20 | 16.000 | 129 | 0.918 | 0.275 | 0.004 | 0.465 | 0.271 | 0.015 | 0.582 | 0.110 |
+| point | 0 | 14.000 | 137 | 0.476 | 0.814 | 0.122 | 0.728 | 0.691 | 0.150 | 0.949 | 0.438 |
+| point | 0 | 15.000 | 137 | 0.476 | 0.602 | 0.080 | 0.580 | 0.521 | 0.134 | 0.899 | 0.450 |
+| point | 0 | 16.000 | 137 | 0.476 | 0.420 | 0.054 | 0.450 | 0.366 | 0.128 | 0.814 | 0.475 |
+| point_bc | 5 | 14.000 | 137 | 0.512 | 0.724 | 0.048 | 0.728 | 0.676 | 0.066 | 0.929 | 0.374 |
+| point_bc | 5 | 15.000 | 137 | 0.512 | 0.574 | 0.046 | 0.580 | 0.527 | 0.081 | 0.910 | 0.445 |
+| point_bc | 5 | 16.000 | 137 | 0.512 | 0.435 | 0.044 | 0.450 | 0.391 | 0.102 | 0.868 | 0.585 |
+| point_bc | 10 | 14.000 | 137 | 0.514 | 0.724 | 0.046 | 0.728 | 0.678 | 0.063 | 0.932 | 0.331 |
+| point_bc | 10 | 15.000 | 137 | 0.514 | 0.573 | 0.044 | 0.580 | 0.529 | 0.077 | 0.913 | 0.398 |
+| point_bc | 10 | 16.000 | 137 | 0.514 | 0.435 | 0.042 | 0.450 | 0.392 | 0.097 | 0.872 | 0.504 |
+| point_bc | 20 | 14.000 | 129 | 0.515 | 0.743 | 0.045 | 0.744 | 0.698 | 0.061 | 0.938 | 0.309 |
+| point_bc | 20 | 15.000 | 129 | 0.515 | 0.592 | 0.045 | 0.596 | 0.548 | 0.075 | 0.918 | 0.410 |
+| point_bc | 20 | 16.000 | 129 | 0.515 | 0.451 | 0.043 | 0.465 | 0.409 | 0.094 | 0.878 | 0.482 |
+| scp_lower | 0 | 14.000 | 137 | 0.838 | 0.505 | 0.010 | 0.728 | 0.495 | 0.021 | 0.680 | 0.102 |
+| scp_lower | 0 | 15.000 | 137 | 0.838 | 0.349 | 0.010 | 0.580 | 0.339 | 0.029 | 0.584 | 0.120 |
+| scp_lower | 0 | 16.000 | 137 | 0.838 | 0.222 | 0.013 | 0.450 | 0.208 | 0.060 | 0.464 | 0.155 |
+
+Table: Table S14. Harvest-decision analysis for specifications of 14, 15 and 16 % DMC.
 
 
 ![Fig. S1. Training loss of the 1D-CNN (seed 0) for the five target seasons.](figures/figS1_cnn_training.png){width=3.5in}
@@ -667,3 +744,13 @@ results are always shown because seasons (n = 5) are the top-level cluster.
   lot-fold instead of season-fold residuals) was added because the location-only ablation
   showed that the fold unit matters much less once m > 0. It is reported as an ablation only;
   the designated method (LotCP-S on season-fold residuals) was not changed.
+* D5 (after external validation on the Open Soil Spectral Library, added in revision). The
+  pre-specified empirical-Bayes shrinkage of the bias estimate was immaterial on the mango data
+  (identical coverage and interval score from m = 5) and harmful on the LUCAS 2009 -> 2015 campaign
+  shift, where the between-campaign offset exceeds the between-lot variance seen in the source and
+  shrinkage under-corrects (coverage 0.70 vs 0.87 at m = 5 for pH). Change: the plain mean of the
+  reference residuals is now the default bias estimate of LotCP and LotCP-S; the shrinkage
+  versions are kept and reported as ablations ("+ shrinkage") on every data set. All mango
+  results were recomputed with the new default.
+* D6 (revision). Added: external validation on OSSL vis-NIR soil data (LUCAS, KSSL) and a
+  harvest-decision analysis with one-sided lower bounds.

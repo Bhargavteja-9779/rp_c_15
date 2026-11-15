@@ -60,6 +60,11 @@ Full mode runs eight stages. Each is idempotent and can be started from with `--
 | `figures` | `src/visualization/figures.py` | all figures (PNG + PDF) | ~1 min |
 | `manuscript` | `manuscript/build_manuscript.py` | Markdown → DOCX → PDF with numbers filled from result files | ~1 min |
 
+The `robustness` stage also runs the spiking baseline (`experiments/spiking.py`), the harvest-decision
+analysis (`experiments/decision.py`) and the external validation on soil spectra
+(`experiments/soil_external.py`). The latter downloads three files of the Open Soil Spectral Library
+v1.2 (≈ 200 MB, public) into `data/raw/ossl/` on first use.
+
 ### Reproducing the manuscript numbers without retraining
 
 The cross-fitted predictions of every model are stored in `results/predictions/` (float32). With
@@ -100,8 +105,7 @@ Target_Journal_Submission/   the packaged submission (journal selection, manuscr
 
 Scans are nested in reference samples, samples in harvest lots, lots in seasons. For every source
 season the predictor is refitted without that season, giving *season-held-out residuals* for all
-past lots. For a new lot with `m` reference samples, LotCP (i) shrinks the mean reference residual
-towards the past mean to estimate the lot bias, (ii) optionally (LotCP-S) estimates a lot scale
+past lots. For a new lot with `m` reference samples, LotCP (i) takes the mean reference residual as the lot bias, (ii) optionally (LotCP-S) estimates a lot scale
 from the variance of the reference residuals and from the label-free variance of repeated-scan
 predictions, and (iii) takes as half-width the lot-balanced conformal quantile of the scores
 obtained by replaying exactly this `m`-shot procedure on every past lot. See

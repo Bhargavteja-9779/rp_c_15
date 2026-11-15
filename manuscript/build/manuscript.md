@@ -12,17 +12,17 @@ title: "How many reference fruit does a valid error bar need? Lot-exchangeable f
 
 # Abstract
 
-Handheld near-infrared (NIR) spectrometers guide fruit harvest decisions, yet their calibrations are built on past seasons and report no error bar that holds on a new one. Using a public mango data set (85,401 spectra, 199 harvest lots, seven seasons), we train on earlier seasons and measure interval coverage for dry matter content on 137 later-season lots. At a nominal 90 %, split conformal prediction covers 82 % and leaves 28 % of lots below 80 %; Gaussian bands, quantile forests, conformalised quantile regression, deep ensembles and Monte-Carlo dropout cover 77–84 %. Holding calibration residuals out by season restores pooled coverage but widens intervals by 37 % and still varies between 82 % and 99 % by season. We propose LotCP, a lot-exchangeable few-shot conformal calibration that corrects a new lot's bias from *m* destructively measured reference samples, rescales the score by a lot-specific scale that also uses repeated scans, and calibrates the half-width by replaying this procedure on past lots. With 3 to 30 reference samples per lot the scale-adaptive variant covers 91–92 %, stays within 91–92 % across three predictors and two protocols, and has the best interval score for 3 to 20 samples; at 10 samples its intervals are 10 % narrower than bias correction with a source quantile and 26 % narrower than target-only calibration. Beyond 20 samples target-only calibration is equally good. The gain comes from the lot-specific scale, at few samples mainly from its repeated-scan term; shrinkage of the bias estimate adds nothing.
+Handheld near-infrared (NIR) spectrometers guide fruit harvest decisions, yet their calibrations are built on past seasons and carry no error bar that holds on a new one. On a public mango data set (85,401 spectra, 199 harvest lots, seven seasons) we train on earlier seasons and measure interval coverage for dry matter content on 137 later-season lots. At a nominal 90 %, split conformal prediction covers 82 % and leaves 28 % of lots below 80 %; Gaussian bands, quantile models, deep ensembles and Monte-Carlo dropout cover 77–84 %. Season-held-out calibration restores average coverage only with 37 % wider intervals. We propose LotCP-S, a lot-exchangeable few-shot conformal calibration: the bias of a new lot is corrected from *m* destructively measured reference samples, the score is rescaled by a lot-specific scale that also uses repeated scans, and the half-width is calibrated by replaying this procedure on past lots. With 3–30 reference samples it covers 91–92 % (91–92 % across three predictors and two protocols) and has the best interval score for 3–20 samples; beyond 20, calibration on the reference samples alone is as good. Used as a lower bound against a 15 % specification, it cuts non-compliant fruit among those accepted from 13 % to 1 %. On two soil vis–NIR libraries the loss is larger (coverage 40–88 %), and five local samples restore 87–91 %. A pre-specified shrinkage of the bias estimate failed under a survey-campaign shift and was dropped.
 
-**Keywords:** near-infrared spectroscopy; conformal prediction; uncertainty quantification; distribution shift; fruit maturity; calibration maintenance; mango
+**Keywords:** near-infrared spectroscopy; conformal prediction; uncertainty quantification; distribution shift; fruit maturity; soil spectral library; calibration maintenance
 
 # Highlights
 
 - Conformal intervals for mango dry matter cover 82 %, not 90 %, on later seasons.
-- Deep ensembles, MC dropout and quantile models under-cover as well.
-- Season-held-out calibration restores coverage only on average and at 37 % more width.
-- Three to ten reference fruit per lot give near-nominal, narrower intervals.
-- A lot-specific scale from repeated scans, not shrinkage, drives the gain.
+- On soil spectra across survey campaigns coverage falls to 40–63 %.
+- Three to ten reference samples per lot restore near-nominal coverage.
+- A lot-specific scale gives narrower valid intervals; shrinkage is unsafe.
+- Calibrated lower bounds cut immature fruit among those accepted from 13 % to 1 %.
 
 
 # 1. Introduction
@@ -41,6 +41,8 @@ This paper addresses these questions with a large public mango NIR data set (85,
 2. **An analysis of the hold-out unit.** We show how coverage on the next season changes when calibration residuals are held out by sample, by lot or by season, which separates the contribution of within-season lot effects from that of between-season effects.
 3. **LotCP, a lot-exchangeable few-shot conformal calibration.** LotCP instantiates hierarchical conformal prediction [@lee2023] for calibration maintenance. It corrects the lot bias by the mean residual of *m* reference samples, rescales the conformity score by a lot-specific scale that combines the reference residuals with the label-free variance of repeated scans (LotCP-S), and obtains the interval half-width by replaying the *m*-shot procedure on every past lot using season-held-out residuals. The half-width therefore accounts for the estimation error of the correction at the given *m*.
 4. **An evaluation at the level at which decisions are made.** The unit of analysis is the harvest lot. We report lot-wise coverage, interval width and interval score as a function of the number of reference samples, with ablations, paired tests across lots, robustness to reference error, to the number of past lots, to unseen regions and cultivars, and an analysis of the lots on which the method still fails.
+
+5. **External validation and a decision analysis.** The central comparisons are repeated on two soil vis–NIR libraries with a nested structure (a European survey across two campaigns and a United States library across survey projects) [@safanelli2025], and the intervals are translated into a harvest decision against a minimum dry-matter specification by means of one-sided bounds.
 
 We do not claim a new conformal theory. The guarantee we rely on is that of hierarchical conformal prediction, and it holds only if lots are exchangeable, which seasons make doubtful. The contribution is the design of the calibration for this application, the evidence on how far the guarantee carries across real seasons, and a quantified answer to the reference-sampling question.
 
@@ -91,7 +93,7 @@ For a new lot with reference set $A$, $|A|=m$, the bias is estimated by the mean
 
 $$\hat b = \bar r_A \quad (m\ge1),\qquad \hat b=\hat\mu \quad (m=0). \qquad\text{(3)}$$
 
-The corrected point prediction is $f(x)+\hat b$. The protocol originally specified an empirical-Bayes shrinkage of this mean towards $\hat\mu$ [@efron1975], $\hat b=\hat\mu+w_m(\bar r_A-\hat\mu)$ with $w_m=\hat\tau^2/(\hat\tau^2+\hat\sigma^2/m)$. It is evaluated as an ablation ("+ shrinkage"). We do not use it in the reported method, because it brought no benefit on the mango data and is unsafe when the new population is shifted by more than the between-lot variation seen in the past (Sections 7 and 8.2). The variance components of Eq. (2) remain in use for the scale estimate below.
+The corrected point prediction is $f(x)+\hat b$. The protocol originally specified an empirical-Bayes shrinkage of this mean towards $\hat\mu$ [@efron1975], $\hat b=\hat\mu+w_m(\bar r_A-\hat\mu)$ with $w_m=\hat\tau^2/(\hat\tau^2+\hat\sigma^2/m)$. It is evaluated as an ablation ("+ shrinkage"). We do not use it in the reported method, because it brought no benefit on the mango data and is unsafe when the new population is shifted by more than the between-lot variation seen in the past (Sections 7 and 12). The variance components of Eq. (2) remain in use for the scale estimate below.
 
 ## 4.5 Lot-specific scale (LotCP-S)
 
@@ -200,7 +202,7 @@ The experimental protocol, including hypotheses, splits, methods and metrics, wa
 
 ## 5.8 Deviations from the pre-specified protocol
 
-(D1) LotCP-S was added after the first run on one predictor and one target season (PLS, 2018) showed that the pre-specified LotCP under-covered because the residual scale of that season's lots exceeded that of the source lots. The scale estimator of Eq. (4) was developed on source-season residuals only. Results for PLS on 2018 should therefore be read as development data for LotCP-S; the other four target seasons and the other two predictors had not been evaluated when the design was fixed. Both variants are reported everywhere. (D2) The centred target-only baseline (e) was added to give target-only calibration its strongest form. (D4) After the first complete evaluation and during internal review, the following were added and are reported whatever their outcome: the ablation of LotCP-S on lot-fold residuals, the slope/bias and spiking baselines, the single-instrument deployment unit, the sample-split estimation of the constants and the season jackknife. (D5) The empirical-Bayes shrinkage of the bias estimate, part of the pre-specified method, was removed from the reported method after the external validation: it was immaterial on the mango data and harmful under the LUCAS campaign shift (Sections 7 and 8.2). All mango results were recomputed with the plain mean; the shrinkage versions are reported as ablations. (D6) The external validation on soil spectra and the harvest-decision analysis were added in revision. (D3) For computational reasons the CNN was trained for 20 rather than 30 epochs; lot-grouped folds were computed for one CNN seed only; and in the leave-one-season-out protocol the CNN uses one seed with season folds. These choices were made before any CNN result existed.
+(D1) LotCP-S was added after the first run on one predictor and one target season (PLS, 2018) showed that the pre-specified LotCP under-covered because the residual scale of that season's lots exceeded that of the source lots. The scale estimator of Eq. (4) was developed on source-season residuals only. Results for PLS on 2018 should therefore be read as development data for LotCP-S; the other four target seasons and the other two predictors had not been evaluated when the design was fixed. Both variants are reported everywhere. (D2) The centred target-only baseline (e) was added to give target-only calibration its strongest form. (D4) After the first complete evaluation and during internal review, the following were added and are reported whatever their outcome: the ablation of LotCP-S on lot-fold residuals, the slope/bias and spiking baselines, the single-instrument deployment unit, the sample-split estimation of the constants and the season jackknife. (D5) The empirical-Bayes shrinkage of the bias estimate, part of the pre-specified method, was removed from the reported method after the external validation: it was immaterial on the mango data and harmful under the LUCAS campaign shift (Sections 7 and 12). All mango results were recomputed with the plain mean; the shrinkage versions are reported as ablations. (D6) The external validation on soil spectra and the harvest-decision analysis were added in revision. (D3) For computational reasons the CNN was trained for 20 rather than 30 epochs; lot-grouped folds were computed for one CNN seed only; and in the leave-one-season-out protocol the CNN uses one seed with season folds. These choices were made before any CNN result existed.
 
 
 # 6. Results
@@ -343,11 +345,11 @@ Table: Table 6. Ablation of LotCP components (PLS, nominal 0.90). Each cell: cov
 
 ![Fig. 6. Ablation: lot-macro coverage with bootstrap 95 % CI for m = 5 and m = 20; the interval score (IS) is printed next to each variant.](figures/fig6_ablation.png){width=6.3in}
 
-*Scale.* The lot-specific scale is the component that matters most once $m>0$. Removing it (LotCP) raises the interval score at $m=10$ from 4.46 to 5.02. The two sources of scale information both contribute: with the reference-sample variance alone the score is 4.58, with the replicate-scan variance alone 4.74. The replicate-scan term is the only one available at $m\le1$ and costs no reference measurement. It is also what separates LotCP-S from the bias-correction shortcut when reference samples are few. Without the replicate-scan term, the per-lot interval score of the reference-scale-only variant does not differ significantly from that of bias correction with the source quantile at $m=3$, 5 or 10 (Holm-adjusted p = 0.004, = 0.347 and = 0.421) and is better only from $m=20$ (p < 0.001; supplementary table S6b). A user who takes a single scan per fruit should therefore not expect an efficiency gain over that shortcut with fewer than about twenty reference samples; what remains is the stability of coverage across predictors shown in Section 8.
+*Scale.* The lot-specific scale is the component that matters most once $m>0$. Removing it (LotCP) raises the interval score at $m=10$ from 4.46 to 5.02. The two sources of scale information both contribute: with the reference-sample variance alone the score is 4.58, with the replicate-scan variance alone 4.74. The replicate-scan term is the only one available at $m\le1$ and costs no reference measurement. It is also what separates LotCP-S from the bias-correction shortcut when reference samples are few. Without the replicate-scan term, the per-lot interval score of the reference-scale-only variant is worse than that of bias correction with the source quantile at $m=3$ (mean difference 0.19, Holm-adjusted p = 0.004), because a scale estimated from three samples is noisy, does not differ from it at $m=5$ or 10 (p = 0.347 and = 0.421) and is better only from $m=20$ (p < 0.001; supplementary table S6b). A user who takes a single scan per fruit should therefore not expect an efficiency gain over that shortcut with fewer than about twenty reference samples; what remains is the stability of coverage across predictors shown in Section 8.
 
 *Fold unit.* At $m=0$, residuals held out by lot or by sample give coverage 0.846 and 0.830; season-held-out residuals are needed to reach the nominal level. With $m>0$ the picture changes. After the lot bias has been corrected, what is left to calibrate is the within-lot residual, and lot-fold residuals describe it well: LotCP on lot-fold residuals covers 0.892 at $m=10$, slightly below nominal, with narrower intervals than LotCP on season-fold residuals, which over-covers (0.927). LotCP-S on lot-fold residuals covers 0.908 with an interval score of 4.36, against 0.919 and 4.46 for season-fold residuals. The lot-fold variant of LotCP-S is therefore the more efficient one, and it is not less safe by season: its lowest per-season coverage at $m=10$ is 0.89, against 0.88 for season-fold residuals. Season-held-out residuals are thus needed without reference samples and are not needed with them. We keep the season-fold variant as the reported method because it was fixed before this comparison was made, and note that the choice costs about 6 % in width at $m=10$.
 
-*Shrinkage.* The pre-specified empirical-Bayes shrinkage of the bias estimate has a small effect at $m=3$ (interval score 5.32 against 5.40 for the plain mean with the location-only method, 4.86 against 4.91 with LotCP-S) and none from $m=10$ (4.46 against 4.46). The reason is visible in the variance components: the lot bias is large relative to the sample noise, so the shrinkage weight is already 0.79–0.83 at $m=3$. On the soil data of Section 8.2 shrinkage is harmful. The part of H4 that concerns shrinkage is not supported, and the reported method uses the plain mean.
+*Shrinkage.* The pre-specified empirical-Bayes shrinkage of the bias estimate has a small effect at $m=3$ (interval score 5.32 against 5.40 for the plain mean with the location-only method, 4.86 against 4.91 with LotCP-S) and none from $m=10$ (4.46 against 4.46). The reason is visible in the variance components: the lot bias is large relative to the sample noise, so the shrinkage weight is already 0.79–0.83 at $m=3$. On the soil data of Section 12 shrinkage is harmful. The part of H4 that concerns shrinkage is not supported, and the reported method uses the plain mean.
 
 *Episodic quantile.* Replacing the replayed quantile by the quantile of within-lot residuals centred on the true lot mean, which ignores the estimation error of the bias, gives coverage 0.899 at $m=3$ and 0.917 at $m=10$ for the location-only method, and it fails at $m=0$ (0.782). Because season-fold residuals are conservative for $m>0$, the omission is not punished in this data set. The replay is nevertheless what makes the scale-adaptive score calibratable at all, since the distribution of $|r-\hat b|/\hat s$ depends on $m$ through both estimates.
 
@@ -489,13 +491,102 @@ We examined coverage at the level of the lot and of the scan for $m=10$ (Fig. 9)
 By subgroup, LotCP-S coverage is 0.93 for fruit at the green stage and 0.90 for fruit at the ripening stage; 0.91, 0.90 and 0.89 for the low, medium and high fruit-temperature classes; 0.92 for instrument units present in the source seasons and 0.92 for units that are new in the target season; and 0.92 and 0.96 for cultivars present in and absent from the source seasons. The lower coverage at the ripening stage is in line with the finding of the data set's authors that physiological stage affects model performance more than cultivar, season or region [@anderson2020]. Among cultivars the lowest coverage is 0.86 for Keitt. Scans carrying the provider's first outlier flag are covered at 0.81 (0.50 under sample-fold split conformal prediction). Coverage is lower at the extremes of the DMC range (Fig. 9c), a known limitation of scores that do not adapt to the predicted value. These figures are a reminder that the guarantee is marginal: a lot of ripening fruit, or a lot measured with atypical scatter, can be covered below the nominal level even when coverage is nominal on average.
 
 
-# 12. Discussion
+# 12. External validation on soil vis–NIR spectra (RQ4)
+
+The experiments so far use one fruit and one instrument family. We therefore repeated the central comparisons on two soil subsets of the Open Soil Spectral Library (Section 5.7), a different material, spectral range, instrument and reference chemistry, in a field where adjusting a library model with a few local samples is established practice.
+
+| Data set and task | Method | Lots | Coverage | Under-covered lots (%) | Width | Interval score |
+|---|---:|---:|---:|---:|---:|---:|
+| LUCAS organic C, 2009 → 2015 | Split CP (sample folds) (m=0) | 467 | 0.628 | 73 | 1.03 | 3.00 |
+| LUCAS organic C, 2009 → 2015 | Split CP (lot folds) (m=0) | 467 | 0.635 | 70 | 1.04 | 2.97 |
+| LUCAS organic C, 2009 → 2015 | Bias corr. + source CP (m=5) | 467 | 0.879 | 19 | 1.03 | 1.59 |
+| LUCAS organic C, 2009 → 2015 | LotCP-S + shrinkage (m=5) | 467 | 0.846 | 29 | 1.02 | 1.73 |
+| LUCAS organic C, 2009 → 2015 | LotCP (m=5) | 467 | 0.880 | 18 | 1.04 | 1.59 |
+| LUCAS organic C, 2009 → 2015 | LotCP-S (m=5) | 467 | 0.888 | 16 | 1.05 | 1.55 |
+| LUCAS organic C, 2009 → 2015 | Bias corr. + source CP (m=10) | 467 | 0.891 | 15 | 1.03 | 1.52 |
+| LUCAS organic C, 2009 → 2015 | Slope/bias corr. + source CP (m=10) | 467 | 0.885 | 17 | 1.03 | 1.61 |
+| LUCAS organic C, 2009 → 2015 | Target-only CP, centred (m=10) | 467 | 0.906 | 14 | 1.26 | 1.64 |
+| LUCAS organic C, 2009 → 2015 | LotCP-S + shrinkage (m=10) | 467 | 0.875 | 19 | 1.01 | 1.57 |
+| LUCAS organic C, 2009 → 2015 | LotCP (m=10) | 467 | 0.882 | 18 | 0.99 | 1.52 |
+| LUCAS organic C, 2009 → 2015 | LotCP-S (m=10) | 467 | 0.892 | 14 | 1.01 | 1.48 |
+| LUCAS organic C, 2009 → 2015 | Target-only CP, centred (m=20) | 330 | 0.906 | 12 | 1.06 | 1.43 |
+| LUCAS organic C, 2009 → 2015 | LotCP-S (m=20) | 330 | 0.899 | 11 | 0.97 | 1.38 |
+| LUCAS pH, 2009 → 2015 | Split CP (sample folds) (m=0) | 467 | 0.395 | 96 | 1.94 | 9.61 |
+| LUCAS pH, 2009 → 2015 | Split CP (lot folds) (m=0) | 467 | 0.397 | 96 | 1.95 | 9.57 |
+| LUCAS pH, 2009 → 2015 | Bias corr. + source CP (m=5) | 467 | 0.854 | 24 | 1.94 | 3.08 |
+| LUCAS pH, 2009 → 2015 | LotCP-S + shrinkage (m=5) | 467 | 0.698 | 73 | 1.91 | 4.42 |
+| LUCAS pH, 2009 → 2015 | LotCP (m=5) | 467 | 0.867 | 20 | 2.01 | 3.05 |
+| LUCAS pH, 2009 → 2015 | LotCP-S (m=5) | 467 | 0.872 | 18 | 2.03 | 3.00 |
+| LUCAS pH, 2009 → 2015 | Bias corr. + source CP (m=10) | 467 | 0.872 | 19 | 1.94 | 2.89 |
+| LUCAS pH, 2009 → 2015 | Slope/bias corr. + source CP (m=10) | 467 | 0.893 | 14 | 1.94 | 2.77 |
+| LUCAS pH, 2009 → 2015 | Target-only CP, centred (m=10) | 467 | 0.907 | 14 | 2.52 | 3.19 |
+| LUCAS pH, 2009 → 2015 | LotCP-S + shrinkage (m=10) | 467 | 0.797 | 45 | 1.92 | 3.43 |
+| LUCAS pH, 2009 → 2015 | LotCP (m=10) | 467 | 0.870 | 19 | 1.93 | 2.90 |
+| LUCAS pH, 2009 → 2015 | LotCP-S (m=10) | 467 | 0.878 | 16 | 1.97 | 2.86 |
+| LUCAS pH, 2009 → 2015 | Target-only CP, centred (m=20) | 330 | 0.905 | 12 | 2.25 | 2.94 |
+| LUCAS pH, 2009 → 2015 | LotCP-S (m=20) | 330 | 0.885 | 14 | 1.97 | 2.83 |
+| KSSL total C, held-out projects | Split CP (sample folds) (m=0) | 79 | 0.881 | 15 | 1.34 | 2.19 |
+| KSSL total C, held-out projects | Split CP (lot folds) (m=0) | 79 | 0.895 | 13 | 1.42 | 2.19 |
+| KSSL total C, held-out projects | Bias corr. + source CP (m=5) | 79 | 0.864 | 22 | 1.34 | 2.19 |
+| KSSL total C, held-out projects | LotCP-S + shrinkage (m=5) | 79 | 0.913 | 7 | 1.50 | 2.05 |
+| KSSL total C, held-out projects | LotCP (m=5) | 79 | 0.913 | 10 | 1.60 | 2.18 |
+| KSSL total C, held-out projects | LotCP-S (m=5) | 79 | 0.914 | 8 | 1.56 | 2.10 |
+| KSSL total C, held-out projects | Bias corr. + source CP (m=10) | 79 | 0.878 | 17 | 1.34 | 2.09 |
+| KSSL total C, held-out projects | Slope/bias corr. + source CP (m=10) | 79 | 0.895 | 12 | 1.34 | 2.02 |
+| KSSL total C, held-out projects | Target-only CP, centred (m=10) | 79 | 0.907 | 13 | 1.71 | 2.23 |
+| KSSL total C, held-out projects | LotCP-S + shrinkage (m=10) | 79 | 0.916 | 7 | 1.48 | 2.01 |
+| KSSL total C, held-out projects | LotCP (m=10) | 79 | 0.913 | 10 | 1.54 | 2.10 |
+| KSSL total C, held-out projects | LotCP-S (m=10) | 79 | 0.916 | 6 | 1.50 | 2.02 |
+| KSSL total C, held-out projects | Target-only CP, centred (m=20) | 79 | 0.904 | 9 | 1.49 | 2.02 |
+| KSSL total C, held-out projects | LotCP-S (m=20) | 79 | 0.913 | 6 | 1.44 | 1.97 |
+
+Table: Table 12. External validation on vis–NIR soil spectra (PLS, nominal 0.90). Carbon is modelled as log(1 + %); widths and interval scores are in the units of the modelled quantity. Calibration residuals are held out by lot (grid cell or project).
+
+
+![Fig. 10. Lot-macro coverage on the soil data as a function of the number of local reference samples (PLS, nominal 0.90, dotted line). Dashed line: split conformal prediction with sample folds and no reference samples.](figures/fig10_soil.png){width=6.5in}
+
+*The coverage loss is larger than for mango.* A model trained on the 2009 LUCAS campaign and applied to the 2015 campaign has a prediction error on the target of 0.57 log-units for organic carbon, against 0.32 in cross-validation, with a mean offset of 0.43; for pH the error is 1.36 against 0.61, with an offset of -1.15 pH units. We do not know the origin of this between-campaign offset; whatever its cause, it is the kind of batch effect a user of a spectral library can meet. Split conformal intervals calibrated within the 2009 campaign then cover 0.63 (organic carbon) and 0.40 (pH) of the 2015 values in 467 grid cells, at a nominal 0.90. Holding residuals out by lot does not help (0.64 and 0.40), because the shift is between campaigns and the source contains only one. This is the situation in which no label-free repair exists. For held-out KSSL projects, which are exchangeable with the calibration projects by construction, sample-fold split conformal prediction covers 0.881 and lot-fold calibration 0.895: with exchangeable lots and no campaign effect, the loss is small and holding out lots removes it, as hierarchical conformal theory predicts.
+
+*A few local reference samples repair most of it.* With five reference samples per cell, LotCP-S covers 0.888 for organic carbon and 0.872 for pH; with twenty, 0.899 and 0.885. Coverage stays up to three points below nominal, because the residual scale of the 2015 campaign also differs from that of the 2009 cells that calibrate the half-width; the method does not fully absorb a shift in scale between campaigns. For KSSL projects it covers 0.914–0.916.
+
+*Comparison with the alternatives.* On LUCAS organic carbon LotCP-S has a lower interval score than bias correction with the source quantile and slope/bias correction at $m=5$, 10 and 20, and than centred target-only calibration at $m=10$ and 20 (Holm-adjusted p ≤ 0.003 against the first two; p < 0.001 and < 0.001 against the third; supplementary table S13c). On LUCAS pH it is better than bias correction at $m=5$ and 10 (p < 0.001 and = 0.021) and not different at $m=20$ (p = 0.204); slope/bias correction has a numerically lower score from $m=10$, a difference that is not significant. On KSSL it does not differ from bias correction at $m=5$ and 10 (p = 1.000 and = 1.000) and is better at $m=20$ (p = 0.024); slope/bias correction has the numerically best score there at $m=20$. Bias correction with the source quantile under-covers on all three soil tasks (0.878, 0.891 and 0.872 at $m=10$), where it over-covered with PLS on mango: its coverage is again not under control. Centred target-only calibration is valid and wider, as before. Since soil samples have a single spectrum, these comparisons involve no replicate-scan information; the advantage of LotCP-S on LUCAS comes from calibrating the half-width for the estimation error and from the reference-sample scale.
+
+*Shrinkage fails under a campaign shift.* The pre-specified shrinkage variant covers only 0.70 for pH and 0.85 for organic carbon at $m=5$, against 0.87 and 0.89 with the plain mean. The between-lot variance estimated inside the 2009 campaign is small, so the shrinkage weight is low and the estimate is pulled towards the 2009 mean, which the 2015 campaign has left. On KSSL, where lots are exchangeable, shrinkage gives a small gain at $m=5$ (interval score 2.05 against 2.10). Shrinkage thus helps a little when its assumption holds and fails badly when it does not, and the user cannot know in advance which case applies. This is why the reported method does not use it.
+
+Taken together, the soil data reproduce the three main findings on independent material: intervals calibrated within the source population lose coverage on a new population, drastically so across survey campaigns; a handful of local reference samples restores most of the coverage; and LotCP-S is not significantly worse than any competing method at $m\le10$ and is significantly better where the shift is large. They also show a limit: under a between-campaign change of residual scale, coverage remains a few points short of nominal.
+
+# 13. Consequences for a harvest decision
+
+Table 13 and Fig. 11 translate the intervals into the decision they are meant to support, for a specification of 15 % DMC.
+
+| Acceptance rule | Coverage of lower bound | Accepted (%) | Non-compliant among accepted (%) | Lots with > 10 % non-compliant (%) | Compliant fruit accepted (%) |
+|---|---:|---:|---:|---:|---:|
+| Point prediction ≥ t (m=0) | – | 60 | 13 | 45 | 90 |
+| Split-CP lower bound ≥ t (m=0) | 0.838 | 35 | 3 | 12 | 58 |
+| LotCP-S lower bound ≥ t (m=0) | 0.874 | 30 | 2 | 8 | 51 |
+| Bias-corrected point prediction ≥ t (m=5) | – | 57 | 8 | 44 | 91 |
+| LotCP-S lower bound ≥ t (m=5) | 0.919 | 38 | 1 | 5 | 64 |
+| Bias-corrected point prediction ≥ t (m=10) | – | 57 | 8 | 40 | 91 |
+| LotCP-S lower bound ≥ t (m=10) | 0.920 | 38 | 1 | 6 | 65 |
+| LotCP-S lower bound ≥ t (m=20) | 0.918 | 41 | 1 | 4 | 67 |
+
+Table: Table 13. Harvest decision against a minimum dry-matter specification t = 15 % (PLS, forward chaining, one-sided nominal level 0.90). A fruit is accepted when the rule's statistic is at least t; it is compliant when its reference DMC is at least t.
+
+
+![Fig. 11. Harvest decision against a 15 % DMC specification (PLS, 137 later-season lots): share of accepted fruit that is non-compliant, share of lots in which more than 10 % of the accepted fruit is non-compliant, and share of compliant fruit that is accepted.](figures/fig11_decision.png){width=6.5in}
+
+Accepting fruit on the point prediction lets through 13 % non-compliant fruit among those accepted, and in 45 % of lots more than one accepted fruit in ten is below the specification. Bias correction with ten reference samples reduces the first figure to 8 % but leaves 40 % of lots above the 10 % mark, because a decision on the point value ignores the scatter around it. A split-conformal lower bound from sample-fold residuals covers 0.838 instead of 0.90, passes 3 % non-compliant fruit and accepts 58 % of the compliant fruit. The LotCP-S lower bound with ten reference samples covers 0.920, passes 1 % non-compliant fruit, leaves 6 % of lots above the 10 % mark and accepts 65 % of the compliant fruit. It is therefore both safer and less wasteful than the uncalibrated bound: the reference samples remove the lot bias, so the bound can sit closer to the prediction. The price of any valid bound is visible in the last column: about a third of the compliant fruit is not accepted at this uncertainty level, compared with a tenth under the point rule. Whether that trade is acceptable depends on the cost of harvesting immature fruit relative to that of delaying harvest, which is the grower's judgement; the bounds make the trade explicit. Results for specifications of 14 and 16 % are in supplementary table S14.
+
+
+# 14. Discussion
 
 **What the user of a handheld instrument should take from this.** An error bar derived from the calibration set, by cross-validation, by a conformal quantile on held-out samples or by the predictive variance of a neural network, describes the past lots. On the lots of a later season it was too narrow in every one of the five seasons we could test and for every predictor. The size of the shortfall, six to fourteen coverage points at a nominal 90 % depending on the method and the predictor, is large enough to matter for a decision against a specification, and it is concentrated in a minority of lots that are covered very badly (Fig. 5).
 
 **Without reference samples there is no cheap repair.** Season-held-out calibration is the honest label-free option and should replace sample-fold calibration when intervals are quoted for a future season. It restores coverage on average, at the price of intervals about a third wider, and its per-season coverage still ranged from 0.82 to 0.99. This is not a defect of the procedure. With four to six past seasons there is little information about how different the next one will be, and no reweighting of unlabelled spectra recovers a bias in the residual.
 
-**A few reference samples are worth more than any modelling choice we tried.** Three destructive measurements per lot moved every bias-correcting method to at least nominal coverage and brought the width back to that of the invalid intervals. This supports, with coverage figures, the long-standing practice of checking a calibration against a few fruit of the new population. LotCP-S then answers the follow-up question of how to turn those samples into the narrowest interval that remains valid: it was the best of the compared methods for 3 to 20 samples per lot with PLS, its coverage was stable across predictors where that of the common bias-correction shortcut was not, and it converts additional reference samples into narrower intervals. Its efficiency advantage over that shortcut at fewer than about twenty reference samples came from the repeated scans of each fruit: without them the two did not differ significantly. Taking two or three scans per fruit, which costs seconds, is therefore part of the recommendation. When 20 to 30 samples per lot are available, calibration on those samples alone is as good and has the stronger, lot-conditional guarantee; the past lots then add nothing.
+**The pattern is not specific to mango.** On soil spectra the same three observations recur: coverage is lost on a new population, by two points across exchangeable survey projects and by twenty-seven to fifty points across survey campaigns; no calibration confined to the source repairs a between-campaign shift; and five local reference samples bring coverage back to within a few points of nominal. The soil results also correct the method: they exposed the shrinkage step as unsafe, and they show that when the residual scale changes between campaigns the intervals remain slightly too narrow.
+
+**A few reference samples are worth more than any modelling choice we tried.** Three destructive measurements per lot moved every bias-correcting method to at least nominal coverage and brought the width back to that of the invalid intervals. This supports, with coverage figures, the long-standing practice of checking a calibration against a few fruit of the new population. LotCP-S then answers the follow-up question of how to turn those samples into the narrowest interval that remains valid: it was the best of the compared methods for 3 to 20 samples per lot with PLS, its coverage was stable across predictors where that of the common bias-correction shortcut was not, and it converts additional reference samples into narrower intervals. On the mango data its efficiency advantage over that shortcut at fewer than about twenty reference samples came from the repeated scans of each fruit: without them the two did not differ significantly. On the soil survey, where there are no repeated scans but the shift is large, LotCP-S was significantly better than the shortcut because the shortcut under-covered. Taking two or three scans per fruit, which costs seconds, is therefore part of the recommendation. When 20 to 30 samples per lot are available, calibration on those samples alone is as good and has the stronger, lot-conditional guarantee; the past lots then add nothing.
 
 **Which parts of the method earn their place.** The ablation gives a sober answer. The lot-specific scale and, without reference samples, the season-level hold-out carry the result. Empirical-Bayes shrinkage of the bias, which motivated the design, was immaterial on the mango data, because lot biases are large compared with the noise of a sample mean, and harmful under the campaign shift of the soil survey, where it pulled the correction towards a past that no longer applied. It was removed. The general lesson is that a few-shot correction should not borrow strength from past groups for the very quantity that the shift changes. Season-held-out residuals are essential without reference samples but not with them: once the bias is corrected, lot-fold residuals gave slightly narrower intervals at coverage no lower by season, and a practitioner who always collects reference samples can use them and save the season-wise refits.
 
@@ -503,9 +594,9 @@ By subgroup, LotCP-S coverage is 0.93 for fruit at the green stage and 0.90 for 
 
 **Practical procedure.** (1) Build the calibration with season-grouped cross-validation and store the season-held-out residuals with their lot and sample identifiers. (2) For a new lot, scan the fruit, with repeated scans where possible, and measure 5 to 10 randomly chosen fruit destructively. (3) Report $f(x)+\hat b\pm \hat q_m\hat s$. (4) After the season, add the lot to the calibration set.
 
-# 13. Limitations
+# 15. Limitations
 
-*One data set, one commodity, one instrument family.* All results come from one public data set of mango fruit scanned with handheld units of one model in two Australian regions. We know of no other public NIR data set with a comparable lot and season structure, so the generality of the numbers to other fruit, attributes and instruments is untested. The qualitative mechanism, lot effects that are invisible to within-lot calibration, is not specific to mango.
+*One fruit data set.* The fruit results come from one public data set of mango scanned with handheld units of one model in two Australian regions. We found no second public fruit NIR data set with a lot and season structure. The external validation on soil spectra shows that the mechanism and the remedy carry over to another material, spectral range and instrument, but it does not replace a second fruit or a prospective orchard trial, and the soil analysis uses a single predictor (PLS), lots defined by us (grid cells) or by the survey (projects), and no season level.
 
 *Few seasons.* Five target seasons are a small sample at the level that matters most. Lot-level confidence intervals and tests treat lots within a season as independent, which they are not entirely; per-season results are reported for that reason, and the season-to-season range of coverage should be read as the realistic uncertainty.
 
@@ -519,13 +610,13 @@ By subgroup, LotCP-S coverage is 0.93 for fruit at the green stage and 0.90 for 
 
 *Repeated scans.* The data set has many scans per sample (several instrument units and, for some samples, three temperatures), which is richer than routine practice. The single-instrument analysis reduces but does not remove this advantage.
 
-*Scores.* The score does not adapt to the predicted DMC, and coverage was lower at the extremes of the DMC range. One-sided bounds, which are what a minimum-DMC specification needs, were not studied.
+*Scores.* The score does not adapt to the predicted DMC, and coverage was lower at the extremes of the DMC range. One-sided bounds were studied for one predictor and illustrative specifications only; a cost-based choice of the confidence level was not attempted.
 
 *Details taken from the data description.* The measurement geometry and reference method are described here as in the publications that accompany the data set; we did not collect the data, and we interpret the file's "population" field as a harvest lot following those publications.
 
-# 14. Conclusion
+# 16. Conclusion
 
-Prediction intervals for mango dry matter content that are calibrated inside the training seasons, by any of the seven procedures we tested (Gaussian band, split conformal prediction with sample or lot folds, conformalised quantile regression, quantile regression forest, deep ensemble, Monte-Carlo dropout), do not keep their nominal coverage on the lots of a later season. Calibrating on season-held-out residuals repairs coverage on average but with much wider intervals and substantial variation between seasons. Three to ten destructively measured reference fruit per lot, used through a lot-exchangeable conformal calibration with a lot-specific scale, give intervals that cover close to the nominal level across predictors and are narrower than those of the alternatives; with twenty or more reference fruit, calibration on those fruit alone is sufficient. The number of reference fruit, more than the choice of model, determines how informative a valid error bar can be.
+Prediction intervals for mango dry matter content that are calibrated inside the training seasons, by any of the seven procedures we tested (Gaussian band, split conformal prediction with sample or lot folds, conformalised quantile regression, quantile regression forest, deep ensemble, Monte-Carlo dropout), do not keep their nominal coverage on the lots of a later season. Calibrating on season-held-out residuals repairs coverage on average but with much wider intervals and substantial variation between seasons. Three to ten destructively measured reference fruit per lot, used through a lot-exchangeable conformal calibration with a lot-specific scale, give intervals that cover close to the nominal level across predictors and are narrower than those of the alternatives; with twenty or more reference fruit, calibration on those fruit alone is sufficient. The same holds, more sharply, for soil spectra across survey campaigns. Used as a lower bound against a harvest specification, the calibrated interval reduces the share of immature fruit among those accepted by an order of magnitude relative to a decision on the point prediction. The number of reference samples, more than the choice of model, determines how informative a valid error bar can be.
 
 # CRediT authorship contribution statement
 
@@ -557,7 +648,7 @@ The authors thank the creators of the mango data set at Central Queensland Unive
 
 # Appendix A. Supplementary material
 
-Supplementary tables S1–S11 (complete machine-generated result tables, including all paired tests and per-seed results), figure S1 and the pre-specified protocol with its deviation log accompany this article.
+Supplementary tables S1–S14 (complete machine-generated result tables, including all paired tests and per-seed results), figure S1 and the pre-specified protocol with its deviation log accompany this article.
 
 # References
 

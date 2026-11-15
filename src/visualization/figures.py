@@ -301,13 +301,13 @@ def fig_decision(cfg, fdir):
     items = [("point", 0, "Point prediction", C["red"]), ("scp_lower", 0, "Split-CP lower bound", C["orange"]), ("point_bc", 10, "Bias-corrected point (m = 10)", C["magenta"]),
              ("lotcp_s_lower", 5, "LotCP-S lower bound (m = 5)", C["aqua"]), ("lotcp_s_lower", 10, "LotCP-S lower bound (m = 10)", C["blue"])]
     fig, axes = plt.subplots(1, 3, figsize=(7.2, 2.5))
-    for ax, (col, lab) in zip(axes, (("false_accept_share", "Non-compliant share of accepted fruit"), ("lots_over_10pct", "Lots with > 10 % non-compliant\namong accepted"), ("yield", "Share of compliant fruit accepted"))):
+    for ax, (col, lab) in zip(axes, (("false_accept_share", "Non-compliant share\nof accepted fruit"), ("lots_over_10pct", "Lots with > 10 % non-compliant\namong accepted"), ("yield", "Share of compliant\nfruit accepted"))):
         vals = [float(d[(d.rule == k) & (d.m == m)][col].iloc[0]) for k, m, _, _ in items]
         ax.barh(range(len(items))[::-1], vals, color=[c for *_, c in items], height=0.6)
         for y, v in zip(range(len(items))[::-1], vals):
             ax.text(v + 0.01 * max(vals), y, f"{100 * v:.0f} %", va="center", fontsize=7, color=C["ink"])
         ax.set_yticks(range(len(items))[::-1]); ax.set_yticklabels([lab_ for _, _, lab_, _ in items] if ax is axes[0] else [], fontsize=6.5)
-        ax.set_title(lab, fontsize=8); ax.set_xlim(0, max(vals) * 1.25); ax.grid(axis="y", visible=False)
+        ax.set_title(lab, fontsize=8); ax.set_xlim(0, max(vals) * 1.25); ax.grid(axis="y", visible=False); ax.set_axisbelow(True)
         ax.xaxis.set_major_formatter(matplotlib.ticker.PercentFormatter(1.0, decimals=0))
     fig.tight_layout(); _save(fig, fdir, "fig11_decision")
 

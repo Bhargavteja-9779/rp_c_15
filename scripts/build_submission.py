@@ -34,6 +34,10 @@ SUPP_TABLES = [
     ("S9", "table9_point_correction", "Point-prediction error after bias correction as a function of m."),
     ("S10", "table11b_crossfit_cost", "Cross-fitting time per target season (three fold schemes plus final model)."),
     ("S11", "table12_spiking", "Spiking baseline (refit with the reference samples added) at m = 10."),
+    ("S13", "table13_soil", "External validation on OSSL soil vis-NIR spectra: all methods and m."),
+    ("S13b", "table13b_soil_point", "Soil data: point-prediction error in the source (cross-validation) and on the target."),
+    ("S13c", "table13c_soil_tests", "Soil data: paired Wilcoxon tests of LotCP-S against competing methods."),
+    ("S14", "table14_decision", "Harvest-decision analysis for specifications of 14, 15 and 16 % DMC."),
 ]
 
 
@@ -105,8 +109,11 @@ def cover_letter():
         "few reference samples, adapts the interval to a lot-specific scale that also uses repeated scans, and prices the "
         "estimation error by replaying the procedure on past lots. With three to ten reference samples per lot it gave "
         "close-to-nominal coverage across three predictors and narrower intervals than the alternatives; with twenty or more, "
-        "calibration on the reference samples alone was equally good. The manuscript reports these boundaries, an ablation in "
-        "which one motivating component (shrinkage) turned out not to matter, and the lots on which the method still fails.",
+        "calibration on the reference samples alone was equally good. The findings were then tested on two soil vis-NIR "
+        "libraries, where the loss of coverage across survey campaigns was larger still and a few local samples again "
+        "restored most of it, and the intervals were translated into a harvest decision against a dry-matter specification. "
+        "The manuscript reports the boundaries of the method, a pre-specified component (shrinkage) that failed on the "
+        "external data and was removed, and the lots on which the method still fails.",
         f"We believe the work fits the scope of {JOURNAL} because it concerns the reliable use of a sensing instrument in "
         "agricultural production and leads to a concrete sampling recommendation. The experimental protocol was written "
         "before any model was trained, deviations from it are listed in the manuscript, and the code, stored predictions and "

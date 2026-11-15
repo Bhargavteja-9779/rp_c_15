@@ -20,17 +20,17 @@ where $b_k$ is a lot bias (the calibration is systematically high or low for thi
 
 Let the source data comprise seasons $\mathcal{S}$. For each $s\in\mathcal{S}$ we fit the predictor on $\mathcal{S}\setminus\{s\}$ and predict the scans of season $s$, which gives out-of-fold predictions $\tilde f(x_{kij})$ and residuals $\tilde r_{kij}=y_{ki}-\tilde f(x_{kij})$ for every source scan. The deployed predictor $f$ is fitted on all of $\mathcal{S}$. This is a cross-conformal construction [@vovk2015] with seasons as folds. Sample-grouped and lot-grouped five-fold versions are computed in the same way and serve as ablations.
 
-## 4.4 Shrinkage bias correction
+## 4.4 Bias correction
 
 Let $\bar r_{ki}$ be the mean residual of sample $i$ over its scans and $\bar r_k$ the mean of $\bar r_{ki}$ over the samples of lot $k$. From the season-held-out residuals of the $K$ source lots we estimate, by the method of moments for a one-way random-effects layout,
 
 $$\hat\mu=\frac1K\sum_k \bar r_k,\qquad \hat\sigma^2=\frac{\sum_k\sum_i(\bar r_{ki}-\bar r_k)^2}{\sum_k (n_k-1)},\qquad \hat\tau^2=\max\Big\{0,\; \frac{1}{K-1}\sum_k(\bar r_k-\hat\mu)^2-\hat\sigma^2\,\frac1K\sum_k\frac1{n_k}\Big\}. \qquad\text{(2)}$$
 
-For a new lot with reference set $A$, $|A|=m$, the bias is estimated by shrinking the mean reference residual $\bar r_A$ towards $\hat\mu$ [@efron1975]:
+For a new lot with reference set $A$, $|A|=m$, the bias is estimated by the mean reference residual,
 
-$$\hat b = \hat\mu + w_m(\bar r_A-\hat\mu),\qquad w_m=\frac{\hat\tau^2}{\hat\tau^2+\hat\sigma^2/m}, \qquad\text{(3)}$$
+$$\hat b = \bar r_A \quad (m\ge1),\qquad \hat b=\hat\mu \quad (m=0). \qquad\text{(3)}$$
 
-with $\hat b=\hat\mu$ for $m=0$. The corrected point prediction is $f(x)+\hat b$.
+The corrected point prediction is $f(x)+\hat b$. The protocol originally specified an empirical-Bayes shrinkage of this mean towards $\hat\mu$ [@efron1975], $\hat b=\hat\mu+w_m(\bar r_A-\hat\mu)$ with $w_m=\hat\tau^2/(\hat\tau^2+\hat\sigma^2/m)$. It is evaluated as an ablation ("+ shrinkage"). We do not use it in the reported method, because it brought no benefit on the mango data and is unsafe when the new population is shifted by more than the between-lot variation seen in the past (Sections 7 and 12). The variance components of Eq. (2) remain in use for the scale estimate below.
 
 ## 4.5 Lot-specific scale (LotCP-S)
 
@@ -54,11 +54,11 @@ where $K_m$ is the number of usable source lots and $\delta$ a point mass. Every
 
 $$C(x)=\big[f(x)+\hat b-\hat q_m\hat s,\; f(x)+\hat b+\hat q_m\hat s\big]. \qquad\text{(7)}$$
 
-For $m=0$ and $\hat s\equiv1$, Eq. (6) is the hierarchical conformal prediction (HCP) quantile of Lee et al. [@lee2023] applied to season-held-out residuals. With $w_m=1$ and $\hat s\equiv1$ it is their mean-centred few-shot score applied to model residuals; we report this variant as "HCP-mean".
+For $m=0$ and $\hat s\equiv1$, Eq. (6) is the hierarchical conformal prediction (HCP) quantile of Lee et al. [@lee2023] applied to season-held-out residuals. For $m\ge1$ and $\hat s\equiv1$ (LotCP) it is their mean-centred few-shot score applied to season-held-out model residuals. LotCP-S adds the lot-specific scale.
 
 ## 4.7 What is guaranteed, and what is not
 
-Suppose the predictor and the constants $(\hat\mu,\hat\tau^2,\hat\sigma^2,e_0,\nu_0)$ are fixed, the $K_m$ calibration lots and the test lot are exchangeable, and samples are exchangeable within lots. Then the score of a random scan of a random non-reference sample of the test lot, computed with a random reference set, is hierarchically exchangeable with the calibration scores, and Theorem 1 of Lee et al. [@lee2023] gives $\mathbb{P}\{y\in C(x)\}\ge 1-\alpha$ for every $m$, with the probability taken over lots, reference draws and scans. A Monte-Carlo check of this statement under simulated exchangeable lots is part of the unit tests of the released code.
+Suppose the predictor and the constants $(\hat\mu,\hat\sigma^2,e_0,\nu_0)$ are fixed, the $K_m$ calibration lots and the test lot are exchangeable, and samples are exchangeable within lots. Then the score of a random scan of a random non-reference sample of the test lot, computed with a random reference set, is hierarchically exchangeable with the calibration scores, and Theorem 1 of Lee et al. [@lee2023] gives $\mathbb{P}\{y\in C(x)\}\ge 1-\alpha$ for every $m$, with the probability taken over lots, reference draws and scans. A Monte-Carlo check of this statement under simulated exchangeable lots is part of the unit tests of the released code.
 
 The assumptions are not met exactly in our use. (i) Calibration residuals come from season-held-out predictors, not from the deployed predictor. (ii) The constants are estimated from the calibration lots themselves. (iii) Lots of a future season are not exchangeable with past lots if the new season differs systematically; season-held-out residuals emulate such a difference but cannot guarantee that the next one is of the same size. (iv) The guarantee is marginal over lots; it does not promise the nominal coverage within each lot [@barber2021limits]. The experiments measure how much these gaps matter.
 

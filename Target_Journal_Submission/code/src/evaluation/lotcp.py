@@ -3,8 +3,10 @@
 Given residuals of *past* lots that were produced by models which had not seen the lot's season
 (season-held-out residuals), LotCP
   1. estimates between-lot (tau^2) and within-lot (sigma^2) variance components of the bias,
-  2. corrects a new lot's bias by an empirical-Bayes shrinkage of the mean residual of m
-     reference samples:  b_hat = mu + w_m * (rbar_support - mu),  w_m = tau^2 / (tau^2 + sigma^2 / m),
+  2. corrects a new lot's bias by the mean residual of m reference samples, b_hat = rbar_support
+     (optionally, shrink=True, by the empirical-Bayes shrinkage
+     b_hat = mu + w_m * (rbar_support - mu),  w_m = tau^2 / (tau^2 + sigma^2 / m); this pre-specified
+     variant proved immaterial on the mango data and harmful under a large campaign shift),
   2b. (LotCP-S) rescales the score by a lot-specific scale built from the variance of the m
      reference residuals (shrunk to the prior) and the label-free variance of repeated-scan
      predictions in the lot,
@@ -66,11 +68,12 @@ class LotCP:
     alpha: float
     n_episodes: int = 30
     min_query: int = 10
-    shrink: bool = True        # False: plain mean bias correction (w = 1)
+    shrink: bool = False       # True: empirical-Bayes shrinkage of the bias (ablation; see protocol deviation D5)
     episodic: bool = True      # False: quantile of oracle-centred within-lot residuals
     lot_balanced: bool = True  # False: every spectrum weighted equally
     scale: str = "none"        # 'none' | 'support' | 'rep' | 'full' (lot-specific score scale)
     nu_grid: tuple = (5, 10, 20, 40)
+    side: str = "two"               # 'two': |r - b| / s (interval);  'lower': (b - r) / s (one-sided lower bound)
     split_constants: bool = False   # True: constants from one random half of the lots, quantile from the other
     seed: int = 0
     info: dict = field(default_factory=dict)
@@ -137,7 +140,8 @@ class LotCP:
                 b = self.bias(L.s_mean[sup])
                 s_hat = self.lot_scale(L.s_mean[sup], L.rep_var, nu0) if scaled else 1.0
                 rows = qmask[L.s_inv]
-                sc.append(np.abs(L.r[rows] - b) / s_hat)
+                e = L.r[rows] - b
+                sc.append((np.abs(e) if self.side == "two" else -e) / s_hat)
                 wt.append(self._w_query(L, qmask)[rows] * ep_w)
                 scales.append(s_hat)
             q = weighted_quantile(np.concatenate(sc), np.concatenate(wt), 1 - self.alpha, inf_mass=1.0)

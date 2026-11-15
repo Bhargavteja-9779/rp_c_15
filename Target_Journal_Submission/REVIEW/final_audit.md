@@ -33,6 +33,7 @@
 | Remaining failures are driven by lot residual scale | lot-level correlation and subgroup coverage | Section 11, Fig. 9 |
 | The coverage loss and its repair replicate on soil vis–NIR spectra (LUCAS 2009→2015: 0.63 / 0.40 → 0.87–0.90 with 5–20 local samples; KSSL projects: 0.88 → 0.91) | OSSL external validation, paired tests | Section 12, Table 12, Fig. 10, S13 |
 | Shrinkage of the bias estimate is unsafe under a campaign shift | LUCAS: 0.70 vs 0.87 (pH, m = 5) | Section 12, Table 12 |
+| LotCP-A keeps ≈ 90 % of lots at ≥ 0.90 realised coverage (mango 90–92 %, KSSL 93 %, LUCAS 83–87 %), against 62–70 % for LotCP-S; +25 % width | lot-wise quantile calibration; unit test of the guarantee | Section 14, Table 14, Fig. 12 |
 | A calibrated lower bound reduces non-compliant fruit among accepted from 13 % to 1 % at a 15 % specification | one-sided LotCP-S, 137 lots | Section 13, Table 13, Fig. 11 |
 
 ## 3. Reproducibility audit (as a stranger)
@@ -50,7 +51,7 @@
 
 | # | Risk | Evidence | Severity | Mitigation | Fixed? |
 |---|---|---|---|---|---|
-| 1 | Novelty | Method instantiates hierarchical conformal prediction; concurrent instrument-transfer study exists | Medium–high | Framed as applied contribution; prior art cited and separated; negative ablation results reported | Partly |
+| 1 | Novelty | Method instantiates hierarchical conformal prediction (marginal and, added in revision, lot-level PAC-type assurance); concurrent instrument-transfer study exists | Medium | Framed as applied contribution; prior art cited and separated; negative ablation results reported | Partly |
 | 2 | Methodology | Scale term added after a look at one season/predictor; shrinkage removed after external validation; season-fold variant not the best for m > 0; coverage up to 3 points below nominal under a campaign change of residual scale | Medium | Disclosed as deviations D1, D4, D5; all variants reported on every data set | Disclosed, not removable |
 | 3 | Data set | One fruit data set; external validation on two soil vis–NIR libraries (three tasks) added in revision; no prospective field trial | **Medium** (was High) | Soil validation replicates the main findings; extra shift protocols on the mango data | Partly |
 | 4 | Statistics | Five seasons; lots within season treated as independent | Medium | Per-season tables, season jackknife, season counts for paired differences | Partly |
@@ -68,8 +69,8 @@ No claim of zero risk or of acceptance is made.
 
 ## 5. Readiness decision
 
-**Scientific content (after revision round 11): READY FOR SUBMISSION**, in the sense that no further experiment that is feasible with the
-available public data and hardware would change or strengthen the conclusions; every weakness found in eleven review
+**Scientific content (after revision rounds 11–12): READY FOR SUBMISSION**, in the sense that no further experiment that is feasible with the
+available public data and hardware would change or strengthen the conclusions; every weakness found in twelve review
 rounds was either fixed by experiment, corrected in the text, or stated as a limitation.
 
 **Administrative readiness: NOT YET.** Before submitting, the human authors must

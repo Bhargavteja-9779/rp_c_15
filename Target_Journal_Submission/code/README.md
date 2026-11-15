@@ -115,6 +115,7 @@ obtained by replaying exactly this `m`-shot procedure on every past lot. See
 from src.evaluation.lotcp import LotCP
 cp = LotCP(m=10, alpha=0.1, scale="full").fit(residuals, lot_ids, sample_ids, predictions)
 bias, half_width = cp.predict(reference_sample_mean_residuals, replicate_variance_of_new_lot)
+# lot-level assurance (>= 90 % coverage within the lot for >= 90 % of lots): LotCP(..., assure=0.10)
 # interval for a scan x of the new lot:  f(x) + bias ± half_width
 ```
 

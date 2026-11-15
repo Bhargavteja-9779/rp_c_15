@@ -30,6 +30,8 @@ LOTCP_VARIANTS = {
     "lotcp_s": ("season", {"scale": "full"}),               # LotCP-S: + lot-specific scale (reported method)
     "lotcp_shrink": ("season", {"shrink": True}),           # ablation: empirical-Bayes shrinkage of the bias
     "lotcp_s_shrink": ("season", {"scale": "full", "shrink": True}),
+    "lotcp_a": ("season", {"scale": "full", "assure": 0.10}),        # LotCP-A: lot-level assurance, delta = 0.10
+    "lotcp_a20": ("season", {"scale": "full", "assure": 0.20}),
     "lotcp_s_support": ("season", {"scale": "support"}),    # scale from reference samples only
     "lotcp_s_rep": ("season", {"scale": "rep"}),            # scale from replicate scans only
     "lotcp_s_lotfold": ("lot", {"scale": "full"}),          # LotCP-S on lot-fold residuals
@@ -127,6 +129,7 @@ def evaluate(cfg, model, seed, protocol, target, alpha, variants=None, m_grid=No
         w_all = 1.0 / (n_s * scnt[inv])
 
         def add(method, m, cov, width, isc, under, **extra):
+            extra.setdefault("meets", float(cov >= 1 - alpha))      # share of draws whose lot coverage reaches nominal
             rows.append(dict(key, lot=int(lot), n_samples=n_s, method=method, m=m, coverage=cov, width=width,
                              iscore=isc, under=under, **extra))
 
@@ -225,7 +228,8 @@ def evaluate(cfg, model, seed, protocol, target, alpha, variants=None, m_grid=No
                 add(name, m, float(v[:, 0].mean()), float(v[fin, 1].mean()) if fin.any() else np.inf,
                     float(v[fin, 2].mean()) if fin.any() else np.inf,
                     float(np.mean(v[:, 0] < 1 - alpha - ev["undercover_margin"])),
-                    cov_sd=float(v[:, 0].std()), frac_infinite=float(1 - fin.mean()))
+                    cov_sd=float(v[:, 0].std()), frac_infinite=float(1 - fin.mean()),
+                    meets=float(np.mean(v[:, 0] >= 1 - alpha)), meets85=float(np.mean(v[:, 0] >= 1 - alpha - 0.05)))
             for j, corr in enumerate(("none", "mean", "shrinkage")):
                 prow.append(dict(key, lot=int(lot), n_samples=n_s, m=m, correction=corr,
                                  mse=float(pt[:, j, 0].mean()), abs_bias=float(pt[:, j, 1].mean())))
@@ -258,7 +262,7 @@ def _one(cfg, c):
         with open(cache, "rb") as fh:
             return pickle.load(fh)
     full = c[0] == "pls" and c[2] == "forward"
-    variants = None if full else {k: LOTCP_VARIANTS[k] for k in ("lotcp", "lotcp_s", "lotcp_s_shrink")}
+    variants = None if full else {k: LOTCP_VARIANTS[k] for k in ("lotcp", "lotcp_s", "lotcp_s_shrink", "lotcp_a")}
     rows, prow, info = evaluate(cfg, *c, variants=variants)
     res = (rows, prow, dict(model=c[0], seed=c[1], protocol=c[2], target=c[3], alpha=c[4], calib=info))
     with open(cache, "wb") as fh:

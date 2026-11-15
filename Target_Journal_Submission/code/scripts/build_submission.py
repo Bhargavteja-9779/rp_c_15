@@ -112,6 +112,8 @@ def cover_letter():
         "calibration on the reference samples alone was equally good. The findings were then tested on two soil vis-NIR "
         "libraries, where the loss of coverage across survey campaigns was larger still and a few local samples again "
         "restored most of it, and the intervals were translated into a harvest decision against a dry-matter specification. "
+        "A second variant of the calibration targets the stated coverage within the individual lot for nine lots in ten, a "
+        "property that none of the compared methods provided. "
         "The manuscript reports the boundaries of the method, a pre-specified component (shrinkage) that failed on the "
         "external data and was removed, and the lots on which the method still fails.",
         f"We believe the work fits the scope of {JOURNAL} because it concerns the reliable use of a sensing instrument in "

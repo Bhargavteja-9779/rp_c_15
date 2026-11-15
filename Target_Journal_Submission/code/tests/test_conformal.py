@@ -142,3 +142,33 @@ def test_split_constants_keeps_coverage():
         b, q = cp.predict(L.s_mean[sup])
         cov.append(np.mean(np.abs(L.r[~np.isin(L.s_inv, sup)] - b) <= q))
     assert abs(np.mean(cov) - 0.9) < 0.03
+
+
+def test_lotcp_assured_lot_level_guarantee():
+    """LotCP-A: at least 1 - delta of new exchangeable lots must reach realised coverage >= 1 - alpha,
+    whereas the marginal method reaches it in only about half of the lots."""
+    rng = np.random.default_rng(9)
+
+    def sim(n_lots):
+        r, lot, sample, sid = [], [], [], 0
+        for l in range(n_lots):
+            b, s = rng.normal(0, 1.0), rng.uniform(0.4, 1.2)       # lots differ in bias and in scale
+            for _ in range(40):
+                r.append(b + rng.normal(0, s)); lot.append(l); sample.append(sid); sid += 1
+        return np.array(r), np.array(lot), np.array(sample)
+
+    r, lot, sample = sim(300)
+    rt, lt, st = sim(300)
+    share = {}
+    for name, kw in (("marginal", {}), ("assured", {"assure": 0.1})):
+        cp = LotCP(m=10, alpha=0.1, n_episodes=10, scale="support", **kw).fit(r, lot, sample)
+        ok = []
+        for l in np.unique(lt):
+            k = lt == l
+            L = _build_lots(rt[k], lt[k], st[k])[0]
+            sup = rng.choice(len(L.s_mean), 10, replace=False)
+            b, q = cp.predict(L.s_mean[sup])
+            ok.append(np.mean(np.abs(L.r[~np.isin(L.s_inv, sup)] - b) <= q) >= 0.9)
+        share[name] = np.mean(ok)
+    assert share["assured"] >= 0.86, share
+    assert share["marginal"] < 0.75, share

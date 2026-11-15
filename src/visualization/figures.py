@@ -327,7 +327,7 @@ def fig_assurance(cfg, fdir, d):
         axes[0].plot(g.m, g.meets, color=c, marker=mk, ls=ls, label=LABEL[method])
         axes[1].plot(g.m, g.width, color=c, marker=mk, ls=ls)
     axes[0].axhline(0.9, color=C["ink"], lw=0.8, ls=":"); axes[0].axhline(0.8, color=C["ink"], lw=0.8, ls=":")
-    axes[0].text(30, 0.905, "target for δ = 0.10", ha="right", fontsize=6.5); axes[0].text(30, 0.805, "target for δ = 0.20", ha="right", fontsize=6.5)
+    axes[0].text(17, 0.888, "target for δ = 0.10", ha="center", fontsize=6.5); axes[0].text(15, 0.788, "target for δ = 0.20", ha="center", fontsize=6.5)
     axes[0].set(xlabel="Reference samples per lot, m", ylabel="Share of lot-draws with\ncoverage ≥ 0.90", title="(a) Lots reaching the nominal coverage")
     axes[1].set(xlabel="Reference samples per lot, m", ylabel="Mean interval width (% DMC)", title="(b) Price in width")
     h, l = axes[0].get_legend_handles_labels()

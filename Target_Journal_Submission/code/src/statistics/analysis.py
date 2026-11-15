@@ -17,20 +17,20 @@ LABEL = {
     "cqr_season": "CQR (season folds)", "qrf": "Quantile regression forest", "ensemble": "Deep ensemble",
     "mc_dropout": "MC dropout", "target_only": "Target-only CP", "target_only_centred": "Target-only CP, centred",
     "biascorr_naive": "Bias corr. + source CP", "slopebias_naive": "Slope/bias corr. + source CP", "pooled": "Pooled recalibration", "aci": "ACI on references",
-    "lotcp": "LotCP", "lotcp_s": "LotCP-S", "lotcp_shrink": "LotCP + shrinkage", "lotcp_s_shrink": "LotCP-S + shrinkage",
+    "lotcp": "LotCP", "lotcp_s": "LotCP-S", "lotcp_a": "LotCP-A (δ = 0.10)", "lotcp_a20": "LotCP-A (δ = 0.20)", "lotcp_shrink": "LotCP + shrinkage", "lotcp_s_shrink": "LotCP-S + shrinkage",
     "lotcp_noepisodic": "LotCP w/o episodic quantile", "lotcp_lotfold": "LotCP, lot-fold residuals",
     "lotcp_samplefold": "LotCP, sample-fold residuals", "lotcp_pooled": "LotCP, spectrum-pooled weights",
     "lotcp_s_support": "LotCP-S, reference scale only", "lotcp_s_lotfold": "LotCP-S, lot-fold residuals", "lotcp_s_rep": "LotCP-S, replicate scale only",
 }
 M0 = ["gauss", "scp_sample", "scp_lot", "scp_season", "wcp", "cqr_sample", "cqr_season", "qrf", "ensemble", "mc_dropout", "lotcp", "lotcp_s"]
-MK = ["biascorr_naive", "slopebias_naive", "pooled", "aci", "target_only", "target_only_centred", "lotcp", "lotcp_s"]
+MK = ["biascorr_naive", "slopebias_naive", "pooled", "aci", "target_only", "target_only_centred", "lotcp", "lotcp_s", "lotcp_a", "lotcp_a20"]
 ABL = ["lotcp_s", "lotcp_s_shrink", "lotcp_s_support", "lotcp_s_rep", "lotcp_s_lotfold", "lotcp", "lotcp_shrink", "lotcp_noepisodic", "lotcp_lotfold", "lotcp_samplefold", "lotcp_pooled"]
 
 
 def seed_average(df):
     """Average stochastic-model seeds within lot so that the lot stays the unit of analysis."""
     keys = ["model", "protocol", "target", "alpha", "lot", "method", "m"]
-    num = ["coverage", "width", "iscore", "under", "n_samples", "frac_infinite"]
+    num = ["coverage", "width", "iscore", "under", "n_samples", "frac_infinite"] + [c for c in ("meets", "meets85") if c in df.columns]
     d = df.copy()
     d[["width", "iscore"]] = d[["width", "iscore"]].replace(np.inf, np.nan)
     return d.groupby(keys, as_index=False)[num].mean()
@@ -60,7 +60,8 @@ def summarise(d, cfg, methods=None):
                          cov_lo=lo, cov_hi=hi, under=g["under"].mean(),
                          width=g.loc[fin, "width"].mean() if fin.any() else np.nan,
                          iscore=g.loc[fin, "iscore"].mean() if fin.any() else np.nan,
-                         frac_infinite=g["frac_infinite"].fillna(0).mean()))
+                         frac_infinite=g["frac_infinite"].fillna(0).mean(),
+                         meets=g["meets"].mean() if "meets" in g else np.nan))
     return pd.DataFrame(rows)
 
 
@@ -241,7 +242,7 @@ def run(cfg):
     # generalisation: other predictors (forward) and the leave-one-season-out protocol
     gen = []
     for (model, protocol), g in d[np.isclose(d.alpha, a0)].groupby(["model", "protocol"]):
-        s = summarise(g, cfg, {"scp_sample", "scp_season", "lotcp", "lotcp_s", "lotcp_s_shrink", "target_only_centred", "biascorr_naive"})
+        s = summarise(g, cfg, {"scp_sample", "scp_season", "lotcp", "lotcp_s", "lotcp_s_shrink", "lotcp_a", "target_only_centred", "biascorr_naive"})
         s.insert(0, "protocol", protocol); s.insert(0, "model", model)
         gen.append(s)
     gen = pd.concat(gen, ignore_index=True)
@@ -275,7 +276,7 @@ def run(cfg):
     for method in set(M0) | set(MK) | set(ABL):
         src = summarise(main, cfg, {method})
         for _, r in src.iterrows():
-            metrics[f"{method}|m{int(r.m)}"] = {k: r[k] for k in ("n_lots", "coverage", "cov_lo", "cov_hi", "under", "width", "iscore", "frac_infinite")}
+            metrics[f"{method}|m{int(r.m)}"] = {k: r[k] for k in ("n_lots", "coverage", "cov_lo", "cov_hi", "under", "width", "iscore", "frac_infinite", "meets")}
     metrics["_meta"] = dict(primary_alpha=a0, n_target_lots=int(main[main.m == 0].lot.nunique()),
                             n_target_seasons=int(main.target.nunique()))
     stats["paired_tests"] = tests.to_dict(orient="records")

@@ -167,6 +167,16 @@ class R:
         t = self.t["table11b_crossfit_cost"]
         return float(t[t.model == model][field].iloc[0])
 
+    def meet(self, method, m):
+        t = self.t["table3_main_intervals"]                 # same rounded source as Table 14
+        return f"{100 * float(t[(t.method == method) & (t.m == m)].meets.iloc[0]):.0f}"
+
+    def season_meets(self, method, m):
+        if not hasattr(self, "_raw"):
+            self.season_min(method, m)
+        g = self._raw[(self._raw.method == method) & (self._raw.m == m)].groupby("target")["meets"].mean()
+        return f"{100 * g.min():.0f}–{100 * g.max():.0f}"
+
     # ---- external soil data -----------------------------------------------------------------
     def soil(self, task, method, m, field="coverage"):
         t = self.t["table13_soil"]
@@ -375,6 +385,15 @@ def tables(r: R) -> dict:
         T["decision"] = _pipe(pd.DataFrame(rows), "Table 13. Harvest decision against a minimum dry-matter specification t = 15 % (PLS, forward chaining, one-sided nominal level 0.90). "
                               "A fruit is accepted when the rule's statistic is at least t; it is compliant when its reference DMC is at least t.",
                               {c: "{:.0f}" for c in ("Accepted (%)", "Non-compliant among accepted (%)", "Lots with > 10 % non-compliant (%)", "Compliant fruit accepted (%)")})
+    s3, rows = r.t["table3_main_intervals"], []
+    for k in ("biascorr_naive", "target_only_centred", "lotcp_s", "lotcp_a20", "lotcp_a"):
+        row = {"Method": LABEL[k]}
+        for m in (5, 10, 20, 30):
+            g = s3[(s3.method == k) & (s3.m == m)]
+            row[f"m={m}"] = "n/a" if g.empty or g.frac_infinite.iloc[0] > 0.5 else f"{100 * g.meets.iloc[0]:.0f} % / {g.coverage.iloc[0]:.3f} / {g.width.iloc[0]:.2f}"
+        rows.append(row)
+    T["assure"] = _pipe(pd.DataFrame(rows), "Table 14. Lot-level assurance (PLS, forward chaining, 137 target lots, 1 − α = 0.90). Each cell: share of lot-draws whose "
+                        "realised coverage is at least 0.90 / lot-macro coverage / mean width (% DMC). The target share is 90 % for δ = 0.10 and 80 % for δ = 0.20.")
     p2 = r.t["table2_point_models_by_seed"]
     cost = p2.groupby("model").agg(fit=("fit_seconds", "mean"), pred=("predict_ms_per_1000", "mean")).reindex(["pls", "gbm", "cnn"])
     rows = [{"Component": {"pls": "PLS fit (final model)", "gbm": "LightGBM fit", "cnn": "1D-CNN fit (20 epochs)"}[k], "Time": f"{v.fit:.1f} s",

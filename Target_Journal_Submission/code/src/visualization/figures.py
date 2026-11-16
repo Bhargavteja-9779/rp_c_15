@@ -335,6 +335,30 @@ def fig_assurance(cfg, fdir, d):
     fig.tight_layout(); _save(fig, fdir, "fig12_assurance")
 
 
+def fig_planning(cfg, fdir):
+    p = out_dir(cfg, "results/robustness") / "planning.csv"
+    if not p.exists():
+        return
+    z = pd.read_csv(p)
+    z = z[z.m > 0]
+    fig, axes = plt.subplots(1, 2, figsize=(7.2, 2.9))
+    lim = (min(z.planned_width.min(), z.realised_width.min()) - 0.2, max(z.planned_width.max(), z.realised_width.max()) + 0.2)
+    for model, (col, mk) in {"pls": (C["blue"], "o"), "gbm": (C["orange"], "s"), "cnn": (C["aqua"], "^")}.items():
+        g = z[z.model == model]
+        axes[0].scatter(g.planned_width, g.realised_width, s=14, color=col, marker=mk, alpha=0.8, lw=0,
+                        label={"pls": "PLS", "gbm": "LightGBM", "cnn": "1D-CNN"}[model])
+    axes[0].plot(lim, lim, color=C["ink"], lw=0.8, ls=":")
+    axes[0].set(xlim=lim, ylim=lim, xlabel="Width planned from past lots (% DMC)", ylabel="Width realised on the target season (% DMC)",
+                title="(a) Planned against realised width"); axes[0].legend()
+    g = z[(z.model == "pls")]
+    for method, (c, mk, ls) in {"lotcp_s": STYLE["lotcp_s"], "lotcp_a": STYLE["lotcp_a"]}.items():
+        x = g[g.method == method].groupby("m")[["planned_width", "realised_width"]].mean()
+        axes[1].plot(x.index, x.planned_width, color=c, ls="--", marker=mk, mfc="white", label=LABEL[method] + ", planned")
+        axes[1].plot(x.index, x.realised_width, color=c, ls="-", marker=mk, label=LABEL[method] + ", realised")
+    axes[1].set(xlabel="Reference samples per lot, m", ylabel="Mean interval width (% DMC)", title="(b) Budget curve, PLS"); axes[1].legend(fontsize=6)
+    fig.tight_layout(); _save(fig, fdir, "fig13_planning")
+
+
 def fig_training(cfg, fdir):
     fig, ax = plt.subplots(figsize=(3.5, 2.4))
     cols = [C["blue"], C["orange"], C["aqua"], C["violet"], C["magenta"]]
@@ -353,7 +377,7 @@ def run(cfg):
     fdir = out_dir(cfg, "figures")
     d = seed_average(pd.read_csv(out_dir(cfg, "results") / "raw_results.csv"))
     fig_workflow(fdir); fig_data(cfg, fdir); fig_lot_bias(cfg, fdir); fig_main(cfg, fdir, d); fig_lot_coverage(cfg, fdir, d)
-    fig_ablation(cfg, fdir, d); fig_generalisation(cfg, fdir, d); fig_robustness(cfg, fdir); fig_error(cfg, fdir); fig_soil(cfg, fdir); fig_decision(cfg, fdir); fig_assurance(cfg, fdir, d); fig_training(cfg, fdir)
+    fig_ablation(cfg, fdir, d); fig_generalisation(cfg, fdir, d); fig_robustness(cfg, fdir); fig_error(cfg, fdir); fig_soil(cfg, fdir); fig_decision(cfg, fdir); fig_assurance(cfg, fdir, d); fig_planning(cfg, fdir); fig_training(cfg, fdir)
     log.info("figures written to %s", fdir)
 
 

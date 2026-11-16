@@ -38,6 +38,8 @@ SUPP_TABLES = [
     ("S13b", "table13b_soil_point", "Soil data: point-prediction error in the source (cross-validation) and on the target."),
     ("S13c", "table13c_soil_tests", "Soil data: paired Wilcoxon tests of LotCP-S against competing methods."),
     ("S14", "table14_decision", "Harvest-decision analysis for specifications of 14, 15 and 16 % DMC."),
+    ("S15", "table15_planning", "Reference-budget planning: relative difference between realised and planned interval width, by predictor and variant."),
+    ("S15b", "table15b_planning_by_season", "Reference-budget planning: relative difference by target season."),
 ]
 
 
@@ -113,7 +115,8 @@ def cover_letter():
         "libraries, where the loss of coverage across survey campaigns was larger still and a few local samples again "
         "restored most of it, and the intervals were translated into a harvest decision against a dry-matter specification. "
         "A second variant of the calibration targets the stated coverage within the individual lot for nine lots in ten, a "
-        "property that none of the compared methods provided. "
+        "property that none of the compared methods provided; both guarantees are stated and proved. The same calibration "
+        "forecasts, before the season, the interval width obtainable for each number of reference fruit. "
         "The manuscript reports the boundaries of the method, a pre-specified component (shrinkage) that failed on the "
         "external data and was removed, and the lots on which the method still fails.",
         f"We believe the work fits the scope of {JOURNAL} because it concerns the reliable use of a sensing instrument in "

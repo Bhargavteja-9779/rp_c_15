@@ -1,5 +1,5 @@
 ---
-title: "Supplementary material: How many reference fruit does a valid error bar need? Lot-exchangeable few-shot conformal calibration of near-infrared dry-matter predictions across harvest seasons"
+title: "Supplementary material: Lot-level valid error bars for near-infrared predictions across harvest seasons: few-shot conformal calibration with a per-lot assurance and a reference-sampling planner"
 ---
 
 All tables in this file are written by `src/statistics/analysis.py` from the raw result files; the same tables are provided as CSV files.
@@ -665,6 +665,29 @@ Table: Table S13c. Soil data: paired Wilcoxon tests of LotCP-S against competing
 | scp_lower | 0 | 16.000 | 137 | 0.838 | 0.222 | 0.013 | 0.450 | 0.208 | 0.060 | 0.464 | 0.155 |
 
 Table: Table S14. Harvest-decision analysis for specifications of 14, 15 and 16 % DMC.
+
+
+| model | method | mean_rel_error | median_abs_rel_error | max_abs_rel_error | n |
+|---|---|---|---|---|---|
+| cnn | lotcp_a | -0.053 | 0.142 | 0.392 | 25 |
+| cnn | lotcp_s | -0.060 | 0.111 | 0.366 | 25 |
+| gbm | lotcp_a | 0.002 | 0.072 | 0.126 | 25 |
+| gbm | lotcp_s | -0.004 | 0.064 | 0.098 | 25 |
+| pls | lotcp_a | -0.006 | 0.080 | 0.257 | 25 |
+| pls | lotcp_s | -0.010 | 0.072 | 0.224 | 25 |
+
+Table: Table S15. Reference-budget planning: relative difference between realised and planned interval width, by predictor and variant.
+
+
+| target | mean_rel_error | median_abs_rel_error |
+|---|---|---|
+| 2017.000 | -0.212 | 0.197 |
+| 2018.000 | 0.072 | 0.072 |
+| 2019.000 | -0.083 | 0.079 |
+| 2020.000 | 0.063 | 0.059 |
+| 2021.000 | 0.050 | 0.041 |
+
+Table: Table S15b. Reference-budget planning: relative difference by target season.
 
 
 ![Fig. S1. Training loss of the 1D-CNN (seed 0) for the five target seasons.](figures/figS1_cnn_training.png){width=3.5in}

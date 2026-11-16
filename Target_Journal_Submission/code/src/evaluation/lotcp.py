@@ -126,6 +126,7 @@ class LotCP:
             sc = np.concatenate([np.abs(L.r - L.s_mean.mean()) for L in usable])
             wt = np.concatenate([self._w_query(L, np.ones(len(L.s_mean), bool)) for L in usable])
             self.nu0, self.q = None, weighted_quantile(sc, wt, 1 - self.alpha, inf_mass=1.0)
+            self.planned_width = 2.0 * self.q
             return self
         rng = np.random.default_rng(self.seed)
         episodes = []                               # (lot object, support sample indices)
@@ -159,6 +160,7 @@ class LotCP:
             if best is None or width < best[0]:
                 best = (width, nu0, q)
         _, self.nu0, self.q = best
+        self.planned_width = 2.0 * best[0]          # expected interval width at this m, known before deployment
         self.info.update(q=self.q, nu0=self.nu0, e0=self.e0)
         return self
 

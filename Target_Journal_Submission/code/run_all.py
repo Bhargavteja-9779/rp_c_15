@@ -50,6 +50,8 @@ def main():
             decision.run(cfg, args.jobs)
             soil_external.run(cfg)
         elif stage == "analysis":
+            from experiments import planning
+            planning.run(cfg)
             from src.statistics import analysis
             analysis.run(cfg)
         elif stage == "figures":

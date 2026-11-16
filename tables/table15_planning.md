@@ -1,0 +1,8 @@
+| model | method | mean_rel_error | median_abs_rel_error | max_abs_rel_error | n |
+|---|---|---|---|---|---|
+| cnn | lotcp_a | -0.053 | 0.142 | 0.392 | 25 |
+| cnn | lotcp_s | -0.060 | 0.111 | 0.366 | 25 |
+| gbm | lotcp_a | 0.002 | 0.072 | 0.126 | 25 |
+| gbm | lotcp_s | -0.004 | 0.064 | 0.098 | 25 |
+| pls | lotcp_a | -0.006 | 0.080 | 0.257 | 25 |
+| pls | lotcp_s | -0.010 | 0.072 | 0.224 | 25 |

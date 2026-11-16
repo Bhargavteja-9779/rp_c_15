@@ -34,6 +34,8 @@
 | The coverage loss and its repair replicate on soil vis–NIR spectra (LUCAS 2009→2015: 0.63 / 0.40 → 0.87–0.90 with 5–20 local samples; KSSL projects: 0.88 → 0.91) | OSSL external validation, paired tests | Section 12, Table 12, Fig. 10, S13 |
 | Shrinkage of the bias estimate is unsafe under a campaign shift | LUCAS: 0.70 vs 0.87 (pH, m = 5) | Section 12, Table 12 |
 | LotCP-A keeps ≈ 90 % of lots at ≥ 0.90 realised coverage (mango 90–92 %, KSSL 93 %, LUCAS 83–87 %), against 62–70 % for LotCP-S; +25 % width | lot-wise quantile calibration; unit test of the guarantee | Section 14, Table 14, Fig. 12 |
+| Marginal and lot-level guarantees hold for random reference sets, three levels, unequal lots | Propositions 1–2 with proofs; simulation unit tests | Appendix A |
+| The interval width for each reference budget can be forecast from past lots (median error 7 %; −21 % with two source seasons) | 150 planned-vs-realised comparisons | Section 15, Fig. 13, Table S15 |
 | A calibrated lower bound reduces non-compliant fruit among accepted from 13 % to 1 % at a 15 % specification | one-sided LotCP-S, 137 lots | Section 13, Table 13, Fig. 11 |
 
 ## 3. Reproducibility audit (as a stranger)
@@ -69,8 +71,8 @@ No claim of zero risk or of acceptance is made.
 
 ## 5. Readiness decision
 
-**Scientific content (after revision rounds 11–12): READY FOR SUBMISSION**, in the sense that no further experiment that is feasible with the
-available public data and hardware would change or strengthen the conclusions; every weakness found in twelve review
+**Scientific content (after revision rounds 11–13): READY FOR SUBMISSION**, in the sense that no further experiment that is feasible with the
+available public data and hardware would change or strengthen the conclusions; every weakness found in thirteen review
 rounds was either fixed by experiment, corrected in the text, or stated as a limitation.
 
 **Administrative readiness: NOT YET.** Before submitting, the human authors must

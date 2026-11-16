@@ -17,8 +17,7 @@ import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[1]
 MS = ROOT / "manuscript"
-TITLE = ("How many reference fruit does a valid error bar need? Lot-exchangeable few-shot conformal "
-         "calibration of near-infrared dry-matter predictions across harvest seasons")
+TITLE = ("Lot-level valid error bars for near-infrared predictions across harvest seasons: few-shot conformal calibration with a per-lot assurance and a reference-sampling planner")
 SHORT_TITLE = "Few-shot conformal calibration of NIR predictions across seasons"
 
 
@@ -32,6 +31,9 @@ class R:
         rob = ROOT / "results" / "robustness"
         self.rob = pd.read_csv(rob / "robustness_raw.csv", low_memory=False).replace(np.inf, np.nan) if (rob / "robustness_raw.csv").exists() else None
         self.cost = json.load(open(rob / "cost.json")) if (rob / "cost.json").exists() else {}
+        self.plan = pd.read_csv(rob / "planning.csv") if (rob / "planning.csv").exists() else None
+        if self.plan is not None:
+            self.plan = self.plan[self.plan.m > 0]
         self.spec = pd.read_csv(rob / "spectrum_level.csv.gz") if (rob / "spectrum_level.csv.gz").exists() else None
         self.cfg = __import__("yaml").safe_load(open(ROOT / "config" / "default.yaml"))
         self.timing = json.load(open(ROOT / "results" / "run_timing.json")) if (ROOT / "results" / "run_timing.json").exists() else {}

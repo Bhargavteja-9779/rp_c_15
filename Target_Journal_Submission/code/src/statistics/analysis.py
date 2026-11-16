@@ -230,6 +230,15 @@ def run(cfg):
             t_.insert(0, "task", task)
             stt.append(t_)
         _md(pd.concat(stt, ignore_index=True), tdir / "table13c_soil_tests", floatfmt="%.4g")
+    pl = rdir / "robustness" / "planning.csv"
+    if pl.exists():
+        z = pd.read_csv(pl)
+        z = z[z.m > 0]
+        byseason = z.groupby("target").agg(mean_rel_error=("rel_error", "mean"), median_abs_rel_error=("rel_error", lambda x: float(x.abs().median()))).reset_index()
+        bymodel = z.groupby(["model", "method"]).agg(mean_rel_error=("rel_error", "mean"), median_abs_rel_error=("rel_error", lambda x: float(x.abs().median())),
+                                                     max_abs_rel_error=("rel_error", lambda x: float(x.abs().max())), n=("rel_error", "size")).reset_index()
+        _md(bymodel, tdir / "table15_planning")
+        _md(byseason, tdir / "table15b_planning_by_season")
     dc = rdir / "robustness" / "decision_summary.csv"
     if dc.exists():
         _md(pd.read_csv(dc), tdir / "table14_decision")

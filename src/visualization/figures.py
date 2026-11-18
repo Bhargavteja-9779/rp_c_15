@@ -42,29 +42,37 @@ def _save(fig, fdir, name):
 
 
 def fig_workflow(fdir):
-    """Method schematic (no data)."""
-    fig, ax = plt.subplots(figsize=(7.2, 2.9))
-    ax.axis("off"); ax.set_xlim(0, 100); ax.set_ylim(0, 40)
+    """Risk-aware harvest workflow (schematic, no data)."""
+    fig, ax = plt.subplots(figsize=(7.2, 3.3))
+    ax.axis("off"); ax.set_xlim(0, 100); ax.set_ylim(0, 46)
 
-    def box(x, y, w, h, text, fc):
+    def box(x, y, w, h, text, fc, bold=False):
         ax.add_patch(plt.Rectangle((x, y), w, h, fc=fc, ec=C["muted"], lw=0.8))
-        ax.text(x + w / 2, y + h / 2, text, ha="center", va="center", fontsize=7, color=C["ink"])
+        ax.text(x + w / 2, y + h / 2, text, ha="center", va="center", fontsize=6.8, color=C["ink"], fontweight="bold" if bold else None)
 
     def arrow(x0, y0, x1, y1):
         ax.annotate("", (x1, y1), (x0, y0), arrowprops=dict(arrowstyle="-|>", color=C["muted"], lw=0.9))
 
-    box(1, 24, 20, 13, "Past seasons\n(lots × samples × scans)\nwith reference DMC", "#e8f1fc")
-    box(26, 24, 21, 13, "Season-held-out\nresiduals\n(leave-one-season-out)", "#e8f1fc")
-    box(52, 28, 21, 9, "Variance components\nσ², e₀", "#e8f1fc")
-    box(52, 16, 21, 9, "Replay m-shot protocol\non every past lot", "#e8f1fc")
-    box(78, 20, 21, 13, "Lot-balanced\nconformal quantile\nq(m)", "#e8f1fc")
-    box(1, 3, 20, 13, "New lot, later season:\nall fruit scanned,\nm reference samples", "#fdeee6")
-    box(26, 3, 21, 13, "Lot bias b̂, lot scale ŝ\n(references +\nreplicate scans)", "#fdeee6")
-    box(78, 3, 21, 13, "Interval\nŷ + b̂ ± q(m)·ŝ", "#e6f6ee")
-    arrow(21, 30.5, 26, 30.5); arrow(47, 32, 52, 32.5); arrow(47, 28, 52, 21.5); arrow(73, 32.5, 78, 29); arrow(73, 20.5, 78, 24)
-    arrow(21, 9.5, 26, 9.5); arrow(47, 9.5, 78, 9.5); arrow(88.5, 20, 88.5, 16); arrow(62.5, 28, 40, 16)
-    ax.text(1, 38.5, "Calibration (source information only)", fontsize=7.5, color=C["muted"])
-    ax.text(1, 17, "Deployment", fontsize=7.5, color=C["muted"])
+    blue, orange, green, grey = "#e8f1fc", "#fdeee6", "#e6f6ee", "#f0efec"
+    ax.text(1, 44, "Before the season (past seasons only)", fontsize=7.2, color=C["muted"])
+    box(1, 31, 19, 11, "Past lots: scans +\nreference DMC", blue)
+    box(24, 31, 21, 11, "Season-held-out\nresiduals of the\nNIR model", blue)
+    box(49, 31, 22, 11, "Replay m-shot\ncalibration on\npast lots", blue)
+    box(75, 31, 24, 11, "Planner: expected\nerror-bar width for\nm = 0, 3, 5, 10, 20", blue, bold=True)
+    arrow(20, 36.5, 24, 36.5); arrow(45, 36.5, 49, 36.5); arrow(71, 36.5, 75, 36.5)
+    ax.text(1, 26, "In the orchard (new lot)", fontsize=7.2, color=C["muted"])
+    box(1, 13, 15, 11, "1  Scan fruit\nwith handheld\nNIR", orange)
+    box(19, 13, 15, 11, "2  Predict DMC\n(PLS, LightGBM\nor CNN)", orange)
+    box(37, 13, 18, 11, "3  Test m fruit\ndestructively;\ncorrect lot bias\nand scale", orange)
+    box(58, 13, 17, 11, "4  Lower bound\nper fruit\nŷ + b̂ − q·ŝ", orange)
+    box(79, 18.5, 20, 6, "HARVEST\n(bound ≥ spec)", green, bold=True)
+    box(79, 11.5, 20, 6, "WAIT / RE-TEST", grey, bold=True)
+    arrow(16, 18.5, 19, 18.5); arrow(34, 18.5, 37, 18.5); arrow(55, 18.5, 58, 18.5)
+    arrow(75, 19.5, 79, 21.5); arrow(75, 17.5, 79, 14.5)
+    arrow(60, 31, 46, 24); arrow(87, 31, 50, 24)
+    ax.text(50, 6.5, "Calibrated level α* = c_D / (c_I + c_D) sets the bound from the relative cost of withholding a mature fruit (c_D)\n"
+            "and of accepting an immature one (c_I); the planner chooses m before any fruit of the new season is tested.",
+            ha="center", va="center", fontsize=6.3, color=C["muted"])
     _save(fig, fdir, "fig1_workflow")
 
 
@@ -359,6 +367,104 @@ def fig_planning(cfg, fdir):
     fig.tight_layout(); _save(fig, fdir, "fig13_planning")
 
 
+def fig_harvest(cfg, fdir):
+    tdir = out_dir(cfg, "tables")
+    if not (tdir / "table16_harvest_fruit.csv").exists():
+        return
+    s = pd.read_csv(tdir / "table16_harvest_fruit.csv")
+    lots = pd.read_csv(tdir / "table18_lot_decisions.csv")
+    z = s[(s.model == "pls") & (s.threshold == 15)]
+    L = lots[(lots.model == "pls") & (lots.threshold == 15) & (lots.p == 0.8)]
+    fig, axes = plt.subplots(1, 2, figsize=(7.2, 3.0))
+    fam = [("scp_lower", 0, "Split-CP lower bound (m = 0)", C["red"], "s", "--"), ("bc_lower", 10, "Bias corr. + source margin (m = 10)", C["magenta"], "v", "-"),
+           ("lotcp_s_lower", 0, "LotCP-S lower bound (m = 0)", C["aqua"], "o", "--"), ("lotcp_s_lower", 10, "LotCP-S lower bound (m = 10)", C["blue"], "o", "-")]
+    for rule, m, lab, col, mk, ls in fam:
+        g = z[(z.rule == rule) & (z.m == m)].sort_values("alpha")
+        axes[0].plot(100 * g.compliant_accepted, 100 * g.immature_among_accepted, color=col, marker=mk, ls=ls, label=lab, ms=4)
+        h = L[(L.rule == rule) & (L.m == m)].sort_values("alpha")
+        axes[1].plot(100 * h.delayed, 100 * h.premature, color=col, marker=mk, ls=ls, ms=4)
+    for rule, m, lab, mk in (("point", 0, "Point prediction", "X"), ("point_bc", 10, "Bias-corrected point (m = 10)", "P")):
+        g = z[(z.rule == rule) & (z.m == m)]
+        axes[0].scatter(100 * g.compliant_accepted, 100 * g.immature_among_accepted, color=C["ink"], marker=mk, s=40, zorder=5, label=lab)
+        h = L[(L.rule == rule) & (L.m == m)]
+        axes[1].scatter(100 * h.delayed, 100 * h.premature, color=C["ink"], marker=mk, s=40, zorder=5)
+    a10 = z[(z.rule == "lotcp_s_lower") & (z.m == 10) & np.isclose(z.alpha, 0.1)]
+    axes[0].annotate("α = 0.10", (100 * a10.compliant_accepted.iloc[0], 100 * a10.immature_among_accepted.iloc[0]), xytext=(-6, 14),
+                     textcoords="offset points", fontsize=6.5, arrowprops=dict(arrowstyle="-", color=C["muted"], lw=0.6))
+    axes[0].set(xlabel="Mature fruit accepted (%)", ylabel="Immature fruit among accepted (%)", title="(a) Fruit-level decision, spec 15 % DMC")
+    axes[1].set(xlabel="Ready lots delayed (%)", ylabel="Immature lots harvested (%)", title="(b) Lot-level decision (≥ 80 % mature)")
+    h_, l_ = axes[0].get_legend_handles_labels()
+    fig.legend(h_, l_, loc="lower center", ncol=3, bbox_to_anchor=(0.5, -0.12), fontsize=6.5)
+    fig.tight_layout(); _save(fig, fdir, "fig14_harvest_frontier")
+
+
+def fig_economics(cfg, fdir):
+    tdir = out_dir(cfg, "tables")
+    if not (tdir / "table17_economics.csv").exists():
+        return
+    e = pd.read_csv(tdir / "table17_economics.csv")
+    z = e[(e.model == "pls") & (e.threshold == 15)]
+    fig, axes = plt.subplots(1, 2, figsize=(7.2, 2.9))
+    x = sorted(z.c_D.unique())
+    for rule, m, lab, col, mk, ls in (("accept_all", 0, "Harvest all", C["muted"], "x", ":"), ("point", 0, "Point prediction", C["red"], "X", "-"),
+                                      ("point_bc", 10, "Bias-corrected point (m = 10)", C["magenta"], "P", "-"), ("scp_lower", 0, "Split-CP lower bound", C["orange"], "s", "--"),
+                                      ("lotcp_s_lower", 5, "LotCP-S lower bound (m = 5)", C["blue"], "o", "-")):
+        g = z[(z.rule == rule) & (z.m == m) & (z.lot_size == 1000)].sort_values("c_D")
+        axes[0].plot(range(len(g)), 100 * g.cost.to_numpy(), color=col, marker=mk, ls=ls, label=lab)
+    axes[0].set_xticks(range(len(x))); axes[0].set_xticklabels(["1/19", "1/9", "1/4", "1/2"])
+    axes[0].set(xlabel="Assumed cost of withholding a mature fruit, c_D\n(relative to accepting an immature fruit, c_I = 1)", ylabel="Expected cost per 100 fruit\n(units of fruit value)",
+                title="(a) Cost by decision rule (lot of 1000 fruit)"); axes[0].legend(fontsize=6)
+    for N, col, mk in ((200, C["orange"], "s"), (1000, C["blue"], "o"), (5000, C["aqua"], "^")):
+        g = z[(z.rule == "lotcp_s_lower") & np.isclose(z.alpha_star, 0.1) & (z.lot_size == N)].sort_values("m")
+        axes[1].plot(g.m, 100 * g.cost, color=col, marker=mk, label=f"{N} fruit per lot")
+        best = g.loc[g.cost.idxmin()]
+        axes[1].scatter([best.m], [100 * best.cost], s=90, facecolors="none", edgecolors=col, lw=1.4)
+    axes[1].set(xlabel="Reference fruit per lot, m", ylabel="Expected cost per 100 fruit", title="(b) Choosing m (c_D = 1/9; circle = optimum)"); axes[1].legend(fontsize=6)
+    fig.tight_layout(); _save(fig, fdir, "fig15_economics")
+
+
+def graphical_abstract(cfg, fdir):
+    """Graphical abstract: workflow strip and two headline results (from machine-generated tables)."""
+    tdir = out_dir(cfg, "tables")
+    if not (tdir / "table16_harvest_fruit.csv").exists():
+        return
+    s = pd.read_csv(tdir / "table16_harvest_fruit.csv")
+    main = pd.read_csv(tdir / "table3_main_intervals.csv")
+    z = s[(s.model == "pls") & (s.threshold == 15)]
+    fig = plt.figure(figsize=(7.0, 3.2))
+    ax = fig.add_axes([0, 0.62, 1, 0.38]); ax.axis("off"); ax.set_xlim(0, 100); ax.set_ylim(0, 20)
+    steps = ["Scan mangoes\n(handheld NIR)", "Predict dry\nmatter (DMC)", "Test m fruit;\ncorrect lot bias\n& scale (LotCP)", "Calibrated\nlower bound", "Harvest or\nwait / re-test"]
+    cols = ["#fdeee6", "#fdeee6", "#e8f1fc", "#e8f1fc", "#e6f6ee"]
+    for i, (t, c) in enumerate(zip(steps, cols)):
+        x = 2 + i * 19.6
+        ax.add_patch(plt.Rectangle((x, 3), 16.5, 14, fc=c, ec=C["muted"], lw=0.8))
+        ax.text(x + 8.25, 10, t, ha="center", va="center", fontsize=7.5)
+        if i < 4:
+            ax.annotate("", (x + 19.4, 10), (x + 16.7, 10), arrowprops=dict(arrowstyle="-|>", color=C["muted"]))
+    a1 = fig.add_axes([0.08, 0.1, 0.38, 0.42])
+    vals = [100 * main[(main.method == "scp_sample") & (main.m == 0)].coverage.iloc[0], 100 * main[(main.method == "lotcp_s") & (main.m == 5)].coverage.iloc[0]]
+    a1.bar([0, 1], vals, color=[C["red"], C["blue"]], width=0.55)
+    a1.axhline(90, color=C["ink"], ls=":", lw=0.8)
+    for i, v in enumerate(vals):
+        a1.text(i, v + 1, f"{v:.0f} %", ha="center", fontsize=7)
+    a1.set_xticks([0, 1]); a1.set_xticklabels(["Standard\nerror bar", "LotCP-S,\n5 ref. fruit"], fontsize=7); a1.set_ylim(60, 100)
+    a1.set_title("Coverage on later seasons (target 90 %)", fontsize=7.5); a1.grid(axis="x", visible=False)
+    a2 = fig.add_axes([0.58, 0.1, 0.38, 0.42])
+    p = z[(z.rule == "point")].immature_among_accepted.iloc[0]
+    q = z[(z.rule == "lotcp_s_lower") & (z.m == 10) & np.isclose(z.alpha, 0.1)].immature_among_accepted.iloc[0]
+    a2.bar([0, 1], [100 * p, 100 * q], color=[C["red"], C["blue"]], width=0.55)
+    for i, v in enumerate([100 * p, 100 * q]):
+        a2.text(i, v + 0.3, f"{v:.1f} %", ha="center", fontsize=7)
+    a2.set_xticks([0, 1]); a2.set_xticklabels(["Point\nprediction", "LotCP-S bound,\n10 ref. fruit"], fontsize=7)
+    a2.set_title("Immature fruit among harvested (spec 15 %)", fontsize=7.5); a2.grid(axis="x", visible=False)
+    y1 = z[(z.rule == "point")].compliant_accepted.iloc[0]
+    y2 = z[(z.rule == "lotcp_s_lower") & (z.m == 10) & np.isclose(z.alpha, 0.1)].compliant_accepted.iloc[0]
+    fig.text(0.5, -0.07, f"Mature fruit cleared: {100 * y1:.0f} % vs {100 * y2:.0f} % (the price of a 90 % lower bound).\nRetrospective simulation on 137 later-season lots.",
+             ha="center", fontsize=7, color=C["muted"])
+    fig.savefig(fdir / "graphical_abstract.png", dpi=300, bbox_inches="tight"); fig.savefig(fdir / "graphical_abstract.pdf", bbox_inches="tight")
+    plt.close(fig)
+
+
 def fig_training(cfg, fdir):
     fig, ax = plt.subplots(figsize=(3.5, 2.4))
     cols = [C["blue"], C["orange"], C["aqua"], C["violet"], C["magenta"]]
@@ -377,7 +483,7 @@ def run(cfg):
     fdir = out_dir(cfg, "figures")
     d = seed_average(pd.read_csv(out_dir(cfg, "results") / "raw_results.csv"))
     fig_workflow(fdir); fig_data(cfg, fdir); fig_lot_bias(cfg, fdir); fig_main(cfg, fdir, d); fig_lot_coverage(cfg, fdir, d)
-    fig_ablation(cfg, fdir, d); fig_generalisation(cfg, fdir, d); fig_robustness(cfg, fdir); fig_error(cfg, fdir); fig_soil(cfg, fdir); fig_decision(cfg, fdir); fig_assurance(cfg, fdir, d); fig_planning(cfg, fdir); fig_training(cfg, fdir)
+    fig_ablation(cfg, fdir, d); fig_generalisation(cfg, fdir, d); fig_robustness(cfg, fdir); fig_error(cfg, fdir); fig_soil(cfg, fdir); fig_assurance(cfg, fdir, d); fig_planning(cfg, fdir); fig_harvest(cfg, fdir); fig_economics(cfg, fdir); graphical_abstract(cfg, fdir); fig_training(cfg, fdir)
     log.info("figures written to %s", fdir)
 
 

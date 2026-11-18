@@ -119,7 +119,21 @@ bias, half_width = cp.predict(reference_sample_mean_residuals, replicate_varianc
 # interval for a scan x of the new lot:  f(x) + bias ± half_width
 ```
 
-## 6. Leakage safeguards
+## 6. Decision-support prototype
+
+```bash
+python -m src.tool.harvest_tool export --target-season 2021 --out calibration_2021.json
+python -m src.tool.harvest_tool decide --calibration calibration_2021.json \
+       --scans lot_scans.csv --references lot_refs.csv --spec 15 --mode marginal
+python -m src.tool.harvest_tool demo --target-season 2021 --spec 15 --m 10
+```
+
+`lot_scans.csv` has columns `fruit_id, prediction` (repeated scans allowed); `lot_refs.csv` has `fruit_id,
+dry_matter` for the destructively tested fruit. The tool prints per-fruit lower bounds, HARVEST / WAIT-RETEST
+flags, a lot recommendation and the planner output. The harvest-decision simulator is `experiments/harvest.py`;
+assumed costs are documented in `src/statistics/harvest_analysis.py`.
+
+## 7. Leakage safeguards
 
 * forward chaining: only seasons before the target season are used for training, model selection
   and calibration (`tests/test_splits.py`);
@@ -128,7 +142,7 @@ bias, half_width = cp.predict(reference_sample_mean_residuals, replicate_varianc
 * preprocessing is row-wise; network scaling constants come from the training fold;
 * the protocol was committed before any model was trained (`git log experiments/PROTOCOL.md`).
 
-## 7. Licence and citation
+## 8. Licence and citation
 
 Code: MIT (see `LICENSE`). Data: CC BY 4.0, Anderson, Walsh, Subedi and Walsh, Central Queensland
 University. Please cite the data set and the accompanying publications listed in

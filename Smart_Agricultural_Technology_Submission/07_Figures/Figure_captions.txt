@@ -1,0 +1,23 @@
+Fig. 1. Risk-aware harvest workflow. Before the season, past lots are used to calibrate the few-shot correction and to plan the number of reference fruit. In the orchard, fruit of a new lot are scanned, m of them are tested destructively, and each fruit receives a calibrated lower bound that is compared with the dry-matter specification.
+
+Fig. 2. The data set. (a) Reference dry matter content by season. (b) Number of harvest lots by season. (c) Mean absorbance spectra of three seasons in the analysis window.
+
+Fig. 3. Why calibration on held-out samples fails (PLS, forward chaining). (a) Residuals of sample-fold cross-validation in the source seasons and residuals on the following season, pooled over the five target seasons. (b) Mean residual of each target lot; the bar marks the season mean.
+
+Fig. 4. Lot-macro coverage, mean width and interval score as a function of the number of reference samples per lot (PLS, forward chaining, 137 target lots, nominal 0.90). Dashed lines: split conformal prediction without reference samples.
+
+Fig. 5. Coverage within each of the 137 target lots (PLS, nominal 0.90, dotted line). Marginal coverage near the nominal level can coexist with many badly covered lots.
+
+Fig. 6. Lot-level assurance (PLS, forward chaining). (a) Share of lot-draws in which at least 90 % of the fruit is covered; dotted lines mark the targets of LotCP-A for δ = 0.10 and δ = 0.20. (b) Mean interval width.
+
+Fig. 7. Trade-off between harvesting immature fruit and holding back mature fruit (PLS, specification 15 % DMC, 137 later-season lots). Each curve traces one rule as its confidence level α varies from 0.02 to 0.5; crosses are rules without a confidence level. (a) Fruit-level decision. (b) Lot-level decision: a lot is harvested when at least 80 % of its scanned fruit are accepted.
+
+Fig. 8. Expected cost under assumed cost ratios (PLS, specification 15 % DMC). (a) Cost per 100 fruit, in units of the value of one marketable fruit, for five decision rules as the assumed cost of withholding a mature fruit varies; the LotCP-S bound uses five reference fruit and the cost-derived level α*. (b) Cost of the LotCP-S rule as a function of the number of reference fruit for three lot sizes at c_D = 1/9; circles mark the minimum.
+
+Fig. 9. Reference-budget planning. (a) Interval width planned from past lots against the mean width realised on the lots of the following season; each point is one target season, predictor, number of reference samples and variant. (b) Planned and realised budget curves for PLS, averaged over target seasons.
+
+Fig. 10. Ablation: lot-macro coverage with bootstrap 95 % CI for m = 5 and m = 20; the interval score (IS) is printed next to each variant.
+
+Fig. 11. Lot-macro coverage of LotCP and LotCP-S for three point predictors and two protocols (nominal 0.90).
+
+Fig. 12. Lot-macro coverage on the soil data as a function of the number of local reference samples (PLS, nominal 0.90, dotted line). Dashed line: split conformal prediction with sample folds and no reference samples.

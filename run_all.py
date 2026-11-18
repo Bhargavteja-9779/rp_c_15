@@ -48,6 +48,9 @@ def main():
             spiking.run(cfg, args.jobs)
             from experiments import harvest, soil_external
             harvest.run(cfg, args.jobs)
+            if args.mode == "full":
+                from src.tool import harvest_tool
+                harvest_tool.save_demo()
             soil_external.run(cfg)
         elif stage == "analysis":
             from experiments import planning

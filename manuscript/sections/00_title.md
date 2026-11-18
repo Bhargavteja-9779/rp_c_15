@@ -1,25 +1,23 @@
 ---
-title: "Lot-level valid error bars for near-infrared predictions across harvest seasons: few-shot conformal calibration with a per-lot assurance and a reference-sampling planner"
+title: "Risk-aware mango harvest decisions using few-shot conformal calibration of near-infrared spectroscopy across harvest seasons"
 ---
 
-**[Author One]^a,\*^, [Author Two]^a^, [Author Three]^b^**
+**P N Bhargav Teja^a^, Ragavan K^a,\*^**
 
-^a^ [Department, Institution, City, Country]
+^a^ [Department, Institution, City, Postal code, Country]
 
-^b^ [Department, Institution, City, Country]
-
-\* Corresponding author: [name], [e-mail address], [postal address]
+\* Corresponding author: Ragavan K, [e-mail address], [postal address]
 
 # Abstract
 
-Handheld near-infrared (NIR) spectrometers guide fruit harvest decisions, yet their calibrations are built on past seasons and carry no error bar that holds on a new one. On a mango data set ({{V:n_lots}} harvest lots, seven seasons) we train on earlier seasons and measure interval coverage for dry matter content on {{V:n_target_lots}} later-season lots. At a nominal 90 %, split conformal prediction covers {{f"{100*r.m('scp_sample',0):.0f}"}} %; Gaussian bands, quantile models, deep ensembles and Monte-Carlo dropout cover {{f"{100*min(r.m(k,0) for k in ('gauss','qrf','cqr_sample','ensemble','mc_dropout')):.0f}"}}–{{f"{100*max(r.m(k,0) for k in ('gauss','qrf','cqr_sample','ensemble','mc_dropout')):.0f}"}} %. Season-held-out calibration restores average coverage only with {{r.pct(r.m('scp_season',0,'width'), r.m('scp_sample',0,'width'))}} % wider intervals. We introduce a few-shot conformal calibration with proven guarantees: bias and scale of a new lot are estimated from *m* reference samples and repeated scans, and the half-width is calibrated by replaying this procedure on past lots. With 3–30 reference samples the marginal variant (LotCP-S) covers {{f"{100*min(r.m('lotcp_s',m) for m in (3,5,10,20,30)):.0f}"}}–{{f"{100*max(r.m('lotcp_s',m) for m in (3,5,10,20,30)):.0f}"}} % ({{f"{100*min(r.gen(a,b,'lotcp_s',10) for a,b in [('pls','forward'),('gbm','forward'),('cnn','forward'),('pls','loso'),('cnn','loso')]):.0f}"}}–{{f"{100*max(r.gen(a,b,'lotcp_s',10) for a,b in [('pls','forward'),('gbm','forward'),('cnn','forward'),('pls','loso'),('cnn','loso')]):.0f}"}} % across three predictors and two protocols) and has the best interval score for 3–20 samples. A second variant (LotCP-A) targets the stated coverage within the lot for nine lots in ten: {{r.meet('lotcp_a',10)}} % of lots reach it with ten samples, against {{r.meet('lotcp_s',10)}} % for LotCP-S, at {{r.pct(r.m('lotcp_a',10,'width'), r.m('lotcp_s',10,'width'))}} % more width. The replay also forecasts the width for each *m* before the season (median error {{f"{100*r.plan.rel_error.abs().median():.0f}"}} %). As a lower bound against a 15 % specification, the calibration cuts non-compliant fruit among those accepted from {{r.decp('point',0,15,'false_accept_share')}} % to {{r.decp('lotcp_s_lower',10,15,'false_accept_share')}} %. On two soil vis–NIR libraries the loss is larger (coverage {{f"{100*r.soil('lucas_ph','scp_sample',0):.0f}"}}–{{f"{100*r.soil('kssl_oc','scp_sample',0):.0f}"}} %), and five local samples restore {{f"{100*min(r.soil(t,'lotcp_s',5) for t in ('lucas_oc','lucas_ph','kssl_oc')):.0f}"}}–{{f"{100*max(r.soil(t,'lotcp_s',5) for t in ('lucas_oc','lucas_ph','kssl_oc')):.0f}"}} %. 
+A handheld near-infrared (NIR) reading of mango dry matter content (DMC) supports a harvest decision only if its error is known for the lot being picked, yet calibrations are built on past seasons and their error bars come from those seasons. On a public mango data set ({{V:n_lots}} harvest lots, seven seasons) we predicted each season from the seasons before it. At a nominal 90 %, standard error bars, including conformal, quantile-model, deep-ensemble and Monte-Carlo-dropout intervals, covered {{f"{100*min(r.m(k,0) for k in ('scp_sample','gauss','qrf','cqr_sample','ensemble','mc_dropout')):.0f}"}}–{{f"{100*max(r.m(k,0) for k in ('scp_sample','gauss','qrf','cqr_sample','ensemble','mc_dropout')):.0f}"}} % of the reference values on {{V:n_target_lots}} later-season lots. We propose a risk-aware workflow: a few fruit per lot are tested destructively, a few-shot conformal calibration (LotCP) corrects the lot bias and scale and gives every scanned fruit a lower bound with proven coverage, and a fruit or lot is harvested when the bound meets the specification at a confidence level set by the cost ratio of the two possible errors. With 3–30 reference fruit, coverage was {{f"{100*min(r.m('lotcp_s',m) for m in (3,5,10,20,30)):.0f}"}}–{{f"{100*max(r.m('lotcp_s',m) for m in (3,5,10,20,30)):.0f}"}} %, and a lot-level variant kept {{r.meet('lotcp_a',10)}} % of lots at the stated coverage. In a retrospective harvest simulation at 15 % DMC, immature fruit among those accepted fell from {{r.hvp('point',0,None)}} % with point predictions to {{r.hvp('lotcp_s_lower',10,0.1)}} % with ten reference fruit, and premature lot harvests roughly halved at an unchanged delay rate. Under assumed cost ratios, expected cost fell by {{f"{100*min(r.econ_saving(a)[1] for a in (0.05,0.1,0.2,1/3)):.0f}"}}–{{f"{100*max(r.econ_saving(a)[1] for a in (0.05,0.1,0.2,1/3)):.0f}"}} % relative to point decisions. A planner forecasts from past lots the error-bar width for each number of reference fruit (median error {{f"{100*r.plan.rel_error.abs().median():.0f}"}} %). The findings replicated on two soil spectral libraries.
 
-**Keywords:** near-infrared spectroscopy; conformal prediction; uncertainty quantification; distribution shift; fruit maturity; soil spectral library; calibration maintenance
+**Keywords:** near-infrared spectroscopy; harvest decision; fruit maturity; dry matter; conformal prediction; uncertainty quantification; decision support
 
 # Highlights
 
-- Conformal intervals for mango dry matter cover {{f"{100*r.m('scp_sample',0):.0f}"}} %, not 90 %, on later seasons.
-- On soil spectra across survey campaigns coverage falls to {{f"{100*r.soil('lucas_ph','scp_sample',0):.0f}"}}–{{f"{100*r.soil('lucas_oc','scp_sample',0):.0f}"}} %.
-- Few-shot calibration with proofs restores coverage from three reference samples.
-- A lot-level variant keeps nine lots in ten at the stated coverage.
-- A planner forecasts interval width for each sampling effort before the season.
+- Standard NIR error bars for mango dry matter under-cover on later harvest seasons.
+- A few reference fruit per lot restore calibrated, lot-level error bars.
+- Calibrated lower bounds cut immature fruit among those harvested from {{r.hvp('point',0,None)}} % to {{r.hvp('lotcp_s_lower',10,0.1)}} %.
+- A planner forecasts error-bar width for each number of reference fruit.
+- A cost-based confidence level turns the error bar into a harvest decision.

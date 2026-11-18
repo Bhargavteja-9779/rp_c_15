@@ -2,9 +2,7 @@
 
 ## 4.1 Setting and notation
 
-Data are nested. A *lot* $k$ is a set of fruit harvested from one orchard block on one date; it contains $n_k$ reference *samples* $i$ (a piece of fruit tissue with one oven-dried DMC value $y_{ki}$), and sample $i$ has $J_{ki}\ge 1$ *scans* with spectra $x_{kij}$. Lots are nested in seasons. A point predictor $f$ maps a spectrum to a DMC estimate, and $r_{kij}=y_{ki}-f(x_{kij})$ is the residual of a scan. For a new lot the user scans all fruit of interest and measures $m\ge 0$ randomly chosen reference samples destructively. For each remaining scan we want an interval $C(x)$ such that $\mathbb{P}\{y\in C(x)\}\ge 1-\alpha$. Fig. 1 gives an overview of the procedure developed below.
-
-![Fig. 1. Overview of LotCP. Top: calibration uses source seasons only. Bottom: deployment on a new lot with m reference samples.](figures/fig1_workflow.png){width=6.3in}
+Data are nested. A *lot* $k$ is a set of fruit harvested from one orchard block on one date; it contains $n_k$ reference *samples* $i$ (a piece of fruit tissue with one oven-dried DMC value $y_{ki}$), and sample $i$ has $J_{ki}\ge 1$ *scans* with spectra $x_{kij}$. Lots are nested in seasons. A point predictor $f$ maps a spectrum to a DMC estimate, and $r_{kij}=y_{ki}-f(x_{kij})$ is the residual of a scan. For a new lot the user scans all fruit of interest and measures $m\ge 0$ randomly chosen reference samples destructively. For each remaining scan we want an interval $C(x)$ such that $\mathbb{P}\{y\in C(x)\}\ge 1-\alpha$. Fig. 1 shows where the procedure developed below enters the harvest workflow.
 
 Split conformal prediction [@lei2018] takes residuals of a held-out calibration set, computes the $\lceil (n+1)(1-\alpha)\rceil/n$ empirical quantile $q$ of their absolute values and returns $f(x)\pm q$. The guarantee requires the test residual to be exchangeable with the calibration residuals.
 
@@ -30,7 +28,7 @@ For a new lot with reference set $A$, $|A|=m$, the bias is estimated by the mean
 
 $$\hat b = \bar r_A \quad (m\ge1),\qquad \hat b=\hat\mu \quad (m=0). \qquad\text{(3)}$$
 
-The corrected point prediction is $f(x)+\hat b$. The protocol originally specified an empirical-Bayes shrinkage of this mean towards $\hat\mu$ [@efron1975], $\hat b=\hat\mu+w_m(\bar r_A-\hat\mu)$ with $w_m=\hat\tau^2/(\hat\tau^2+\hat\sigma^2/m)$. It is evaluated as an ablation ("+ shrinkage"). We do not use it in the reported method, because it brought no benefit on the mango data and is unsafe when the new population is shifted by more than the between-lot variation seen in the past (Sections 7 and 12). The variance components of Eq. (2) remain in use for the scale estimate below.
+The corrected point prediction is $f(x)+\hat b$. The protocol originally specified an empirical-Bayes shrinkage of this mean towards $\hat\mu$ [@efron1975], $\hat b=\hat\mu+w_m(\bar r_A-\hat\mu)$ with $w_m=\hat\tau^2/(\hat\tau^2+\hat\sigma^2/m)$. It is evaluated as an ablation ("+ shrinkage"). We do not use it in the reported method, because it brought no benefit on the mango data and is unsafe when the new population is shifted by more than the between-lot variation seen in the past (Sections 11 and 13). The variance components of Eq. (2) remain in use for the scale estimate below.
 
 ## 4.5 Lot-specific scale (LotCP-S)
 
@@ -72,8 +70,18 @@ If the calibration lots and the new lot are exchangeable, including their number
 
 ## 4.9 Planning the reference budget before the season
 
-The episodic replay has a by-product that is useful in its own right. For every $m$ it yields, from past lots alone, the multiplier $\hat q_m$ (or $\hat q_m^{A}$) and the average lot scale $\bar s_m$ over the replayed episodes, and therefore a *planned width* $2\hat q_m\bar s_m$: the interval width that the user should expect in the coming season if $m$ reference samples are taken per lot. The curve of planned width against $m$ can be drawn before any fruit of the new season is scanned, and it turns the choice of the number of reference samples into an explicit trade between laboratory effort and the precision of the error bar. Section 15 compares planned and realised widths.
+The episodic replay has a by-product that is useful in its own right. For every $m$ it yields, from past lots alone, the multiplier $\hat q_m$ (or $\hat q_m^{A}$) and the average lot scale $\bar s_m$ over the replayed episodes, and therefore a *planned width* $2\hat q_m\bar s_m$: the interval width that the user should expect in the coming season if $m$ reference samples are taken per lot. The curve of planned width against $m$ can be drawn before any fruit of the new season is scanned, and it turns the choice of the number of reference samples into an explicit trade between laboratory effort and the precision of the error bar. Section 9 compares planned and realised widths.
 
 ## 4.10 Computational cost
 
 Calibration needs one additional model fit per source season, which is done once and offline. The episodic quantile costs $O(K E N)$ score evaluations for $N$ scans per lot. At deployment the method computes two means and one variance per lot.
+
+## 4.11 From a calibrated bound to a harvest decision
+
+Let $t$ be the minimum DMC a fruit must reach. The grower can make two errors: accepting a fruit whose true DMC is below $t$, at cost $c_I$ (an immature fruit enters the harvest), or withholding a fruit whose DMC is at least $t$, at cost $c_D$ (a ready fruit is left for a later pass or re-tested). If the probability that a fruit is below specification were known, the expected cost would be minimised by accepting it whenever that probability is at most $\alpha^\ast=c_D/(c_I+c_D)$. A lower bound $L(x)$ with $\mathbb{P}\{y<L(x)\}\le\alpha^\ast$ therefore yields the rule
+
+$$\text{harvest if } L_{\alpha^\ast}(x)\ge t,\qquad \text{otherwise wait or re-test}, \qquad\text{(9)}$$
+
+with $L_{\alpha}(x)=f(x)+\hat b-\hat q_m^{-}\hat s$, where $\hat q_m^{-}$ is calibrated as in Eq. (6) but on the signed score $(\hat b-r)/\hat s$, so that only under-estimates of DMC count as misses. The rule uses the cost ratio only through $\alpha^\ast$, so a grower who cannot state costs in money can still state that withholding a mature fruit is, say, a ninth as bad as accepting an immature one ($\alpha^\ast=0.10$). Two qualifications apply. The conformal guarantee is marginal over fruit and lots, not conditional on the spectrum, so Eq. (9) is a calibrated approximation to the cost-optimal rule, not the rule itself. And it is only as good as the calibration: with an uncalibrated bound, $\alpha^\ast$ no longer corresponds to the realised risk.
+
+At the level of a lot, the grower decides whether to pick the block now. We use the simple rule "harvest the lot when at least a share $p$ of its scanned fruit are accepted by Eq. (9)", and call a lot ready when at least a share $p$ of its fruit truly meets the specification ($p=0.8$ in the main analysis, 0.9 in the supplement).

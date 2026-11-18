@@ -244,12 +244,12 @@ def run(cfg):
         from src.statistics import harvest_analysis as ha
 
         hs = ha.fruit_summary(rdir)
-        _md(hs, tdir / "table16_harvest_fruit")
+        _md(hs, tdir / "table16_harvest_fruit", floatfmt="%.6g")
         econ, regret = ha.economics(hs)
-        _md(econ, tdir / "table17_economics")
-        _md(regret, tdir / "table17b_regret")
-        _md(ha.lot_summary(rdir), tdir / "table18_lot_decisions")
-        _md(ha.planner_table(rdir, s_main_all), tdir / "table19_planner")
+        _md(econ, tdir / "table17_economics", floatfmt="%.6g")
+        _md(regret, tdir / "table17b_regret", floatfmt="%.6g")
+        _md(ha.lot_summary(rdir), tdir / "table18_lot_decisions", floatfmt="%.6g")
+        _md(ha.planner_table(rdir, s_main_all), tdir / "table19_planner", floatfmt="%.6g")
     dc = rdir / "robustness" / "decision_summary.csv"
     if dc.exists():
         _md(pd.read_csv(dc), tdir / "table14_decision")

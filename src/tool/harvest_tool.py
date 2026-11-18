@@ -125,6 +125,16 @@ def demo(target_season: int, spec: float, m: int, seed: int = 1, mode: str = "ma
     return out, summary
 
 
+def save_demo(target_season: int = 2021, spec: float = 15.0, m: int = 10):
+    """Write the demo output used in the manuscript (results/tool_demo.json)."""
+    from src.utils import ROOT
+
+    out, summary = demo(target_season, spec, m)
+    summary["first_rows"] = out.head(6).round(2).to_dict(orient="records")
+    (ROOT / "results" / "tool_demo.json").write_text(json.dumps(summary, indent=1, default=str))
+    return summary
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = ap.add_subparsers(dest="cmd", required=True)

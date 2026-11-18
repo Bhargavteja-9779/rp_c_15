@@ -190,6 +190,7 @@ def run(cfg):
     order = {k: i for i, k in enumerate(M0 + [x for x in MK if x not in M0])}
     s_main = s_main.sort_values(["m", "method"], key=lambda c: c.map(order) if c.name == "method" else c).reset_index(drop=True)
     _md(s_main, tdir / "table3_main_intervals")
+    s_main_all = summarise(main, cfg, {"lotcp_s", "lotcp_a"})
     per_season = main[main.method.isin(["scp_sample", "scp_lot", "scp_season", "lotcp", "lotcp_s", "target_only_centred", "biascorr_naive"])] \
         .groupby(["method", "m", "target"])[["coverage", "width", "iscore"]].mean().reset_index()
     _md(per_season, tdir / "table4_per_season")
@@ -239,6 +240,16 @@ def run(cfg):
                                                      max_abs_rel_error=("rel_error", lambda x: float(x.abs().max())), n=("rel_error", "size")).reset_index()
         _md(bymodel, tdir / "table15_planning")
         _md(byseason, tdir / "table15b_planning_by_season")
+    if (rdir / "harvest" / "fruit_by_lot.csv.gz").exists():
+        from src.statistics import harvest_analysis as ha
+
+        hs = ha.fruit_summary(rdir)
+        _md(hs, tdir / "table16_harvest_fruit", floatfmt="%.6g")
+        econ, regret = ha.economics(hs)
+        _md(econ, tdir / "table17_economics", floatfmt="%.6g")
+        _md(regret, tdir / "table17b_regret", floatfmt="%.6g")
+        _md(ha.lot_summary(rdir), tdir / "table18_lot_decisions", floatfmt="%.6g")
+        _md(ha.planner_table(rdir, s_main_all), tdir / "table19_planner", floatfmt="%.6g")
     dc = rdir / "robustness" / "decision_summary.csv"
     if dc.exists():
         _md(pd.read_csv(dc), tdir / "table14_decision")

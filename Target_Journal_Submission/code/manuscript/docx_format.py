@@ -156,5 +156,5 @@ def postprocess(path: Path, title: str):
         ln.set(qn("w:countBy"), "1"); ln.set(qn("w:restart"), "continuous")
         _page_number_footer(sec)
     doc.core_properties.title = title
-    doc.core_properties.author = "[Author names]"
+    doc.core_properties.author = "P N Bhargav Teja; Ragavan K"
     doc.save(str(path))

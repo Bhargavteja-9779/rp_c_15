@@ -1,8 +1,53 @@
 ---
-title: "Supplementary material: Lot-level valid error bars for near-infrared predictions across harvest seasons: few-shot conformal calibration with a per-lot assurance and a reference-sampling planner"
+title: "Supplementary material: Risk-aware mango harvest decisions using few-shot conformal calibration of near-infrared spectroscopy across harvest seasons"
 ---
 
 All tables in this file are written by `src/statistics/analysis.py` from the raw result files; the same tables are provided as CSV files.
+
+# Supplementary Note S1. Robustness and sensitivity
+
+Fig. S2 and supplementary table S22 summarise how the coverage of LotCP-S responds to errors in the reference values, to outlier screening, to the number of past lots and to other source–target shifts.
+
+
+![Fig. S2. Robustness of LotCP-S coverage (PLS, nominal 0.90): (a) Gaussian error added to the reference values of the m reference samples; (b) number of past lots available for calibration; (c) other source–target shifts.](figures/fig8_robustness.png){width=6.5in}
+
+*Error in the reference values.* Oven-drying has its own error, and the $m$ reference values carry it. Adding Gaussian error with a standard deviation of 0.25 or 0.5 % DMC to the reference samples at deployment (not to the calibration lots) leaves coverage at or slightly above nominal (0.923 at $m=10$ for 0.5 % DMC) and widens the intervals by 4 % (supplementary table S22). The noisier references inflate the estimated lot scale, which errs on the conservative side.
+
+*Reuse of the calibration lots.* The variance components and the pseudo-count are estimated from the same past lots that provide the conformal quantile. Estimating them on a random half of the lots and computing the quantile on the other half, with the pseudo-count fixed at 10, gives coverage 0.929 and an interval score of 4.46 at $m=10$, against 0.919 and 4.46; the reuse does not make the intervals optimistic.
+
+*Single-instrument units.* In the data set a lot was usually scanned with several instrument units, whereas a grower would use one. Redefining the deployment unit as one instrument unit within a lot (reference and query scans from that unit only; 558 units) gives coverage 0.919 for LotCP-S at $m=10$ with a mean width of 3.12 % DMC, 0.833 for sample-fold split conformal prediction and 0.954 for bias correction with the source quantile. The interval score of LotCP-S is 4.12, against 4.32 for centred target-only calibration at $m=10$ and 3.88 against 3.85 at $m=20$. The share of unit-draws with coverage below 0.80 is higher than at lot level (11 %), because single-instrument units differ more in residual scale than lots that average over instruments.
+
+*Outlier screening.* Removing the scans flagged by the data provider from calibration and evaluation leaves coverage unchanged (0.920) and narrows the intervals by 4 %.
+
+*Number of past lots.* With only 10 past lots the lot-balanced quantile is close to the largest calibration score and the intervals are very wide; with 20 lots coverage is 0.947 and with 40 lots 0.929, at widths 12 % and 3 % above those obtained with all lots. The method is always conservative when lots are few, which follows from the $1/(K_m+1)$ mass at infinity in Eq. (6), and some 40 past lots are needed before the conservatism becomes small.
+
+*Tuning constants.* The number of episodes (5 to 100) and the pseudo-count of the scale estimate (5 to 80) change coverage by less than 0.002 and 0.006 respectively.
+
+*Nominal level.* Supplementary table S23 gives the results for nominal levels 0.80 and 0.95. The pattern is the same: sample-fold split conformal prediction under-covers and LotCP-S with $m\ge5$ covers slightly above the nominal level.
+
+
+*Other shifts.* When only the two seasons before the target are used as source, LotCP-S still covers 0.918 at $m=10$, with wider intervals (4.30 % DMC) because fewer and less diverse past lots are available. When a whole growing region or a whole cultivar is held out, coverage at $m=10$ is 0.913 and 0.907. In these two protocols the source contains all seasons, so they test a region or cultivar shift without a season shift.
+
+# Supplementary Note S2. Computational analysis
+
+
+The cost of the method is dominated by the season-held-out fits, one per source season, which are done once when the calibration is built (supplementary table S24). Energy use was not measured; on the CPU used here the complete cross-fitting for one target season took 40 s for PLS and 23 min for the CNN. The episodic calibration itself takes about 1.8 s for 187 past lots and 30 episodes, and the deployment step is a bias and a scale per lot, which is negligible on the embedded processor of a handheld instrument. The relevant cost is the number of destructive reference measurements. Fig. 4 expresses the trade-off: with LotCP-S and PLS, three reference samples per lot give a mean width of 3.83 % DMC, ten give 3.45, and thirty give 3.28; most of the gain is obtained with the first five to ten samples.
+
+# Supplementary Note S3. Error analysis
+
+![Fig. S3. Error analysis at m = 10 (PLS). (a) Lot coverage against the absolute lot bias. (b) Lot coverage against the ratio of the lot's residual standard deviation to the prior scale. (c) Coverage by reference DMC range.](figures/fig9_error_analysis.png){width=6.5in}
+
+We examined coverage at the level of the lot and of the scan for $m=10$ (Fig. S3). Of the 137 target lots, 38 have coverage below 0.80 under sample-fold split conformal prediction, 13 under LotCP and 4 under LotCP-S. For split conformal prediction, lot coverage is governed by the absolute lot bias (Spearman correlation -0.79). After bias correction the bias no longer matters much, and the remaining failures are lots whose residual spread exceeds what past lots suggest: the correlation between lot coverage and the ratio of the lot's residual standard deviation to the prior scale is -0.95 for LotCP and -0.84 for LotCP-S. The scale estimate of LotCP-S reduces the number of badly covered lots but cannot identify a wide lot reliably from ten reference samples and the repeated scans; the lot with the lowest coverage has a residual spread of 2.2 times the prior scale.
+
+By subgroup, LotCP-S coverage is 0.93 for fruit at the green stage and 0.90 for fruit at the ripening stage; 0.91, 0.90 and 0.89 for the low, medium and high fruit-temperature classes; 0.92 for instrument units present in the source seasons and 0.92 for units that are new in the target season; and 0.92 and 0.96 for cultivars present in and absent from the source seasons. The lower coverage at the ripening stage is in line with the finding of the data set's authors that physiological stage affects model performance more than cultivar, season or region [@anderson2020]. Among cultivars the lowest coverage is 0.86 for Keitt. Scans carrying the provider's first outlier flag are covered at 0.81 (0.50 under sample-fold split conformal prediction). Coverage is lower at the extremes of the DMC range (Fig. S3c), a known limitation of scores that do not adapt to the predicted value. These figures are a reminder that the guarantee is marginal: a lot of ripening fruit, or a lot measured with atypical scatter, can be covered below the nominal level even when coverage is nominal on average.
+
+
+# Supplementary Note S4. Deviations from the pre-specified protocol
+
+(D1) LotCP-S was added after the first run on one predictor and one target season (PLS, 2018) showed that the pre-specified LotCP under-covered because the residual scale of that season's lots exceeded that of the source lots. The scale estimator of Eq. (4) was developed on source-season residuals only. Results for PLS on 2018 should therefore be read as development data for LotCP-S; the other four target seasons and the other two predictors had not been evaluated when the design was fixed. Both variants are reported everywhere. (D2) The centred target-only baseline (e) was added to give target-only calibration its strongest form. (D4) After the first complete evaluation and during internal review, the following were added and are reported whatever their outcome: the ablation of LotCP-S on lot-fold residuals, the slope/bias and spiking baselines, the single-instrument deployment unit, the sample-split estimation of the constants and the season jackknife. (D5) The empirical-Bayes shrinkage of the bias estimate, part of the pre-specified method, was removed from the reported method after the external validation: it was immaterial on the mango data and harmful under the LUCAS campaign shift (Sections 11 and 13). All mango results were recomputed with the plain mean; the shrinkage versions are reported as ablations. (D6) The external validation on soil spectra, the lot-level assurance variant LotCP-A, the harvest-decision simulator, the economic analysis, the planner and the prototype were added in revision, after the main interval results were known. (D3) For computational reasons the CNN was trained for 20 rather than 30 epochs; lot-grouped folds were computed for one CNN seed only; and in the leave-one-season-out protocol the CNN uses one seed with season folds. These choices were made before any CNN result existed.
+
+
+# Supplementary tables
 
 
 | season | spectra | samples | lots | cultivars | instruments | dm_mean | dm_sd | median_samples_per_lot |
@@ -634,37 +679,145 @@ Table: Table S13b. Soil data: point-prediction error in the source (cross-valida
 Table: Table S13c. Soil data: paired Wilcoxon tests of LotCP-S against competing methods.
 
 
-| rule | m | threshold | n_lots | lower_cov | accepted | false_accept | compliant | true_accept | false_accept_share | yield | lots_over_10pct |
-|---|---|---|---|---|---|---|---|---|---|---|---|
-| lotcp_s_lower | 0 | 14.000 | 137 | 0.874 | 0.458 | 0.007 | 0.728 | 0.451 | 0.016 | 0.619 | 0.079 |
-| lotcp_s_lower | 0 | 15.000 | 137 | 0.874 | 0.304 | 0.007 | 0.580 | 0.297 | 0.024 | 0.512 | 0.078 |
-| lotcp_s_lower | 0 | 16.000 | 137 | 0.874 | 0.186 | 0.010 | 0.450 | 0.177 | 0.051 | 0.393 | 0.146 |
-| lotcp_s_lower | 5 | 14.000 | 137 | 0.919 | 0.515 | 0.005 | 0.728 | 0.510 | 0.010 | 0.700 | 0.055 |
-| lotcp_s_lower | 5 | 15.000 | 137 | 0.919 | 0.377 | 0.005 | 0.580 | 0.372 | 0.014 | 0.642 | 0.051 |
-| lotcp_s_lower | 5 | 16.000 | 137 | 0.919 | 0.254 | 0.005 | 0.450 | 0.248 | 0.020 | 0.552 | 0.151 |
-| lotcp_s_lower | 10 | 14.000 | 137 | 0.920 | 0.522 | 0.005 | 0.728 | 0.517 | 0.010 | 0.711 | 0.062 |
-| lotcp_s_lower | 10 | 15.000 | 137 | 0.920 | 0.383 | 0.005 | 0.580 | 0.379 | 0.012 | 0.654 | 0.060 |
-| lotcp_s_lower | 10 | 16.000 | 137 | 0.920 | 0.258 | 0.005 | 0.450 | 0.254 | 0.018 | 0.564 | 0.106 |
-| lotcp_s_lower | 20 | 14.000 | 129 | 0.918 | 0.551 | 0.005 | 0.744 | 0.546 | 0.010 | 0.733 | 0.057 |
-| lotcp_s_lower | 20 | 15.000 | 129 | 0.918 | 0.406 | 0.005 | 0.596 | 0.401 | 0.012 | 0.673 | 0.045 |
-| lotcp_s_lower | 20 | 16.000 | 129 | 0.918 | 0.275 | 0.004 | 0.465 | 0.271 | 0.015 | 0.582 | 0.110 |
-| point | 0 | 14.000 | 137 | 0.476 | 0.814 | 0.122 | 0.728 | 0.691 | 0.150 | 0.949 | 0.438 |
-| point | 0 | 15.000 | 137 | 0.476 | 0.602 | 0.080 | 0.580 | 0.521 | 0.134 | 0.899 | 0.450 |
-| point | 0 | 16.000 | 137 | 0.476 | 0.420 | 0.054 | 0.450 | 0.366 | 0.128 | 0.814 | 0.475 |
-| point_bc | 5 | 14.000 | 137 | 0.512 | 0.724 | 0.048 | 0.728 | 0.676 | 0.066 | 0.929 | 0.374 |
-| point_bc | 5 | 15.000 | 137 | 0.512 | 0.574 | 0.046 | 0.580 | 0.527 | 0.081 | 0.910 | 0.445 |
-| point_bc | 5 | 16.000 | 137 | 0.512 | 0.435 | 0.044 | 0.450 | 0.391 | 0.102 | 0.868 | 0.585 |
-| point_bc | 10 | 14.000 | 137 | 0.514 | 0.724 | 0.046 | 0.728 | 0.678 | 0.063 | 0.932 | 0.331 |
-| point_bc | 10 | 15.000 | 137 | 0.514 | 0.573 | 0.044 | 0.580 | 0.529 | 0.077 | 0.913 | 0.398 |
-| point_bc | 10 | 16.000 | 137 | 0.514 | 0.435 | 0.042 | 0.450 | 0.392 | 0.097 | 0.872 | 0.504 |
-| point_bc | 20 | 14.000 | 129 | 0.515 | 0.743 | 0.045 | 0.744 | 0.698 | 0.061 | 0.938 | 0.309 |
-| point_bc | 20 | 15.000 | 129 | 0.515 | 0.592 | 0.045 | 0.596 | 0.548 | 0.075 | 0.918 | 0.410 |
-| point_bc | 20 | 16.000 | 129 | 0.515 | 0.451 | 0.043 | 0.465 | 0.409 | 0.094 | 0.878 | 0.482 |
-| scp_lower | 0 | 14.000 | 137 | 0.838 | 0.505 | 0.010 | 0.728 | 0.495 | 0.021 | 0.680 | 0.102 |
-| scp_lower | 0 | 15.000 | 137 | 0.838 | 0.349 | 0.010 | 0.580 | 0.339 | 0.029 | 0.584 | 0.120 |
-| scp_lower | 0 | 16.000 | 137 | 0.838 | 0.222 | 0.013 | 0.450 | 0.208 | 0.060 | 0.464 | 0.155 |
+**Table S16.** Harvest simulator, fruit level: every rule, confidence level, specification (14, 15, 16 % DMC), number of reference fruit and predictor (PLS, CNN). (420 rows; provided as `table16_harvest_fruit.csv` only.)
 
-Table: Table S14. Harvest-decision analysis for specifications of 14, 15 and 16 % DMC.
+
+**Table S17.** Expected cost per fruit under assumed costs for every rule, cost ratio, lot size, specification and predictor. (1314 rows; provided as `table17_economics.csv` only.)
+
+
+**Table S17b.** Relative regret of the cost-derived confidence level α* against the best level in hindsight. (240 rows; provided as `table17b_regret.csv` only.)
+
+
+**Table S18.** Harvest simulator, lot level: premature harvests and delays for every rule and setting. (840 rows; provided as `table18_lot_decisions.csv` only.)
+
+
+| m | planned_width_lotcp_a | planned_width_lotcp_s | realised_width_lotcp_a | realised_width_lotcp_s | lots_reaching_090_lotcp_s | lots_reaching_090_lotcp_a | reference_cost_per_100_fruit_N200 | reference_cost_per_100_fruit_N1000 | reference_cost_per_100_fruit_N5000 |
+|---|---|---|---|---|---|---|---|---|---|
+| 0 | 6.8631 | 5.13753 | 6.74334 | 5.05328 | 0.766423 | 0.875912 | 0 | 0 | 0 |
+| 3 | 5.01046 | 3.75779 | 4.86895 | 3.66356 | 0.708102 | 0.92219 | 2.25 | 0.45 | 0.09 |
+| 5 | 4.61004 | 3.58979 | 4.46947 | 3.48757 | 0.697737 | 0.908175 | 3.75 | 0.75 | 0.15 |
+| 10 | 4.36671 | 3.47613 | 4.21322 | 3.35705 | 0.691241 | 0.91781 | 7.5 | 1.5 | 0.3 |
+| 20 | 4.11691 | 3.36101 | 3.9621 | 3.23668 | 0.676202 | 0.902558 | 15 | 3 | 0.6 |
+| 30 | 3.99862 | 3.26968 | 4.11392 | 3.29772 | 0.651161 | 0.909196 | 22.5 | 4.5 | 0.9 |
+
+Table: Table S19. Reference-sampling planner: planned and realised widths, lot-level coverage and reference cost.
+
+
+| LotCP-S versus | m | Lots | Mean difference | 95% CI | Holm p | Rank-biserial r | Seasons favouring LotCP-S |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Bias corr. + source CP | 3 | 137 | -0.05 | -0.14 to 0.04 | 1.000 | -0.04 | 3/5 |
+| Bias corr. + source CP | 5 | 137 | -0.18 | -0.27 to -0.07 | 0.002 | -0.39 | 5/5 |
+| Bias corr. + source CP | 10 | 137 | -0.23 | -0.32 to -0.13 | <0.001 | -0.51 | 5/5 |
+| Bias corr. + source CP | 20 | 129 | -0.32 | -0.42 to -0.22 | <0.001 | -0.66 | 5/5 |
+| Bias corr. + source CP | 30 | 112 | -0.32 | -0.43 to -0.21 | <0.001 | -0.66 | 5/5 |
+| Target-only CP, centred | 10 | 137 | -0.66 | -0.86 to -0.50 | <0.001 | -0.83 | 5/5 |
+| Target-only CP, centred | 20 | 129 | -0.03 | -0.10 to 0.07 | 0.036 | -0.33 | 4/5 |
+| Target-only CP, centred | 30 | 112 | 0.06 | -0.01 to 0.16 | 1.000 | -0.04 | 2/5 |
+| LotCP-S + shrinkage | 3 | 137 | 0.05 | 0.01 to 0.08 | <0.001 | 0.52 | 1/5 |
+| LotCP-S + shrinkage | 5 | 137 | -0.01 | -0.03 to 0.01 | 1.000 | 0.19 | 3/5 |
+| LotCP-S + shrinkage | 10 | 137 | -0.00 | -0.01 to 0.01 | 1.000 | 0.14 | 3/5 |
+| LotCP-S + shrinkage | 20 | 129 | -0.00 | -0.01 to 0.00 | 1.000 | 0.05 | 4/5 |
+| LotCP-S + shrinkage | 30 | 112 | -0.00 | -0.01 to 0.00 | 1.000 | -0.05 | 4/5 |
+| LotCP | 3 | 137 | -0.49 | -0.60 to -0.38 | <0.001 | -0.79 | 4/5 |
+| LotCP | 5 | 137 | -0.56 | -0.70 to -0.43 | <0.001 | -0.80 | 4/5 |
+| LotCP | 10 | 137 | -0.56 | -0.69 to -0.43 | <0.001 | -0.82 | 4/5 |
+| LotCP | 20 | 129 | -0.61 | -0.72 to -0.49 | <0.001 | -0.85 | 5/5 |
+| LotCP | 30 | 112 | -0.54 | -0.68 to -0.41 | <0.001 | -0.84 | 4/5 |
+
+Table: Table S20. Paired comparison of the per-lot interval score of LotCP-S with competing methods (Wilcoxon signed-rank test, Holm-adjusted over all comparisons of the family; negative differences favour LotCP-S).
+
+
+| Predictor, protocol | Method | Lots | Coverage | Under-covered lots (%) | Width | Interval score |
+|---|---:|---:|---:|---:|---:|---:|
+| PLS, forward | Split CP (sample folds) (m=0) | 137 | 0.823 | 28 | 3.83 | 6.81 |
+| PLS, forward | Split CP (season folds) (m=0) | 137 | 0.900 | 14 | 5.26 | 7.05 |
+| PLS, forward | Bias corr. + source CP (m=10) | 137 | 0.938 | 5 | 3.83 | 4.68 |
+| PLS, forward | Target-only CP, centred (m=10) | 137 | 0.956 | 3 | 4.63 | 5.12 |
+| PLS, forward | LotCP (m=10) | 137 | 0.927 | 10 | 3.97 | 5.01 |
+| PLS, forward | LotCP-S (m=10) | 137 | 0.919 | 8 | 3.45 | 4.46 |
+| LightGBM, forward | Split CP (sample folds) (m=0) | 137 | 0.759 | 51 | 3.09 | 7.12 |
+| LightGBM, forward | Split CP (season folds) (m=0) | 137 | 0.902 | 18 | 4.98 | 6.69 |
+| LightGBM, forward | Bias corr. + source CP (m=10) | 137 | 0.882 | 19 | 3.09 | 4.60 |
+| LightGBM, forward | Target-only CP, centred (m=10) | 137 | 0.957 | 3 | 4.62 | 5.03 |
+| LightGBM, forward | LotCP (m=10) | 137 | 0.915 | 11 | 3.60 | 4.74 |
+| LightGBM, forward | LotCP-S (m=10) | 137 | 0.914 | 8 | 3.43 | 4.41 |
+| 1D-CNN, forward | Split CP (sample folds) (m=0) | 137 | 0.789 | 42 | 3.07 | 6.00 |
+| 1D-CNN, forward | Split CP (season folds) (m=0) | 137 | 0.928 | 11 | 5.02 | 6.05 |
+| 1D-CNN, forward | Bias corr. + source CP (m=10) | 137 | 0.909 | 12 | 3.07 | 4.03 |
+| 1D-CNN, forward | Target-only CP, centred (m=10) | 137 | 0.959 | 3 | 4.11 | 4.46 |
+| 1D-CNN, forward | LotCP (m=10) | 137 | 0.929 | 14 | 3.95 | 4.77 |
+| 1D-CNN, forward | LotCP-S (m=10) | 137 | 0.914 | 7 | 3.06 | 3.87 |
+| PLS, leave-one-season-out | Split CP (sample folds) (m=0) | 198 | 0.849 | 23 | 4.07 | 6.57 |
+| PLS, leave-one-season-out | Split CP (season folds) (m=0) | 198 | 0.896 | 16 | 4.69 | 6.43 |
+| PLS, leave-one-season-out | Bias corr. + source CP (m=10) | 198 | 0.949 | 3 | 4.07 | 4.79 |
+| PLS, leave-one-season-out | Target-only CP, centred (m=10) | 198 | 0.957 | 3 | 4.63 | 5.11 |
+| PLS, leave-one-season-out | LotCP (m=10) | 198 | 0.908 | 12 | 3.37 | 4.58 |
+| PLS, leave-one-season-out | LotCP-S (m=10) | 198 | 0.907 | 8 | 3.26 | 4.36 |
+| 1D-CNN, leave-one-season-out | Split CP (season folds) (m=0) | 198 | 0.923 | 11 | 4.34 | 5.39 |
+| 1D-CNN, leave-one-season-out | LotCP (m=10) | 198 | 0.914 | 11 | 3.02 | 4.00 |
+| 1D-CNN, leave-one-season-out | LotCP-S (m=10) | 198 | 0.908 | 7 | 2.87 | 3.75 |
+
+Table: Table S21. Generalisation across point predictors and protocols (nominal 0.90). LightGBM and CNN under forward chaining: metrics averaged over three seeds within lot.
+
+
+| Condition | m=0 | m=5 | m=10 | m=20 |
+|---|---:|---:|---:|---:|
+| Main setting | 0.894 / 5.39 | 0.920 / 3.60 | 0.919 / 3.45 | 0.918 / 3.29 |
+| Reference error SD 0.25 % DMC | 0.894 / 5.39 | 0.920 / 3.63 | 0.920 / 3.48 | 0.921 / 3.33 |
+| Reference error SD 0.5 % DMC | 0.894 / 5.39 | 0.921 / 3.73 | 0.923 / 3.57 | 0.928 / 3.47 |
+| Provider-flagged outliers removed | 0.897 / 5.24 | 0.922 / 3.51 | 0.920 / 3.31 | 0.922 / 3.20 |
+| 10 past lots for calibration | 0.975 / 8.74 | 0.989 / 6.80 | 0.989 / 6.34 | 0.996 / 14.31 |
+| 20 past lots for calibration | 0.910 / 5.70 | 0.947 / 4.07 | 0.947 / 3.86 | 0.949 / 3.78 |
+| 40 past lots for calibration | 0.902 / 5.52 | 0.930 / 3.76 | 0.929 / 3.56 | 0.931 / 3.46 |
+| 80 past lots for calibration | 0.895 / 5.43 | 0.923 / 3.64 | 0.924 / 3.50 | 0.921 / 3.32 |
+| 5 episodes per lot | 0.894 / 5.39 | 0.919 / 3.58 | 0.921 / 3.46 | 0.921 / 3.35 |
+| 10 episodes per lot | 0.894 / 5.39 | 0.919 / 3.58 | 0.918 / 3.43 | 0.919 / 3.33 |
+| 100 episodes per lot | 0.894 / 5.39 | 0.920 / 3.59 | 0.920 / 3.44 | 0.921 / 3.35 |
+| Fixed pseudo-count ν₀ = 5 | 0.894 / 5.39 | 0.922 / 3.63 | 0.923 / 3.46 | 0.919 / 3.31 |
+| Fixed pseudo-count ν₀ = 20 | 0.894 / 5.39 | 0.923 / 3.72 | 0.924 / 3.54 | 0.923 / 3.37 |
+| Fixed pseudo-count ν₀ = 80 | 0.894 / 5.39 | 0.923 / 3.79 | 0.924 / 3.64 | 0.925 / 3.49 |
+| Constants and quantile from disjoint halves of the past lots | 0.893 / 5.53 | 0.931 / 3.85 | 0.929 / 3.59 | 0.928 / 3.42 |
+| Deployment unit: one instrument unit within a lot | 0.912 / 5.58 | 0.919 / 3.30 | 0.919 / 3.12 | 0.914 / 2.88 |
+| Source: two preceding seasons only | 0.891 / 6.42 | 0.917 / 4.44 | 0.918 / 4.30 | 0.918 / 3.99 |
+| Unseen growing region | 0.908 / 5.15 | 0.912 / 3.39 | 0.913 / 3.27 | 0.913 / 3.19 |
+| Unseen cultivar | 0.911 / 4.83 | 0.907 / 3.29 | 0.907 / 3.17 | 0.906 / 3.11 |
+
+Table: Table S22. Robustness and sensitivity of LotCP-S (PLS, nominal 0.90). Each cell: lot-macro coverage / mean width.
+
+
+| Nominal | Method | Coverage | Width |
+|---|---:|---:|---:|
+| 0.80 | Split CP (sample folds) (m=0) | 0.716 | 2.94 |
+| 0.80 | Split CP (season folds) (m=0) | 0.820 | 3.92 |
+| 0.80 | Target-only CP, centred (m=20) | 0.832 | 2.58 |
+| 0.80 | LotCP-S (m=5) | 0.831 | 2.70 |
+| 0.80 | LotCP-S (m=20) | 0.835 | 2.55 |
+| 0.90 | Split CP (sample folds) (m=0) | 0.823 | 3.83 |
+| 0.90 | Split CP (season folds) (m=0) | 0.900 | 5.26 |
+| 0.90 | Target-only CP, centred (m=20) | 0.932 | 3.58 |
+| 0.90 | LotCP-S (m=5) | 0.920 | 3.60 |
+| 0.90 | LotCP-S (m=20) | 0.918 | 3.29 |
+| 0.95 | Split CP (sample folds) (m=0) | 0.889 | 4.63 |
+| 0.95 | Split CP (season folds) (m=0) | 0.940 | 6.78 |
+| 0.95 | Target-only CP, centred (m=20) | 0.981 | 5.54 |
+| 0.95 | LotCP-S (m=5) | 0.963 | 4.58 |
+| 0.95 | LotCP-S (m=20) | 0.963 | 4.14 |
+
+Table: Table S23. Other nominal levels (PLS, forward chaining).
+
+
+| Component | Time | Per 1000 scans at deployment |
+|---|---:|---:|
+| PLS fit (final model) | 1.1 s | 6.6 ms |
+| LightGBM fit | 2.0 s | 11.2 ms |
+| 1D-CNN fit (20 epochs) | 147.6 s | 58.3 ms |
+| PLS: all cross-fits for one target season | 40 s | – |
+| 1D-CNN: all cross-fits for one target season | 1395 s | – |
+| LotCP calibration, m = 10 | 0.5 s | < 0.1 ms (one bias, one scale per lot) |
+| LotCP-S calibration, m = 10 | 1.8 s | < 0.1 ms (one bias, one scale per lot) |
+| LotCP-S calibration, m = 30 | 1.1 s | < 0.1 ms (one bias, one scale per lot) |
+
+Table: Table S24. Computing time on a 4-core CPU without GPU (mean over target seasons; CNN fits used one thread each).
 
 
 | model | method | mean_rel_error | median_abs_rel_error | max_abs_rel_error | n |

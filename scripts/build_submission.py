@@ -37,7 +37,16 @@ SUPP_TABLES = [
     ("S13", "table13_soil", "External validation on OSSL soil vis-NIR spectra: all methods and m."),
     ("S13b", "table13b_soil_point", "Soil data: point-prediction error in the source (cross-validation) and on the target."),
     ("S13c", "table13c_soil_tests", "Soil data: paired Wilcoxon tests of LotCP-S against competing methods."),
-    ("S14", "table14_decision", "Harvest-decision analysis for specifications of 14, 15 and 16 % DMC."),
+    ("S16", "table16_harvest_fruit", "Harvest simulator, fruit level: every rule, confidence level, specification (14, 15, 16 % DMC), number of reference fruit and predictor (PLS, CNN)."),
+    ("S17", "table17_economics", "Expected cost per fruit under assumed costs for every rule, cost ratio, lot size, specification and predictor."),
+    ("S17b", "table17b_regret", "Relative regret of the cost-derived confidence level α* against the best level in hindsight."),
+    ("S18", "table18_lot_decisions", "Harvest simulator, lot level: premature harvests and delays for every rule and setting."),
+    ("S19", "table19_planner", "Reference-sampling planner: planned and realised widths, lot-level coverage and reference cost."),
+    ("S20", "table20_tests_main", None),
+    ("S21", "table21_generalisation_main", None),
+    ("S22", "table22_robustness_main", None),
+    ("S23", "table23_alpha_main", None),
+    ("S24", "table24_cost_main", None),
     ("S15", "table15_planning", "Reference-budget planning: relative difference between realised and planned interval width, by predictor and variant."),
     ("S15b", "table15b_planning_by_season", "Reference-budget planning: relative difference by target season."),
 ]
@@ -57,7 +66,16 @@ def supplementary():
     md = [f"---\ntitle: \"Supplementary material: {TITLE}\"\n---\n",
           "All tables in this file are written by `src/statistics/analysis.py` from the raw result files; "
           "the same tables are provided as CSV files.\n"]
+    notes = sdir / "Supplementary_Notes.md"
+    if notes.exists():
+        md.append(notes.read_text())
+    md.append("\n# Supplementary tables\n")
     for tag, name, cap in SUPP_TABLES:
+        if cap is None:                       # table already formatted with caption by the manuscript builder
+            q = ROOT / "tables" / f"{name}.md"
+            if q.exists():
+                md.append("\n" + q.read_text())
+            continue
         p = ROOT / "tables" / f"{name}.csv"
         if not p.exists():
             continue
@@ -86,59 +104,127 @@ def supplementary():
     doc.save(str(out))
 
 
-def cover_letter():
+AUTHORS = "P N Bhargav Teja, Ragavan K"
+CORR = "Ragavan K"
+
+
+def _doc(size=11):
     doc = Document()
     st = doc.styles["Normal"]
-    st.font.name, st.font.size = FONT, Pt(11)
+    st.font.name, st.font.size = FONT, Pt(size)
     sec = doc.sections[0]
-    sec.left_margin = sec.right_margin = Cm(2.5)
-    sec.top_margin = sec.bottom_margin = Cm(2.5)
-    paras = [
-        "[Corresponding author name]\n[Institution, address]\n[E-mail] · [Telephone]",
-        "[Date]",
-        f"To the Editor-in-Chief\n{JOURNAL}",
-        "Dear Editor,",
-        f"We submit the manuscript “{TITLE}” for consideration as a research article in {JOURNAL}.",
-        "Handheld near-infrared spectrometers are used in orchards to decide when to harvest fruit. The calibrations behind "
-        "them are built on previous seasons, and the error bars that accompany their predictions are derived from those same "
-        "seasons. Using a public mango data set with seven harvest seasons and 199 harvest lots, we measure what happens to "
-        "such error bars on later seasons: at a nominal 90 %, seven common interval procedures, including split conformal "
-        "prediction, quantile models, deep ensembles and Monte-Carlo dropout, cover between about 77 % and 85 % of the "
-        "reference values, and the failures are concentrated in individual lots.",
-        "The manuscript then asks the operational question of how many destructively measured reference fruit per lot are "
-        "needed for a valid and useful interval, and how they should be used. We describe a calibration, LotCP, that applies "
-        "hierarchical conformal prediction to the lot structure of multi-season calibration sets, corrects the lot bias from a "
-        "few reference samples, adapts the interval to a lot-specific scale that also uses repeated scans, and prices the "
-        "estimation error by replaying the procedure on past lots. With three to ten reference samples per lot it gave "
-        "close-to-nominal coverage across three predictors and narrower intervals than the alternatives; with twenty or more, "
-        "calibration on the reference samples alone was equally good. The findings were then tested on two soil vis-NIR "
-        "libraries, where the loss of coverage across survey campaigns was larger still and a few local samples again "
-        "restored most of it, and the intervals were translated into a harvest decision against a dry-matter specification. "
-        "A second variant of the calibration targets the stated coverage within the individual lot for nine lots in ten, a "
-        "property that none of the compared methods provided; both guarantees are stated and proved. The same calibration "
-        "forecasts, before the season, the interval width obtainable for each number of reference fruit. "
-        "The manuscript reports the boundaries of the method, a pre-specified component (shrinkage) that failed on the "
-        "external data and was removed, and the lots on which the method still fails.",
-        f"We believe the work fits the scope of {JOURNAL} because it concerns the reliable use of a sensing instrument in "
-        "agricultural production and leads to a concrete sampling recommendation. The experimental protocol was written "
-        "before any model was trained, deviations from it are listed in the manuscript, and the code, stored predictions and "
-        "all result files are provided so that every table and figure can be regenerated.",
-        "The manuscript is original, has not been published, and is not under consideration elsewhere. All authors have "
-        "approved the submission. The study uses a public data set (CC BY 4.0) and involves no human participants or animals. "
-        "The authors declare no competing interests. The use of generative AI in preparing the work is declared in the "
-        "manuscript. [Authors: confirm each statement in this paragraph before sending.]",
-        "Closely related concurrent work that the editor may wish to be aware of is cited in the manuscript (a study of "
-        "conformal coverage under instrument transfer, available as a code archive).",
-        "Thank you for considering our manuscript.",
-        "Yours sincerely,\n\n[Corresponding author name]\non behalf of all authors",
-    ]
+    sec.left_margin = sec.right_margin = sec.top_margin = sec.bottom_margin = Cm(2.5)
+    return doc
+
+
+def _paras(doc, paras, spacing=1.15):
     for t in paras:
         p = doc.add_paragraph(t)
         p.paragraph_format.space_after = Pt(9)
-        p.paragraph_format.line_spacing = 1.15
+        p.paragraph_format.line_spacing = spacing
+
+
+def cover_letter(r):
+    doc = _doc()
+    _paras(doc, [
+        f"{CORR}\n[Department, Institution, City, Postal code, Country]\n[E-mail address] · [Telephone]",
+        "[Date]",
+        f"To the Editor-in-Chief\n{JOURNAL}",
+        "Dear Editor,",
+        f"On behalf of my co-author, I submit the manuscript “{TITLE}” by {AUTHORS} for consideration as a research article in {JOURNAL}.",
+        "Mango growers decide when to harvest a block by scanning fruit with handheld near-infrared (NIR) spectrometers and "
+        "comparing the predicted dry matter content with a maturity specification. The calibrations behind these readings are "
+        "built on past seasons, and their error bars come from those seasons. Using a public data set with seven harvest seasons "
+        f"and 199 harvest lots, we show that at a nominal 90 % such error bars covered only {100*min(r.m(k,0) for k in ('scp_sample','gauss','qrf','cqr_sample','ensemble','mc_dropout')):.0f}–"
+        f"{100*max(r.m(k,0) for k in ('scp_sample','gauss','qrf','cqr_sample','ensemble','mc_dropout')):.0f} % of the reference values on later seasons, and that harvest decisions "
+        f"taken on point predictions let {100*r.hv('point',0,None):.0f} % immature fruit into the accepted fruit.",
+        "We propose a risk-aware harvest workflow. A few fruit per lot are tested destructively. A few-shot conformal "
+        "calibration (LotCP), calibrated on past lots, corrects the lot's bias and scale and gives every scanned fruit a lower "
+        "bound whose coverage is guaranteed under stated assumptions. A fruit or lot is harvested when the bound meets the specification, at a "
+        "confidence level derived from the relative cost of harvesting immature fruit and of holding back mature fruit. "
+        f"In a retrospective simulation over five seasons, ten reference fruit per lot reduced immature fruit among those accepted to "
+        f"{100*r.hv('lotcp_s_lower',10,0.1):.0f} %, premature lot harvests roughly halved at an unchanged delay rate, and expected cost fell under "
+        "every cost scenario examined. A planner computed from past lots forecasts, before the season, how precise the error "
+        "bar will be for 3, 5, 10 or 20 reference fruit, and a small decision-support prototype shows how the result would "
+        "reach a user. The findings replicated on two public soil spectral libraries.",
+        f"We believe the work fits the scope of {JOURNAL} because it turns a sensing instrument already used in orchards into "
+        "a risk-aware decision tool and gives growers a quantified answer to how many fruit to test. We have been careful to "
+        "state its limits: the evaluation is retrospective, the costs are assumed and labelled as such, and a prospective "
+        "orchard validation remains to be done.",
+        "The manuscript is original, has not been published, and is not under consideration elsewhere. Both authors have "
+        "approved the submission. The study uses public data sets and involves no human participants or animals. The authors "
+        "declare no competing interests, and the research received no specific funding. The use of generative AI in "
+        "preparing the work is declared in the manuscript. The data are publicly available at the links given in the data "
+        "availability statement, and the code is available from the corresponding author on reasonable request.",
+        "Thank you for considering our manuscript.",
+        f"Yours sincerely,\n\n{CORR}\nCorresponding author, on behalf of both authors",
+    ])
     out = ROOT / "manuscript" / "cover_letter.docx"
     doc.save(str(out))
     return out
+
+
+def title_page():
+    doc = _doc(12)
+    h = doc.add_paragraph(); run = h.add_run(TITLE); run.bold = True; run.font.size = Pt(14)
+    _paras(doc, [
+        "Article type: Research article",
+        "P N Bhargav Teja (a), Ragavan K (a, *)",
+        "(a) [Department, Institution, City, Postal code, Country]",
+        f"* Corresponding author: {CORR}, [e-mail address], [postal address], [telephone]",
+        "E-mail addresses: P N Bhargav Teja, [e-mail address]; Ragavan K, [e-mail address]",
+        "Author contributions (CRediT): P N Bhargav Teja: Conceptualization, Methodology, Software, Validation, Formal analysis, "
+        "Investigation, Data curation, Visualization, Writing – original draft, Writing – review & editing. Ragavan K: Supervision.",
+        "Funding: This research did not receive any specific grant from funding agencies in the public, commercial, or not-for-profit sectors.",
+        "Declaration of competing interest: The authors declare that they have no known competing financial interests or personal "
+        "relationships that could have appeared to influence the work reported in this paper.",
+        "Acknowledgements: The authors thank the creators of the mango data set at Central Queensland University and the developers "
+        "of the Open Soil Spectral Library for making their data public.",
+    ])
+    doc.save(str(ROOT / "manuscript" / "title_page.docx"))
+
+
+def competing_interest():
+    doc = _doc(12)
+    h = doc.add_paragraph(); h.add_run("Declaration of interests").bold = True
+    _paras(doc, ["☒ The authors declare that they have no known competing financial interests or personal relationships that could have "
+                 "appeared to influence the work reported in this paper.",
+                 "☐ The authors declare the following financial interests/personal relationships which may be considered as potential competing interests:",
+                 f"Manuscript: {TITLE}", f"Authors: {AUTHORS}"])
+    doc.save(str(ROOT / "manuscript" / "declaration_of_competing_interest.docx"))
+
+
+def anonymised_manuscript():
+    """Same manuscript without author names, affiliations, contributions and acknowledgements (for double-anonymised review)."""
+    import re as _re
+
+    from manuscript.build_manuscript import to_docx
+
+    md = (ROOT / "manuscript" / "build" / "manuscript.md").read_text()
+    a = md.index("---", 3) + 3
+    b = md.index("# Abstract")
+    md = md[:a] + "\n\n" + md[b:]
+    md = _re.sub(r"(# CRediT authorship contribution statement\n\n).*?(?=\n# )", r"\1[Removed for anonymised review; see title page.]\n", md, flags=_re.S)
+    md = _re.sub(r"(# Acknowledgements\n\n).*?(?=\n# )", r"\1[Removed for anonymised review; see title page.]\n", md, flags=_re.S)
+    out = ROOT / "manuscript" / "build" / "manuscript_anonymised.md"
+    out.write_text(md)
+    to_docx(out, ROOT / "manuscript" / "Manuscript_anonymised.docx")
+
+
+def export_figures(dst: Path):
+    """Copy every manuscript figure under its final number (Figure_N.png at 300 dpi and Figure_N.pdf)."""
+    import re as _re
+
+    md = (ROOT / "manuscript" / "build" / "manuscript.md").read_text()
+    dst.mkdir(parents=True, exist_ok=True)
+    captions = []
+    for mo in _re.finditer(r"!\[Fig\. (\d+)\. ([^\]]*)\]\((figures/[^)]+)\.png\)", md):
+        n, cap, stem = mo.group(1), mo.group(2), mo.group(3)
+        for ext in ("png", "pdf"):
+            shutil.copy2(ROOT / f"{stem}.{ext}", dst / f"Figure_{n}.{ext}")
+        captions.append(f"Fig. {n}. {cap}")
+    (dst / "Figure_captions.txt").write_text("\n\n".join(captions) + "\n")
+    return len(captions)
 
 
 def highlights_file():
@@ -157,11 +243,62 @@ def highlights_file():
     doc.save(str(ROOT / "manuscript" / "highlights.docx"))
 
 
+def make_zip():
+    """Assemble the journal submission folder and zip (manuscript files only; code is available on request)."""
+    import zipfile
+
+    name = "Smart_Agricultural_Technology_Submission"
+    d = ROOT / name
+    shutil.rmtree(d, ignore_errors=True)
+    d.mkdir()
+    M = ROOT / "manuscript"
+    files = {"01_Cover_Letter.docx": M / "cover_letter.docx", "02_Title_Page.docx": M / "title_page.docx",
+             "03_Highlights.docx": M / "highlights.docx", "04_Manuscript_with_author_details.docx": M / "Final_Manuscript.docx",
+             "04_Manuscript_with_author_details.pdf": M / "Final_Manuscript.pdf", "05_Manuscript_anonymised.docx": M / "Manuscript_anonymised.docx",
+             "05_Manuscript_anonymised.pdf": M / "Manuscript_anonymised.pdf", "06_Graphical_Abstract.png": ROOT / "figures" / "graphical_abstract.png",
+             "06_Graphical_Abstract.pdf": ROOT / "figures" / "graphical_abstract.pdf", "08_Supplementary_Material.docx": ROOT / "supplementary" / "Supplementary_Material.docx",
+             "09_Declaration_of_Competing_Interest.docx": M / "declaration_of_competing_interest.docx"}
+    for k, v in files.items():
+        shutil.copy2(v, d / k)
+    nfig = export_figures(d / "07_Figures")
+    (d / "00_README_Submission_Checklist.txt").write_text(f"""Submission package for {JOURNAL} (Elsevier)
+Manuscript: {TITLE}
+Authors: {AUTHORS} (corresponding author: {CORR})
+
+Contents
+  01 Cover letter                     02 Title page (author details, CRediT, funding, declarations)
+  03 Highlights (5 bullets, <= 85 characters each)
+  04 Manuscript with author details (DOCX + PDF)   05 Anonymised manuscript (use if the journal requests double-anonymised review)
+  06 Graphical abstract (PNG 300 dpi + PDF)        07 Figures 1-{nfig}, separate files (PNG 300 dpi + vector PDF) and captions
+  08 Supplementary material (notes S1-S4, tables S1-S24, figure S1)
+  09 Declaration of competing interest
+
+Before uploading, complete and verify:
+  [ ] Affiliations, e-mail addresses and postal address of both authors (placeholders in square brackets in 01, 02, 04)
+  [ ] Check every item against the journal's current Guide for Authors (it could not be retrieved while preparing the package)
+  [ ] Confirm the review model (single- or double-anonymised) and upload 04 or 05 accordingly
+  [ ] Read and verify the analysis, the code and every reference: the authors take full responsibility for the content
+  [ ] Confirm that the generative-AI declaration in the manuscript accurately describes how AI was used, and that this use
+      is acceptable under the journal's current policy
+  [ ] Data: public links are given in the Data availability statement; code is stated as available on reasonable request
+""")
+    z = ROOT / f"{name}.zip"
+    with zipfile.ZipFile(z, "w", zipfile.ZIP_DEFLATED) as zf:
+        for f in sorted(d.rglob("*")):
+            if f.is_file():
+                zf.write(f, f.relative_to(ROOT))
+    return z
+
+
 def main():
-    supplementary(); cover_letter(); highlights_file()
+    from manuscript.build_manuscript import R
+
+    r = R()
+    supplementary(); cover_letter(r); highlights_file(); title_page(); competing_interest(); anonymised_manuscript()
     for sub in ("manuscript", "code", "results", "figures", "tables", "supplementary"):
         shutil.rmtree(OUT / sub, ignore_errors=True)
-    _copy(ROOT / "manuscript", OUT / "manuscript", ("Final_Manuscript.docx", "Final_Manuscript.pdf", "cover_letter.docx", "highlights.docx"))
+    _copy(ROOT / "manuscript", OUT / "manuscript", ("Final_Manuscript.docx", "Final_Manuscript.pdf", "Manuscript_anonymised.docx", "Manuscript_anonymised.pdf",
+                                                    "cover_letter.docx", "highlights.docx", "title_page.docx", "declaration_of_competing_interest.docx"))
     code = OUT / "code"
     for d in ("src", "experiments", "tests", "config", "scripts"):
         shutil.copytree(ROOT / d, code / d, ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
@@ -169,15 +306,16 @@ def main():
     for f in ("run_all.py", "requirements.txt", "requirements-lock.txt", "environment.yml", "README.md", "LICENSE"):
         shutil.copy2(ROOT / f, code / f)
     res = OUT / "results"
-    _copy(ROOT / "results", res, ("raw_results.csv", "point_results.csv", "metrics.json", "statistics.json", "calibration_info.json", "run_timing.json"))
-    _copy(ROOT / "results" / "robustness", res / "robustness")
-    _copy(ROOT / "results" / "experiment_logs", res / "experiment_logs")
+    _copy(ROOT / "results", res, ("raw_results.csv", "point_results.csv", "metrics.json", "statistics.json", "calibration_info.json", "run_timing.json", "tool_demo.json"))
+    for sub in ("robustness", "harvest", "soil", "experiment_logs"):
+        _copy(ROOT / "results" / sub, res / sub)
     (res / "README.md").write_text("Stored model predictions (results/predictions/, ~50 MB) are in the repository root, not duplicated here.\n")
     _copy(ROOT / "figures", OUT / "figures")
     _copy(ROOT / "tables", OUT / "tables")
     _copy(ROOT / "supplementary", OUT / "supplementary")
     shutil.copy2(ROOT / "experiments" / "PROTOCOL.md", OUT / "supplementary" / "PROTOCOL.md")
-    print("submission package written to", OUT)
+    z = make_zip()
+    print("submission package written to", OUT, "and", z)
 
 
 if __name__ == "__main__":

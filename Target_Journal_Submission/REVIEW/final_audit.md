@@ -36,6 +36,8 @@
 | LotCP-A keeps ≈ 90 % of lots at ≥ 0.90 realised coverage (mango 90–92 %, KSSL 93 %, LUCAS 83–87 %), against 62–70 % for LotCP-S; +25 % width | lot-wise quantile calibration; unit test of the guarantee | Section 14, Table 14, Fig. 12 |
 | Marginal and lot-level guarantees hold for random reference sets, three levels, unequal lots | Propositions 1–2 with proofs; simulation unit tests | Appendix A |
 | The interval width for each reference budget can be forecast from past lots (median error 7 %; −21 % with two source seasons) | 150 planned-vs-realised comparisons | Section 15, Fig. 13, Table S15 |
+| Retrospective harvest simulation: immature fruit among accepted 13.4 % (point) → 1.2 % (LotCP-S bound, 10 reference fruit); premature lot harvests 7.3 % → 4.0 % at 20 % delay | harvest simulator, 137 lots | Section 8, Table 7, Fig. 7 |
+| Expected cost 29–71 % lower than point decisions under assumed cost ratios | assumed-cost model, labelled as such | Section 8.3, Table 8, Fig. 8 |
 | A calibrated lower bound reduces non-compliant fruit among accepted from 13 % to 1 % at a 15 % specification | one-sided LotCP-S, 137 lots | Section 13, Table 13, Fig. 11 |
 
 ## 3. Reproducibility audit (as a stranger)
@@ -71,8 +73,8 @@ No claim of zero risk or of acceptance is made.
 
 ## 5. Readiness decision
 
-**Scientific content (after revision rounds 11–13): READY FOR SUBMISSION**, in the sense that no further experiment that is feasible with the
-available public data and hardware would change or strengthen the conclusions; every weakness found in thirteen review
+**Scientific content (after revision rounds 11–14): READY FOR SUBMISSION**, in the sense that no further experiment that is feasible with the
+available public data and hardware would change or strengthen the conclusions; every weakness found in fourteen review
 rounds was either fixed by experiment, corrected in the text, or stated as a limitation.
 
 **Administrative readiness: NOT YET.** Before submitting, the human authors must
@@ -80,3 +82,7 @@ rounds was either fixed by experiment, corrected in the text, or stated as a lim
 2. complete author names, affiliations, CRediT, funding, repository URL/DOI;
 3. check the manuscript against the journal's live Guide for Authors and its current generative-AI policy;
 4. confirm the journal's JCR quartile/impact factor in JCR if their institution requires it.
+
+
+## Note added after round 14
+The paper is repositioned as a risk-aware harvest-decision workflow (title, Sections 1, 8–10). Section numbers quoted in earlier review rounds refer to the manuscript version reviewed in that round.

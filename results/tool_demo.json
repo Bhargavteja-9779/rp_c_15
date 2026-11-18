@@ -1,0 +1,75 @@
+{
+ "reference_fruit_used": 10,
+ "calibration_level_m": 10,
+ "mode": "marginal",
+ "statement": "Each lower bound holds for at least 90 % of fruit on average over lots (retrospective calibration; assumes the lot resembles past lots).",
+ "lot_bias_correction": -2.906,
+ "lot_scale": 0.743,
+ "fruit_cleared_for_harvest": "0 %",
+ "lot_recommendation": "WAIT / RE-TEST",
+ "planner_two_sided_width_by_m": {
+  "0": 4.83,
+  "3": 3.52,
+  "5": 3.34,
+  "10": 3.23,
+  "20": 3.16,
+  "30": 3.15
+ },
+ "demo_lot": 122300,
+ "demo_truth": {
+  "fruit_evaluated": 30,
+  "truly_compliant": "0 %",
+  "immature_among_harvested": "n/a",
+  "lower_bound_coverage": "100 %"
+ },
+ "first_rows": [
+  {
+   "fruit_id": "9063",
+   "mean_prediction": 13.859999656677246,
+   "corrected_prediction": 10.960000038146973,
+   "lower_bound": 10.050000190734863,
+   "decision": "WAIT-RETEST",
+   "dry_matter": 10.19
+  },
+  {
+   "fruit_id": "9065",
+   "mean_prediction": 13.869999885559082,
+   "corrected_prediction": 10.960000038146973,
+   "lower_bound": 10.0600004196167,
+   "decision": "WAIT-RETEST",
+   "dry_matter": 10.58
+  },
+  {
+   "fruit_id": "9066",
+   "mean_prediction": 14.0600004196167,
+   "corrected_prediction": 11.149999618530273,
+   "lower_bound": 10.25,
+   "decision": "WAIT-RETEST",
+   "dry_matter": 10.71
+  },
+  {
+   "fruit_id": "9067",
+   "mean_prediction": 14.220000267028809,
+   "corrected_prediction": 11.319999694824219,
+   "lower_bound": 10.40999984741211,
+   "decision": "WAIT-RETEST",
+   "dry_matter": 10.89
+  },
+  {
+   "fruit_id": "9069",
+   "mean_prediction": 14.460000038146973,
+   "corrected_prediction": 11.550000190734863,
+   "lower_bound": 10.649999618530273,
+   "decision": "WAIT-RETEST",
+   "dry_matter": 11.01
+  },
+  {
+   "fruit_id": "9070",
+   "mean_prediction": 14.069999694824219,
+   "corrected_prediction": 11.170000076293945,
+   "lower_bound": 10.260000228881836,
+   "decision": "WAIT-RETEST",
+   "dry_matter": 11.05
+  }
+ ]
+}

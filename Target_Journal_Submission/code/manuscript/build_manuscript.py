@@ -17,8 +17,8 @@ import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[1]
 MS = ROOT / "manuscript"
-TITLE = ("Lot-level valid error bars for near-infrared predictions across harvest seasons: few-shot conformal calibration with a per-lot assurance and a reference-sampling planner")
-SHORT_TITLE = "Few-shot conformal calibration of NIR predictions across seasons"
+TITLE = ("Risk-aware mango harvest decisions using few-shot conformal calibration of near-infrared spectroscopy across harvest seasons")
+SHORT_TITLE = "Risk-aware mango harvest decisions with few-shot conformal NIR calibration"
 
 
 # --------------------------------------------------------------------------- result access
@@ -206,6 +206,56 @@ class R:
 
     def decp(self, rule, m, thr, field):
         return f"{100 * self.dec(rule, m, thr, field):.0f}"
+
+    # ---- harvest decisions, economics, planner, prototype --------------------------------------
+    def hv(self, rule, m, alpha=None, field="immature_among_accepted", t=15.0, model="pls"):
+        z = self.t["table16_harvest_fruit"]
+        g = z[(z.model == model) & (z.rule == rule) & (z.m == m) & np.isclose(z.threshold, t)]
+        g = g[np.isclose(g.alpha, -1)] if alpha is None else g[np.isclose(g.alpha, alpha, atol=1e-3)]
+        return float(g[field].iloc[0])
+
+    def hvp(self, *a, digits=0, **k):
+        return f"{100 * self.hv(*a, **k):.{digits}f}"
+
+    def lotd(self, rule, m, alpha=None, field="premature", t=15.0, p=0.8, model="pls"):
+        z = self.t["table18_lot_decisions"]
+        g = z[(z.model == model) & (z.rule == rule) & (z.m == m) & np.isclose(z.threshold, t) & np.isclose(z.p, p)]
+        g = g[np.isclose(g.alpha, -1)] if alpha is None else g[np.isclose(g.alpha, alpha, atol=1e-3)]
+        return float(g[field].iloc[0])
+
+    def lotdp(self, *a, **k):
+        return f"{100 * self.lotd(*a, **k):.0f}"
+
+    def econ(self, rule, m, a_star, N=1000, t=15.0, model="pls"):
+        z = self.t["table17_economics"]
+        g = z[(z.model == model) & (z.rule == rule) & (z.m == m) & np.isclose(z.alpha_star, a_star, atol=1e-3) & (z.lot_size == N) & np.isclose(z.threshold, t)]
+        return float(g.cost.iloc[0])
+
+    def econ_best_m(self, a_star, N, t=15.0, model="pls"):
+        z = self.t["table17_economics"]
+        g = z[(z.model == model) & (z.rule == "lotcp_s_lower") & np.isclose(z.alpha_star, a_star, atol=1e-3) & (z.lot_size == N) & np.isclose(z.threshold, t)]
+        return int(g.loc[g.cost.idxmin(), "m"])
+
+    def econ_saving(self, a_star, m=5, N=1000, model="pls", base="point"):
+        """Range over thresholds of the relative cost reduction of LotCP-S lower (m) versus a baseline rule."""
+        vals = []
+        for t in (14.0, 15.0, 16.0):
+            b = self.econ(base, 0 if base in ("point", "accept_all") else m, a_star, N, t, model)
+            vals.append(1 - self.econ("lotcp_s_lower", m, a_star, N, t, model) / b)
+        return vals
+
+    def regret(self, model, rule, m):
+        z = self.t["table17b_regret"]
+        g = z[(z.model == model) & (z.rule == rule) & (z.m == m)]
+        return float(g.rel_regret.mean()), float(g.rel_regret.max())
+
+    def plannerv(self, m, col):
+        z = self.t["table19_planner"]
+        return float(z[z.m == m][col].iloc[0])
+
+    @property
+    def demo(self):
+        return json.load(open(ROOT / "results" / "tool_demo.json"))
 
     def point(self, m, correction, field="rmse"):
         t = self.t["table9_point_correction"]
@@ -396,6 +446,45 @@ def tables(r: R) -> dict:
         rows.append(row)
     T["assure"] = _pipe(pd.DataFrame(rows), "Table 14. Lot-level assurance (PLS, forward chaining, 137 target lots, 1 − α = 0.90). Each cell: share of lot-draws whose "
                         "realised coverage is at least 0.90 / lot-macro coverage / mean width (% DMC). The target share is 90 % for δ = 0.10 and 80 % for δ = 0.20.")
+    if "table16_harvest_fruit" in r.t:
+        rows = []
+        spec = (("point", 0, None, "Point prediction ≥ t"), ("scp_lower", 0, 0.1, "Split-CP lower bound ≥ t"),
+                ("lotcp_s_lower", 0, 0.1, "LotCP-S lower bound ≥ t"), ("point_bc", 10, None, "Bias-corrected point ≥ t"),
+                ("bc_lower", 10, 0.1, "Bias corr. + source margin ≥ t"), ("lotcp_s_lower", 5, 0.1, "LotCP-S lower bound ≥ t"),
+                ("lotcp_s_lower", 10, 0.1, "LotCP-S lower bound ≥ t"), ("lotcp_a_lower", 10, 0.1, "LotCP-A lower bound ≥ t"))
+        for rule, m, a, lab in spec:
+            rows.append({"Decision rule": lab, "m": m, "Mature fruit accepted (%)": 100 * r.hv(rule, m, a, "compliant_accepted"),
+                         "Immature among accepted (%)": 100 * r.hv(rule, m, a), "Lots > 10 % immature among accepted (%)": 100 * r.hv(rule, m, a, "lots_over_10pct"),
+                         "Immature lots harvested (%)": 100 * r.lotd(rule, m, a), "Ready lots delayed (%)": 100 * r.lotd(rule, m, a, "delayed")})
+        f1 = {c: "{:.1f}" for c in ("Mature fruit accepted (%)", "Immature among accepted (%)", "Lots > 10 % immature among accepted (%)", "Immature lots harvested (%)", "Ready lots delayed (%)")}
+        T["harvest"] = _pipe(pd.DataFrame(rows), "Table 106. Harvest decisions against a 15 % DMC specification on 137 later-season lots (PLS, forward chaining; bounds at α = 0.10). "
+                             "Fruit level: a fruit is accepted when the rule's statistic is at least t. Lot level: a lot is harvested when at least 80 % of its scanned fruit are accepted; "
+                             "it is ready when at least 80 % of its fruit have reference DMC ≥ t (55 ready and 82 not-ready lots). Specifications of 14 and 16 % and the CNN predictor: supplementary table S16.", f1)
+        rows = []
+        labels = (("accept_all", 0, "Harvest all fruit"), ("point", 0, "Point prediction ≥ t"), ("point_bc", 10, "Bias-corrected point ≥ t (m = 10)"),
+                  ("scp_lower", 0, "Split-CP lower bound at α*"), ("bc_lower", 5, "Bias corr. + source margin at α* (m = 5)"),
+                  ("lotcp_s_lower", 3, "LotCP-S lower bound at α* (m = 3)"), ("lotcp_s_lower", 5, "LotCP-S lower bound at α* (m = 5)"), ("lotcp_s_lower", 10, "LotCP-S lower bound at α* (m = 10)"))
+        a_list = (0.05, 0.1, 0.2, 1 / 3)
+        heads = {0.05: "c_D = 1/19 (α* = 0.05)", 0.1: "c_D = 1/9 (α* = 0.10)", 0.2: "c_D = 1/4 (α* = 0.20)", 1 / 3: "c_D = 1/2 (α* = 0.33)"}
+        for rule, m, lab in labels:
+            rows.append({"Decision rule": lab, **{heads[a]: f"{100 * r.econ(rule, m, a):.2f}" for a in a_list}})
+        for N in (200, 1000, 5000):
+            rows.append({"Decision rule": f"Cost-optimal m for LotCP-S, {N} fruit per lot", **{heads[a]: str(r.econ_best_m(a, N)) for a in a_list}})
+        T["econ"] = _pipe(pd.DataFrame(rows), "Table 107. Expected cost per 100 fruit in units of the value of one marketable fruit, under ASSUMED costs (PLS, specification 15 % DMC, lots of 1000 fruit "
+                          "unless stated). Accepting an immature fruit costs c_I = 1; withholding a mature fruit costs c_D; each destructive reference test costs 1.5. α* = c_D/(c_I + c_D). "
+                          "The last three rows give the number of reference fruit that minimises the cost of LotCP-S. These are illustrative scenarios, not measured costs; other "
+                          "specifications, lot sizes and the CNN: supplementary table S17.", {h: "{:.2f}" for h in heads.values()})
+        pl = r.t["table19_planner"]
+        rows = []
+        for _, x in pl.iterrows():
+            rows.append({"Reference fruit per lot, m": int(x.m), "LotCP-S planned width": x.planned_width_lotcp_s, "LotCP-S realised width": x.realised_width_lotcp_s,
+                         "LotCP-A planned width": x.planned_width_lotcp_a, "LotCP-A realised width": x.realised_width_lotcp_a,
+                         "Lots ≥ 90 % covered, LotCP-S (%)": 100 * x.lots_reaching_090_lotcp_s, "Lots ≥ 90 % covered, LotCP-A (%)": 100 * x.lots_reaching_090_lotcp_a,
+                         "Reference cost per 100 fruit (1000-fruit lot)": x.reference_cost_per_100_fruit_N1000})
+        T["planner"] = _pipe(pd.DataFrame(rows), "Table 108. The reference-sampling planner (PLS, mean over the five target seasons). Planned widths are computed from past lots before the season; "
+                             "realised widths are those obtained on the lots of the target season. Widths in % DMC; reference cost in units of fruit value (assumed 1.5 per test).",
+                             {"LotCP-S planned width": "{:.2f}", "LotCP-S realised width": "{:.2f}", "LotCP-A planned width": "{:.2f}", "LotCP-A realised width": "{:.2f}",
+                              "Lots ≥ 90 % covered, LotCP-S (%)": "{:.0f}", "Lots ≥ 90 % covered, LotCP-A (%)": "{:.0f}", "Reference cost per 100 fruit (1000-fruit lot)": "{:.2f}"})
     p2 = r.t["table2_point_models_by_seed"]
     cost = p2.groupby("model").agg(fit=("fit_seconds", "mean"), pred=("predict_ms_per_1000", "mean")).reindex(["pls", "gbm", "cnn"])
     rows = [{"Component": {"pls": "PLS fit (final model)", "gbm": "LightGBM fit", "cnn": "1D-CNN fit (20 epochs)"}[k], "Time": f"{v.fit:.1f} s",
@@ -424,30 +513,65 @@ def render(text: str, r: R, T: dict) -> str:
     return re.sub(r"\{\{(.+?)\}\}", sub, text)
 
 
+def renumber(md: str) -> str:
+    """Number tables and figures in order of their captions and update every in-text reference."""
+    out = md
+    for kind, cap_re, ref_word in (("Table", r"Table: Table (\d+)\.", r"Tables?"), ("Fig", r"!\[Fig\. (\d+)\.", r"Figs?\.")):
+        order = []
+        for mo in re.finditer(cap_re, out):
+            if mo.group(1) not in order:
+                order.append(mo.group(1))
+        mapping = {old: str(i + 1) for i, old in enumerate(order)}
+
+        def fix(mo):
+            body = re.sub(r"\d+", lambda n: mapping.get(n.group(0), n.group(0)), mo.group(3))
+            return mo.group(1) + mo.group(2) + body
+
+        out = re.sub(r"(%s)(\s)(\d+[a-z]?(?:(?:, and |, | and | or |–)\d+[a-z]?)*)" % ref_word, fix, out)
+    return out
+
+
 def build_markdown() -> Path:
     r = R()
     T = tables(r)
     parts = [(MS / "sections" / name).read_text() for name in sorted(p.name for p in (MS / "sections").glob("*.md"))]
-    body = render("\n\n".join(parts), r, T)
+    body = renumber(render("\n\n".join(parts), r, T))
+    supp_dir = MS / "sections_supp"
+    if supp_dir.exists():                     # supplementary notes: same number-filling, own numbering (S...)
+        notes = "\n\n".join((supp_dir / n).read_text() for n in sorted(p.name for p in supp_dir.glob("*.md")))
+        (ROOT / "supplementary").mkdir(exist_ok=True)
+        (ROOT / "supplementary" / "Supplementary_Notes.md").write_text(render(notes, r, T))
     out = MS / "build" / "manuscript.md"
     out.parent.mkdir(exist_ok=True)
     out.write_text(body)
     return out
 
 
-def main():
+def to_docx(md: Path, docx: Path, title: str = TITLE, pdf: bool = True):
+    """Markdown -> journal-formatted DOCX (and PDF via LibreOffice)."""
     from manuscript.docx_format import make_reference_doc, postprocess
 
-    md = build_markdown()
     ref = make_reference_doc(MS / "build" / "reference.docx")
-    docx = MS / "Final_Manuscript.docx"
     subprocess.run(["pandoc", str(md), "-o", str(docx), "--from", "markdown+pipe_tables+table_captions+tex_math_dollars+implicit_figures",
                     "--citeproc", "--bibliography", str(MS / "references.bib"), "--csl", str(MS / "elsevier-with-titles.csl"),
                     "--reference-doc", str(ref), "--resource-path", str(ROOT), "--metadata", "link-citations=false"], check=True, cwd=ROOT)
-    postprocess(docx, TITLE)
-    if shutil.which("soffice"):
-        subprocess.run(["soffice", "--headless", "--convert-to", "pdf", "--outdir", str(MS), str(docx)], check=True, capture_output=True)
-    print("built", docx)
+    postprocess(docx, title)
+    if pdf and shutil.which("soffice"):
+        subprocess.run(["soffice", "--headless", "--convert-to", "pdf", "--outdir", str(docx.parent), str(docx)], check=True, capture_output=True)
+
+
+def main():
+    md = build_markdown()
+    # tables moved to the supplement are written, with their captions, next to the machine-generated tables
+    r_ = R()
+    T_ = tables(r_)
+    for key, name, tag in (("tests", "table20_tests_main", "S20"), ("gen", "table21_generalisation_main", "S21"), ("robust", "table22_robustness_main", "S22"),
+                           ("alpha", "table23_alpha_main", "S23"), ("cost", "table24_cost_main", "S24")):
+        if key in T_:
+            txt = re.sub(r"Table: Table \d+\. ", f"Table: Table {tag}. ", T_[key])
+            (ROOT / "tables" / f"{name}.md").write_text(txt)
+    to_docx(md, MS / "Final_Manuscript.docx")
+    print("built", MS / "Final_Manuscript.docx")
 
 
 if __name__ == "__main__":

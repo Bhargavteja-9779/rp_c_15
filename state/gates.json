@@ -10,9 +10,9 @@
   "note": "80 logged queries; 39 papers opened (abstract level); close new works now cited and differentiated in Section 2"
  },
  "G3": {
-  "status": "fail (own score 17/25; blind score pending)",
+  "status": "fail",
   "evidence": "state/novelty_ledger.json scores",
-  "note": "needs >= 20 with no dimension < 3"
+  "note": "15/25 (blind; author 17); breadth 2 < 3"
  },
  "G4": {
   "status": "pass-partial",
@@ -46,8 +46,8 @@
  },
  "G10": {
   "status": "fail",
-  "evidence": "",
-  "note": "panel not yet run with fresh context"
+  "evidence": "review/round_1_R2.md, review/round_1_R3.md",
+  "note": "round 1: R2 major (6/10), R3 major (5/10), R1 pending"
  },
  "G11": {
   "status": "pass",

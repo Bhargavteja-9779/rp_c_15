@@ -5278,6 +5278,18 @@
    "significance": 3,
    "total": 17,
    "notes": "differentiation limited: guarantee inherited from Lee et al. 2023; PAC-over-tasks exists (Park et al. 2022); few-shot recalibration ideas exist in other fields (Park et al. 2024; Nasir 2026; Moussa 2026). Mechanism: ablations show scale -> efficiency, replay -> validity. Evidence: pre-registered confirmation passed for the lot-level assurance, failed for efficiency on untouched data. Breadth: one fruit + soil (3 tasks + untouched NeoSpectra). Significance: practical but retrospective."
+  },
+  {
+   "cycle": 2,
+   "date": "2026-11-24",
+   "by": "blind reviewer R2 (fresh context)",
+   "differentiation": 3,
+   "mechanism": 3,
+   "evidence": 4,
+   "breadth": 2,
+   "significance": 3,
+   "total": 15,
+   "agreement": "within 3 of author score (17) -> use lower: 15"
   }
  ]
 }

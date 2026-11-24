@@ -1,0 +1,9 @@
+{
+ "neospectra_layers": 2106,
+ "kssl_catalogue_layers": 86603,
+ "overlap_with_catalogue": 1976,
+ "overlap_share_catalogue": 0.9382716049382716,
+ "kssl_development_layers": 19807,
+ "overlap_with_development": 0,
+ "overlap_share_development": 0.0
+}

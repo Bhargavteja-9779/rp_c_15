@@ -5265,5 +5265,19 @@
    "title": "Abdelghafour, Lamdibih, Metz 2026 ViT mango UQ"
   }
  },
- "claims": "literature/claims_table.md"
+ "claims": "literature/claims_table.md",
+ "scores": [
+  {
+   "cycle": 2,
+   "date": "2026-11-24",
+   "by": "author agent (before blind review)",
+   "differentiation": 3,
+   "mechanism": 4,
+   "evidence": 4,
+   "breadth": 3,
+   "significance": 3,
+   "total": 17,
+   "notes": "differentiation limited: guarantee inherited from Lee et al. 2023; PAC-over-tasks exists (Park et al. 2022); few-shot recalibration ideas exist in other fields (Park et al. 2024; Nasir 2026; Moussa 2026). Mechanism: ablations show scale -> efficiency, replay -> validity. Evidence: pre-registered confirmation passed for the lot-level assurance, failed for efficiency on untouched data. Breadth: one fruit + soil (3 tasks + untouched NeoSpectra). Significance: practical but retrospective."
+  }
+ ]
 }

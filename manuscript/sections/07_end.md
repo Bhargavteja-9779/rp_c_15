@@ -38,6 +38,10 @@
 
 *Reference sampling.* We assume that reference samples are drawn at random from the lot and that their reference values are as accurate as those of the calibration set. Sampling only the fruit that is easy to reach would bias the correction. In the data set a reference sample is a tissue sample with repeated scans; in an orchard the reference fruit would be scanned on the tree before being picked.
 
+*Efficiency not confirmed on independent data.* The interval-score advantage of LotCP-S over bias correction with a source quantile was confirmed on fresh draws of the mango lots, but not on the untouched NeoSpectra data (Section 7.3), where the test had about 20 lots and the baselines already covered well. The advantage should be regarded as data-dependent until confirmed elsewhere.
+
+*Point predictor.* Our main PLS pipeline was weaker than the published recipe on the published split; the interval conclusions held with the published recipe, but the absolute widths reported for PLS would be smaller with a better predictor.
+
 *Protocol deviation.* The scale-adaptive variant was designed after inspecting one predictor on one target season. The other seasons and predictors support it, but it was not pre-specified.
 
 *Repeated scans.* The data set has many scans per sample (several instrument units and, for some samples, three temperatures), which is richer than routine practice. The single-instrument analysis reduces but does not remove this advantage.

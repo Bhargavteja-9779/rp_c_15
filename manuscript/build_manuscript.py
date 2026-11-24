@@ -207,6 +207,43 @@ class R:
     def decp(self, rule, m, thr, field):
         return f"{100 * self.dec(rule, m, thr, field):.0f}"
 
+    # ---- cycle-2 confirmation, reproduction, replay ablation, published-PLS predictor ------------
+    def conf(self, dataset_prefix, endpoint, field):
+        t = pd.read_csv(ROOT / "results" / "confirmation" / "confirmation_tests.csv")
+        g = t[t.dataset.str.startswith(dataset_prefix) & (t.endpoint == endpoint)]
+        return g[field].iloc[0]
+
+    def confp(self, dataset_prefix, endpoint):
+        v = float(self.conf(dataset_prefix, endpoint, "p_holm"))
+        return "< 0.001" if v < 0.001 else f"= {v:.3f}"
+
+    def csum(self, dataset_prefix, method, m, field):
+        t = pd.read_csv(ROOT / "results" / "confirmation" / "confirmation_summary.csv")
+        g = t[t.dataset.str.startswith(dataset_prefix) & (t.method == method) & (t.m == m)]
+        return float(g[field].iloc[0])
+
+    def repro(self, model, test, field="rmsep", agg="mean"):
+        t = pd.read_csv(ROOT / "results" / "reproduction" / "reproduction.csv")
+        g = t[(t.model == model) & (t.test == test)][field]
+        return float(getattr(g, agg)())
+
+    def repro_n_train(self):
+        return int(json.load(open(ROOT / "results" / "reproduction" / "reproduction_meta.json"))["n_train"])
+
+    def season_cov_t(self, method, m, target, field="coverage"):
+        if not hasattr(self, "_raw"):
+            self.season_min(method, m)
+        g = self._raw[(self._raw.method == method) & (self._raw.m == m) & (self._raw.target == target)]
+        return float(g[field].mean())
+
+    def replay(self, method, m, field):
+        t = pd.read_csv(ROOT / "results" / "ablation_cycle2" / "replay_ablation.csv").replace(np.inf, np.nan)
+        return float(t[(t.method == method) & (t.m == m)][field].mean())
+
+    def pubpls(self, method, m, field):
+        t = pd.read_csv(ROOT / "results" / "published_pls" / "published_pls.csv").replace(np.inf, np.nan)
+        return float(t[(t.method == method) & (t.m == m)][field].mean())
+
     # ---- harvest decisions, economics, planner, prototype --------------------------------------
     def hv(self, rule, m, alpha=None, field="immature_among_accepted", t=15.0, model="pls"):
         z = self.t["table16_harvest_fruit"]
@@ -485,6 +522,20 @@ def tables(r: R) -> dict:
                              "realised widths are those obtained on the lots of the target season. Widths in % DMC; reference cost in units of fruit value (assumed 1.5 per test).",
                              {"LotCP-S planned width": "{:.2f}", "LotCP-S realised width": "{:.2f}", "LotCP-A planned width": "{:.2f}", "LotCP-A realised width": "{:.2f}",
                               "Lots ≥ 90 % covered, LotCP-S (%)": "{:.0f}", "Lots ≥ 90 % covered, LotCP-A (%)": "{:.0f}", "Reference cost per 100 fruit (1000-fruit lot)": "{:.2f}"})
+    ct = ROOT / "results" / "confirmation" / "confirmation_tests.csv"
+    if ct.exists():
+        c = pd.read_csv(ct)
+        rows = []
+        for _, x in c.iterrows():
+            rows.append({"Data set": "Mango (re-draw; lots seen during development)" if x.dataset.startswith("mango") else "NeoSpectra soil (untouched)",
+                         "Endpoint": x.endpoint, "Comparison": x.comparison.replace("biascorr_naive", "bias corr. + source CP").replace("target_only_centred", "target-only CP, centred"),
+                         "Outcome": "interval score" if x.metric == "interval score" else "share of lots ≥ 0.90", "m": int(x.m), "Lots": int(x.n_lots),
+                         "Mean difference": f"{x.mean_diff:+.3f}", "95% CI": f"{x.ci_lo:+.3f} to {x.ci_hi:+.3f}",
+                         "Holm p": "<0.001" if x.p_holm < 0.001 else f"{x.p_holm:.3f}", "r": f"{x.rank_biserial:+.2f}", "Confirmed": "yes" if x.confirmed else "no"})
+        T["confirm"] = _pipe(pd.DataFrame(rows), "Table 109. Pre-registered confirmation of the frozen method (experiments/plan_v2.yaml) on five seeds fixed in advance (100–104), "
+                             "20 reference draws per seed, lot and m. Unit of analysis: target lot; Wilcoxon signed-rank test, Holm correction over the four endpoints per data set; "
+                             "95 % CI: bootstrap over lots; r: matched-pairs rank-biserial correlation. An endpoint is confirmed when Holm p < 0.05, the CI excludes 0 and |r| ≥ 0.2 "
+                             "in the expected direction. Negative interval-score differences and positive share differences favour the proposed method.")
     p2 = r.t["table2_point_models_by_seed"]
     cost = p2.groupby("model").agg(fit=("fit_seconds", "mean"), pred=("predict_ms_per_1000", "mean")).reindex(["pls", "gbm", "cnn"])
     rows = [{"Component": {"pls": "PLS fit (final model)", "gbm": "LightGBM fit", "cnn": "1D-CNN fit (20 epochs)"}[k], "Time": f"{v.fit:.1f} s",

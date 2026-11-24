@@ -12,3 +12,5 @@
 200, 1000, 5000   # assumed lot sizes for the cost analysis (Section 5.7)
 15.2   # hypothetical example reading in the Introduction ("a reading of 15.2 % against a 15 % specification")
 4.0, 1.2, 6   # identifiers: CC BY 4.0 licence, OSSL version 1.2, data set version 6
+1.01, 1.014, 0.77   # published RMSEP values (sources opened; literature/reported_results.md)
+13122321   # Zenodo record identifier of the NeoSpectra library

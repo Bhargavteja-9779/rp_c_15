@@ -5,14 +5,14 @@
   "note": "per-article dates unverifiable (403/Crossref empty); publisher average 69-72 d"
  },
  "G2": {
-  "status": "pass-pending-manuscript",
+  "status": "pass",
   "evidence": "state/novelty_ledger.json, literature/claims_table.md",
-  "note": "80 queries, 39 papers opened (abstract level); new close works must be cited in the manuscript"
+  "note": "80 logged queries; 39 papers opened (abstract level); close new works now cited and differentiated in Section 2"
  },
  "G3": {
-  "status": "unknown",
-  "evidence": "",
-  "note": "needs own + blind score"
+  "status": "fail (own score 17/25; blind score pending)",
+  "evidence": "state/novelty_ledger.json scores",
+  "note": "needs >= 20 with no dimension < 3"
  },
  "G4": {
   "status": "pass-partial",
@@ -25,9 +25,9 @@
   "note": "untouched data: LotCP-A assurance confirmed (P3); LotCP-S efficiency NOT confirmed (P1 Holm p=0.066, P2 0.29); mango re-draw all 4 confirmed but data seen"
  },
  "G6": {
-  "status": "unknown",
-  "evidence": "tables/table5_ablation.csv",
-  "note": "shrinkage removed; season folds matter only at m=0; need LotCP-S ablation w/o episodic"
+  "status": "pass-with-note",
+  "evidence": "tables/table5_ablation.csv, results/ablation_cycle2/replay_ablation.csv",
+  "note": "bias correction, scale, replay (validity at small m), season residuals (m=0) all contribute; shrinkage removed (did nothing/harmful); lot-balanced weighting ~no empirical effect, kept for the guarantee"
  },
  "G7": {
   "status": "pass",

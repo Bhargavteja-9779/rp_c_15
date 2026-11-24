@@ -1,0 +1,33 @@
+{
+ "config": {
+  "TARGET_TIER": "Q1 journal (JCR), reputable publisher",
+  "MAX_DAYS_SUBMIT_TO_ACCEPT": 72,
+  "COMPUTE_PER_CYCLE_H": 15,
+  "GLOBAL_COMPUTE_CEILING_H": 120,
+  "MAX_CYCLES": 12,
+  "MAX_PIVOTS": 3,
+  "SEEDS_EXPLORE": [
+   0,
+   1,
+   2
+  ],
+  "SEEDS_CONFIRM": [
+   100,
+   101,
+   102,
+   103,
+   104
+  ],
+  "MACHINE": "one machine (CUDA -> MPS -> CPU auto-detect)"
+ },
+ "cycle": 2,
+ "phase": "cycle2-setup",
+ "step": "persistence layer",
+ "status": "RUNNING",
+ "pivots_used": 0,
+ "topic": "Few-shot conformal calibration of NIR fruit-maturity predictions across harvest seasons (risk-aware mango harvest decisions)",
+ "journal": "Smart Agricultural Technology (Elsevier) -- G1 verification pending in cycle 2",
+ "note": "Cycle 1 = all work before the master prompt v2 (commits a90a8bd..6a8ea6d); adopted, not redone.",
+ "last_action": "2026-11-24T19:11:50",
+ "next_action": "Cycle 2: (1) G4 \u2014 reproduce the published PLS baseline of Anderson et al. 2020 on their own split; (2) write experiments/plan_v2.yaml pre-registering the confirmation (SEEDS_CONFIRM, frozen LotCP config, untouched dataset) and commit it BEFORE loading that dataset; (3) leakage audit, number audit, fresh-clone test; (4) blind 3-reviewer panel."
+}

@@ -1,0 +1,7 @@
+{
+ "global_seconds": 0.0,
+ "per_cycle_seconds": {},
+ "pre_protocol_cycle1_hours_estimate": 6.0,
+ "pre_protocol_note": "Cycle 1 compute was not metered. Estimate from experiment logs: cross-fitting ~2 h (CNN dominant), uncertainty baselines ~0.8 h, four evaluation runs ~1.5 h, robustness/soil/harvest ~1 h, other ~0.5 h; all on a 4-core CPU without GPU. Counted against the global ceiling as 6 h.",
+ "updated": "2026-11-24T19:08:20"
+}

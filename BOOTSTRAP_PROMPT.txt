@@ -1,0 +1,1 @@
+Read HANDOFF.md and MASTER_PROMPT.md in the repository root (the repository root is "project/"; branch claude/autonomous-research-project-qua0qp), verify state with `python scripts/status.py`, then continue from NEXT ACTION in HANDOFF.md. Do not restart finished work. Do not ask me questions.

@@ -1,0 +1,20 @@
+id,cycle,date,kind,variant,evaluated_on,outcome,kept,notes
+v001,1,2026-11-10,method,LotCP location-only with empirical-Bayes shrinkage (pre-specified),mango PLS 2018 (smoke test),under-covered 0.85-0.87,yes then changed,triggered D1
+v002,1,2026-11-10,method,LotCP-S lot-specific scale (support + replicate),mango PLS 2018 (smoke test) then all,coverage 0.91-0.92 at m>=3,yes,deviation D1 (designed after seeing 2018)
+v003,1,2026-11-10,baseline,target-only CP centred (added),all target seasons,valid but wide for m<=10,baseline,deviation D2
+v004,1,2026-11-11,ablation,LotCP w/o shrinkage (HCP-mean),all,same as shrinkage from m>=5,ablation,
+v005,1,2026-11-11,ablation,LotCP w/o episodic quantile,all,under-covers at m=0,ablation,
+v006,1,2026-11-11,ablation,LotCP lot-fold residuals,all,0.89 coverage,ablation,
+v007,1,2026-11-11,ablation,LotCP sample-fold residuals,all,0.88-0.89 coverage,ablation,
+v008,1,2026-11-11,ablation,LotCP spectrum-pooled weights,all,similar,ablation,
+v009,1,2026-11-11,ablation,LotCP-S support-only scale,all,between LotCP and LotCP-S,ablation,
+v010,1,2026-11-11,ablation,LotCP-S replicate-only scale,all,between LotCP and LotCP-S,ablation,
+v011,1,2026-11-11,ablation,LotCP-S lot-fold residuals,all,0.908 coverage better interval score,ablation,deviation D4 (added after results)
+v012,1,2026-11-12,baseline,slope/bias correction + source CP,all,worse at m=5 similar m>=10,baseline,added in review
+v013,1,2026-11-12,baseline,spiking PLS refit x1 / x20,all m=10,worse than mean bias correction,baseline,added in review
+v014,1,2026-11-12,robustness,LotCP split constants (disjoint halves),all,no optimism,check,
+v015,1,2026-11-12,robustness,single-instrument deployment unit,all,0.914 coverage,check,
+v016,1,2026-11-14,method,remove shrinkage (plain mean default),soil LUCAS + mango rerun,shrinkage harmful on LUCAS,yes,deviation D5 (after external data)
+v017,1,2026-11-15,method,LotCP-A lot-level assurance delta=0.10/0.20,all + soil,0.90-0.92 of lots reach 0.90 (mango),yes,deviation D7 (added after results)
+v018,1,2026-11-16,method,reference-budget planner,all,median abs rel error 7 %,yes,
+v019,1,2026-11-18,decision,harvest decision rules (6 rules x 6 alpha),all,see table16,analysis,

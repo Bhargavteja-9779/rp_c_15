@@ -1,0 +1,15 @@
+# Decisions log (append only)
+
+Entries before 2026-11-24 are RECONSTRUCTED from git history, experiments/PROTOCOL.md (deviations D1–D7) and the review files; they were not written in this file at the time.
+
+- 2026-11-10 [cycle 1, reconstructed] Target journal: Smart Agricultural Technology (Elsevier) — only Q1-listed candidate found with a publisher-reported average submission→acceptance ≤ 72 days (69–72 d). Per-article Received/Accepted dates were NOT verified then.
+- 2026-11-10 [cycle 1, reconstructed] Topic: conformal error bars for NIR mango dry matter across harvest seasons; data Mendeley 10.17632/46htwnp833 v6.
+- 2026-11-10 [cycle 1, reconstructed] Protocol committed before training (commit a90a8bd).
+- 2026-11-10 [cycle 1, reconstructed] D1: LotCP-S scale added after PLS/2018 smoke test showed under-coverage.
+- 2026-11-10 [cycle 1, reconstructed] D3: CNN 20 epochs (compute), lot folds for one CNN seed only.
+- 2026-11-14 [cycle 1, reconstructed] D5: shrinkage removed after it failed on LUCAS soil data; all mango results recomputed.
+- 2026-11-15 [cycle 1, reconstructed] D7: LotCP-A added after main results known.
+- 2026-11-18 [cycle 1, reconstructed] Repositioned as harvest-decision workflow on supervisor's advice; authors P N Bhargav Teja / Ragavan K.
+- 2026-11-24 [cycle 2] Adopt all cycle-1 work as cycle 1 of the master-prompt-v2 loop instead of restarting; reason: rule "do not restart finished work"; the topic satisfies Section 5 criteria and pivoting without evidence of failure would waste the budget.
+- 2026-11-24 [cycle 2] The later-season mango lots and the LUCAS/KSSL vis-NIR tasks were all seen during cycle-1 development, so none can serve as an untouched TEST SET (rule 5). Decision: the G5 confirmation will be run (i) on mango with SEEDS_CONFIRM for the reference draws/episodes (fresh randomness, same lots — reported as a re-draw confirmation, not a fresh-data test) and (ii) on a dataset NOT opened in cycle 1, pre-registered in experiments/plan_v2.yaml before any of its data are loaded.
+- 2026-11-24 [cycle 2] Persistence: repository root plays the role of "project/"; remote = origin branch claude/autonomous-research-project-qua0qp. Supervisor scripts are provided for the user's machine; not installed as a boot service in this ephemeral cloud container.

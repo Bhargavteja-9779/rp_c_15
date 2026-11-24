@@ -1,0 +1,57 @@
+{
+ "G1": {
+  "status": "pass-with-stated-failure",
+  "evidence": "journal_selection/verification_cycle2.md",
+  "note": "per-article dates unverifiable (403/Crossref empty); publisher average 69-72 d"
+ },
+ "G2": {
+  "status": "fail",
+  "evidence": "state/novelty_ledger.json (to be built)",
+  "note": "~48 references verified by record/abstract; full texts mostly not opened; ledger with queries not yet built"
+ },
+ "G3": {
+  "status": "unknown",
+  "evidence": "",
+  "note": "needs own + blind score"
+ },
+ "G4": {
+  "status": "fail",
+  "evidence": "",
+  "note": "published baselines not yet reproduced"
+ },
+ "G5": {
+  "status": "fail",
+  "evidence": "",
+  "note": "no frozen confirmation on SEEDS_CONFIRM / untouched data yet"
+ },
+ "G6": {
+  "status": "unknown",
+  "evidence": "tables/table5_ablation.csv",
+  "note": "shrinkage removed; season folds matter only at m=0; need LotCP-S ablation w/o episodic"
+ },
+ "G7": {
+  "status": "pass",
+  "evidence": "tables/table13_soil.csv, tables/table7_generalisation.csv",
+  "note": "mango + 2 soil libraries, 3 predictors, 2 protocols"
+ },
+ "G8": {
+  "status": "fail",
+  "evidence": "tests/test_splits.py",
+  "note": "needs documented leakage audit script (duplicates, group overlap)"
+ },
+ "G9": {
+  "status": "fail",
+  "evidence": "",
+  "note": "fresh-clone test not run"
+ },
+ "G10": {
+  "status": "fail",
+  "evidence": "",
+  "note": "panel not yet run with fresh context"
+ },
+ "G11": {
+  "status": "fail",
+  "evidence": "",
+  "note": "scripts/audit_numbers.py missing"
+ }
+}

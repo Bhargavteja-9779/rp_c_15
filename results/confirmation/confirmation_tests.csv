@@ -1,0 +1,5 @@
+dataset,endpoint,metric,m,comparison,expected,n_lots,mean_diff,ci_lo,ci_hi,p,rank_biserial,p_holm,confirmed
+"mango (re-draw, lots seen in cycle 1)",P1,interval score,5,LotCP-S - biascorr_naive,< 0,137,-0.16532882401608787,-0.26934005215789814,-0.05799603549345992,0.00017971595118262604,-0.3688776049931239,0.0003594319023652521,True
+"mango (re-draw, lots seen in cycle 1)",P2,interval score,10,LotCP-S - biascorr_naive,< 0,137,-0.24763455800413053,-0.3522961116504261,-0.13741802165244457,8.149781821248544e-08,-0.5281921083253993,3.2599127284994174e-07,True
+"mango (re-draw, lots seen in cycle 1)",P3,share of draws with lot coverage >= 0.90,10,LotCP-A - target_only_centred,> 0,137,0.03693430656934306,0.009925182481751825,0.06365328467153283,0.00011112734117500673,0.39517716535433073,0.00033338202352502016,True
+"mango (re-draw, lots seen in cycle 1)",P4,share of draws with lot coverage >= 0.90,20,LotCP-A - biascorr_naive,> 0,129,0.12124031007751937,0.0721686046511628,0.17481201550387593,0.000681289262722362,0.439873417721519,0.000681289262722362,True

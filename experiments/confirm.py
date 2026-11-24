@@ -54,7 +54,7 @@ def load_neospectra():
     lat = d["latitude.std.decimal.degrees"].fillna(d["lat.ycntr"]).to_numpy(float)
     lon = d["longitude.std.decimal.degrees"].fillna(d["long.xcntr"]).to_numpy(float)
     ok = np.isfinite(X).all(1) & np.isfinite(lat) & np.isfinite(lon) & d["eoc_tot_c"].notna().to_numpy()
-    cell = np.array([f"{int(np.floor(a))}_{int(np.floor(b))}" for a, b in zip(lat, lon)], dtype=object)
+    cell = np.array([f"{int(np.floor(a))}_{int(np.floor(b))}" if (np.isfinite(a) and np.isfinite(b)) else "na" for a, b in zip(lat, lon)], dtype=object)
     meta = pd.DataFrame({"population": pd.factorize(cell)[0], "reference_no": pd.factorize(d["lay_id"].astype(str))[0],
                          "y": np.log1p(np.clip(d["eoc_tot_c"].to_numpy(float), 0, None))})
     return X[ok], meta[ok].reset_index(drop=True), wl[order]

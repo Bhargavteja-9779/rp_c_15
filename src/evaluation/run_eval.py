@@ -36,6 +36,7 @@ LOTCP_VARIANTS = {
     "lotcp_s_rep": ("season", {"scale": "rep"}),            # scale from replicate scans only
     "lotcp_s_lotfold": ("lot", {"scale": "full"}),          # LotCP-S on lot-fold residuals
     "lotcp_noepisodic": ("season", {"episodic": False}),
+    "lotcp_s_noepisodic": ("season", {"scale": "full", "episodic": False}),   # cycle-2 ablation (plan_v2 E2)
     "lotcp_lotfold": ("lot", {}),
     "lotcp_samplefold": ("sample", {}),
     "lotcp_pooled": ("season", {"lot_balanced": False}),

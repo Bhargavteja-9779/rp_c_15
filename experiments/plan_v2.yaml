@@ -1,0 +1,42 @@
+# plan_v2 — cycle 2 — written and committed 2026-11-24 BEFORE the confirmation dataset is loaded.
+# Never edited after the confirmation runs start; changes go to plan_v3 with a logged reason.
+version: plan_v2
+reason: >
+  Master prompt v2 gates G4 (baseline reproduction), G5 (frozen confirmation on SEEDS_CONFIRM), G6 (component ablation incl.
+  LotCP-S without episodic replay), G8 (leakage audit), G9 (fresh clone), G11 (number audit). Cycle-1 target seasons and
+  soil tasks were seen during development, so a pre-registered confirmation on data not yet opened is required.
+
+frozen_method:
+  code_commit: "the commit that adds this file"
+  LotCP-S: {scale: full, shrink: false, episodic: true, lot_balanced: true, residuals: season-held-out (mango) / lot-held-out (soil), n_episodes: 30, min_query: 10, nu_grid: [5, 10, 20, 40]}
+  LotCP-A: {same as LotCP-S, assure: 0.10}
+  nominal: 0.90 (alpha = 0.10)
+  point_predictor: PLS (mango: SNV + SG 2nd derivative, LVs 8-20 by season-grouped CV; soil: SNV + SG 1st derivative, LVs 10-30 by lot-grouped CV)
+baselines_frozen: [biascorr_naive (mean bias correction + source split-CP half-width), target_only_centred, slopebias_naive, scp_sample]
+seeds_confirm: [100, 101, 102, 103, 104]   # each seed re-draws the reference sets and the replay episodes; per lot the outcome is averaged over seeds x draws
+
+E6_confirmation:
+  C1_mango_redraw:
+    data: mango forward chaining, 137 target lots (ALREADY SEEN in cycle 1 -> reported as a re-draw confirmation, NOT a fresh-data test)
+    draws_per_seed: 20
+  C2_untouched_neospectra:
+    data: "Zenodo 10.5281/zenodo.13122321, file Neospectra_WoodwellKSSL_soil+site+NIR.csv (handheld NeoSpectra NIR, 1350-2550 nm), not opened before this plan"
+    disclosure: "only the column names of the companion file 1976_NSlibrary_withmetadata.csv were printed in cycle 1; the soil samples overlap partly with the KSSL vis-NIR samples used in cycle 1 (different instrument)"
+    target: log(1 + soil organic carbon %); if absent, log(1 + total carbon %)
+    lot_rule: "survey project identifier if present and >= 20 lots have >= 20 samples; otherwise 1-degree latitude/longitude cell"
+    sample_unit: "physical soil sample (layer id); repeated scans of a sample (several NeoSpectra units) kept together"
+    split: "5-fold cross-validation over lots, fold seed 7; source = 4 folds, target lots = held-out fold"
+    draws_per_seed: 20
+  primary_endpoints:   # Holm correction over these 4 per dataset; unit = target lot; Wilcoxon signed-rank two-sided;
+                       # 95% CI = percentile bootstrap over lots (2000) of the mean paired difference; effect = matched-pairs rank-biserial
+    P1: "interval score, LotCP-S minus biascorr_naive, m = 5 (expect < 0)"
+    P2: "interval score, LotCP-S minus biascorr_naive, m = 10 (expect < 0)"
+    P3: "share of draws with lot coverage >= 0.90, LotCP-A minus the better of {biascorr_naive, target_only_centred} on that metric, m = 10 (expect > 0)"
+    P4: "same as P3 at m = 20"
+  success_rule: "a primary endpoint is confirmed if Holm-adjusted p < 0.05 AND 95% CI excludes 0 AND |rank-biserial| >= 0.2 in the expected direction"
+  multiplicity_note: "19 variants/analyses were tried in cycle 1 (state/variants_tried.csv); only the frozen methods above are confirmed"
+
+E2_ablation_extra: "LotCP-S without episodic replay (scaled score, quantile of oracle-centred residuals), mango, SEEDS_EXPLORE draws"
+E_G4_reproduction: "experiments/reproduce_published.py on the provider's v3 split; compare with RMSEP 1.01 (global PLS, Anderson 2020) and 0.77 (CNN, Walsh 2024)"
+E_G8_leakage: "scripts/leakage_audit.py: identical spectra across source/target, sample ids across folds, lot ids across folds, preprocessing fitted on train only"
+compute_estimate_h: 3   # CPU only

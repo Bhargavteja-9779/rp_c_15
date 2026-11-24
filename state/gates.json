@@ -5,9 +5,9 @@
   "note": "per-article dates unverifiable (403/Crossref empty); publisher average 69-72 d"
  },
  "G2": {
-  "status": "fail",
-  "evidence": "state/novelty_ledger.json (to be built)",
-  "note": "~48 references verified by record/abstract; full texts mostly not opened; ledger with queries not yet built"
+  "status": "pass-pending-manuscript",
+  "evidence": "state/novelty_ledger.json, literature/claims_table.md",
+  "note": "80 queries, 39 papers opened (abstract level); new close works must be cited in the manuscript"
  },
  "G3": {
   "status": "unknown",
@@ -15,14 +15,14 @@
   "note": "needs own + blind score"
  },
  "G4": {
-  "status": "fail",
-  "evidence": "",
-  "note": "published baselines not yet reproduced"
+  "status": "pass-partial",
+  "evidence": "results/reproduction/reproduction.csv, literature/reported_results.md",
+  "note": "published PLS RMSEP 1.01 reproduced (1.045); published CNN 0.77 not reproduced (ours 1.07, no augmentation/tuning); our SNV-PLS pipeline 0.35 worse than the published recipe"
  },
  "G5": {
-  "status": "fail",
-  "evidence": "",
-  "note": "no frozen confirmation on SEEDS_CONFIRM / untouched data yet"
+  "status": "partial",
+  "evidence": "results/confirmation/confirmation_tests.csv",
+  "note": "untouched data: LotCP-A assurance confirmed (P3); LotCP-S efficiency NOT confirmed (P1 Holm p=0.066, P2 0.29); mango re-draw all 4 confirmed but data seen"
  },
  "G6": {
   "status": "unknown",
@@ -35,14 +35,14 @@
   "note": "mango + 2 soil libraries, 3 predictors, 2 protocols"
  },
  "G8": {
-  "status": "fail",
-  "evidence": "tests/test_splits.py",
-  "note": "needs documented leakage audit script (duplicates, group overlap)"
+  "status": "pass",
+  "evidence": "results/leakage_audit.json, scripts/leakage_audit.py",
+  "note": "no shared samples/lots, no identical spectra, no split groups, row-wise preprocessing"
  },
  "G9": {
-  "status": "fail",
-  "evidence": "",
-  "note": "fresh-clone test not run"
+  "status": "pass",
+  "evidence": "journal/ENTRIES/2026-11-24_08_RESULT.md",
+  "note": "fresh clone: download+checksum, 17 tests, quick mode, 25 tables regenerated identical (after fixing a 403 in the downloader)"
  },
  "G10": {
   "status": "fail",
@@ -50,8 +50,8 @@
   "note": "panel not yet run with fresh context"
  },
  "G11": {
-  "status": "fail",
-  "evidence": "",
-  "note": "scripts/audit_numbers.py missing"
+  "status": "pass",
+  "evidence": "scripts/audit_numbers.py, scripts/audit_allowlist.txt",
+  "note": "0 untraced numbers in the manuscript"
  }
 }

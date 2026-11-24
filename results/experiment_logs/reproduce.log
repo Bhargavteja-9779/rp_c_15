@@ -1,0 +1,12 @@
+2026-11-24 19:14:08 reproduce INFO reproduction finished
+        model  seed     test    n    rmsep      bias      sep
+pls_published   NaN  val_ext 1448 1.044771 -0.020829 1.044924
+pls_published   NaN val_ext2  320 1.665466 -1.292629 1.051830
+     pls_ours   NaN  val_ext 1448 1.391867  0.129080 1.386348
+     pls_ours   NaN val_ext2  320 1.660558 -1.257712 1.085954
+     cnn_ours   0.0  val_ext 1448 1.084144 -0.148684 1.074271
+     cnn_ours   0.0 val_ext2  320 2.157461 -1.863646 1.088654
+     cnn_ours   1.0  val_ext 1448 1.071433 -0.138710 1.062783
+     cnn_ours   1.0 val_ext2  320 2.168596 -1.870788 1.098513
+     cnn_ours   2.0  val_ext 1448 1.072261 -0.188366 1.055950
+     cnn_ours   2.0 val_ext2  320 2.154704 -1.856771 1.094942

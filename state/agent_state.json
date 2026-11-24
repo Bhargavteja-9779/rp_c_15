@@ -28,6 +28,6 @@
  "topic": "Few-shot conformal calibration of NIR fruit-maturity predictions across harvest seasons (risk-aware mango harvest decisions)",
  "journal": "Smart Agricultural Technology (Elsevier) -- G1 verification pending in cycle 2",
  "note": "Cycle 1 = all work before the master prompt v2 (commits a90a8bd..6a8ea6d); adopted, not redone.",
- "last_action": "2026-11-24T19:11:50",
- "next_action": "Cycle 2: (1) G4 \u2014 reproduce the published PLS baseline of Anderson et al. 2020 on their own split; (2) write experiments/plan_v2.yaml pre-registering the confirmation (SEEDS_CONFIRM, frozen LotCP config, untouched dataset) and commit it BEFORE loading that dataset; (3) leakage audit, number audit, fresh-clone test; (4) blind 3-reviewer panel."
+ "last_action": "2026-11-24T19:25:10",
+ "next_action": "Cycle 2: confirmation run (experiments/confirm.py) in progress -> when done run the pre-registered analysis (P1-P4, Holm) ; then G6 LotCP-S w/o replay ablation, G9 fresh-clone test, add new prior art to manuscript, blind reviewer panel"
 }

@@ -1,0 +1,317 @@
+{
+ "DOI:10.1021/acsearthspacechem.6c00266": {
+  "paperId": "2d6309f5ae4b4768ea7866cd3f323658d967a2d9",
+  "externalIds": {
+   "DOI": "10.1021/acsearthspacechem.6c00266",
+   "CorpusId": 293581345
+  },
+  "title": "Distribution-Shift-Aware\nConformal Prediction for\nMeteorite and Asteroid Reflectance Spectroscopy: Finite-Sample Class\nGuarantees from the Laboratory to the Telescope",
+  "venue": "ACS Earth and Space Chemistry",
+  "year": 2026,
+  "openAccessPdf": {
+   "url": "",
+   "status": "CLOSED",
+   "license": null,
+   "disclaimer": "Notice: Paper or abstract available at https://api.unpaywall.org/v2/10.1021/acsearthspacechem.6c00266?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1021/acsearthspacechem.6c00266, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+  },
+  "authors": [
+   {
+    "authorId": "1742251366",
+    "name": "AA Khairbek"
+   }
+  ],
+  "abstract": "\n Machine-learning classifiers trained on laboratory reflectance spectra of meteorites are increasingly used to interpret asteroid observations, but they are routinely deployed outside the conditions under which they were validated: telescope targets differ from laboratory powders in grain size, viewing geometry, space weathering, class abundances, and sensor range. We introduce distribution-shift-aware conformal prediction to planetary reflectance spectroscopy, converting any spectral classifier into a set-valued predictor with finite-sample coverage guarantees, and we measure exactly how those guarantees behave when the deployment assumptions fail. From 16,291 RELAB Planetary Data System products, we curate 2,949 meteorite spectra into a leakage-controlled, provenance-tracked data set spanning 9 classes and 756 physical specimens. Same-specimen controlled experiments show that empirical coverage degrades with physical shift severity: grain-size mismatch removes up to 22 points of coverage, pulsed-laser space weathering removes 15 points on identical rocks, viewing geometry up to 40\u201360\u00b0 phase leaves coverage intact, and a linear domain-classifier AUC tracks severity while proving necessary but not sufficient for failure. Class-conditional calibration is invariant to arbitrary class-prior changes and rescues the scientifically critical CI class, which marginal calibration silently abandons. Likelihood-ratio-weighted conformal prediction restores nominal coverage under a pure covariate shift but misfires when the shift carries a label component, yielding a practical combined prescription. Transferred to 694 MITHNEOS near-Earth-asteroid spectra, the calibrated sets remain informative and recover the Itokawa and Vesta-family ground truths, whereas returned-sample tests on Ryugu and Bennu expose exactly where representation, not calibration, becomes the binding constraint."
+ },
+ "DOI:10.1109/TPAMI.2023.3327300": {
+  "paperId": "db34f56264806196597cdac728b16392c35cad3b",
+  "externalIds": {
+   "DBLP": "journals/pami/ParkCS24",
+   "ArXiv": "2210.03067",
+   "DOI": "10.1109/TPAMI.2023.3327300",
+   "CorpusId": 252734728,
+   "PubMed": "37874698"
+  },
+  "title": "Few-Shot Calibration of Set Predictors via Meta-Learned Cross-Validation-Based Conformal Prediction",
+  "venue": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+  "year": 2022,
+  "openAccessPdf": {
+   "url": "https://arxiv.org/pdf/2210.03067",
+   "status": "GREEN",
+   "license": null,
+   "disclaimer": "Notice: Paper or abstract available at https://arxiv.org/abs/2210.03067, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+  },
+  "authors": [
+   {
+    "authorId": "2148570944",
+    "name": "Sangwoo Park"
+   },
+   {
+    "authorId": "152811088",
+    "name": "K. Cohen"
+   },
+   {
+    "authorId": "1705869",
+    "name": "O. Simeone"
+   }
+  ],
+  "abstract": "Conventional frequentist learning is known to yield poorly calibrated models that fail to reliably quantify the uncertainty of their decisions. Bayesian learning can improve calibration, but formal guarantees apply only under restrictive assumptions about correct model specification. Conformal prediction (CP) offers a general framework for the design of set predictors with calibration guarantees that hold regardless of the underlying data generation mechanism. However, when training data are limited, CP tends to produce large, and hence uninformative, predicted sets. This paper introduces a novel meta-learning solution that aims at reducing the set prediction size. Unlike prior work, the proposed meta-learning scheme, referred to as meta-XB, i) builds on cross-validation-based CP, rather than the less efficient validation-based CP; and ii) preserves formal per-task calibration guarantees, rather than less stringent task-marginal guarantees. Finally, meta-XB is extended to adaptive non-conformal scores, which are shown empirically to further enhance marginal per-input calibration."
+ },
+ "DOI:10.1016/j.rinam.2025.100589": {
+  "paperId": "9d746081a3430c44324b78c5e851fec4a510f8fe",
+  "externalIds": {
+   "DOI": "10.1016/j.rinam.2025.100589",
+   "CorpusId": 279025117
+  },
+  "title": "Conformal prediction across scales: Finite-sample coverage with hierarchical efficiency",
+  "venue": "Results in Applied Mathematics",
+  "year": 2025,
+  "openAccessPdf": {
+   "url": "https://doi.org/10.1016/j.rinam.2025.100589",
+   "status": "GOLD",
+   "license": "CCBYNCND",
+   "disclaimer": "Notice: Paper or abstract available at https://api.unpaywall.org/v2/10.1016/j.rinam.2025.100589?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1016/j.rinam.2025.100589, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+  },
+  "authors": [
+   {
+    "authorId": "2410431",
+    "name": "A. Baheri"
+   },
+   {
+    "authorId": "2344761067",
+    "name": "Marzieh Amiri Shahbazi"
+   }
+  ],
+  "abstract": null
+ },
+ "ARXIV:2207.02440": {
+  "paperId": "b93fb9df19400008e1501dcb4f4e319ee21d892b",
+  "externalIds": {
+   "DBLP": "conf/nips/0001D0B22",
+   "ArXiv": "2207.02440",
+   "DOI": "10.48550/arXiv.2207.02440",
+   "CorpusId": 250311293
+  },
+  "title": "PAC Prediction Sets for Meta-Learning",
+  "venue": "Neural Information Processing Systems",
+  "year": 2022,
+  "openAccessPdf": {
+   "url": "http://arxiv.org/pdf/2207.02440",
+   "status": "GREEN",
+   "license": null,
+   "disclaimer": "Notice: Paper or abstract available at https://arxiv.org/abs/2207.02440, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+  },
+  "authors": [
+   {
+    "authorId": "2107883360",
+    "name": "Sangdon Park"
+   },
+   {
+    "authorId": "2694895",
+    "name": "Edgar Dobriban"
+   },
+   {
+    "authorId": "144637634",
+    "name": "Insup Lee"
+   },
+   {
+    "authorId": "1697444",
+    "name": "Osbert Bastani"
+   }
+  ],
+  "abstract": "Uncertainty quantification is a key component of machine learning models targeted at safety-critical systems such as in healthcare or autonomous vehicles. We study this problem in the context of meta learning, where the goal is to quickly adapt a predictor to new tasks. In particular, we propose a novel algorithm to construct \\emph{PAC prediction sets}, which capture uncertainty via sets of labels, that can be adapted to new tasks with only a few training examples. These prediction sets satisfy an extension of the typical PAC guarantee to the meta learning setting; in particular, the PAC guarantee holds with high probability over future tasks. We demonstrate the efficacy of our approach on four datasets across three application domains: mini-ImageNet and CIFAR10-C in the visual domain, FewRel in the language domain, and the CDC Heart Dataset in the medical domain. In particular, our prediction sets satisfy the PAC guarantee while having smaller size compared to other baselines that also satisfy this guarantee."
+ },
+ "DOI:10.1111/1750-3841.71616": {
+  "paperId": "c65f5953c9eb056cd0bf6f19471a0ea438fcd2f3",
+  "externalIds": {
+   "DOI": "10.1111/1750-3841.71616",
+   "CorpusId": 295628596,
+   "PubMed": "42988786"
+  },
+  "title": "From Memorization to Generalization: L1-BO-SVR for Robust Vis-NIR Prediction of Mango Dry Matter Across Diverse Cultivars, Origins, and Harvest Years.",
+  "venue": "Journal of Food Science",
+  "year": 2026,
+  "openAccessPdf": {
+   "url": "https://onlinelibrary.wiley.com/doi/pdfdirect/10.1111/1750-3841.71616",
+   "status": "BRONZE",
+   "license": null,
+   "disclaimer": "Notice: Paper or abstract available at https://api.unpaywall.org/v2/10.1111/1750-3841.71616?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1111/1750-3841.71616, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+  },
+  "authors": [
+   {
+    "authorId": "2117131990",
+    "name": "Qing-Xiao Ma"
+   },
+   {
+    "authorId": "2509299561",
+    "name": "Hao-Xuan Kan"
+   },
+   {
+    "authorId": "2446382017",
+    "name": "Rui Chen"
+   },
+   {
+    "authorId": "2509366370",
+    "name": "Wen-Fei Zhang"
+   },
+   {
+    "authorId": "2352664092",
+    "name": "Guo-Ao Xie"
+   },
+   {
+    "authorId": "2143856744",
+    "name": "Hao Liu"
+   }
+  ],
+  "abstract": "Mango (Mangifera indica L.) dry matter (DM) content is a critical quality indicator determining consumer acceptance and commercial value, yet conventional oven-drying methods are destructive and time-consuming. Visible and near-infrared (Vis-NIR) spectroscopy offers a rapid and non-consumptive alternative, but existing models suffer from poor generalizability due to spectrally homogeneous training sets. To address this limitation, we designed a diverse sampling strategy encompassing three cultivars, two production regions, and three harvest years, yielding 2,787 mango samples with DM content ranging from 9.46% to 22.95%. We propose a hybrid modeling framework named L1-BO-SVR integrating L1-regularized feature selection with Bayesian optimization (BO) enhanced support vector regression (SVR). The L1-BO-SVR model selected 94 informative wavelengths from 234 variables and achieved excellent predictive performance, with R2 P of 0.947 and RMSEP of 0.443%, substantially outperforming full-spectrum models with R2 P of 0.895 and conventional preprocessing-model combinations. Critically, the small performance gaps among training, cross-validation, and test sets confirm robust generalization with minimal overfitting. These results demonstrate that diverse sampling combined with L1-BO-SVR effectively overcomes the \"machine memorization\" pitfall, enabling reliable and generalizable Vis-NIR prediction of mango DM content across diverse production conditions, a critical advantage for practical deployment in real-world supply chains."
+ },
+ "DOI:10.17660/actahortic.2015.1091.24": {
+  "paperId": "5556776341f3b433fd913668185b08da231bd599",
+  "externalIds": {
+   "MAG": "2581633249",
+   "DOI": "10.17660/ACTAHORTIC.2015.1091.24",
+   "CorpusId": 133586754
+  },
+  "title": "A Case Study of a Decision Support System on Mango Fruit Maturity",
+  "venue": "",
+  "year": 2015,
+  "openAccessPdf": {
+   "url": "",
+   "status": "CLOSED",
+   "license": null,
+   "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.17660/ACTAHORTIC.2015.1091.24?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.17660/ACTAHORTIC.2015.1091.24, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+  },
+  "authors": [
+   {
+    "authorId": "2011584",
+    "name": "K. Walsh"
+   },
+   {
+    "authorId": "82102084",
+    "name": "P. Subedi"
+   },
+   {
+    "authorId": "123254837",
+    "name": "P. Tijskens"
+   }
+  ],
+  "abstract": null
+ },
+ "ARXIV:2610.33168": {
+  "paperId": "e224b583ce53ea97edc22892047998f509cfff5e",
+  "externalIds": {
+   "ArXiv": "2610.33168",
+   "CorpusId": 294228299
+  },
+  "title": "How Much Fresh Data Should CTR Recalibration Use? A Temporal Evaluation of Post-hoc Calibration",
+  "venue": "",
+  "year": 2026,
+  "openAccessPdf": {
+   "url": "",
+   "status": null,
+   "license": null,
+   "disclaimer": "Notice: Paper or abstract available at https://arxiv.org/abs/2610.33168, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+  },
+  "authors": [
+   {
+    "authorId": "2516255346",
+    "name": "Rui-Jia Liu"
+   }
+  ],
+  "abstract": "Offline evaluation of click-through rate (CTR) models still defaults to random splits, although deployed models score future traffic and downstream systems consume calibrated probabilities. On Avazu (40.4M impressions) we train logistic regression (LR), DeepFM, and DCN-v2 under two rolling temporal origins and a random split, three seeds per arm, and recalibrate each test day with Platt scaling and isotonic regression fitted on the preceding hours. At origin 1's nearest test day, random splits report LR's expected calibration error (ECE) at 55-62% of the temporal value in every seed (the deep models'ratio is seed-unstable), and no model's ECE is monotone in temporal distance. With a 6-hour fitting slice, recalibration removes up to 61% of ECE in badly miscalibrated cells but increases it in about a third of applications (14-17 of 48 across seeds). On fixed evaluation sets, a 12-hour slice cuts harm from 13-17 to 3-5 of 36 applications, and 24 hours raises it again. The 12-hour slice subsampled to the 1-hour slice's size (5% of the impressions; 20-25x faster to fit) recovers 88% of the full slice's gain, so impression count alone does not explain it. A slice-ECE gate shows no benefit out-of-origin, and in a simulated auction recalibration moves profit by only about -0.21% to +0.26%. Offline protocols should measure calibration temporally, over multiple origins and seeds; in this data, recalibration fitted on a wide time span beat the freshest few hours, which other logs must confirm."
+ },
+ "ARXIV:2401.13744": {
+  "paperId": "b6e698f0f17506715c8cfc1fa5d27c7b589b51ba",
+  "externalIds": {
+   "DBLP": "conf/icml/CresswellSKV24",
+   "ArXiv": "2401.13744",
+   "CorpusId": 267211902
+  },
+  "title": "Conformal Prediction Sets Improve Human Decision Making",
+  "venue": "International Conference on Machine Learning",
+  "year": 2024,
+  "openAccessPdf": {
+   "url": "",
+   "status": null,
+   "license": null,
+   "disclaimer": "Notice: Paper or abstract available at https://arxiv.org/abs/2401.13744, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+  },
+  "authors": [
+   {
+    "authorId": "103145485",
+    "name": "Jesse C. Cresswell"
+   },
+   {
+    "authorId": "2270840195",
+    "name": "Yi Sui"
+   },
+   {
+    "authorId": "2281435982",
+    "name": "Bhargava Kumar"
+   },
+   {
+    "authorId": "2214890990",
+    "name": "No\u00ebl Vouitsis"
+   }
+  ],
+  "abstract": "In response to everyday queries, humans explicitly signal uncertainty and offer alternative answers when they are unsure. Machine learning models that output calibrated prediction sets through conformal prediction mimic this human behaviour; larger sets signal greater uncertainty while providing alternatives. In this work, we study the usefulness of conformal prediction sets as an aid for human decision making by conducting a pre-registered randomized controlled trial with conformal prediction sets provided to human subjects. With statistical significance, we find that when humans are given conformal prediction sets their accuracy on tasks improves compared to fixed-size prediction sets with the same coverage guarantee. The results show that quantifying model uncertainty with conformal prediction is helpful for human-in-the-loop decision making and human-AI teams."
+ },
+ "DOI:10.1016/j.mlwa.2026.101038": {
+  "paperId": "94923278391c80cb31b17705124c8e1ef130b9a9",
+  "externalIds": {
+   "DOI": "10.1016/j.mlwa.2026.101038",
+   "CorpusId": 292815632
+  },
+  "title": "Horizon-aware group-conditional conformal prediction: Post-hoc shrinkage for sparse multi-horizon coverage auditing",
+  "venue": "Machine Learning with Applications",
+  "year": 2026,
+  "openAccessPdf": {
+   "url": "https://www.sciencedirect.com/science/article/pii/S2666827026002033/pdf",
+   "status": "GOLD",
+   "license": "CCBYNCND",
+   "disclaimer": "Notice: Paper or abstract available at https://api.unpaywall.org/v2/10.1016/j.mlwa.2026.101038?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1016/j.mlwa.2026.101038, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+  },
+  "authors": [
+   {
+    "authorId": "2400502922",
+    "name": "Ji-Tong Zou"
+   },
+   {
+    "authorId": "2345706949",
+    "name": "En-Miao Feng"
+   },
+   {
+    "authorId": "2509879329",
+    "name": "Peng-Fei Li"
+   },
+   {
+    "authorId": "2334765812",
+    "name": "Gai-Ke Wang"
+   }
+  ],
+  "abstract": null
+ },
+ "DOI:10.1016/j.saa.2025.126068": {
+  "paperId": "e6ca603dd5a273e9947712b6d5521cbc9b7ffdbe",
+  "externalIds": {
+   "DOI": "10.1016/j.saa.2025.126068",
+   "CorpusId": 277163459,
+   "PubMed": "40147388"
+  },
+  "title": "Deep tutti-frutti II: Explainability of CNN architectures for fruit dry matter predictions.",
+  "venue": "Spectrochimica Acta Part A - Molecular and Biomolecular Spectroscopy",
+  "year": 2025,
+  "openAccessPdf": {
+   "url": "https://doi.org/10.1016/j.saa.2025.126068",
+   "status": "HYBRID",
+   "license": "CCBY",
+   "disclaimer": "Notice: Paper or abstract available at https://api.unpaywall.org/v2/10.1016/j.saa.2025.126068?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1016/j.saa.2025.126068, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+  },
+  "authors": [
+   {
+    "authorId": "145870237",
+    "name": "D. Passos"
+   }
+  ],
+  "abstract": "One of the criticisms that deep chemometric models usually face is their lack of explainability. In this work, three different explainability methods (Regression Coefficients, LIME and SHAP) are applied to different convolutional neural network (CNN) architectures, previously optimized for the task of multifruit dry matter content prediction based on NIR spectra. Additionally, a convolutional filter characterization is also performed to help clarify the type of modelling performed by the convolutional layers. The analysis allowed to extract information about the wavelength bands relevant to the models' performance (feature importance) and to understand how different convolutional layer topologies transform the spectra leading to three types of modelling: data driven pre-processing, dimensionality reduction and hierarchical feature extraction. Feature importance analysis indicates that the relevant spectral bands used by the different CNN architectures for prediction of dry matter is basically the same. They are the same as the bands relevant to PLS and these bands can be attributed to specific known vibrational groups. Moreover, in the context of the multifruit prediction task, the analysis also points out that CNNs tend to identify and use spectral features that are informative across different fruit spectra, much like domain-invariant features identified by di-CovSel variable selection."
+ }
+}

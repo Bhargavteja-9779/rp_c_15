@@ -499,16 +499,24 @@ def tables(r: R) -> dict:
 
 
 # --------------------------------------------------------------------------- assembly
-def render(text: str, r: R, T: dict) -> str:
+MARK_OPEN, MARK_CLOSE = "\u27e6", "\u27e7"      # brackets used only in the audit rendering
+
+
+def render(text: str, r: R, T: dict, audit: bool = False) -> str:
+    """Fill {{...}} placeholders from result files. With audit=True every filled value is wrapped in markers so that
+    scripts/audit_numbers.py can tell machine-filled numbers from numbers typed in the text."""
     ns = {"r": r, "V": r.V, "T": T, "np": np}
+
+    def wrap(v):
+        return f"{MARK_OPEN}{v}{MARK_CLOSE}" if audit else v
 
     def sub(mo):
         expr = mo.group(1).strip()
         if expr.startswith("V:"):
-            return str(r.V[expr[2:]])
+            return wrap(str(r.V[expr[2:]]))
         if expr.startswith("T:"):
-            return T[expr[2:]]
-        return str(eval(expr, {"__builtins__": {"abs": abs, "round": round, "min": min, "max": max, "float": float, "int": int, "len": len}, **ns}))
+            return wrap(T[expr[2:]]) if audit else T[expr[2:]]
+        return wrap(str(eval(expr, {"__builtins__": {"abs": abs, "round": round, "min": min, "max": max, "float": float, "int": int, "len": len}, **ns})))
 
     return re.sub(r"\{\{(.+?)\}\}", sub, text)
 
@@ -544,6 +552,7 @@ def build_markdown() -> Path:
     out = MS / "build" / "manuscript.md"
     out.parent.mkdir(exist_ok=True)
     out.write_text(body)
+    (MS / "build" / "manuscript_audit.md").write_text(render("\n\n".join(parts), r, T, audit=True))
     return out
 
 

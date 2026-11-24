@@ -1,0 +1,49 @@
+{
+ "2017": {
+  "shared_samples": 0,
+  "shared_lots": 0,
+  "max_source_season": 2016,
+  "identical_spectra_source_target": 0,
+  "groups_split_by_sample_folds": 0,
+  "groups_split_by_lot_folds": 0,
+  "groups_split_by_season_folds": 0
+ },
+ "2018": {
+  "shared_samples": 0,
+  "shared_lots": 0,
+  "max_source_season": 2017,
+  "identical_spectra_source_target": 0,
+  "groups_split_by_sample_folds": 0,
+  "groups_split_by_lot_folds": 0,
+  "groups_split_by_season_folds": 0
+ },
+ "2019": {
+  "shared_samples": 0,
+  "shared_lots": 0,
+  "max_source_season": 2018,
+  "identical_spectra_source_target": 0,
+  "groups_split_by_sample_folds": 0,
+  "groups_split_by_lot_folds": 0,
+  "groups_split_by_season_folds": 0
+ },
+ "2020": {
+  "shared_samples": 0,
+  "shared_lots": 0,
+  "max_source_season": 2019,
+  "identical_spectra_source_target": 0,
+  "groups_split_by_sample_folds": 0,
+  "groups_split_by_lot_folds": 0,
+  "groups_split_by_season_folds": 0
+ },
+ "2021": {
+  "shared_samples": 0,
+  "shared_lots": 0,
+  "max_source_season": 2020,
+  "identical_spectra_source_target": 0,
+  "groups_split_by_sample_folds": 0,
+  "groups_split_by_lot_folds": 0,
+  "groups_split_by_season_folds": 0
+ },
+ "preprocessing_rowwise": true,
+ "pass": true
+}

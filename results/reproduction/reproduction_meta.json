@@ -1,0 +1,11 @@
+{
+ "n_train": 10243,
+ "pls_published": {
+  "n_components": 30,
+  "rmsecv": 0.9202392035684354
+ },
+ "pls_ours": {
+  "n_components": 26,
+  "rmsecv": 1.1088237861545744
+ }
+}

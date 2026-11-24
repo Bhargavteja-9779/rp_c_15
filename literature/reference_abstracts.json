@@ -1,0 +1,262 @@
+{
+ "anderson2020": {
+  "id": "DOI:10.1016/j.postharvbio.2020.111202",
+  "title": "Achieving robustness across season, location and cultivar for a NIRS model for intact mango fruit dry matter content",
+  "abstract": "Abstract Short wave near infrared spectroscopy has found use in non-invasive assessment of dry matter content (DMC, % fresh weight) of mango fruit, both as a guide to harvest maturity and ensure eating quality of ripened fruit. In this study, this application is optimised in terms of pre-processing of spectra, the source of variations important to model performance documented, and the performance of cultivar or physiological stage specific partial least squares regression (PLSR) models, global PLSR and an artificial neural network (ANN) model are compared. The data set consisted of 4675 samples acquired across four seasons, ten cultivars and two growing regions, with harvest populations used as cross validation groups. The data of the fourth season was reserved as an independent test set. Spectra pre-treatment of mean centred Savitzy-Golay second derivative (second order polynomial using a 17 point interval) and use of the wavelength range 684\u2212990\u202fnm gave the lowest RMSECV for PLSR models, although other ranges had similar statistics. The fruit physiological stage had the greatest impact on PLSR model performance, compared to cultivar, year or growing region, as estimated using a \u2018variable importance metric\u2019 devised and implemented using a random forest regression. The use of specific (cultivar or physiological stage) PLSR models improved prediction results of the independent validation set (RMSEP on DMC decreased from 1.01 to 0.88 %), and was similar to the result of a global ANN model (0.89 %). The use of an ANN model is recommended in terms of ease of use of a single model across all cultivars."
+ },
+ "anderson2021": {
+  "id": "DOI:10.1016/j.postharvbio.2020.111358",
+  "title": "Achieving robustness across season, location and cultivar for a NIRS model for intact mango fruit dry matter content. II. Local PLS and nonlinear models",
+  "abstract": "Abstract A range of modelling techniques were used in the estimation of dry matter content of intact mango fruit from short wave near infrared spectra, collected using an interactance geometry, with models developed on a data set collected across three seasons (n\u2009=\u200910,243) and tested on that of a fourth season (n\u2009=\u20091,448). Model types included Artificial Neural Network (ANN), Gaussian Process Regression (GPR), Local Optimized by Variance Regression (LOVR), Local Partial Least Squares Regression (LPLS), Local PLS Scores (LPLS-S) and Memory Based Learner (MBL), with manual tuning of parameters undertaken. Additionally, two commercially available cloud-based chemometric packages for automated model development were trialled. All of these models gave a better result than use of a global PLS model. The best result (lowest RMSEP) was achieved with an ensemble of ANN, GPR and LPLS-S, with the best individual model result achieved by LOVR, with RMSEP of 0.839 % and 0.881 %, respectively, compared to the global PLS result of 1.014 %. The best precision was achieved with the LPLS model, with a SEP of 0.846 %, compared to the global PLS result of 1.012 %. LOVR was twice as fast as a generalized latent variable selection method LPLS-S-cv in prediction of independent validation set (at 58.7\u2009\u00d7\u200910\u22123 s compared to 163 x 10-3 s). The ANN model was satisfactory in all categories (prediction speed, model build speed, and prediction statistics) and insensitive to tuning, e.g., 33 of the 70 parameter combinations were within 0.05 units of RMSEP of the minimum combination. However, the ANN learning rate was low. For applications that require \u2018real-time\u2019 prediction, such as fruit packlines, use of ANN and GPR models is recommended. For non-cloud based handheld NIR devices lacking the computational power to perform local modelling, ANN is recommended, and LOVR or a model ensemble recommended in cloud based implementation. The automated cloud-based systems performed well (RMSEP of 0.850 % and 0.963 % for Hone Create and DataRobot, ensemble models, respectively), without human intervention for the choosing and tuning of models."
+ },
+ "walsh2024": {
+  "id": "DOI:10.1016/j.saa.2024.124003",
+  "title": "Evaluation of 1D convolutional neural network in estimation of mango dry matter content.",
+  "abstract": "This study empirically validates prior claims regarding the superior performance of a Convolutional Neural Network (CNN) model for estimating mango Dry Matter Content (DMC) using Near Infrared (NIR) spectroscopy. The Partial Least Squares (PLS), Artificial Neural Network (ANN), and CNN models employed in the previous publications were compared on an equal footing, i.e., employing the same training and test data, with consideration of the effect of other practices employed in those studies, i.e., outlier removal, training set partitioning, sample ordering, and spectral pretreatment and augmentation. A new benchmark RMSEP of 0.77\u00a0%FW was achieved, being statistically significant (P<0.05) different than the previously published best RMSEP for the same independent test set. This CNN model was also shown to be more robust when tested on a new season of fruit than optimised ANN and PLS models, with RMSEPs of 1.18, 2.62, and 1.87, and bias of 0.16, 2.36 and 1.56\u00a0%FW, respectively. The combination of model type and data augmentation was important, with the CNN model only slightly outperforming the ANN model when using only a second derivative pretreatment. This requirement highlights the need for chemometric input to model development. The quantification of the sensitivity of neural network model training to use of differing seeds for pseudo-random sequence generation is also recommended. The standard deviation in RMSEP of 50 ANN and CNN models trained with differing random seeds was 0.03 and 0.02\u00a0%FW, respectively."
+ },
+ "mishra2021": {
+  "id": "DOI:10.1016/j.chemolab.2021.104287",
+  "title": "A synergistic use of chemometrics and deep learning improved the predictive performance of near-infrared spectroscopy models for dry matter prediction in mango fruit",
+  "abstract": "1. Abstract This study provides an innovative approach to improve deep learning (DL) models for spectral data processing with the use of chemometrics knowledge. The technique proposes pre-filtering the outliers using the Hotelling\u2019s T2 and Q statistics obtained with partial least-square (PLS) analysis and spectral data augmentation in the variable domain to improve the predictive performance of deep learning models made on spectral data. The data augmentation is carried out by stacking the same data pre-processed with several pre-processing techniques such as standard normal variate, 1st derivatives, 2nd derivatives and their combinations. The performance of the approach is demonstrated on a real near-infrared (NIR) data set related to dry matter (DM) prediction in mango fruit. The data set consisted of a total 11,961 spectra and reference DM measurements. The results showed that removing the outliers and augmenting spectral data improved the predictive performance of DL models. Furthermore, this innovative approach not only improved DL models but attained the lowest root mean squared error of prediction (RMSEP) on the mango data set i.e., 0.79 % compared to the best known RMSEP of 0.84 %. Further, by removing outliers from the test set the RMSEP decreased to 0.75 %. Several chemometrics approaches can complement DL models and should be widely explored in conjunction."
+ },
+ "mishra2023": {
+  "id": "DOI:10.1016/j.postharvbio.2023.112335",
+  "title": "Semi-supervised robust models for predicting dry matter in mango fruit with near-infrared spectroscopy",
+  "abstract": null
+ },
+ "passos2023": {
+  "id": "DOI:10.1016/j.chemolab.2023.105023",
+  "title": "Deep Tutti Frutti: Exploring CNN architectures for dry matter prediction in fruit from multi-fruit near-infrared spectra",
+  "abstract": null
+ },
+ "walsh2020review": {
+  "id": "DOI:10.1016/j.postharvbio.2020.111246",
+  "title": "Visible-NIR \u2018point\u2019 spectroscopy in postharvest fruit and vegetable assessment: The science behind three decades of commercial use",
+  "abstract": "Abstract The application of visible (Vis; 400\u2013750\u202fnm) and near infrared red (NIR; 750\u20132500\u202fnm) region spectroscopy to assess fruit and vegetables is reviewed in context of \u2018point\u2019 spectroscopy, as opposed to multi- or hyperspectral imaging. Vis spectroscopy targets colour assessment and pigment analysis, while NIR spectroscopy has been applied to assessment of macro constituents (principally water) in fresh produce in commercial practice, and a wide range of attributes in the scientific literature. This review focusses to key issues relevant to the widespread implementation of Vis-NIR technology in the fruit sector. A background to the concepts and technology involved in the use of Vis-NIR spectroscopy is provided and instrumentation for in-field and in-line applications, which has been available for two and three decades, respectively, is described. A review of scientific effort is made for the period 2015 - February 2020, in terms of the application areas, instrumentation, chemometric methods and validation procedures, and this work is critiqued through comparison to techniques in commercial use, with focus to wavelength region, optical geometry, experimental design, and validation procedures. Recommendations for future research activity in this area are made, e.g., application development with consideration of the distribution of the attribute of interest in the product and the matching of optically sampled and reference method sampled volume; instrumentation comparisons with consideration of repeatability, optimum optical geometry and wavelength range). Recommendations are also made for reporting requirements, viz. description of the application, the reference method, the composition of calibration and test populations, chemometric reporting and benchmarking to a known instrument/method, with the aim of maximising useful conclusions from the extensive work being done around the world."
+ },
+ "nicolai2007": {
+  "id": "DOI:10.1016/j.postharvbio.2007.06.024",
+  "title": "Nondestructive measurement of fruit and vegetable quality by means of NIR spectroscopy: A review",
+  "abstract": null
+ },
+ "sun2020": {
+  "id": "DOI:10.1016/j.postharvbio.2019.111117",
+  "title": "Achieving robustness to temperature change of a NIRS-PLSR model for intact mango fruit dry matter content",
+  "abstract": "Abstract Temperature impacts the extent of H bonding in water and thus impacts near infrared (NIR) spectra of fruit and influences the robustness of models between spectra and attributes such as dry matter content (DMC). Temperature correction methods including external parameter orthogonalisation (EPO), generalised least square weighting (GLSW), bias correction, repeatability file, calibration wavelength optimization and global modelling were applied to reduce the impact of sample temperature change on DMC prediction of intact mango fruit using a calibration data set of 1392 samples and a validation set of 660 samples of variable sample temperatures, drawn from 15 populations sourced from separate harvests. All methods except bias correction reduced bias corrected root mean square error of prediction (RMSEP) and increased coefficient of determination (R2). For a global model, it is recommended that at least 2.4 % of samples in the model be scanned at different temperatures. However, the EPO method is recommended overall, as it returned the lowest RMSEP and highest R2 (1.05 % w/w, and 0.82 compared with the control result of 1.43 % and 0.68, respectively), in prediction of the population with spectra acquired at three temperatures. A residual of \u00b1 0.10\u00d7\u0177, where \u0177 is the reference value, was associated with a confidence interval of 92.4 and 77.4 % for the EPO corrected and original models, respectively. The results have significance for the practical implementation of NIRS-DMC estimation of fruit in field conditions."
+ },
+ "walshsubedi2016": {
+  "id": "DOI:10.17660/actahortic.2016.1119.38",
+  "title": "In-field monitoring of mango fruit dry matter for maturity estimation",
+  "abstract": null
+ },
+ "feudale2002": {
+  "id": "DOI:10.1016/s0169-7439(02)00085-0",
+  "title": "Transfer of multivariate calibration models: a review",
+  "abstract": null
+ },
+ "fearn2001": {
+  "id": "DOI:10.1255/jnirs.309",
+  "title": "Standardisation and Calibration Transfer for near Infrared Instruments: A Review",
+  "abstract": null
+ },
+ "wold2001": {
+  "id": "DOI:10.1016/s0169-7439(01)00155-1",
+  "title": "PLS-regression: a basic tool of chemometrics",
+  "abstract": null
+ },
+ "savitzky1964": {
+  "id": "DOI:10.1021/ac60214a047",
+  "title": null,
+  "abstract": null
+ },
+ "barnes1989": {
+  "id": "DOI:10.1366/0003702894202201",
+  "title": "Standard Normal Variate Transformation and De-Trending of Near-Infrared Diffuse Reflectance Spectra",
+  "abstract": null
+ },
+ "cui2018": {
+  "id": "DOI:10.1016/j.chemolab.2018.07.008",
+  "title": "Modern practical convolutional neural networks for multivariate regression: Applications to NIR calibration",
+  "abstract": "Abstract In this study, we investigate the use of convolutional neural networks (CNN) for near infrared (NIR) calibration. We propose a unified CNN structure that can be used for general multivariate regression purpose. The comparison between the CNN method and the partial least squares regression (PLSR) method was done on three different NIR datasets of spectra and lab reference values. Datasets are from different sources and contain 6998, 1000 and 415 training and 618, 597 and 108 validation samples, respectively. Results indicated that compared to the PLSR models, the CNN models are more accurate and less noisy. The convolutional layer in the CNN model can automatically find the suitable spectral preprocessing filter on the dataset, which significantly saves efforts in training the model."
+ },
+ "vovk2022": {
+  "id": "DOI:10.1007/978-3-031-06649-8",
+  "title": "Algorithmic Learning in a Random World",
+  "abstract": null
+ },
+ "lei2018": {
+  "id": "DOI:10.1080/01621459.2017.1307116",
+  "title": "Distribution-Free Predictive Inference for Regression",
+  "abstract": "ABSTRACT We develop a general framework for distribution-free predictive inference in regression, using conformal inference. The proposed methodology allows for the construction of a prediction band for the response variable using any estimator of the regression function. The resulting prediction band preserves the consistency properties of the original estimator under standard assumptions, while guaranteeing finite-sample marginal coverage even when these assumptions do not hold. We analyze and compare, both empirically and theoretically, the two major variants of our conformal framework: full conformal inference and split conformal inference, along with a related jackknife method. These methods offer different tradeoffs between statistical accuracy (length of resulting prediction intervals) and computational efficiency. As extensions, we develop a method for constructing valid in-sample prediction intervals called rank-one-out conformal inference, which has essentially the same computational efficiency as split conformal inference. We also describe an extension of our procedures for producing prediction bands with locally varying length, to adapt to heteroscedasticity in the data. Finally, we propose a model-free notion of variable importance, called leave-one-covariate-out or LOCO inference. Accompanying this article is an R package conformalInference that implements all of the proposals we have introduced. In the spirit of reproducibility, all of our empirical results can also be easily (re)generated using this package."
+ },
+ "angelopoulos2023": {
+  "id": "DOI:10.1561/2200000101",
+  "title": "A Gentle Introduction to Conformal Prediction and Distribution-Free Uncertainty Quantification",
+  "abstract": "Black-box machine learning models are now routinely used in high-risk settings, like medical diagnostics, which demand uncertainty quantification to avoid consequential model failures. Conformal prediction is a user-friendly paradigm for creating statistically rigorous uncertainty sets/intervals for the predictions of such models. Critically, the sets are valid in a distribution-free sense: they possess explicit, non-asymptotic guarantees even without distributional assumptions or model assumptions. One can use conformal prediction with any pre-trained model, such as a neural network, to produce sets that are guaranteed to contain the ground truth with a user-specified probability, such as 90%. It is easy-to-understand, easy-to-use, and general, applying naturally to problems arising in the fields of computer vision, natural language processing, deep reinforcement learning, and so on. This hands-on introduction is aimed to provide the reader a working understanding of conformal prediction and related distribution-free uncertainty quantification techniques with one self-contained document. We lead the reader through practical theory for and examples of conformal prediction and describe its extensions to complex machine learning tasks involving structured outputs, distribution shift, time-series, outliers, models that abstain, and more. Throughout, there are many explanatory illustrations, examples, and code samples in Python. With each code sample comes a Jupyter notebook implementing the method on a real-data example; the notebooks can be accessed and easily run using our codebase.",
+  "arxiv": "2107.07511"
+ },
+ "barber2023": {
+  "id": "DOI:10.1214/23-aos2276",
+  "title": "Conformal prediction beyond exchangeability",
+  "abstract": "Conformal prediction is a popular, modern technique for providing valid predictive inference for arbitrary machine learning models. Its validity relies on the assumptions of exchangeability of the data, and symmetry of the given model fitting algorithm as a function of the data. However, exchangeability is often violated when predictive models are deployed in practice. For example, if the data distribution drifts over time, then the data points are no longer exchangeable; moreover, in such settings, we might want to use a nonsymmetric algorithm that treats recent observations as more relevant. This paper generalizes conformal prediction to deal with both aspects: we employ weighted quantiles to introduce robustness against distribution drift, and design a new randomization technique to allow for algorithms that do not treat data points symmetrically. Our new methods are provably robust, with substantially less loss of coverage when exchangeability is violated due to distribution drift or other challenging features of real data, while also achieving the same coverage guarantees as existing conformal prediction methods if the data points are in fact exchangeable. We demonstrate the practical utility of these new tools with simulations and real-data experiments on electricity and election forecasting.",
+  "arxiv": "2202.13415"
+ },
+ "barber2021": {
+  "id": "DOI:10.1214/20-aos1965",
+  "title": "Predictive inference with the jackknife+",
+  "abstract": "This paper introduces the jackknife+, which is a novel method for constructing predictive confidence intervals. Whereas the jackknife outputs an interval centered at the predicted response of a test point, with the width of the interval determined by the quantiles of leave-one-out residuals, the jackknife+ also uses the leave-one-out predictions at the test point to account for the variability in the fitted regression function. Assuming exchangeable training samples, we prove that this crucial modification permits rigorous coverage guarantees regardless of the distribution of the data points, for any algorithm that treats the training points symmetrically. Such guarantees are not possible for the original jackknife and we demonstrate examples where the coverage rate may actually vanish. Our theoretical and empirical analysis reveals that the jackknife and the jackknife+ intervals achieve nearly exact coverage and have similar lengths whenever the fitting algorithm obeys some form of stability. Further, we extend the jackknife+ to K-fold cross validation and similarly establish rigorous coverage properties. Our methods are related to cross-conformal prediction proposed by Vovk [2015] and we discuss connections."
+ },
+ "barber2021limits": {
+  "id": "DOI:10.1093/imaiai/iaaa017",
+  "title": "The limits of distribution-free conditional predictive inference",
+  "abstract": "\n We consider the problem of distribution-free predictive inference, with the goal of producing predictive coverage guarantees that hold conditionally rather than marginally. Existing methods such as conformal prediction offer marginal coverage guarantees, where predictive coverage holds on average over all possible test points, but this is not sufficient for many practical applications where we would like to know that our predictions are valid for a given individual, not merely on average over a population. On the other hand, exact conditional inference guarantees are known to be impossible without imposing assumptions on the underlying distribution. In this work, we aim to explore the space in between these two and examine what types of relaxations of the conditional coverage property would alleviate some of the practical concerns with marginal coverage guarantees while still being possible to achieve in a distribution-free setting."
+ },
+ "vovk2015": {
+  "id": "DOI:10.1007/s10472-013-9368-4",
+  "title": "Cross-conformal predictors",
+  "abstract": "Inductive conformal predictors have been designed to overcome the computational inefficiency exhibited by conformal predictors for many underlying prediction algorithms. Whereas computationally efficient, inductive conformal predictors sacrifice different parts of the training set at different stages of prediction, which affects their informational efficiency. This paper introduces the method of cross-conformal prediction, which is a hybrid of the methods of inductive conformal prediction and cross-validation, and studies its validity and informational efficiency empirically. The computational efficiency of cross-conformal predictors is comparable to that of inductive conformal predictors, and they produce valid predictions in our empirical studies."
+ },
+ "lee2023": {
+  "id": "DOI:10.48550/arXiv.2306.06342",
+  "title": "Distribution-free inference with hierarchical data",
+  "abstract": "This paper studies distribution-free inference in settings where the data set has a hierarchical structure -- for example, groups of observations, or repeated measurements. In such settings, standard notions of exchangeability may not hold. To address this challenge, a hierarchical form of exchangeability is derived, facilitating extensions of distribution-free methods, including conformal prediction and jackknife+. While the standard theoretical guarantee obtained by the conformal prediction framework is a marginal predictive coverage guarantee, in the special case of independent repeated measurements, it is possible to achieve a stronger form of coverage -- the \"second-moment coverage\" property -- to provide better control of conditional miscoverage rates, and distribution-free prediction sets that achieve this property are constructed. Simulations illustrate that this guarantee indeed leads to uniformly small conditional miscoverage rates. Empirically, this stronger guarantee comes at the cost of a larger width of the prediction set in scenarios where the fitted model is poorly calibrated, but this cost is very mild in cases where the fitted model is accurate.",
+  "arxiv": "2306.06342"
+ },
+ "dunn2023": {
+  "id": "DOI:10.1080/01621459.2022.2060112",
+  "title": null,
+  "abstract": null
+ },
+ "gneiting2007": {
+  "id": "DOI:10.1198/016214506000001437",
+  "title": "Strictly Proper Scoring Rules, Prediction, and Estimation",
+  "abstract": null
+ },
+ "winkler1972": {
+  "id": "DOI:10.1080/01621459.1972.10481224",
+  "title": "A Decision-Theoretic Approach to Interval Estimation",
+  "abstract": null
+ },
+ "efron1975": {
+  "id": "DOI:10.1080/01621459.1975.10479864",
+  "title": "Data Analysis Using Stein's Estimator and its Generalizations",
+  "abstract": null
+ },
+ "wilcoxon1945": {
+  "id": "DOI:10.2307/3001968",
+  "title": null,
+  "abstract": null
+ },
+ "kerby2014": {
+  "id": "DOI:10.2466/11.it.3.1",
+  "title": "The Simple Difference Formula: An Approach to Teaching Nonparametric Correlation1:",
+  "abstract": "Although teaching effect sizes is important, many statistics texts omit the topic for the Mann-Whitney U test and the Wilcoxon signed-rank test. To address this omission, this paper introduces the ..."
+ },
+ "jovic2025": {
+  "id": "DOI:10.1016/j.foodchem.2025.145387",
+  "title": "Conformal predictors in chemometric study of mid-infrared food adulteration: quantification of prediction uncertainty.",
+  "abstract": "This study introduces a novel application of Conformal Predictor Regression to mid-infrared spectroscopic datasets of adulterated foods. Two datasets were analyzed, and 12 high-accuracy underlying models were tested using normalized inductive nonconformity functions. In all cases, significantly lower margins of error, on average 32.1\u00a0% lower, were obtained with normalized nonconformity functions compared to absolute residuals at a 99\u00a0% confidence level, without any loss of validity. A significant positive correlation (p\u00a0<\u00a00.05) was found between the generated error margins and the underlying model's accuracy for all studied cases, and this correlation was independent of the set confidence level. Based on the findings of this study, it is recommended to use a robust solution involving multiple combined normalized Conformal Predictors, with optimal efficiency selected in each case, for quantitative determinations of adulteration using mid-infrared data. Conformal predictors can serve as quantitative estimators of accuracy in vibrational spectroscopy for every individual test sample."
+ },
+ "sun2026": {
+  "id": "DOI:10.2139/ssrn.7611591",
+  "title": null,
+  "abstract": null
+ },
+ "metz2025": {
+  "id": "DOI:10.2139/ssrn.5339494",
+  "title": null,
+  "abstract": null
+ },
+ "safanelli2025": {
+  "id": "DOI:10.1371/journal.pone.0296545",
+  "title": "Open Soil Spectral Library (OSSL): Building reproducible soil calibration models through open development and community engagement",
+  "abstract": "Soil spectroscopy is a widely used method for estimating soil properties that are important to environmental and agricultural monitoring. However, a bottleneck to its more widespread adoption is the need for establishing large reference datasets for training machine learning (ML) models, which are called soil spectral libraries (SSLs). Similarly, the prediction capacity of new samples is also subject to the number and diversity of soil types and conditions represented in the SSLs. To help bridge this gap and enable hundreds of stakeholders to collect more affordable soil data by leveraging a centralized open resource, the Soil Spectroscopy for Global Good has created the Open Soil Spectral Library (OSSL). In this paper, we describe the procedures for collecting and harmonizing several SSLs that are incorporated into the OSSL, followed by exploratory analysis and predictive modeling. The results of 10-fold cross-validation with refitting show that, in general, mid-infrared (MIR)-based models are significantly more accurate than visible and near-infrared (VisNIR) or near-infrared (NIR) models. From independent model evaluation, we found that Cubist comes out as the best-performing ML algorithm for the calibration and delivery of reliable outputs (prediction uncertainty and representation flag). Although many soil properties are well predicted, total sulfur, extractable sodium, and electrical conductivity performed poorly in all spectral regions, with some other extractable nutrients and physical soil properties also performing poorly in one or two spectral regions (VisNIR or Neospectra NIR). Hence, the use of predictive models based solely on spectral variations has limitations. This study also presents and discusses several other open resources that were developed from the OSSL, aspects of opening data, current limitations, and future development. With this genuinely open science project, we hope that OSSL becomes the driver of the soil spectroscopy community to accelerate the pace of scientific discovery and innovation."
+ },
+ "orgiazzi2018": {
+  "id": "DOI:10.1111/ejss.12499",
+  "title": "LUCAS Soil, the largest expandable soil dataset for Europe: a review",
+  "abstract": "Soil is a non\u2010renewable resource that requires constant monitoring to prevent its degradation and promote its sustainable management. The \u2018Land Use/Cover Area frame statistical Survey Soil\u2019 (LUCAS Soil) is an extensive and regular topsoil survey that is carried out across the European Union to derive policy\u2010relevant statistics on the effect of land management on soil characteristics. Approximately 45 000 soil samples have been collected from two time\u2010periods, 2009\u20132012 and 2015. A new sampling series will be undertaken in 2018, with new measurements included. The organization for the 2018 sampling campaign represents an opportunity to summarize past LUCAS Soil achievements and present its future objectives. In 2009\u20132012 and 2015, LUCAS Soil surveys targeted physicochemical properties, including pH, organic carbon, nutrient concentrations and cation exchange capacity. Data from 2009\u20132012 (ca. 22 000 points) and derived output (more than 20 maps) are available freely from the European Soil Data Centre website. Analyses of samples collected during 2015 are ongoing and data will be available at the end of 2017. In the 2018 LUCAS Soil sampling campaign, additional properties, including bulk density, soil biodiversity, specific measurements for organic\u2010rich soil and soil erosion will be measured. Here we present the current dataset (LUCAS Soil 2009\u20132012 and 2015), its potential for reuse and future development plans (LUCAS Soil 2018 and over). LUCAS Soil represents the largest harmonized open\u2010access dataset of topsoil properties available for the European Union at the global scale. It was developed as an expandable resource, with the possibility to add new properties and sampling locations during successive sampling campaigns. Data are available to the scientific community and decision makers, thus contributing to both research and the development of the land\u2010focused policy agenda."
+ },
+ "guerrero2010": {
+  "id": "DOI:10.1016/j.geoderma.2009.12.021",
+  "title": "Spiking of NIR regional models using samples from target sites: effect of model size on prediction accuracy.",
+  "abstract": null
+ },
+ "guerrero2014": {
+  "id": "DOI:10.1111/ejss.12129",
+  "title": "Assessment of soil organic carbon at local scale with spiked NIR calibrations: effects of selection and extra\u2010weighting on the spiking subset",
+  "abstract": null
+ },
+ "anderson2017": {
+  "id": "DOI:10.1016/j.scienta.2017.09.001",
+  "title": "Manipulation of mango fruit dry matter content to improve eating quality",
+  "abstract": null
+ },
+ "mangodata": {
+  "id": "TITLE:Mango {DMC} and {NIR} spectra",
+  "title": null,
+  "abstract": null
+ },
+ "romano2019": {
+  "id": "TITLE:Conformalized quantile regression",
+  "title": "Conformalized Quantile Regression",
+  "abstract": "Conformal prediction is a technique for constructing prediction intervals that attain valid coverage in finite samples, without making distributional assumptions. Despite this appeal, existing conformal methods can be unnecessarily conservative because they form intervals of constant or weakly varying length across the input space. In this paper we propose a new method that is fully adaptive to heteroscedasticity. It combines conformal prediction with classical quantile regression, inheriting the advantages of both. We establish a theoretical guarantee of valid coverage, supplemented by extensive experiments on popular regression datasets. We compare the efficiency of conformalized quantile regression to other conformal methods, showing that our method tends to produce shorter intervals.",
+  "arxiv": "1905.03222"
+ },
+ "tibshirani2019": {
+  "id": "TITLE:Conformal prediction under covariate shift",
+  "title": "Conformal Prediction Under Covariate Shift",
+  "abstract": "We extend conformal prediction methodology beyond the case of exchangeable data. In particular, we show that a weighted version of conformal prediction can be used to compute distribution-free prediction intervals for problems in which the test and training covariate distributions differ, but the likelihood ratio between these two distributions is known---or, in practice, can be estimated accurately with access to a large set of unlabeled data (test covariate points). Our weighted extension of conformal prediction also applies more generally, to settings in which the data satisfies a certain weighted notion of exchangeability. We discuss other potential applications of our new conformal methodology, including latent variable and missing data problems.",
+  "arxiv": "1904.06019"
+ },
+ "gibbs2021": {
+  "id": "TITLE:Adaptive conformal inference under distribution shift",
+  "title": "Adaptive Conformal Inference Under Distribution Shift",
+  "abstract": "We develop methods for forming prediction sets in an online setting where the data generating distribution is allowed to vary over time in an unknown fashion. Our framework builds on ideas from conformal inference to provide a general wrapper that can be combined with any black box method that produces point predictions of the unseen label or estimated quantiles of its distribution. While previous conformal inference methods rely on the assumption that the data points are exchangeable, our adaptive approach provably achieves the desired coverage frequency over long-time intervals irrespective of the true data generating process. We accomplish this by modelling the distribution shift as a learning problem in a single parameter whose optimal value is varying over time and must be continuously re-estimated. We test our method, adaptive conformal inference, on two real world datasets and find that its predictions are robust to visible and significant distribution shifts.",
+  "arxiv": "2106.00170"
+ },
+ "fisch2021": {
+  "id": "TITLE:Few-shot conformal prediction with auxiliary tasks",
+  "title": "Few-shot Conformal Prediction with Auxiliary Tasks",
+  "abstract": "We develop a novel approach to conformal prediction when the target task has limited data available for training. Conformal prediction identifies a small set of promising output candidates in place of a single prediction, with guarantees that the set contains the correct answer with high probability. When training data is limited, however, the predicted set can easily become unusably large. In this work, we obtain substantially tighter prediction sets while maintaining desirable marginal guarantees by casting conformal prediction as a meta-learning paradigm over exchangeable collections of auxiliary tasks. Our conformalization algorithm is simple, fast, and agnostic to the choice of underlying model, learning algorithm, or dataset. We demonstrate the effectiveness of this approach across a number of few-shot classification and regression tasks in natural language processing, computer vision, and computational chemistry for drug discovery.",
+  "arxiv": "2102.08898"
+ },
+ "meinshausen2006": {
+  "id": "TITLE:Quantile regression forests",
+  "title": null,
+  "abstract": null
+ },
+ "lakshminarayanan2017": {
+  "id": "TITLE:Simple and scalable predictive uncertainty estimation using deep ensembles",
+  "title": "Simple and Scalable Predictive Uncertainty Estimation using Deep Ensembles",
+  "abstract": "Deep neural networks (NNs) are powerful black box predictors that have recently achieved impressive performance on a wide spectrum of tasks. Quantifying predictive uncertainty in NNs is a challenging and yet unsolved problem. Bayesian NNs, which learn a distribution over weights, are currently the state-of-the-art for estimating predictive uncertainty; however these require significant modifications to the training procedure and are computationally expensive compared to standard (non-Bayesian) NNs. We propose an alternative to Bayesian NNs that is simple to implement, readily parallelizable, requires very little hyperparameter tuning, and yields high quality predictive uncertainty estimates. Through a series of experiments on classification and regression benchmarks, we demonstrate that our method produces well-calibrated uncertainty estimates which are as good or better than approximate Bayesian NNs. To assess robustness to dataset shift, we evaluate the predictive uncertainty on test examples from known and unknown distributions, and show that our method is able to express higher uncertainty on out-of-distribution examples. We demonstrate the scalability of our method by evaluating predictive uncertainty estimates on ImageNet.",
+  "arxiv": "1612.01474"
+ },
+ "gal2016": {
+  "id": "TITLE:Dropout as a {B}ayesian approximation: representing model uncertainty in deep learning",
+  "title": "Dropout as a Bayesian Approximation: Representing Model Uncertainty in Deep Learning",
+  "abstract": "Deep learning tools have gained tremendous attention in applied machine learning. However such tools for regression and classification do not capture model uncertainty. In comparison, Bayesian models offer a mathematically grounded framework to reason about model uncertainty, but usually come with a prohibitive computational cost. In this paper we develop a new theoretical framework casting dropout training in deep neural networks (NNs) as approximate Bayesian inference in deep Gaussian processes. A direct result of this theory gives us tools to model uncertainty with dropout NNs -- extracting information from existing models that has been thrown away so far. This mitigates the problem of representing uncertainty in deep learning without sacrificing either computational complexity or test accuracy. We perform an extensive study of the properties of dropout's uncertainty. Various network architectures and non-linearities are assessed on tasks of regression and classification, using MNIST as an example. We show a considerable improvement in predictive log-likelihood and RMSE compared to existing state-of-the-art methods, and finish by using dropout's uncertainty in deep reinforcement learning.",
+  "arxiv": "1506.02142"
+ },
+ "ke2017": {
+  "id": "TITLE:{LightGBM}: a highly efficient gradient boosting decision tree",
+  "title": null,
+  "abstract": null
+ },
+ "holm1979": {
+  "id": "TITLE:A simple sequentially rejective multiple test procedure",
+  "title": null,
+  "abstract": null
+ },
+ "kayaoglu2026": {
+  "id": "TITLE:Code and results for: Conformal coverage collapse under {NIR} instrument transfer and the price of restoring it with labelled target samples",
+  "title": null,
+  "abstract": null
+ },
+ "park2022": {
+  "id": "TITLE:{PAC} prediction sets for meta-learning",
+  "title": "PAC Prediction Sets for Meta-Learning",
+  "abstract": "Uncertainty quantification is a key component of machine learning models targeted at safety-critical systems such as in healthcare or autonomous vehicles. We study this problem in the context of meta learning, where the goal is to quickly adapt a predictor to new tasks. In particular, we propose a novel algorithm to construct \\emph{PAC prediction sets}, which capture uncertainty via sets of labels, that can be adapted to new tasks with only a few training examples. These prediction sets satisfy an extension of the typical PAC guarantee to the meta learning setting; in particular, the PAC guarantee holds with high probability over future tasks. We demonstrate the efficacy of our approach on four datasets across three application domains: mini-ImageNet and CIFAR10-C in the visual domain, FewRel in the language domain, and the CDC Heart Dataset in the medical domain. In particular, our prediction sets satisfy the PAC guarantee while having smaller size compared to other baselines that also satisfy this guarantee.",
+  "arxiv": "2207.02440"
+ }
+}

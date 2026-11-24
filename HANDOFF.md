@@ -1,10 +1,10 @@
 # HANDOFF — read this first
 
-Updated 2026-11-24 19:11:50 · git HEAD `6a8ea6d Reposition as risk-aware harvest-decision workflow; new title, authors, declarations; submission zip for Smart Agricultural Technology` · branch `claude/autonomous-research-project-qua0qp` (remote: origin)
+Updated 2026-11-24 19:25:10 · git HEAD `5a045c5 cycle2/plan_v2: pre-register frozen confirmation (SEEDS_CONFIRM, untouched NeoSpectra dataset), G4 reproduction, leakage audit` · branch `claude/autonomous-research-project-qua0qp` (remote: origin)
 
 ## Where we are
 * **Cycle 2 of 12**, phase `cycle2-setup`, status **RUNNING**, pivots used 0/3
-* **NEXT ACTION:** Cycle 2: (1) G4 — reproduce the published PLS baseline of Anderson et al. 2020 on their own split; (2) write experiments/plan_v2.yaml pre-registering the confirmation (SEEDS_CONFIRM, frozen LotCP config, untouched dataset) and commit it BEFORE loading that dataset; (3) leakage audit, number audit, fresh-clone test; (4) blind 3-reviewer panel.
+* **NEXT ACTION:** Cycle 2: confirmation run (experiments/confirm.py) in progress -> when done run the pre-registered analysis (P1-P4, Holm) ; then G6 LotCP-S w/o replay ablation, G9 fresh-clone test, add new prior art to manuscript, blind reviewer panel
 * Journal: Smart Agricultural Technology (Elsevier) -- G1 verification pending in cycle 2
 * Topic: Few-shot conformal calibration of NIR fruit-maturity predictions across harvest seasons (risk-aware mango harvest decisions)
 * Hypothesis: a few destructively measured reference fruit per lot, used through a lot-exchangeable few-shot conformal calibration (LotCP-S / LotCP-A) calibrated on past lots, give NIR dry-matter error bars that keep their coverage on later harvest seasons and support better harvest decisions than error bars calibrated within the training seasons.
@@ -29,8 +29,6 @@ Updated 2026-11-24 19:11:50 · git HEAD `6a8ea6d Reposition as risk-aware harves
 | G11 | fail |  | scripts/audit_numbers.py missing |
 
 ## Last decisions
-- 2026-11-10 [cycle 1, reconstructed] Topic: conformal error bars for NIR mango dry matter across harvest seasons; data Mendeley 10.17632/46htwnp833 v6.
-- 2026-11-10 [cycle 1, reconstructed] Protocol committed before training (commit a90a8bd).
 - 2026-11-10 [cycle 1, reconstructed] D1: LotCP-S scale added after PLS/2018 smoke test showed under-coverage.
 - 2026-11-10 [cycle 1, reconstructed] D3: CNN 20 epochs (compute), lot folds for one CNN seed only.
 - 2026-11-14 [cycle 1, reconstructed] D5: shrinkage removed after it failed on LUCAS soil data; all mango results recomputed.
@@ -39,10 +37,13 @@ Updated 2026-11-24 19:11:50 · git HEAD `6a8ea6d Reposition as risk-aware harves
 - 2026-11-24 [cycle 2] Adopt all cycle-1 work as cycle 1 of the master-prompt-v2 loop instead of restarting; reason: rule "do not restart finished work"; the topic satisfies Section 5 criteria and pivoting without evidence of failure would waste the budget.
 - 2026-11-24 [cycle 2] The later-season mango lots and the LUCAS/KSSL vis-NIR tasks were all seen during cycle-1 development, so none can serve as an untouched TEST SET (rule 5). Decision: the G5 confirmation will be run (i) on mango with SEEDS_CONFIRM for the reference draws/episodes (fresh randomness, same lots — reported as a re-draw confirmation, not a fresh-data test) and (ii) on a dataset NOT opened in cycle 1, pre-registered in experiments/plan_v2.yaml before any of its data are loaded.
 - 2026-11-24 [cycle 2] Persistence: repository root plays the role of "project/"; remote = origin branch claude/autonomous-research-project-qua0qp. Supervisor scripts are provided for the user's machine; not installed as a boot service in this ephemeral cloud container.
+- 2026-11-24 [cycle 2] plan_v2 committed (5a045c5) before loading the NeoSpectra confirmation data; confirmation endpoints P1–P4 fixed.
+- 2026-11-24 [cycle 2] C2 lot rule applied as pre-registered: only 16 projects have >= 20 samples (< 20 required) -> lot = 1-degree cell; 20 cells have >= 20 samples (structure-only count). Target: `eoc_tot_c` (KSSL estimated organic carbon) as "soil organic carbon", log(1 + %). Expect low power (~20 evaluable target lots at m <= 10, ~10 at m = 20); accepted as pre-registered.
 
 ## Last failures (journal/ENTRIES)
 * 2026-11-10_03_FAILURE.md
 * 2026-11-14_01_FAILURE.md
+* 2026-11-24_03_FAILURE.md
 
 ## Commands
 * Status: `python scripts/status.py`

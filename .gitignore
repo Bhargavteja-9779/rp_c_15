@@ -7,3 +7,4 @@ results/checkpoints/
 *.log.tmp
 results/eval_cache/
 quick_outputs/
+backups/

@@ -1,0 +1,144 @@
+ model          rule  m  n_lots  cost100  cost100_lo  cost100_hi  immature_accepted  mature_withheld  premature_lots  premature_lo  premature_hi  not_ready_lots  delayed_lots  delayed_lo  delayed_hi  ready_lots
+   pls         point  0     137     8.69        6.75       11.21               8.05             5.83            7.32          0.00         22.39            82.0         20.00        3.33       32.50        55.0
+   pls     scp_lower  0     137     3.69        2.11        5.16               1.02            24.09            3.66          0.00         13.79            82.0         69.09       52.94       84.62        55.0
+   pls      point_bc  3     137     6.00        4.95        7.33               4.94             5.52            9.04          4.12         17.50            83.0          8.43        3.00       13.90        54.0
+   pls      point_bc  5     137     5.95        4.97        7.24               4.62             5.19            7.68          2.45         17.91            82.0          8.27        1.25       15.48        55.0
+   pls      point_bc 10     137     6.47        5.33        7.54               4.40             5.08            7.56          2.05         19.17            82.0          7.36        2.27       15.31        55.0
+   pls      point_bc 20     129     8.09        7.03        9.31               4.54             4.91            7.89          1.79         21.33            76.0          6.04        0.11       16.54        53.0
+   pls      bc_lower  3     137     3.39        2.75        3.84               0.55            21.54            0.60          0.00          1.94            83.0         57.04       42.68       68.84        54.0
+   pls      bc_lower  5     137     3.62        2.84        4.12               0.49            21.48            0.06          0.00          0.33            82.0         56.55       37.32       68.91        55.0
+   pls      bc_lower 10     137     4.31        3.62        4.80               0.42            21.56            0.00          0.00          0.00            82.0         57.27       37.78       69.56        55.0
+   pls      bc_lower 20     129     5.87        5.16        6.38               0.46            21.70            0.00          0.00          0.00            76.0         55.85       29.99       67.24        53.0
+   pls lotcp_s_lower  0     137     3.88        2.33        4.98               0.74            28.27            2.44          0.00          9.23            82.0         78.18       65.11       92.31        55.0
+   pls lotcp_s_lower  3     137     3.41        2.65        3.86               0.58            21.42            0.72          0.00          2.50            83.0         58.52       38.72       70.67        54.0
+   pls lotcp_s_lower  5     137     3.57        2.85        4.02               0.52            20.70            0.18          0.00          0.72            82.0         58.55       38.39       70.28        55.0
+   pls lotcp_s_lower 10     137     4.22        3.49        4.65               0.47            20.23            0.12          0.00          0.41            82.0         56.36       35.56       67.81        55.0
+   pls lotcp_s_lower 20     129     5.74        5.00        6.14               0.52            19.91            0.07          0.00          0.33            76.0         54.34       23.75       65.72        53.0
+   pls lotcp_a_lower  0     137     4.47        2.83        5.28               0.30            37.51            0.00          0.00          0.00            82.0         90.91       73.33      100.00        55.0
+   pls lotcp_a_lower  3     137     4.01        2.82        4.55               0.22            30.01            0.12          0.00          0.43            83.0         75.74       55.96       88.18        54.0
+   pls lotcp_a_lower  5     137     3.99        2.99        4.47               0.19            27.45            0.00          0.00          0.00            82.0         72.73       56.36       84.61        55.0
+   pls lotcp_a_lower 10     137     4.56        3.65        5.01               0.19            25.82            0.00          0.00          0.00            82.0         70.45       52.75       82.05        55.0
+   pls lotcp_a_lower 20     129     5.99        5.14        6.43               0.23            24.78            0.00          0.00          0.00            76.0         66.32       49.83       77.08        53.0
+   pls  withhold_all  0     137     6.44        4.26        7.47                NaN              NaN             NaN           NaN           NaN             NaN           NaN         NaN         NaN         NaN
+plspub         point  0     137     8.23        6.35       11.73               7.66             5.14            7.32          0.00         20.00            82.0         18.18        0.00       29.23        55.0
+plspub     scp_lower  0     137     3.27        2.47        4.02               1.03            20.21            0.00          0.00          0.00            82.0         60.00       30.77       72.73        55.0
+plspub      point_bc  3     137     5.72        4.78        6.91               4.76             4.59            7.23          3.24         13.40            83.0          8.89        1.82       18.43        54.0
+plspub      point_bc  5     137     5.79        4.83        7.28               4.56             4.36            5.61          1.40         13.64            82.0          6.36        0.00       16.51        55.0
+plspub      point_bc 10     137     6.36        5.45        7.72               4.40             4.14            5.85          1.09         15.31            82.0          4.45        0.87       13.33        55.0
+plspub      point_bc 20     129     7.82        6.84        9.29               4.36             4.15            6.84          1.57         18.81            76.0          5.75        0.56       10.46        53.0
+plspub      bc_lower  3     137     3.07        2.44        3.49               0.56            18.54            0.36          0.00          1.10            83.0         49.07       29.23       60.90        54.0
+plspub      bc_lower  5     137     3.28        2.63        3.67               0.48            18.43            0.00          0.00          0.00            82.0         49.91       27.83       63.25        55.0
+plspub      bc_lower 10     137     3.99        3.38        4.40               0.45            18.42            0.00          0.00          0.00            82.0         51.27       27.68       65.88        55.0
+plspub      bc_lower 20     129     5.51        4.87        5.88               0.43            18.66            0.07          0.00          0.31            76.0         48.21        8.89       60.50        53.0
+plspub lotcp_s_lower  0     137     3.55        2.21        4.20               0.61            26.45            0.00          0.00          0.00            82.0         72.73       31.24       86.84        55.0
+plspub lotcp_s_lower  3     137     2.95        2.31        3.32               0.62            16.92            0.36          0.00          1.12            83.0         46.02       28.67       57.69        54.0
+plspub lotcp_s_lower  5     137     3.14        2.52        3.53               0.56            16.44            0.00          0.00          0.00            82.0         45.55       27.13       58.95        55.0
+plspub lotcp_s_lower 10     137     3.79        3.17        4.15               0.52            15.99            0.00          0.00          0.00            82.0         45.00       27.69       57.95        55.0
+plspub lotcp_s_lower 20     129     5.28        4.70        5.63               0.50            16.06            0.07          0.00          0.30            76.0         43.87        8.12       55.38        53.0
+plspub lotcp_a_lower  0     137     4.18        2.29        5.24               0.20            35.87            0.00          0.00          0.00            82.0         83.64       46.15       98.41        55.0
+plspub lotcp_a_lower  3     137     3.18        2.46        3.61               0.26            22.22            0.06          0.00          0.30            83.0         58.80       39.09       69.45        54.0
+plspub lotcp_a_lower  5     137     3.34        2.63        3.75               0.26            20.95            0.00          0.00          0.00            82.0         57.73       38.45       69.80        55.0
+plspub lotcp_a_lower 10     137     3.97        3.35        4.35               0.25            19.95            0.00          0.00          0.00            82.0         55.91       42.08       69.33        55.0
+plspub lotcp_a_lower 20     129     5.43        4.80        5.80               0.25            19.67            0.00          0.00          0.00            76.0         53.58       23.99       65.36        53.0
+plspub  withhold_all  0     137     6.44        4.15        7.49                NaN              NaN             NaN           NaN           NaN             NaN           NaN         NaN         NaN         NaN
+ model          rule  m   comparator  diff100    lo   hi  seasons_cheaper  n_seasons
+   pls         point  0 scp_lower@m0     5.00  2.96 8.24                0          5
+   pls      point_bc  3 scp_lower@m0     2.31  0.83 4.48                0          5
+   pls      point_bc  5 scp_lower@m0     2.25  0.90 4.16                0          5
+   pls      point_bc 10 scp_lower@m0     2.77  1.39 4.59                0          5
+   pls      point_bc 20 scp_lower@m0     4.28  2.86 6.36                0          5
+   pls      bc_lower  3 scp_lower@m0    -0.30 -1.52 0.76                2          5
+   pls      bc_lower  5 scp_lower@m0    -0.07 -1.14 0.84                1          5
+   pls      bc_lower 10 scp_lower@m0     0.62 -0.39 1.57                1          5
+   pls      bc_lower 20 scp_lower@m0     2.06  0.89 3.03                0          5
+   pls lotcp_s_lower  0 scp_lower@m0     0.19 -0.22 0.46                1          5
+   pls lotcp_s_lower  3 scp_lower@m0    -0.28 -1.50 0.83                2          5
+   pls lotcp_s_lower  5 scp_lower@m0    -0.12 -1.36 0.82                1          5
+   pls lotcp_s_lower 10 scp_lower@m0     0.53 -0.67 1.49                1          5
+   pls lotcp_s_lower 20 scp_lower@m0     1.93  0.51 2.94                0          5
+   pls lotcp_a_lower  0 scp_lower@m0     0.78 -0.17 1.40                1          5
+   pls lotcp_a_lower  3 scp_lower@m0     0.32 -1.08 1.10                1          5
+   pls lotcp_a_lower  5 scp_lower@m0     0.30 -0.87 1.00                1          5
+   pls lotcp_a_lower 10 scp_lower@m0     0.86 -0.42 1.63                1          5
+   pls lotcp_a_lower 20 scp_lower@m0     2.18  0.94 3.05                0          5
+   pls  withhold_all  0 scp_lower@m0     2.75  1.48 3.63                0          5
+plspub         point  0 scp_lower@m0     4.96  3.18 8.96                0          5
+plspub      point_bc  3 scp_lower@m0     2.45  1.60 3.80                0          5
+plspub      point_bc  5 scp_lower@m0     2.52  1.63 4.15                0          5
+plspub      point_bc 10 scp_lower@m0     3.08  2.20 4.62                0          5
+plspub      point_bc 20 scp_lower@m0     4.44  3.52 6.19                0          5
+plspub      bc_lower  3 scp_lower@m0    -0.20 -0.69 0.21                4          5
+plspub      bc_lower  5 scp_lower@m0     0.01 -0.49 0.36                1          5
+plspub      bc_lower 10 scp_lower@m0     0.72  0.19 1.12                0          5
+plspub      bc_lower 20 scp_lower@m0     2.13  1.55 2.53                0          5
+plspub lotcp_s_lower  0 scp_lower@m0     0.27 -0.42 0.85                3          5
+plspub lotcp_s_lower  3 scp_lower@m0    -0.33 -0.81 0.10                5          5
+plspub lotcp_s_lower  5 scp_lower@m0    -0.14 -0.67 0.27                2          5
+plspub lotcp_s_lower 10 scp_lower@m0     0.52 -0.03 0.95                0          5
+plspub lotcp_s_lower 20 scp_lower@m0     1.90  1.27 2.31                0          5
+plspub lotcp_a_lower  0 scp_lower@m0     0.91 -0.51 2.03                1          5
+plspub lotcp_a_lower  3 scp_lower@m0    -0.09 -0.59 0.26                2          5
+plspub lotcp_a_lower  5 scp_lower@m0     0.07 -0.45 0.42                2          5
+plspub lotcp_a_lower 10 scp_lower@m0     0.70  0.19 1.08                0          5
+plspub lotcp_a_lower 20 scp_lower@m0     2.05  1.46 2.44                0          5
+plspub  withhold_all  0 scp_lower@m0     3.17  1.60 4.08                0          5
+ model          rule  m  alpha_star  cost_alpha_star  cost_loso  cost_hindsight
+   pls      bc_lower  5        0.05             1.50       1.51            1.40
+   pls      bc_lower  5        0.10             2.63       2.58            2.44
+   pls      bc_lower  5        0.20             4.46       4.45            4.31
+   pls      bc_lower  5        0.33             6.57       6.57            6.53
+   pls      bc_lower 10        0.05             1.47       1.43            1.33
+   pls      bc_lower 10        0.10             2.59       2.51            2.37
+   pls      bc_lower 10        0.20             4.39       4.37            4.21
+   pls      bc_lower 10        0.33             6.49       6.49            6.43
+   pls lotcp_s_lower  0        0.05             2.00       2.08            1.66
+   pls lotcp_s_lower  0        0.10             3.37       3.52            3.06
+   pls lotcp_s_lower  0        0.20             5.72       5.72            5.66
+   pls lotcp_s_lower  0        0.33             8.91       8.91            8.84
+   pls lotcp_s_lower  5        0.05             1.47       1.53            1.36
+   pls lotcp_s_lower  5        0.10             2.55       2.75            2.41
+   pls lotcp_s_lower  5        0.20             4.34       4.66            4.24
+   pls lotcp_s_lower  5        0.33             6.54       6.54            6.48
+   pls lotcp_s_lower 10        0.05             1.41       1.46            1.31
+   pls lotcp_s_lower 10        0.10             2.47       2.70            2.30
+   pls lotcp_s_lower 10        0.20             4.21       4.54            4.11
+   pls lotcp_s_lower 10        0.33             6.38       6.55            6.32
+   pls     scp_lower  0        0.05             1.94       2.08            1.75
+   pls     scp_lower  0        0.10             3.18       3.18            3.14
+   pls     scp_lower  0        0.20             5.65       5.65            5.57
+   pls     scp_lower  0        0.33             8.94       8.94            8.72
+plspub      bc_lower  5        0.05             1.35       1.37            1.23
+plspub      bc_lower  5        0.10             2.30       2.35            2.17
+plspub      bc_lower  5        0.20             3.84       4.09            3.76
+plspub      bc_lower  5        0.33             5.69       5.69            5.69
+plspub      bc_lower 10        0.05             1.33       1.35            1.19
+plspub      bc_lower 10        0.10             2.30       2.29            2.12
+plspub      bc_lower 10        0.20             3.79       3.90            3.67
+plspub      bc_lower 10        0.33             5.52       5.52            5.52
+plspub lotcp_s_lower  0        0.05             1.67       1.91            1.49
+plspub lotcp_s_lower  0        0.10             3.06       3.65            2.75
+plspub lotcp_s_lower  0        0.20             5.47       5.47            4.88
+plspub lotcp_s_lower  0        0.33             8.71       9.59            7.99
+plspub lotcp_s_lower  5        0.05             1.25       1.31            1.18
+plspub lotcp_s_lower  5        0.10             2.16       2.16            2.08
+plspub lotcp_s_lower  5        0.20             3.73       3.73            3.70
+plspub lotcp_s_lower  5        0.33             5.76       5.76            5.67
+plspub lotcp_s_lower 10        0.05             1.21       1.28            1.14
+plspub lotcp_s_lower 10        0.10             2.09       2.09            2.00
+plspub lotcp_s_lower 10        0.20             3.59       3.59            3.57
+plspub lotcp_s_lower 10        0.33             5.52       5.52            5.49
+plspub     scp_lower  0        0.05             1.67       1.72            1.56
+plspub     scp_lower  0        0.10             3.00       3.11            2.81
+plspub     scp_lower  0        0.20             5.36       5.61            4.97
+plspub     scp_lower  0        0.33             8.42       8.76            7.71
+ method  n_source  mean_rel_error  mean_abs_rel_error
+lotcp_a         2          -0.186               0.186
+lotcp_a         3           0.091               0.091
+lotcp_a         4          -0.053               0.076
+lotcp_a         5           0.068               0.068
+lotcp_a         6           0.047               0.047
+lotcp_s         2          -0.170               0.170
+lotcp_s         3           0.078               0.078
+lotcp_s         4          -0.060               0.070
+lotcp_s         5           0.057               0.057
+lotcp_s         6           0.043               0.043

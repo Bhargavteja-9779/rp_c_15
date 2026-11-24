@@ -5,7 +5,9 @@ headline comparison is reported (i) pooled over lots, (ii) as the average of sea
 source seasons, over-covered) and (iv) excluding 2018 (used to design deviation D1), with
   * a two-stage season-cluster bootstrap CI (seasons resampled, then lots within each resampled season),
   * an exact sign test over the five season-mean differences (smallest attainable two-sided p = 0.0625),
-  * a linear mixed model diff ~ 1 + (1 | season) on lot-level differences (REML; Wald CI of the intercept).
+  * a linear mixed model diff ~ 1 + (1 | season) on lot-level differences (REML; Wald CI of the intercept). With 4-5
+    seasons the season variance is often estimated at the boundary; the mixed-model p is kept in the CSV but not used
+    for claims (decision rule of plan_v4 E1 uses the cluster bootstrap).
 Inputs: results/raw_results.csv (SNV PLS) and results/published_pls/published_pls.csv, α = 0.10, seed 0.
 """
 import json
@@ -25,7 +27,8 @@ METHODS = ["scp_sample", "scp_season", "biascorr_naive", "target_only_centred", 
 COMPARISONS = [("lotcp_s", "scp_sample", "coverage", True), ("lotcp_s", "scp_season", "coverage", True),
                ("lotcp_s", "biascorr_naive", "iscore", False), ("lotcp_s", "biascorr_naive", "coverage", False),
                ("lotcp_s", "target_only_centred", "iscore", False), ("lotcp_s", "biascorr_rep", "iscore", False),
-               ("lotcp_s", "biascorr_rep", "coverage", False),
+               ("lotcp_s", "biascorr_rep", "coverage", False), ("lotcp_s", "biascorr_full", "iscore", False),
+               ("lotcp_s", "biascorr_full", "coverage", False),
                ("lotcp_a", "biascorr_naive", "meets", False), ("lotcp_a", "target_only_centred", "meets", False),
                ("lotcp_a", "lotcp_s", "meets", False)]
 
@@ -100,7 +103,7 @@ def tests(d, seed=0):
             for m in (3, 5, 10, 20):
                 a = dm[(dm.method == ref) & (dm.m == m)][["target", "lot", out]]
                 b = dm[(dm.method == oth) & (dm.m == (0 if at0 else m))][["target", "lot", out]]
-                j = a.merge(b, on=["target", "lot"], suffixes=("_r", "_o")).dropna()
+                j = a.merge(b, on=["target", "lot"], suffixes=("_r", "_o")).dropna()   # drops infinite (uninformative) intervals
                 if len(j) < 10:
                     continue
                 sign = -1.0 if out == "iscore" else 1.0          # positive diff = reference better

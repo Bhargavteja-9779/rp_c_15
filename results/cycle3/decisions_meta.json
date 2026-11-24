@@ -1,0 +1,14 @@
+{
+ "best_m0": {
+  "pls": "scp_lower@m0",
+  "plspub": "scp_lower@m0"
+ },
+ "operating_point": {
+  "spec": 15.0,
+  "lot_share": 0.8,
+  "alpha": 0.1,
+  "c_D": 0.1111111111111111,
+  "lot_size": 1000
+ },
+ "B": 2000
+}

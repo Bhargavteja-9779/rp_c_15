@@ -1,0 +1,31 @@
+# plan_v4 — cycle 3 — 2026-11-24. Written BEFORE running any of E1-E7. Reason: review round 1 (review/round_1.md).
+# All analyses below are on lots already seen in cycles 1-2 (exploratory) except where stated. Seeds: SEEDS_EXPLORE
+# for development; final numbers from the stored eval seed (config) for comparability with the main tables.
+version: plan_v4
+E1_season_level_inference:
+  data: results/raw_results.csv (pls forward α=0.10) and results/published_pls
+  report: for every headline method and m in {5,10,20}: pooled, season-average, 2017-excluded, 2018-excluded coverage and meets-share
+  tests: (a) season-cluster bootstrap (resample seasons, then lots within season, B=2000) 95 % CI of the paired difference;
+         (b) exact one-sided sign test over 5 seasons; (c) linear mixed model diff ~ 1 + (1|season) on lot means
+  endpoints: same four primary comparisons as PROTOCOL.md; no new endpoint is added
+  decision_rule: a claim is kept in the abstract only if (a) excludes 0; otherwise it is stated as a lot-level trend
+E2_matched_baseline:
+  method: biascorr_rep = LotCP(scale='rep', episodic=False): mean bias from m references, scale from replicate-scan variance, source quantile without replay
+  compare: LotCP-S vs biascorr_rep, interval score and coverage, m in {3,5,10,20}, E1 inference
+  interpretation: if no difference, the replay step's value is in validity (coverage) not width; stated as such
+E3_assurance_frontier:
+  compute: meets-share vs mean width for LotCP-S at α in {0.05,0.10,0.20} and LotCP-A (δ=0.10, 0.20), per season
+  question: does LotCP-A reach its lot-level target at lower width than LotCP-S at the α that would reach it? reported descriptively
+E4_decisions_with_uncertainty:
+  rerun: experiments/harvest.py with the published PLS predictor as well as SNV PLS
+  report: season-cluster bootstrap CIs of premature-harvest and withheld rates and of costs; operating point α=0.10 pre-stated;
+          α chosen by leave-one-season-out regret; savings relative to the cheapest m=0 rule; planner error by number of source seasons
+E5_pls_leverage_interval:
+  method: sample-specific PLS interval (leverage-based, Faber/Bouckaert type) calibrated on source, with and without m-shot bias correction
+  budget: 1 h; if not implementable cleanly, justified omission recorded in decisions.md
+E6_second_commodity_search:
+  search: public fruit/agri NIR data sets with >= 3 seasons and lot/orchard identifiers (Mendeley, Zenodo, figshare, Dryad)
+  budget: 1 h search; if a set is found, run LotCP-S/LotCP-A/baselines exactly as frozen (confirmatory, SEEDS_CONFIRM)
+E7_neospectra_overlap:
+  compute: number of NeoSpectra samples whose KSSL ids/coordinates match the KSSL samples used in development; rerun C2 excluding them
+compute_estimate_h: 4

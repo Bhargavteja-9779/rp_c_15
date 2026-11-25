@@ -1,0 +1,11 @@
+# plan_v3 — cycle 2 — 2026-11-24. Reason: G4 showed our SNV + SG PLS (RMSEP 1.39) is weaker than the published recipe
+# (mean-centred SG 2nd derivative, no SNV; RMSEP 1.045 reproduced). Question: do the interval conclusions hold with the
+# standard published PLS as point predictor? Frozen interval methods as in plan_v2; no method change.
+version: plan_v3
+E7_published_pls_predictor:
+  predictor: "plspub: SG 2nd derivative (17 pt, 2nd order), 684-990 nm, mean-centred PLS, LVs 6-30 by season-grouped CV in the source"
+  protocol: forward chaining, target seasons 2017-2021, all mango lots (exploratory: these lots were seen in cycle 1)
+  methods: [scp_sample, scp_season, biascorr_naive, target_only_centred, lotcp_s, lotcp_a]
+  draws: 20 per lot and m, eval seed = config default (SEEDS_EXPLORE regime; not a confirmation)
+  report: coverage, share of lots >= 0.90, width, interval score; no new hypothesis test claimed as confirmatory
+compute_estimate_h: 0.5

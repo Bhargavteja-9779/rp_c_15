@@ -153,12 +153,24 @@ class CNNModel:
         return int(sum(p.numel() for p in self.net.parameters()))
 
 
+class PLSPublishedModel(PLSModel):
+    """Published recipe (Anderson et al. 2020): SG 2nd derivative (17 pt, 2nd order) without SNV, mean-centred PLS."""
+
+    def _prep(self, X):
+        from src.preprocessing.spectral import savgol
+
+        return savgol(X, 17, 2, 2)
+
+
 def make_model(name: str, cfg: dict, seed: int = 0, **override):
     mc = dict(cfg["models"].get(name, {}))
     mc.update(override)
     if name == "pls":
         mc.pop("n_components_grid", None)
         return PLSModel(**mc)
+    if name == "plspub":
+        mc = dict(cfg["models"]["pls"]); mc.pop("n_components_grid", None); mc.update(override)
+        return PLSPublishedModel(**mc)
     if name == "cnn":
         return CNNModel(seed=seed, **mc)
     if name == "gbm":

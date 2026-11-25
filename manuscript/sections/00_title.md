@@ -18,6 +18,6 @@ A handheld near-infrared (NIR) prediction of mango dry matter content (DMC) supp
 
 - Standard NIR error bars under-covered later-season mango lots in most seasons.
 - Five to ten reference fruit per lot brought coverage close to, not always at, 90 %.
-- Post hoc: replaying the correction on past lots protected coverage at small *m*.
+- Post hoc: replaying the correction on past lots protected coverage at small m.
 - Calibrated bounds, not reference fruit, drove the assumed-cost savings.
 - Post hoc lot-level assurance was met pooled, but in only 2 of 5 seasons.

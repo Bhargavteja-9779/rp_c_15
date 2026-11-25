@@ -1,10 +1,10 @@
 # HANDOFF — read this first
 
-Updated 2026-11-25 00:04:58 · git HEAD `cc685ac cycle3: manuscript restructured for review round 1 (season-level evidence, matched baselines, exploratory decisions); supplement notes S5-S8` · branch `claude/autonomous-research-project-qua0qp` (remote: origin)
+Updated 2026-11-25 00:13:24 · git HEAD `1cd0ac0 review round 2: three reports, triage, fixes (season-mean t-intervals, GHCP/SymmPI and verified fruit-NIR refs, exploratory labels, README); E5 leverage PLS baseline` · branch `claude/autonomous-research-project-qua0qp` (remote: origin)
 
 ## Where we are
 * **Cycle 2 of 12**, phase `cycle2-setup`, status **RUNNING**, pivots used 0/3
-* **NEXT ACTION:** Cycle 3: plan_v4 E1-E7 done; manuscript rewritten (7.9k words, season-level evidence, matched baseline, decisions with CIs, exploratory labels); README/tool caveats updated. NEXT: review round 2 with three fresh reviewers on manuscript/build/manuscript.md + supplementary/Supplementary_Notes.md; triage into review/round_2.md; G10 needs two clean rounds.
+* **NEXT ACTION:** Cycle 3 complete: review round 2 (R1 6, R2 5 / novelty 11, R3 6; all major) triaged and fixed; submission zip rebuilt. G3 (novelty, needs >=20/25) and G10 (two clean review rounds) fail. NEXT (needs author decision): (a) pivot/new data for novelty, (b) review round 3 on the fixed draft, or (c) honest exit and submit as an audit-focused paper; author must fill affiliations/e-mails and confirm approval statement.
 * Journal: Smart Agricultural Technology (Elsevier) -- G1 verification pending in cycle 2
 * Topic: Few-shot conformal calibration of NIR fruit-maturity predictions across harvest seasons (risk-aware mango harvest decisions)
 * Hypothesis: a few destructively measured reference fruit per lot, used through a lot-exchangeable few-shot conformal calibration (LotCP-S / LotCP-A) calibrated on past lots, give NIR dry-matter error bars that keep their coverage on later harvest seasons and support better harvest decisions than error bars calibrated within the training seasons.
@@ -18,14 +18,14 @@ Updated 2026-11-25 00:04:58 · git HEAD `cc685ac cycle3: manuscript restructured
 |---|---|---|---|
 | G1 | pass-with-stated-failure | journal_selection/verification_cycle2.md | per-article dates unverifiable (403/Crossref empty); publisher average 69-72 d |
 | G2 | pass | state/novelty_ledger.json, literature/claims_table.md | 80 logged queries; 39 papers opened (abstract level); close new works now cited and differentiated in Section 2 |
-| G3 | fail | state/novelty_ledger.json scores | 15/25 (blind; author 17); breadth 2 < 3. Cycle 3 E6: no second public fruit data set with season/lot structure exists (journal 2026-11-24_15); claims restricted to mango. Data-limited, not fixable by more compute. |
+| G3 | fail | state/novelty_ledger.json scores | round 2 blind 11/25 (diff 2, mech 3, evid 2, breadth 2, signif 2); GHCP (arXiv 2608.15500) narrows differentiation; no second fruit data set. Needs pivot or new data. |
 | G4 | pass-partial | results/reproduction/reproduction.csv, literature/reported_results.md | published PLS RMSEP 1.01 reproduced (1.045); published CNN 0.77 not reproduced (ours 1.07, no augmentation/tuning); our SNV-PLS pipeline 0.35 worse than the published recipe |
 | G5 | partial | results/confirmation/confirmation_tests.csv, results/cycle3/assurance_frontier.csv | untouched data: LotCP-A assurance confirmed (P3); LotCP-S efficiency NOT confirmed (P1 Holm p=0.066, P2 0.29); mango re-draw all 4 confirmed but data seen. Cycle 3: mango arm relabelled 're-draw check' (not independent); P4 uninformative; P3 noted as width-unconstrained (E3 shows LotCP-A ~ LotCP-S at alpha 0.05). |
 | G6 | pass-with-note | tables/table5_ablation.csv, results/ablation_cycle2/replay_ablation.csv | bias correction, scale, replay (validity at small m), season residuals (m=0) all contribute; shrinkage removed (did nothing/harmful); lot-balanced weighting ~no empirical effect, kept for the guarantee |
 | G7 | pass | tables/table13_soil.csv, tables/table7_generalisation.csv | mango + 2 soil libraries, 3 predictors, 2 protocols |
 | G8 | pass | results/leakage_audit.json, scripts/leakage_audit.py | no shared samples/lots, no identical spectra, no split groups, row-wise preprocessing |
 | G9 | pass | journal/ENTRIES/2026-11-24_08_RESULT.md | fresh clone: download+checksum, 17 tests, quick mode, 25 tables regenerated identical (after fixing a 403 in the downloader) |
-| G10 | fail | review/round_1.md (R1 4/10, R2 6/10, R3 5/10, all major) | round 1 triaged; plan_v4 E1-E7 run; manuscript rewritten (7.9k words). Round 2 pending with fresh reviewers. |
+| G10 | fail | review/round_2.md | round 2: R1 6/10, R2 5/10, R3 6/10, all major; fixes applied 2026-11-25 |
 | G11 | pass | scripts/audit_numbers.py, scripts/audit_allowlist.txt | 0 untraced numbers in the rewritten manuscript (2026-11-25) |
 
 ## Last decisions

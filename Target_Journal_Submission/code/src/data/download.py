@@ -22,7 +22,10 @@ def ensure_raw(cfg: dict) -> Path:
     if not path.exists():
         path.parent.mkdir(parents=True, exist_ok=True)
         log.info("downloading %s", cfg["data"]["url"])
-        urllib.request.urlretrieve(cfg["data"]["url"], path)
+        req = urllib.request.Request(cfg["data"]["url"], headers={"User-Agent": "lotcp-reproduction/1.0 (research code; python urllib)"})
+        with urllib.request.urlopen(req, timeout=600) as r, open(path, "wb") as fh:
+            while chunk := r.read(1 << 20):
+                fh.write(chunk)
     digest = sha256_of(path)
     if digest != cfg["data"]["sha256"]:
         raise RuntimeError(

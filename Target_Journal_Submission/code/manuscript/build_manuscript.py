@@ -51,6 +51,48 @@ class R:
         p2 = self.t["table2_point_models_by_seed"]
         self.V["cnn_params"] = f"{int(p2[p2.model == 'cnn'].n_params.iloc[0]):,}"
 
+        c3 = ROOT / "results" / "cycle3"
+        self.c3 = {n: pd.read_csv(c3 / f"{n}.csv") for n in ("season_summary", "season_tests", "decisions_ci", "decisions_vs_best_m0",
+                                                           "alpha_loso", "planner_by_sources", "assurance_frontier")
+                   if (c3 / f"{n}.csv").exists()}
+        rr = pd.read_csv(ROOT / "results" / "raw_results.csv", usecols=["model", "protocol", "alpha", "seed", "method", "m", "target", "lot"])
+        rr = rr[(rr.model == "pls") & (rr.protocol == "forward") & (rr.alpha == 0.1) & (rr.seed == 0) & (rr.method == "scp_sample")]
+        self.lots_by_target = rr.groupby("target").lot.nunique().to_dict()
+        self.c3j = {n: json.load(open(c3 / f"{n}.json")) for n in ("neospectra_overlap", "decisions_meta", "season_tests_meta") if (c3 / f"{n}.json").exists()}
+
+    # ---- cycle 3 (review round 1): season-level summaries, tests, decisions with CIs -------------------------
+    def ss(self, method, m, field="coverage_pooled", model="pls"):
+        t = self.c3["season_summary"]
+        return float(t[(t.model == model) & (t.method == method) & (t.m == m)][field].iloc[0])
+
+    def st(self, ref, comp, outcome, m, field="season_avg_diff", model="pls", subset="all"):
+        t = self.c3["season_tests"]
+        return t[(t.model == model) & (t.reference == ref) & (t.comparator == comp) & (t.outcome == outcome) & (t.m == m) & (t.subset == subset)][field].iloc[0]
+
+    def stci(self, ref, comp, outcome, m, model="pls", subset="all", digits=3):
+        lo, hi = (float(self.st(ref, comp, outcome, m, f, model, subset)) for f in ("boot_lo", "boot_hi"))
+        return f"{lo:+.{digits}f} to {hi:+.{digits}f}"
+
+    def dc(self, rule, m, field="cost100", model="pls"):
+        t = self.c3["decisions_ci"]
+        return float(t[(t.model == model) & (t.rule == rule) & (t.m == m)][field].iloc[0])
+
+    def dd(self, rule, m, field="diff100", model="pls"):
+        t = self.c3["decisions_vs_best_m0"]
+        return t[(t.model == model) & (t.rule == rule) & (t.m == m)][field].iloc[0]
+
+    def al(self, rule, m, a_star, field, model="pls"):
+        t = self.c3["alpha_loso"]
+        return float(t[(t.model == model) & (t.rule == rule) & (t.m == m) & np.isclose(t.alpha_star, a_star)][field].iloc[0])
+
+    def pbs(self, n_source, method="lotcp_s", field="mean_rel_error"):
+        t = self.c3["planner_by_sources"]
+        return float(t[(t.method == method) & (t.n_source == n_source)][field].iloc[0])
+
+    def af(self, method, m, field="share_ge_090"):
+        t = self.c3["assurance_frontier"]
+        return float(t[(t.method == method) & (t.m == m)][field].iloc[0])
+
     # main table (PLS, forward, alpha = 0.1)
     def m(self, method, m, field="coverage"):
         return self.metrics[f"{method}|m{m}"][field]
@@ -206,6 +248,43 @@ class R:
 
     def decp(self, rule, m, thr, field):
         return f"{100 * self.dec(rule, m, thr, field):.0f}"
+
+    # ---- cycle-2 confirmation, reproduction, replay ablation, published-PLS predictor ------------
+    def conf(self, dataset_prefix, endpoint, field):
+        t = pd.read_csv(ROOT / "results" / "confirmation" / "confirmation_tests.csv")
+        g = t[t.dataset.str.startswith(dataset_prefix) & (t.endpoint == endpoint)]
+        return g[field].iloc[0]
+
+    def confp(self, dataset_prefix, endpoint):
+        v = float(self.conf(dataset_prefix, endpoint, "p_holm"))
+        return "< 0.001" if v < 0.001 else f"= {v:.3f}"
+
+    def csum(self, dataset_prefix, method, m, field):
+        t = pd.read_csv(ROOT / "results" / "confirmation" / "confirmation_summary.csv")
+        g = t[t.dataset.str.startswith(dataset_prefix) & (t.method == method) & (t.m == m)]
+        return float(g[field].iloc[0])
+
+    def repro(self, model, test, field="rmsep", agg="mean"):
+        t = pd.read_csv(ROOT / "results" / "reproduction" / "reproduction.csv")
+        g = t[(t.model == model) & (t.test == test)][field]
+        return float(getattr(g, agg)())
+
+    def repro_n_train(self):
+        return int(json.load(open(ROOT / "results" / "reproduction" / "reproduction_meta.json"))["n_train"])
+
+    def season_cov_t(self, method, m, target, field="coverage"):
+        if not hasattr(self, "_raw"):
+            self.season_min(method, m)
+        g = self._raw[(self._raw.method == method) & (self._raw.m == m) & (self._raw.target == target)]
+        return float(g[field].mean())
+
+    def replay(self, method, m, field):
+        t = pd.read_csv(ROOT / "results" / "ablation_cycle2" / "replay_ablation.csv").replace(np.inf, np.nan)
+        return float(t[(t.method == method) & (t.m == m)][field].mean())
+
+    def pubpls(self, method, m, field):
+        t = pd.read_csv(ROOT / "results" / "published_pls" / "published_pls.csv").replace(np.inf, np.nan)
+        return float(t[(t.method == method) & (t.m == m)][field].mean())
 
     # ---- harvest decisions, economics, planner, prototype --------------------------------------
     def hv(self, rule, m, alpha=None, field="immature_among_accepted", t=15.0, model="pls"):
@@ -485,6 +564,88 @@ def tables(r: R) -> dict:
                              "realised widths are those obtained on the lots of the target season. Widths in % DMC; reference cost in units of fruit value (assumed 1.5 per test).",
                              {"LotCP-S planned width": "{:.2f}", "LotCP-S realised width": "{:.2f}", "LotCP-A planned width": "{:.2f}", "LotCP-A realised width": "{:.2f}",
                               "Lots ≥ 90 % covered, LotCP-S (%)": "{:.0f}", "Lots ≥ 90 % covered, LotCP-A (%)": "{:.0f}", "Reference cost per 100 fruit (1000-fruit lot)": "{:.2f}"})
+    ct = ROOT / "results" / "confirmation" / "confirmation_tests.csv"
+    if ct.exists():
+        c = pd.read_csv(ct)
+        rows = []
+        for _, x in c.iterrows():
+            rows.append({"Data set": "Mango (re-draw; lots seen during development)" if x.dataset.startswith("mango") else "NeoSpectra soil (untouched)",
+                         "Endpoint": x.endpoint, "Comparison": x.comparison.replace("biascorr_naive", "bias corr. + source CP").replace("target_only_centred", "target-only CP, centred"),
+                         "Outcome": "interval score" if x.metric == "interval score" else "share of lots ≥ 0.90", "m": int(x.m), "Lots": int(x.n_lots),
+                         "Mean difference": f"{x.mean_diff:+.3f}", "95% CI": f"{x.ci_lo:+.3f} to {x.ci_hi:+.3f}",
+                         "Holm p": "<0.001" if x.p_holm < 0.001 else f"{x.p_holm:.3f}", "r": f"{x.rank_biserial:+.2f}",
+                         "Criterion met": ("yes (re-draw check)" if x.confirmed else "no (re-draw check)") if x.dataset.startswith("mango")
+                         else ("uninformative" if x.endpoint == "P4" else ("yes" if x.confirmed else "no"))})
+        T["confirm"] = _pipe(pd.DataFrame(rows), "Table 109. Pre-specified confirmation of the frozen method (internally committed plan, available on request) on five seeds fixed in advance (100–104), "
+                             "20 reference draws per seed, lot and m. Unit of analysis: target lot; Wilcoxon signed-rank test, Holm correction over the four endpoints per data set; "
+                             "95 % CI: bootstrap over lots; r: matched-pairs rank-biserial correlation. An endpoint is confirmed when Holm p < 0.05, the CI excludes 0 and |r| ≥ 0.2 "
+                             "in the expected direction. Negative interval-score differences and positive share differences favour the proposed method. The mango rows are fresh "
+                             "reference draws on lots examined during development and are not an independent confirmation. P3 and P4 compare coverage shares without a width "
+                             "constraint (Section 4.4); P4 had too few lots and is counted as uninformative.")
+    # ---- cycle 3 main tables ----------------------------------------------------------------------------
+    if "season_summary" in r.c3:
+        lab = dict(LABEL, biascorr_full="Bias corr. + lot scale, no replay", biascorr_rep="Bias corr. + replicate scale, no replay")
+        rows = []
+        for model, mlab in (("pls", "SNV PLS"), ("plspub", "Published PLS")):
+            for meth, ms in (("scp_sample", (0,)), ("scp_season", (0,)), ("biascorr_naive", (5, 10)), ("biascorr_full", (5, 10)),
+                             ("target_only_centred", (10, 20)), ("lotcp_s", (5, 10)), ("lotcp_a", (5, 10))):
+                for m in ms:
+                    rows.append({"Predictor": mlab, "Method": lab[meth], "m": m,
+                                 "Coverage, pooled": r.ss(meth, m, "coverage_pooled", model), "Season mean": r.ss(meth, m, "coverage_season_avg", model),
+                                 "Excl. 2017": r.ss(meth, m, "coverage_ex2017", model),
+                                 "Seasons ≥ 0.90": f"{int(r.ss(meth, m, 'seasons_cov_ge_nominal', model))}/5",
+                                 "Lot-draws ≥ 0.90 (%)": 100 * r.ss(meth, m, "meets_pooled", model),
+                                 "Width": r.ss(meth, m, "width_pooled", model), "Interval score": r.ss(meth, m, "iscore_pooled", model)})
+        T["c3main"] = _pipe(pd.DataFrame(rows), "Table 3. Intervals on later-season lots (forward chaining, 137 target lots in five seasons, nominal 0.90). Coverage is "
+                            "the lot-macro coverage pooled over lots, the mean of the five season values, and the pooled value without 2017 (56 lots, two source "
+                            "seasons). Seasons ≥ 0.90: seasons whose lot-macro coverage reaches 0.90. Lot-draws ≥ 0.90: share of lot × reference-draw pairs with "
+                            "coverage ≥ 0.90. Width and interval score in % DMC (pooled). Target-only CP cannot give a bounded interval for m < 9.",
+                            {"Lot-draws ≥ 0.90 (%)": "{:.0f}", "Width": "{:.2f}", "Interval score": "{:.2f}"})
+    if "season_tests" in r.c3:
+        comps = [("lotcp_s", "scp_sample@m0", "coverage", "LotCP-S vs split CP (sample folds, m = 0)", "coverage"),
+                 ("lotcp_s", "scp_season@m0", "coverage", "LotCP-S vs split CP (season folds, m = 0)", "coverage"),
+                 ("lotcp_s", "biascorr_naive", "iscore", "LotCP-S vs bias corr. + source CP", "interval score"),
+                 ("lotcp_s", "biascorr_naive", "coverage", "LotCP-S vs bias corr. + source CP", "coverage"),
+                 ("lotcp_s", "biascorr_full", "iscore", "LotCP-S vs same scale without replay", "interval score"),
+                 ("lotcp_s", "biascorr_full", "coverage", "LotCP-S vs same scale without replay", "coverage"),
+                 ("lotcp_a", "lotcp_s", "meets", "LotCP-A vs LotCP-S", "lot-draws ≥ 0.90")]
+        rows = []
+        for ref, comp, out, labc, labo in comps:
+            for model, mlab in (("pls", "SNV"), ("plspub", "Pub.")):
+                for m in (5, 10):
+                    d = 100 if out == "meets" else 1
+                    lo, hi = float(r.st(ref, comp, out, m, "boot_lo", model)), float(r.st(ref, comp, out, m, "boot_hi", model))
+                    rows.append({"Comparison": labc, "Outcome": labo, "PLS": mlab, "m": m,
+                                 "Season-mean difference": f"{d * float(r.st(ref, comp, out, m, 'season_avg_diff', model)):+.3f}" if d == 1 else f"{d * float(r.st(ref, comp, out, m, 'season_avg_diff', model)):+.1f}",
+                                 "95% season interval": f"{d*lo:+.3f} to {d*hi:+.3f}" if d == 1 else f"{d*lo:+.1f} to {d*hi:+.1f}",
+                                 "Seasons favouring": f"{int(r.st(ref, comp, out, m, 'seasons_ref_better', model))}/5"})
+        T["c3tests"] = _pipe(pd.DataFrame(rows), "Table 4. Season-level comparisons (all exploratory; Section 3.8). Differences are "
+                             "oriented so that positive values favour the first method (lower interval score, higher coverage or share). Season-mean difference: mean of "
+                             "the five season differences; season interval: descriptive t-interval on those five values (4 df). With five seasons an exact sign test cannot reach p < 0.05 "
+                             "(smallest two-sided p = 0.0625); all lot-level tests are in the supplementary tables.")
+    if "decisions_ci" in r.c3:
+        lab = {"point": "Point prediction", "scp_lower": "Split-CP lower bound", "point_bc": "Bias-corrected point", "bc_lower": "Bias corr. + source margin",
+               "lotcp_s_lower": "LotCP-S lower bound", "lotcp_a_lower": "LotCP-A lower bound", "withhold_all": "Withhold all"}
+        rows = []
+        for model, mlab in (("pls", "SNV"), ("plspub", "Pub.")):
+            for rule, m in (("point", 0), ("scp_lower", 0), ("point_bc", 5), ("bc_lower", 5), ("lotcp_s_lower", 3), ("lotcp_s_lower", 5), ("lotcp_s_lower", 10), ("lotcp_a_lower", 5), ("withhold_all", 0)):
+                g = lambda f: r.dc(rule, m, f, model)
+                row = {"PLS": mlab, "Rule": lab[rule], "m": m, "Cost / 100 fruit [95% CI]": f"{g('cost100'):.2f} [{g('cost100_lo'):.2f}, {g('cost100_hi'):.2f}]"}
+                if rule != "scp_lower":
+                    row["Δ vs split-CP bound [95% CI]"] = f"{float(r.dd(rule, m, 'diff100', model)):+.2f} [{float(r.dd(rule, m, 'lo', model)):+.2f}, {float(r.dd(rule, m, 'hi', model)):+.2f}]"
+                else:
+                    row["Δ vs split-CP bound [95% CI]"] = "reference"
+                if rule != "withhold_all":
+                    row["Premature lots (%) [CI]"] = f"{g('premature_lots'):.1f} [{g('premature_lo'):.1f}, {g('premature_hi'):.1f}]"
+                    row["Ready lots delayed (%) [CI]"] = f"{g('delayed_lots'):.0f} [{g('delayed_lo'):.0f}, {g('delayed_hi'):.0f}]"
+                else:
+                    row["Premature lots (%) [CI]"] = "0"
+                    row["Ready lots delayed (%) [CI]"] = "100"
+                rows.append(row)
+        T["c3dec"] = _pipe(pd.DataFrame(rows), "Table 5. Harvest decisions at the operating point fixed before this analysis (exploratory; specification 15 % DMC, "
+                           "bounds at α = 0.10, lot harvested when ≥ 80 % of its scanned fruit are accepted, ASSUMED costs c_I = 1, c_D = 1/9, c_R = 1.5 per reference "
+                           "fruit, lots of 1000 fruit; 137 target lots). Cost in units of the value of one marketable fruit, including reference tests. Δ: cost "
+                           "difference to the split-conformal lower bound, the cheapest rule without reference fruit. 95 % CIs: two-stage season-cluster bootstrap of the pooled values.")
     p2 = r.t["table2_point_models_by_seed"]
     cost = p2.groupby("model").agg(fit=("fit_seconds", "mean"), pred=("predict_ms_per_1000", "mean")).reindex(["pls", "gbm", "cnn"])
     rows = [{"Component": {"pls": "PLS fit (final model)", "gbm": "LightGBM fit", "cnn": "1D-CNN fit (20 epochs)"}[k], "Time": f"{v.fit:.1f} s",
@@ -499,29 +660,37 @@ def tables(r: R) -> dict:
 
 
 # --------------------------------------------------------------------------- assembly
-def render(text: str, r: R, T: dict) -> str:
+MARK_OPEN, MARK_CLOSE = "\u27e6", "\u27e7"      # brackets used only in the audit rendering
+
+
+def render(text: str, r: R, T: dict, audit: bool = False) -> str:
+    """Fill {{...}} placeholders from result files. With audit=True every filled value is wrapped in markers so that
+    scripts/audit_numbers.py can tell machine-filled numbers from numbers typed in the text."""
     ns = {"r": r, "V": r.V, "T": T, "np": np}
+
+    def wrap(v):
+        return f"{MARK_OPEN}{v}{MARK_CLOSE}" if audit else v
 
     def sub(mo):
         expr = mo.group(1).strip()
         if expr.startswith("V:"):
-            return str(r.V[expr[2:]])
+            return wrap(str(r.V[expr[2:]]))
         if expr.startswith("T:"):
-            return T[expr[2:]]
-        return str(eval(expr, {"__builtins__": {"abs": abs, "round": round, "min": min, "max": max, "float": float, "int": int, "len": len}, **ns}))
+            return wrap(T[expr[2:]]) if audit else T[expr[2:]]
+        return wrap(str(eval(expr, {"__builtins__": {"abs": abs, "round": round, "min": min, "max": max, "float": float, "int": int, "len": len, "range": range}, **ns})))
 
     return re.sub(r"\{\{(.+?)\}\}", sub, text)
 
 
-def renumber(md: str) -> str:
-    """Number tables and figures in order of their captions and update every in-text reference."""
+def renumber(md: str, prefix: str = "") -> str:
+    """Number tables and figures in order of their captions and update every in-text reference (prefix, e.g. "S-", for the supplement)."""
     out = md
     for kind, cap_re, ref_word in (("Table", r"Table: Table (\d+)\.", r"Tables?"), ("Fig", r"!\[Fig\. (\d+)\.", r"Figs?\.")):
         order = []
         for mo in re.finditer(cap_re, out):
             if mo.group(1) not in order:
                 order.append(mo.group(1))
-        mapping = {old: str(i + 1) for i, old in enumerate(order)}
+        mapping = {old: prefix + str(i + 1) for i, old in enumerate(order)}
 
         def fix(mo):
             body = re.sub(r"\d+", lambda n: mapping.get(n.group(0), n.group(0)), mo.group(3))
@@ -540,10 +709,11 @@ def build_markdown() -> Path:
     if supp_dir.exists():                     # supplementary notes: same number-filling, own numbering (S...)
         notes = "\n\n".join((supp_dir / n).read_text() for n in sorted(p.name for p in supp_dir.glob("*.md")))
         (ROOT / "supplementary").mkdir(exist_ok=True)
-        (ROOT / "supplementary" / "Supplementary_Notes.md").write_text(render(notes, r, T))
+        (ROOT / "supplementary" / "Supplementary_Notes.md").write_text(renumber(render(notes, r, T), prefix="S-"))
     out = MS / "build" / "manuscript.md"
     out.parent.mkdir(exist_ok=True)
     out.write_text(body)
+    (MS / "build" / "manuscript_audit.md").write_text(render("\n\n".join(parts), r, T, audit=True))
     return out
 
 

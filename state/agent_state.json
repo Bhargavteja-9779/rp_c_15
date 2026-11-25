@@ -28,6 +28,6 @@
  "topic": "Few-shot conformal calibration of NIR fruit-maturity predictions across harvest seasons (risk-aware mango harvest decisions)",
  "journal": "Smart Agricultural Technology (Elsevier) -- G1 verification pending in cycle 2",
  "note": "Cycle 1 = all work before the master prompt v2 (commits a90a8bd..6a8ea6d); adopted, not redone.",
- "last_action": "2026-11-25T00:04:58",
- "next_action": "Cycle 3: plan_v4 E1-E7 done; manuscript rewritten (7.9k words, season-level evidence, matched baseline, decisions with CIs, exploratory labels); README/tool caveats updated. NEXT: review round 2 with three fresh reviewers on manuscript/build/manuscript.md + supplementary/Supplementary_Notes.md; triage into review/round_2.md; G10 needs two clean rounds."
+ "last_action": "2026-11-25T00:13:24",
+ "next_action": "Cycle 3 complete: review round 2 (R1 6, R2 5 / novelty 11, R3 6; all major) triaged and fixed; submission zip rebuilt. G3 (novelty, needs >=20/25) and G10 (two clean review rounds) fail. NEXT (needs author decision): (a) pivot/new data for novelty, (b) review round 3 on the fixed draft, or (c) honest exit and submit as an audit-focused paper; author must fill affiliations/e-mails and confirm approval statement."
 }

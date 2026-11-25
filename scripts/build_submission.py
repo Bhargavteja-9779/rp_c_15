@@ -134,27 +134,25 @@ def cover_letter(r):
         f"On behalf of my co-author, I submit the manuscript “{TITLE}” by {AUTHORS} for consideration as a research article in {JOURNAL}.",
         "Mango growers decide when to harvest a block by scanning fruit with handheld near-infrared (NIR) spectrometers and "
         "comparing the predicted dry matter content with a maturity specification. The calibrations behind these readings are "
-        "built on past seasons, and their error bars come from those seasons. Using a public data set with seven harvest seasons "
-        f"and 199 harvest lots, we show that at a nominal 90 % such error bars covered only {100*min(r.m(k,0) for k in ('scp_sample','gauss','qrf','cqr_sample','ensemble','mc_dropout')):.0f}–"
-        f"{100*max(r.m(k,0) for k in ('scp_sample','gauss','qrf','cqr_sample','ensemble','mc_dropout')):.0f} % of the reference values on later seasons, and that harvest decisions "
-        f"taken on point predictions let {100*r.hv('point',0,None):.0f} % immature fruit into the accepted fruit.",
-        "We propose a risk-aware harvest workflow. A few fruit per lot are tested destructively. A few-shot conformal "
-        "calibration (LotCP), calibrated on past lots, corrects the lot's bias and scale and gives every scanned fruit a lower "
-        "bound whose coverage is guaranteed under stated assumptions. A fruit or lot is harvested when the bound meets the specification, at a "
-        "confidence level derived from the relative cost of harvesting immature fruit and of holding back mature fruit. "
-        f"In a retrospective simulation over five seasons, ten reference fruit per lot reduced immature fruit among those accepted to "
-        f"{100*r.hv('lotcp_s_lower',10,0.1):.0f} %, premature lot harvests roughly halved at an unchanged delay rate, and expected cost fell under "
-        "every cost scenario examined. A planner computed from past lots forecasts, before the season, how precise the error "
-        "bar will be for 3, 5, 10 or 20 reference fruit, and a small decision-support prototype shows how the result would "
-        "reach a user. The findings replicated on two public soil spectral libraries.",
-        f"We believe the work fits the scope of {JOURNAL} because it turns a sensing instrument already used in orchards into "
-        "a risk-aware decision tool and gives growers a quantified answer to how many fruit to test. We have been careful to "
-        "state its limits: the evaluation is retrospective, the costs are assumed and labelled as such, and a prospective "
-        "orchard validation remains to be done.",
-        "The manuscript is original, has not been published, and is not under consideration elsewhere. Both authors have "
-        "approved the submission. The study uses public data sets and involves no human participants or animals. The authors "
-        "declare no competing interests, and the research received no specific funding. The use of generative AI in "
-        "preparing the work is declared in the manuscript. The data are publicly available at the links given in the data "
+        "built on past seasons, and so are their error bars. Using a public data set with seven harvest seasons "
+        f"and {r.V['n_lots']} harvest lots, we audit such error bars lot by lot on later seasons: at a nominal 90 % they covered only "
+        f"{100*min(r.m(k,0) for k in ('scp_sample','gauss','qrf','cqr_sample','ensemble','mc_dropout')):.0f}–"
+        f"{100*max(r.m(k,0) for k in ('scp_sample','gauss','qrf','cqr_sample','ensemble','mc_dropout')):.0f} % of the reference values.",
+        "We then study a few-shot conformal calibration in which a few fruit per lot are tested destructively. With five to ten "
+        f"reference fruit it raised coverage in every target season, to {r.ss('lotcp_s',10):.3f} pooled ({r.ss('lotcp_s',10,'coverage_ex2017'):.3f} "
+        "without the first, over-covered target season). Matched comparisons show which parts of the calibration matter, and "
+        "where it falls short: shifts between seasons that past seasons do not span leave coverage slightly below nominal, and "
+        "a lot-level guarantee held pooled but not season by season. In an exploratory harvest simulation under explicitly "
+        "assumed costs, deciding on a calibrated lower bound instead of the point value lowered the expected cost in every "
+        "season; additional reference fruit gave no detectable further saving. We report these limits, including an "
+        "efficiency endpoint that was not confirmed on independent handheld-NIR data, as findings rather than footnotes.",
+        f"We believe the work fits the scope of {JOURNAL} because it gives users of handheld NIR instruments an evidence-based "
+        "account of when an error bar can be trusted for a harvest decision, and a practical procedure for checking it. The "
+        "evaluation is retrospective, the costs are assumed and labelled as such, and a prospective orchard validation remains to be done.",
+        "The manuscript is original, has not been published, and is not under consideration elsewhere. [Both authors have "
+        "approved the submission — to be confirmed by the authors.] The study uses public data sets and involves no human participants or animals. The authors "
+        "declare no competing interests, and the research received no specific funding. The use of generative AI in the "
+        "research and in preparing the manuscript is declared in the manuscript. The data are publicly available at the links given in the data "
         "availability statement, and the code is available from the corresponding author on reasonable request.",
         "Thank you for considering our manuscript.",
         f"Yours sincerely,\n\n{CORR}\nCorresponding author, on behalf of both authors",
@@ -270,12 +268,13 @@ Contents
   03 Highlights (5 bullets, <= 85 characters each)
   04 Manuscript with author details (DOCX + PDF)   05 Anonymised manuscript (use if the journal requests double-anonymised review)
   06 Graphical abstract (PNG 300 dpi + PDF)        07 Figures 1-{nfig}, separate files (PNG 300 dpi + vector PDF) and captions
-  08 Supplementary material (notes S1-S4, tables S1-S24, figure S1)
+  08 Supplementary material (notes S1-S8, tables S1-S24, figure S1)
   09 Declaration of competing interest
 
 Before uploading, complete and verify:
   [ ] Affiliations, e-mail addresses and postal address of both authors (placeholders in square brackets in 01, 02, 04)
   [ ] Check every item against the journal's current Guide for Authors (it could not be retrieved while preparing the package)
+  [ ] Confirm the bracketed statement in 01 that both authors approved the submission
   [ ] Confirm the review model (single- or double-anonymised) and upload 04 or 05 accordingly
   [ ] Read and verify the analysis, the code and every reference: the authors take full responsibility for the content
   [ ] Confirm that the generative-AI declaration in the manuscript accurately describes how AI was used, and that this use

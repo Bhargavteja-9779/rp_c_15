@@ -61,12 +61,12 @@ def run_task(cfg, model_name, seed, protocol, target, schemes=SCHEMES):
                          cfg["folds"]["k_sample" if s == "sample" else "k_lot"], seed=_fold_seed(target)) for s in schemes}
     override = {}
     out = {"src_idx": src_idx, "tgt_idx": tgt_idx}
-    if model_name == "pls":
+    if model_name in ("pls", "plspub"):
         # number of latent variables: leave-one-season-out CV inside the source data only
-        grid, best = cfg["models"]["pls"]["n_components_grid"], None
+        grid, best = (cfg["models"]["pls"]["n_components_grid"] if model_name == "pls" else list(range(6, 31, 2))), None
         cv = {}
         for nc in grid:
-            o = _oof("pls", cfg, seed, Xs, ys, folds["season"], n_components=nc)
+            o = _oof(model_name, cfg, seed, Xs, ys, folds["season"], n_components=nc)
             cv[nc] = float(np.sqrt(np.mean((ys - o) ** 2)))
             if best is None or cv[nc] < cv[best]:
                 best, out["oof_season"] = nc, o

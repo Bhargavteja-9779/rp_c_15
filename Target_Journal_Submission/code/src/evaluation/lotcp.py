@@ -123,9 +123,16 @@ class LotCP:
         usable = [L for L in lots if len(L.s_mean) >= self.m + self.min_query]
         self.info.update(n_cal_lots=len(usable), mu=self.mu, tau2=self.tau2, sigma2=self.sigma2, w=self.w)
         if not self.episodic:
-            sc = np.concatenate([np.abs(L.r - L.s_mean.mean()) for L in usable])
-            wt = np.concatenate([self._w_query(L, np.ones(len(L.s_mean), bool)) for L in usable])
-            self.nu0, self.q = None, weighted_quantile(sc, wt, 1 - self.alpha, inf_mass=1.0)
+            # ablation: no replay of the m-shot procedure; each past lot is standardised with its OWN full-information
+            # bias (and, if scaled, its own scale from all samples), i.e. the estimation error at m is ignored
+            sc, wt = [], []
+            self.nu0 = 10 if self.scale in ("support", "full") else None
+            for L in usable:
+                s_hat = self.lot_scale(L.s_mean, L.rep_var, self.nu0) if self.scale != "none" else 1.0
+                sc.append(np.abs(L.r - L.s_mean.mean()) / s_hat)
+                wt.append(self._w_query(L, np.ones(len(L.s_mean), bool)))
+            sc, wt = np.concatenate(sc), np.concatenate(wt)
+            self.q = weighted_quantile(sc, wt, 1 - self.alpha, inf_mass=1.0)
             self.planned_width = 2.0 * self.q
             return self
         rng = np.random.default_rng(self.seed)

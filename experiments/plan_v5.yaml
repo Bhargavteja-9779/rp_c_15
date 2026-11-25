@@ -1,0 +1,27 @@
+# plan_v5 — cycle 4 (pivot 1) — 2026-11-25. Written BEFORE any code or result for this idea exists.
+# Reason: rounds 1-2 show the guarantees fail under season shift (LotCP-S 0.893 excl. 2017; LotCP-A met in 2/5 seasons)
+# and blind novelty 11/25. Author asked for more novelty (option a).
+version: plan_v5
+idea: >
+  Season-sequential calibration (LotCP-Seq). Lots of a season are harvested in date order. Reference fruit already
+  tested in EARLIER lots of the same season give leave-one-out (LOO) scores that reveal how this season's errors differ
+  from past seasons. A season inflation factor rho = Q_{1-a}(LOO scores of earlier lots this season) / Q_{1-a}(LOO scores
+  of past-season lots, same m), shrunk towards 1 as log rho_hat = n/(n+n0) log rho (n = number of LOO scores seen),
+  multiplies the LotCP-S (or LotCP-A) half-width of the next lot. No extra reference fruit and no target labels beyond
+  the reference fruit already used.
+tuning: n0 in {3, 10, 30, 100, inf} chosen ONLY by replaying the sequential procedure inside the source seasons
+  (each source season as pseudo-target, calibrated on the other source seasons), criterion: mean |coverage - 0.90| over
+  pseudo-target seasons, ties broken by width. No target-season data used for tuning.
+ordering: lots ordered by harvest date; lots on the same date see only lots with strictly earlier dates.
+draws: 20 per lot; in draw e every lot of the season uses its own reference set of draw e (a simulated season run).
+comparisons (SNV PLS and published PLS, forward chaining, m in {5,10}, alpha 0.10):
+  E1 coverage pooled / season mean / excl. 2017; seasons >= 0.90; LotCP-Seq vs LotCP-S (season-mean t-interval, seasons favouring)
+  E2 lot-level assurance: LotCP-A-Seq vs LotCP-A, seasons meeting 90 %
+  E3 width and interval score cost of the correction
+  E4 coverage by position of the lot within the season (first lot, lots 2-5, later)
+  E5 ablations: rho without shrinkage (n0 = 0); rho from the previous season's lots only (no within-season learning)
+success_rule (stated in advance): LotCP-Seq is reported as an improvement only if excl.-2017 coverage rises towards 0.90
+  for BOTH predictors with season-mean difference > 0 in >= 4/5 seasons and width increase < 10 %; otherwise reported as a
+  negative result.
+status: exploratory (target seasons were seen in earlier cycles); tuning uses source seasons only.
+compute_estimate_h: 1

@@ -23,3 +23,8 @@ Entries before 2026-11-24 are RECONSTRUCTED from git history, experiments/PROTOC
 - Claims changed by plan_v4 evidence: efficiency of LotCP-S no longer a headline (replay buys validity, E2); decision savings credited to calibrated bounds, not reference fruit (E4); LotCP-A assurance stated as met in 2/5 seasons (E1); "pre-registered" → "pre-specified (internal git commit)".
 - R1-C10 rebutted with evidence: NeoSpectra layers disjoint from KSSL development layers (E7).
 - No second commodity found (E6): breadth stays limited; claims restricted to mango.
+
+## 2026-11-25 — cycle 4, pivot 1 (plan_v5) closed as negative
+Author asked for more novelty (option a), target blind novelty > 23/25. Pivot 1 (season-sequential calibration) failed
+its pre-stated success rule; kept as a negative result (results/cycle4). Next: pivot 2 (plan_v6), label-free
+lot-shift indicators and adaptive reference budgets.

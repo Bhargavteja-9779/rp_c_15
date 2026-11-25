@@ -25,3 +25,6 @@ success_rule (stated in advance): LotCP-Seq is reported as an improvement only i
   negative result.
 status: exploratory (target seasons were seen in earlier cycles); tuning uses source seasons only.
 compute_estimate_h: 1
+clarification_before_running: >
+  8 lots (populations 200100-200800, two per season 2018-2021) have no harvest date; they are placed after all dated
+  lots of their season (they see all dated lots, and lots of the same undated group do not see each other).

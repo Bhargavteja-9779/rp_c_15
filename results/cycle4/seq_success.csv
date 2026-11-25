@@ -1,0 +1,5 @@
+model,m,ex2017_up,seasons_closer,width_change,success
+pls,5,True,3,-0.08594322507621699,False
+pls,10,True,3,-0.05496666022492047,False
+plspub,5,True,3,0.012950624080896533,False
+plspub,10,True,3,0.0014669568723162385,False

@@ -11,8 +11,8 @@
  },
  "G3": {
   "status": "fail",
-  "evidence": "state/novelty_ledger.json scores",
-  "note": "round 2 blind 11/25 (diff 2, mech 3, evid 2, breadth 2, signif 2); GHCP (arXiv 2608.15500) narrows differentiation; no second fruit data set. Needs pivot or new data."
+  "evidence": "review/round_3.md",
+  "note": "blind novelty 15\u219211\u219212/25; prior art (Duchi et al. 2024, GHCP 2026) anticipates method ideas; data breadth capped; 3 pivots used"
  },
  "G4": {
   "status": "pass-partial",
@@ -46,8 +46,8 @@
  },
  "G10": {
   "status": "fail",
-  "evidence": "review/round_2.md",
-  "note": "round 2: R1 6/10, R2 5/10, R3 6/10, all major; fixes applied 2026-11-25"
+  "evidence": "review/round_3.md",
+  "note": "round 3: R1 5, R2 5, R3 6 \u2014 all major; integrity fixes applied"
  },
  "G11": {
   "status": "pass",

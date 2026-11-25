@@ -64,7 +64,7 @@ class R:
             rl = pd.concat([pd.read_csv(f) for f in (c4 / "robust_lots.csv", c4 / "robust_lots_gbm_cnn.csv") if f.exists()])
             self.c4["robust_lots"] = rl
             self.c4["robust_q"] = pd.concat([pd.read_csv(f) for f in (c4 / "robust_quantiles.csv", c4 / "robust_quantiles_gbm_cnn.csv") if f.exists()])
-        for n in ("seq_summary", "seq_success", "seq_tests", "shift_indicators_screen"):
+        for n in ("seq_summary", "seq_success", "seq_tests", "shift_indicators_screen", "robust_draws_counts"):
             if (c4 / f"{n}.csv").exists():
                 self.c4[n] = pd.read_csv(c4 / f"{n}.csv")
         if (c4 / "shift_indicators_decision.json").exists():
@@ -92,6 +92,15 @@ class R:
             base = "A" if method.startswith("A") else "S"
             return float(g.width.mean() / self.rb(model, m, base, "width") - 1)
         raise KeyError(field)
+
+    def lev(self, method, m, field="coverage"):
+        t = pd.read_csv(ROOT / "results" / "cycle3" / "pls_leverage_summary.csv")
+        return float(t[(t.method == method) & (t.m == m)][field].iloc[0])
+
+    def rd(self, method, field="seasons_cov", fn=min):
+        """Draw sensitivity: over five reference-draw seeds and four predictors (m = 10)."""
+        t = self.c4["robust_draws_counts"]
+        return fn(t[t.method == method][field])
 
     def rbr(self, method, m, field, fn=min, models=("pls", "plspub", "gbm", "cnn")):
         return fn(self.rb(mo, m, method, field) for mo in models)
@@ -701,9 +710,12 @@ def tables(r: R) -> dict:
                 return f"{n}/5" if meth in ("S", "A") else f"{n}/5 ({100 * wi:+.0f} %)"
             rows.append({"Predictor": lab[mo],
                          "LotCP-S": cell("S", "seasons_cov"), "LotCP-R2": cell("R2", "seasons_cov"), "LotCP-R": cell("R", "seasons_cov"),
-                         "LotCP-S at α = 0.05": cell("S05", "seasons_cov"), "R, plain quantiles": cell("Rplain", "seasons_cov"),
+                         "LotCP-S, α = 0.08": cell("S8", "seasons_cov"), "LotCP-S, α = 0.05": cell("S05", "seasons_cov"),
+                         "R, plain quantiles": cell("Rplain", "seasons_cov"),
                          "LotCP-A": cell("A", "seasons_meets"), "LotCP-AR": cell("AR", "seasons_meets"), "AR, plain quantiles": cell("ARplain", "seasons_meets")})
-        T["robust"] = _pipe(pd.DataFrame(rows), "Table 110. Season-robust replay (forward chaining, five target seasons, m = 10, nominal 0.90; exploratory). "
+        T["robust"] = _pipe(pd.DataFrame(rows), "Table 110. Season-robust replay (forward chaining, five target seasons, m = 10, nominal 0.90; exploratory; one set of 20 reference "
+                            "draws per lot, shared by all columns). LotCP-R was the planned variant; LotCP-R2 was promoted after LotCP-R failed the planned "
+                            "width limit (Section 4.5). LotCP-S at fixed α = 0.08 and 0.05 are fixed-level comparisons; α = 0.08 is close to width-matched. "
                             "Columns LotCP-S to 'R, plain quantiles': number of target seasons whose lot-macro coverage reaches 0.90. Columns LotCP-A to "
                             "'AR, plain quantiles': number of seasons in which at least 90 % of lot-draws reach 0.90 coverage (the lot-level target). "
                             "In brackets: change of mean width relative to LotCP-S (marginal columns) or LotCP-A (lot-level columns). LotCP-R/R2: "

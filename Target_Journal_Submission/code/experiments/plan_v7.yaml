@@ -1,0 +1,16 @@
+# plan_v7 — cycle 4 (pivot 3, last allowed) — 2026-11-25. Written before code/results.
+version: plan_v7
+idea: >
+  Season-robust replay (LotCP-R). The m-shot replay quantile is computed separately within each source season
+  (constants from all source seasons), q_s; LotCP-R uses q_R = max_s q_s (and LotCP-AR the max of the per-season
+  lot-level quantiles), i.e. an interval that would have held in the least favourable past season.
+  Variant: q_R2 = second largest q_s (less conservative). Seasons with < 5 usable lots are pooled with the adjacent season.
+comparisons: SNV and published PLS, forward chaining, m in {5,10}, alpha 0.10, 20 draws; vs LotCP-S / LotCP-A.
+success_rule: ex-2017 coverage >= 0.90 for both predictors AND seasons with coverage >= 0.90 >= 4/5 AND width increase
+  over LotCP-S <= 15 %; for LotCP-AR: lot-level target met in >= 4/5 seasons with width increase over LotCP-A <= 15 %.
+status: exploratory; no tuning on target seasons.
+addendum_after_primary_results (2026-11-25): >
+  Primary results seen (R fails width, R2 passes; AR passes for published PLS only, AR2 passes). Added BEFORE running:
+  the same frozen procedure on LightGBM and 1D-CNN (seed 0, forward chaining) as a generalisation check, and a matched
+  comparison of R2 against LotCP-S run at a fixed smaller alpha giving the same mean width (alpha grid 0.05/0.10 interpolated
+  is not available, so: LotCP-S at alpha = 0.05 reported side by side). No change to the method.

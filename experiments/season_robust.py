@@ -30,7 +30,7 @@ def season_groups(sea, lot):
     return groups
 
 
-def one(model, target, m):
+def one(model, target, m, draw_seed=41):
     cfg = load_config("full")
     ev = cfg["eval"]
     d = load_data(cfg)
@@ -42,6 +42,8 @@ def one(model, target, m):
     cpA = LotCP(**kw, assure=0.10).fit(res, lot, smp, pred)
     kw05 = dict(kw, alpha=0.05)
     cpS05 = LotCP(**kw05).fit(res, lot, smp, pred)        # matched baseline: a fixed smaller alpha (plan_v7 addendum)
+    # round-3 review: fine alpha grid for a width-matched comparison
+    cpGrid = {f"S{int(round(100 * a_))}": LotCP(**dict(kw, alpha=a_)).fit(res, lot, smp, pred) for a_ in (0.06, 0.07, 0.08, 0.09)}
     # season groups (seasons with < 5 lots merged with the next); per-group replay with the pooled fit's constants frozen
     grp = np.zeros(len(sea), dtype=int)
     groups = season_groups(sea, lot)
@@ -58,7 +60,7 @@ def one(model, target, m):
             "AR": qA_s[-1] / cpA.q, "AR2": (qA_s[-2] if len(qA_s) > 1 else qA_s[-1]) / cpA.q,
             "Rplain": max(qSp.values()) / cpS.q, "ARplain": max(qAp.values()) / cpA.q}
     lots_t = build(d.y[tgt] - P["pred_tgt"], P["pred_tgt"], d.lot[tgt], d.sample[tgt])
-    rng = np.random.default_rng([41, target, m])
+    rng = np.random.default_rng([draw_seed, target, m])
     rows = []
     for l, L in lots_t.items():
         if L.ns < m + ev["min_query_samples"]:
@@ -68,8 +70,9 @@ def one(model, target, m):
             sup = rng.choice(L.ns, m, replace=False)
             q = ~np.isin(L.inv, sup)
             w = 1.0 / ((L.ns - m) * L.cnt[L.inv][q])
-            for name, cp, f in (("S", cpS, 1.0), ("R", cpS, mult["R"]), ("R2", cpS, mult["R2"]), ("A", cpA, 1.0), ("AR", cpA, mult["AR"]), ("AR2", cpA, mult["AR2"]), ("S05", cpS05, 1.0),
-                                ("Rplain", cpS, mult["Rplain"]), ("ARplain", cpA, mult["ARplain"])):
+            for name, cp, f in ((("S", cpS, 1.0), ("R", cpS, mult["R"]), ("R2", cpS, mult["R2"]), ("A", cpA, 1.0), ("AR", cpA, mult["AR"]), ("AR2", cpA, mult["AR2"]), ("S05", cpS05, 1.0),
+                                ("Rplain", cpS, mult["Rplain"]), ("ARplain", cpA, mult["ARplain"]))
+                               + tuple((k_, c_, 1.0) for k_, c_ in cpGrid.items())):
                 b, hw = cp.predict(L.smean[sup], L.rv)
                 hw = hw * f
                 e_ = L.r[q] - b

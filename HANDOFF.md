@@ -1,10 +1,10 @@
 # HANDOFF — read this first
 
-Updated 2026-11-25 08:55:24 · git HEAD `d221538 cycle4 pivot 3: pre-specified per-season conformal quantiles restored; plain-quantile sensitivity; Monte Carlo test of season-level statement` · branch `claude/autonomous-research-project-qua0qp` (remote: origin)
+Updated 2026-11-25 09:07:59 · git HEAD `847847a review round 3: R3 report` · branch `claude/autonomous-research-project-qua0qp` (remote: origin)
 
 ## Where we are
 * **Cycle 2 of 12**, phase `cycle2-setup`, status **RUNNING**, pivots used 0/3
-* **NEXT ACTION:** Cycle 4: pivots 1-2 negative (season-sequential; label-free indicators), pivot 3 positive (season-robust replay, Prop. 3, 4 predictors). Manuscript updated. NEXT: blind review round 3 (novelty target > 23/25 set by author).
+* **NEXT ACTION:** Cycle 4 closed: novelty loop exited honestly after 3 pivots (blind 12/25; Duchi et al. 2024 prior art). Manuscript corrected (Prop 3 union bound, R2 post hoc disclosed, efficiency claim retracted, draw sensitivity). Awaiting author decision on positioning / new data.
 * Journal: Smart Agricultural Technology (Elsevier) -- G1 verification pending in cycle 2
 * Topic: Few-shot conformal calibration of NIR fruit-maturity predictions across harvest seasons (risk-aware mango harvest decisions)
 * Hypothesis: a few destructively measured reference fruit per lot, used through a lot-exchangeable few-shot conformal calibration (LotCP-S / LotCP-A) calibrated on past lots, give NIR dry-matter error bars that keep their coverage on later harvest seasons and support better harvest decisions than error bars calibrated within the training seasons.
@@ -18,14 +18,14 @@ Updated 2026-11-25 08:55:24 · git HEAD `d221538 cycle4 pivot 3: pre-specified p
 |---|---|---|---|
 | G1 | pass-with-stated-failure | journal_selection/verification_cycle2.md | per-article dates unverifiable (403/Crossref empty); publisher average 69-72 d |
 | G2 | pass | state/novelty_ledger.json, literature/claims_table.md | 80 logged queries; 39 papers opened (abstract level); close new works now cited and differentiated in Section 2 |
-| G3 | fail | state/novelty_ledger.json scores | round 2 blind 11/25 (diff 2, mech 3, evid 2, breadth 2, signif 2); GHCP (arXiv 2608.15500) narrows differentiation; no second fruit data set. Needs pivot or new data. |
+| G3 | fail | review/round_3.md | blind novelty 15→11→12/25; prior art (Duchi et al. 2024, GHCP 2026) anticipates method ideas; data breadth capped; 3 pivots used |
 | G4 | pass-partial | results/reproduction/reproduction.csv, literature/reported_results.md | published PLS RMSEP 1.01 reproduced (1.045); published CNN 0.77 not reproduced (ours 1.07, no augmentation/tuning); our SNV-PLS pipeline 0.35 worse than the published recipe |
 | G5 | partial | results/confirmation/confirmation_tests.csv, results/cycle3/assurance_frontier.csv | untouched data: LotCP-A assurance confirmed (P3); LotCP-S efficiency NOT confirmed (P1 Holm p=0.066, P2 0.29); mango re-draw all 4 confirmed but data seen. Cycle 3: mango arm relabelled 're-draw check' (not independent); P4 uninformative; P3 noted as width-unconstrained (E3 shows LotCP-A ~ LotCP-S at alpha 0.05). |
 | G6 | pass-with-note | tables/table5_ablation.csv, results/ablation_cycle2/replay_ablation.csv | bias correction, scale, replay (validity at small m), season residuals (m=0) all contribute; shrinkage removed (did nothing/harmful); lot-balanced weighting ~no empirical effect, kept for the guarantee |
 | G7 | pass | tables/table13_soil.csv, tables/table7_generalisation.csv | mango + 2 soil libraries, 3 predictors, 2 protocols |
 | G8 | pass | results/leakage_audit.json, scripts/leakage_audit.py | no shared samples/lots, no identical spectra, no split groups, row-wise preprocessing |
 | G9 | pass | journal/ENTRIES/2026-11-24_08_RESULT.md | fresh clone: download+checksum, 17 tests, quick mode, 25 tables regenerated identical (after fixing a 403 in the downloader) |
-| G10 | fail | review/round_2.md | round 2: R1 6/10, R2 5/10, R3 6/10, all major; fixes applied 2026-11-25 |
+| G10 | fail | review/round_3.md | round 3: R1 5, R2 5, R3 6 — all major; integrity fixes applied |
 | G11 | pass | scripts/audit_numbers.py, scripts/audit_allowlist.txt | 0 untraced numbers in the rewritten manuscript (2026-11-25) |
 
 ## Last decisions

@@ -28,6 +28,6 @@
  "topic": "Few-shot conformal calibration of NIR fruit-maturity predictions across harvest seasons (risk-aware mango harvest decisions)",
  "journal": "Smart Agricultural Technology (Elsevier) -- G1 verification pending in cycle 2",
  "note": "Cycle 1 = all work before the master prompt v2 (commits a90a8bd..6a8ea6d); adopted, not redone.",
- "last_action": "2026-11-25T08:55:24",
- "next_action": "Cycle 4: pivots 1-2 negative (season-sequential; label-free indicators), pivot 3 positive (season-robust replay, Prop. 3, 4 predictors). Manuscript updated. NEXT: blind review round 3 (novelty target > 23/25 set by author)."
+ "last_action": "2026-11-25T09:07:59",
+ "next_action": "Cycle 4 closed: novelty loop exited honestly after 3 pivots (blind 12/25; Duchi et al. 2024 prior art). Manuscript corrected (Prop 3 union bound, R2 post hoc disclosed, efficiency claim retracted, draw sensitivity). Awaiting author decision on positioning / new data."
 }

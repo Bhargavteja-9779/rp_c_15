@@ -1,0 +1,16 @@
+# plan_v6 — cycle 4 (pivot 2) — 2026-11-25. Written before any code or result for this idea.
+version: plan_v6
+idea: >
+  Label-free shift indicators steer the reference budget. Before any fruit of a lot is cut, its scans give (i) Hotelling
+  T2 and (ii) Q (spectral residual) of the lot's spectra in the source PLS model, (iii) the replicate-scan prediction
+  variance, (iv) the lot's mean prediction relative to the source. If these predict which lots will be poorly covered or
+  strongly biased, a fixed season budget of reference fruit can be reallocated: more fruit for lots that look shifted,
+  fewer for typical lots.
+stage_A_screen (go/no-go, stated in advance): on SNV PLS forward-chaining target lots, Spearman correlation between the
+  best single indicator (chosen on SOURCE season-held-out lots only) and |lot mean residual| on TARGET lots must be
+  >= 0.30 in magnitude with the same sign as in the source, else stop (negative result).
+stage_B (only if A passes): budget m_bar in {5, 10} per lot on average; allocation m_k = clip(round(m_bar * g(z_k)), 3, 2*m_bar),
+  z_k = standardised indicator, g fitted on source lots to minimise expected interval score; LotCP-S calibrated for each m;
+  compare with uniform m_bar on coverage, share of lots >= 0.90 and mean interval score, season-level t-intervals.
+success_rule: adaptive beats uniform on share of lots >= 0.90 in >= 4/5 seasons for both predictors at equal total budget.
+status: exploratory (target seasons seen before); indicator choice and g from source seasons only.

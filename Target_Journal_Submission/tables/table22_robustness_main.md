@@ -1,23 +1,8 @@
-| Condition | m=0 | m=5 | m=10 | m=20 |
-|---|---:|---:|---:|---:|
-| Main setting | 0.894 / 5.39 | 0.920 / 3.60 | 0.919 / 3.45 | 0.918 / 3.29 |
-| Reference error SD 0.25 % DMC | 0.894 / 5.39 | 0.920 / 3.63 | 0.920 / 3.48 | 0.921 / 3.33 |
-| Reference error SD 0.5 % DMC | 0.894 / 5.39 | 0.921 / 3.73 | 0.923 / 3.57 | 0.928 / 3.47 |
-| Provider-flagged outliers removed | 0.897 / 5.24 | 0.922 / 3.51 | 0.920 / 3.31 | 0.922 / 3.20 |
-| 10 past lots for calibration | 0.975 / 8.74 | 0.989 / 6.80 | 0.989 / 6.34 | 0.996 / 14.31 |
-| 20 past lots for calibration | 0.910 / 5.70 | 0.947 / 4.07 | 0.947 / 3.86 | 0.949 / 3.78 |
-| 40 past lots for calibration | 0.902 / 5.52 | 0.930 / 3.76 | 0.929 / 3.56 | 0.931 / 3.46 |
-| 80 past lots for calibration | 0.895 / 5.43 | 0.923 / 3.64 | 0.924 / 3.50 | 0.921 / 3.32 |
-| 5 episodes per lot | 0.894 / 5.39 | 0.919 / 3.58 | 0.921 / 3.46 | 0.921 / 3.35 |
-| 10 episodes per lot | 0.894 / 5.39 | 0.919 / 3.58 | 0.918 / 3.43 | 0.919 / 3.33 |
-| 100 episodes per lot | 0.894 / 5.39 | 0.920 / 3.59 | 0.920 / 3.44 | 0.921 / 3.35 |
-| Fixed pseudo-count ν₀ = 5 | 0.894 / 5.39 | 0.922 / 3.63 | 0.923 / 3.46 | 0.919 / 3.31 |
-| Fixed pseudo-count ν₀ = 20 | 0.894 / 5.39 | 0.923 / 3.72 | 0.924 / 3.54 | 0.923 / 3.37 |
-| Fixed pseudo-count ν₀ = 80 | 0.894 / 5.39 | 0.923 / 3.79 | 0.924 / 3.64 | 0.925 / 3.49 |
-| Constants and quantile from disjoint halves of the past lots | 0.893 / 5.53 | 0.931 / 3.85 | 0.929 / 3.59 | 0.928 / 3.42 |
-| Deployment unit: one instrument unit within a lot | 0.912 / 5.58 | 0.919 / 3.30 | 0.919 / 3.12 | 0.914 / 2.88 |
-| Source: two preceding seasons only | 0.891 / 6.42 | 0.917 / 4.44 | 0.918 / 4.30 | 0.918 / 3.99 |
-| Unseen growing region | 0.908 / 5.15 | 0.912 / 3.39 | 0.913 / 3.27 | 0.913 / 3.19 |
-| Unseen cultivar | 0.911 / 4.83 | 0.907 / 3.29 | 0.907 / 3.17 | 0.906 / 3.11 |
+| Predictor | LotCP-S | LotCP-R2 | LotCP-R | LotCP-S, α = 0.08 | LotCP-S, α = 0.05 | R, plain quantiles | LotCP-A | LotCP-AR | AR, plain quantiles |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| SNV PLS | 2/5 | 5/5 (+7 %) | 5/5 (+16 %) | 5/5 (+9 %) | 5/5 (+24 %) | 4/5 (+1 %) | 2/5 | 5/5 (+8 %) | 3/5 (+2 %) |
+| Published PLS | 2/5 | 5/5 (+11 %) | 5/5 (+18 %) | 5/5 (+8 %) | 5/5 (+25 %) | 3/5 (+0 %) | 2/5 | 5/5 (+12 %) | 4/5 (+6 %) |
+| LightGBM | 2/5 | 5/5 (+9 %) | 5/5 (+15 %) | 4/5 (+8 %) | 5/5 (+26 %) | 3/5 (+0 %) | 2/5 | 5/5 (+9 %) | 3/5 (+3 %) |
+| 1D-CNN | 2/5 | 5/5 (+8 %) | 5/5 (+16 %) | 5/5 (+8 %) | 5/5 (+25 %) | 4/5 (+0 %) | 1/5 | 4/5 (+8 %) | 4/5 (+4 %) |
 
-Table: Table S22. Robustness and sensitivity of LotCP-S (PLS, nominal 0.90). Each cell: lot-macro coverage / mean width.
+Table: Table S22. Season-robust replay (forward chaining, five target seasons, m = 10, nominal 0.90; exploratory; one set of 20 reference draws per lot, shared by all columns). LotCP-R was the planned variant; LotCP-R2 was promoted after LotCP-R failed the planned width limit (Section 4.5). LotCP-S at fixed α = 0.08 and 0.05 are fixed-level comparisons; α = 0.08 is close to width-matched. Columns LotCP-S to 'R, plain quantiles': number of target seasons whose lot-macro coverage reaches 0.90. Columns LotCP-A to 'AR, plain quantiles': number of seasons in which at least 90 % of lot-draws reach 0.90 coverage (the lot-level target). In brackets: change of mean width relative to LotCP-S (marginal columns) or LotCP-A (lot-level columns). LotCP-R/R2: largest/second-largest per-season conformal multiplier; plain: per-season empirical quantile without the conformal correction (sensitivity analysis). Results for m = 5 are in results/cycle4.

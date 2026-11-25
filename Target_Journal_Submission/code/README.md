@@ -84,6 +84,9 @@ Run after `run_all.py --mode full`, in this order; each writes to its own folder
 | `python -m experiments.assurance_frontier` | v4 E3 | `results/cycle3/assurance_frontier.csv` | lot-level assurance against width |
 | `python -m experiments.decisions_uncertainty` | v4 E4 | `results/cycle3/decisions_*.csv` | decisions at a fixed operating point with CIs, LOSO choice of α, planner error by source seasons |
 | `python -m experiments.pls_leverage` | v4 E5 | `results/cycle3/pls_leverage*.csv` | leverage-based PLS intervals |
+| `python -m experiments.seq_calibration` then `python -m experiments.seq_analysis` | v5 | `results/cycle4/seq_*.csv` | season-sequential calibration (negative result) |
+| `python -m experiments.shift_indicators` | v6 | `results/cycle4/shift_indicators*` | label-free shift indicators (negative screen) |
+| `python -m experiments.season_robust` and `python -m experiments.season_robust gbm cnn` | v7 | `results/cycle4/robust_*.csv` | season-robust replay (LotCP-R/R2/AR), fixed-α comparison, plain-quantile sensitivity |
 | `python -m experiments.neospectra_overlap` | v4 E7 | `results/cycle3/neospectra_overlap.json` | overlap of NeoSpectra and development soil layers |
 
 Then `python -m manuscript.build_manuscript` and `python -m scripts.audit_numbers`.
@@ -145,6 +148,8 @@ from src.evaluation.lotcp import LotCP
 cp = LotCP(m=10, alpha=0.1, scale="full").fit(residuals, lot_ids, sample_ids, predictions)
 bias, half_width = cp.predict(reference_sample_mean_residuals, replicate_variance_of_new_lot)
 # lot-level assurance (>= 90 % coverage within the lot for >= 90 % of lots): LotCP(..., assure=0.10)
+# season-robust multiplier: q_s = cp.group_quantiles(residuals, lot_ids, sample_ids, predictions, season_ids)
+#   half_width * sorted(q_s.values())[-2] / cp.q   (LotCP-R2; [-1] for LotCP-R)
 # interval for a scan x of the new lot:  f(x) + bias ± half_width
 ```
 

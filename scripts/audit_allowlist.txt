@@ -15,3 +15,4 @@
 1.01, 1.014, 0.77   # published RMSEP values (sources opened; literature/reported_results.md)
 13122321   # Zenodo record identifier of the NeoSpectra library
 0.30
+0.08

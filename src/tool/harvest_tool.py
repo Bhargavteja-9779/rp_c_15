@@ -84,7 +84,8 @@ def decide(cal: dict, scans: pd.DataFrame, refs: pd.DataFrame, spec: float, mode
         "reference_fruit_used": m, "calibration_level_m": int(level), "mode": mode,
         "statement": (f"Each lower bound holds for at least {100 * (1 - cal['alpha']):.0f} % of fruit "
                       + ("on average over lots" if mode == "marginal" else f"in at least {100 * (1 - cal['delta']):.0f} % of lots")
-                      + " (retrospective calibration; assumes the lot resembles past lots)."),
+                      + " (retrospective calibration; assumes the lot resembles past lots. Under a season shift the"
+                      " statement is approximate: in the study, coverage fell a few points short in seasons unlike past ones)."),
         "lot_bias_correction": round(b, 3), "lot_scale": round(s_hat, 3),
         "fruit_cleared_for_harvest": f"{100 * share:.0f} %",
         "lot_recommendation": "HARVEST" if share >= lot_share else "WAIT / RE-TEST",

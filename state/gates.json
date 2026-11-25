@@ -12,7 +12,7 @@
  "G3": {
   "status": "fail",
   "evidence": "state/novelty_ledger.json scores",
-  "note": "15/25 (blind; author 17); breadth 2 < 3"
+  "note": "15/25 (blind; author 17); breadth 2 < 3. Cycle 3 E6: no second public fruit data set with season/lot structure exists (journal 2026-11-24_15); claims restricted to mango. Data-limited, not fixable by more compute."
  },
  "G4": {
   "status": "pass-partial",
@@ -21,8 +21,8 @@
  },
  "G5": {
   "status": "partial",
-  "evidence": "results/confirmation/confirmation_tests.csv",
-  "note": "untouched data: LotCP-A assurance confirmed (P3); LotCP-S efficiency NOT confirmed (P1 Holm p=0.066, P2 0.29); mango re-draw all 4 confirmed but data seen"
+  "evidence": "results/confirmation/confirmation_tests.csv, results/cycle3/assurance_frontier.csv",
+  "note": "untouched data: LotCP-A assurance confirmed (P3); LotCP-S efficiency NOT confirmed (P1 Holm p=0.066, P2 0.29); mango re-draw all 4 confirmed but data seen. Cycle 3: mango arm relabelled 're-draw check' (not independent); P4 uninformative; P3 noted as width-unconstrained (E3 shows LotCP-A ~ LotCP-S at alpha 0.05)."
  },
  "G6": {
   "status": "pass-with-note",
@@ -46,12 +46,12 @@
  },
  "G10": {
   "status": "fail",
-  "evidence": "review/round_1_R2.md, review/round_1_R3.md",
-  "note": "round 1: R2 major (6/10), R3 major (5/10), R1 pending"
+  "evidence": "review/round_1.md (R1 4/10, R2 6/10, R3 5/10, all major)",
+  "note": "round 1 triaged; plan_v4 E1-E7 run; manuscript rewritten (7.9k words). Round 2 pending with fresh reviewers."
  },
  "G11": {
   "status": "pass",
   "evidence": "scripts/audit_numbers.py, scripts/audit_allowlist.txt",
-  "note": "0 untraced numbers in the manuscript"
+  "note": "0 untraced numbers in the rewritten manuscript (2026-11-25)"
  }
 }

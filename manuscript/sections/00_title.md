@@ -17,7 +17,7 @@ A handheld near-infrared (NIR) prediction of mango dry matter content (DMC) supp
 # Highlights
 
 - Standard NIR error bars under-covered later-season mango lots in every season.
-- Five to ten reference fruit per lot restored coverage on average, not in every season.
+- Five to ten reference fruit per lot restored coverage on average, not every season.
 - Replaying the few-shot correction on past lots protected coverage at small *m*.
 - Calibrated lower bounds, not reference fruit, drove the assumed-cost savings.
 - Lot-level assurance held over all lots but in only two of five seasons.

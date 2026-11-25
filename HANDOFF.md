@@ -1,10 +1,10 @@
 # HANDOFF — read this first
 
-Updated 2026-11-24 19:46:05 · git HEAD `f41de71 cycle2/review round 1: Reviewer 2 report, blind novelty 15/25` · branch `claude/autonomous-research-project-qua0qp` (remote: origin)
+Updated 2026-11-25 00:04:58 · git HEAD `cc685ac cycle3: manuscript restructured for review round 1 (season-level evidence, matched baselines, exploratory decisions); supplement notes S5-S8` · branch `claude/autonomous-research-project-qua0qp` (remote: origin)
 
 ## Where we are
 * **Cycle 2 of 12**, phase `cycle2-setup`, status **RUNNING**, pivots used 0/3
-* **NEXT ACTION:** Cycle 2 review round 1: R2 (6/10, major; novelty 15/25) and R3 (5/10, major) saved in review/; waiting for R1. Then: write review/round_1.md triage and experiments/plan_v4.yaml (cycle 3): sample-specific PLS interval baseline, harvest/cost rerun with published PLS + lot-level CIs, search for a second commodity with season structure, manuscript cut to ~10k words with reframed contributions, declarations fixes.
+* **NEXT ACTION:** Cycle 3: plan_v4 E1-E7 done; manuscript rewritten (7.9k words, season-level evidence, matched baseline, decisions with CIs, exploratory labels); README/tool caveats updated. NEXT: review round 2 with three fresh reviewers on manuscript/build/manuscript.md + supplementary/Supplementary_Notes.md; triage into review/round_2.md; G10 needs two clean rounds.
 * Journal: Smart Agricultural Technology (Elsevier) -- G1 verification pending in cycle 2
 * Topic: Few-shot conformal calibration of NIR fruit-maturity predictions across harvest seasons (risk-aware mango harvest decisions)
 * Hypothesis: a few destructively measured reference fruit per lot, used through a lot-exchangeable few-shot conformal calibration (LotCP-S / LotCP-A) calibrated on past lots, give NIR dry-matter error bars that keep their coverage on later harvest seasons and support better harvest decisions than error bars calibrated within the training seasons.
@@ -18,33 +18,34 @@ Updated 2026-11-24 19:46:05 · git HEAD `f41de71 cycle2/review round 1: Reviewer
 |---|---|---|---|
 | G1 | pass-with-stated-failure | journal_selection/verification_cycle2.md | per-article dates unverifiable (403/Crossref empty); publisher average 69-72 d |
 | G2 | pass | state/novelty_ledger.json, literature/claims_table.md | 80 logged queries; 39 papers opened (abstract level); close new works now cited and differentiated in Section 2 |
-| G3 | fail | state/novelty_ledger.json scores | 15/25 (blind; author 17); breadth 2 < 3 |
+| G3 | fail | state/novelty_ledger.json scores | 15/25 (blind; author 17); breadth 2 < 3. Cycle 3 E6: no second public fruit data set with season/lot structure exists (journal 2026-11-24_15); claims restricted to mango. Data-limited, not fixable by more compute. |
 | G4 | pass-partial | results/reproduction/reproduction.csv, literature/reported_results.md | published PLS RMSEP 1.01 reproduced (1.045); published CNN 0.77 not reproduced (ours 1.07, no augmentation/tuning); our SNV-PLS pipeline 0.35 worse than the published recipe |
-| G5 | partial | results/confirmation/confirmation_tests.csv | untouched data: LotCP-A assurance confirmed (P3); LotCP-S efficiency NOT confirmed (P1 Holm p=0.066, P2 0.29); mango re-draw all 4 confirmed but data seen |
+| G5 | partial | results/confirmation/confirmation_tests.csv, results/cycle3/assurance_frontier.csv | untouched data: LotCP-A assurance confirmed (P3); LotCP-S efficiency NOT confirmed (P1 Holm p=0.066, P2 0.29); mango re-draw all 4 confirmed but data seen. Cycle 3: mango arm relabelled 're-draw check' (not independent); P4 uninformative; P3 noted as width-unconstrained (E3 shows LotCP-A ~ LotCP-S at alpha 0.05). |
 | G6 | pass-with-note | tables/table5_ablation.csv, results/ablation_cycle2/replay_ablation.csv | bias correction, scale, replay (validity at small m), season residuals (m=0) all contribute; shrinkage removed (did nothing/harmful); lot-balanced weighting ~no empirical effect, kept for the guarantee |
 | G7 | pass | tables/table13_soil.csv, tables/table7_generalisation.csv | mango + 2 soil libraries, 3 predictors, 2 protocols |
 | G8 | pass | results/leakage_audit.json, scripts/leakage_audit.py | no shared samples/lots, no identical spectra, no split groups, row-wise preprocessing |
 | G9 | pass | journal/ENTRIES/2026-11-24_08_RESULT.md | fresh clone: download+checksum, 17 tests, quick mode, 25 tables regenerated identical (after fixing a 403 in the downloader) |
-| G10 | fail | review/round_1_R2.md, review/round_1_R3.md | round 1: R2 major (6/10), R3 major (5/10), R1 pending |
-| G11 | pass | scripts/audit_numbers.py, scripts/audit_allowlist.txt | 0 untraced numbers in the manuscript |
+| G10 | fail | review/round_1.md (R1 4/10, R2 6/10, R3 5/10, all major) | round 1 triaged; plan_v4 E1-E7 run; manuscript rewritten (7.9k words). Round 2 pending with fresh reviewers. |
+| G11 | pass | scripts/audit_numbers.py, scripts/audit_allowlist.txt | 0 untraced numbers in the rewritten manuscript (2026-11-25) |
 
 ## Last decisions
-- 2026-11-10 [cycle 1, reconstructed] D3: CNN 20 epochs (compute), lot folds for one CNN seed only.
-- 2026-11-14 [cycle 1, reconstructed] D5: shrinkage removed after it failed on LUCAS soil data; all mango results recomputed.
-- 2026-11-15 [cycle 1, reconstructed] D7: LotCP-A added after main results known.
-- 2026-11-18 [cycle 1, reconstructed] Repositioned as harvest-decision workflow on supervisor's advice; authors P N Bhargav Teja / Ragavan K.
-- 2026-11-24 [cycle 2] Adopt all cycle-1 work as cycle 1 of the master-prompt-v2 loop instead of restarting; reason: rule "do not restart finished work"; the topic satisfies Section 5 criteria and pivoting without evidence of failure would waste the budget.
 - 2026-11-24 [cycle 2] The later-season mango lots and the LUCAS/KSSL vis-NIR tasks were all seen during cycle-1 development, so none can serve as an untouched TEST SET (rule 5). Decision: the G5 confirmation will be run (i) on mango with SEEDS_CONFIRM for the reference draws/episodes (fresh randomness, same lots — reported as a re-draw confirmation, not a fresh-data test) and (ii) on a dataset NOT opened in cycle 1, pre-registered in experiments/plan_v2.yaml before any of its data are loaded.
 - 2026-11-24 [cycle 2] Persistence: repository root plays the role of "project/"; remote = origin branch claude/autonomous-research-project-qua0qp. Supervisor scripts are provided for the user's machine; not installed as a boot service in this ephemeral cloud container.
 - 2026-11-24 [cycle 2] plan_v2 committed (5a045c5) before loading the NeoSpectra confirmation data; confirmation endpoints P1–P4 fixed.
 - 2026-11-24 [cycle 2] C2 lot rule applied as pre-registered: only 16 projects have >= 20 samples (< 20 required) -> lot = 1-degree cell; 20 cells have >= 20 samples (structure-only count). Target: `eoc_tot_c` (KSSL estimated organic carbon) as "soil organic carbon", log(1 + %). Expect low power (~20 evaluable target lots at m <= 10, ~10 at m = 20); accepted as pre-registered.
 - 2026-11-24 [cycle 2] C2 crashed (NaN coordinates in cell construction, a coding bug); fixed by building cells only for samples with coordinates (they were already excluded by the 'ok' mask). No results had been produced; no plan change.
+- Ledger v015 corrected: single-instrument LotCP-S coverage is 0.919 at m=10 (results/robustness, factor=unit); the logged 0.914 was not traceable (R1 number check).
+- Manuscript restructured (≤10k words): old sections archived in manuscript/sections_v2_archive/; Secs 10–14 and the full decision analysis moved to Supplementary Notes S5–S7; development history to S8.
+- Claims changed by plan_v4 evidence: efficiency of LotCP-S no longer a headline (replay buys validity, E2); decision savings credited to calibrated bounds, not reference fruit (E4); LotCP-A assurance stated as met in 2/5 seasons (E1); "pre-registered" → "pre-specified (internal git commit)".
+- R1-C10 rebutted with evidence: NeoSpectra layers disjoint from KSSL development layers (E7).
+- No second commodity found (E6): breadth stays limited; claims restricted to mango.
 
 ## Last failures (journal/ENTRIES)
 * 2026-11-10_03_FAILURE.md
 * 2026-11-14_01_FAILURE.md
 * 2026-11-24_03_FAILURE.md
 * 2026-11-24_05_FAILURE.md
+* 2026-11-24_13_FAILURE.md
 
 ## Commands
 * Status: `python scripts/status.py`

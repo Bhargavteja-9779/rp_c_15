@@ -14,3 +14,4 @@
 4.0, 1.2, 6   # identifiers: CC BY 4.0 licence, OSSL version 1.2, data set version 6
 1.01, 1.014, 0.77   # published RMSEP values (sources opened; literature/reported_results.md)
 13122321   # Zenodo record identifier of the NeoSpectra library
+0.30

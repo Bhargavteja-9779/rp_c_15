@@ -58,7 +58,51 @@ class R:
         rr = pd.read_csv(ROOT / "results" / "raw_results.csv", usecols=["model", "protocol", "alpha", "seed", "method", "m", "target", "lot"])
         rr = rr[(rr.model == "pls") & (rr.protocol == "forward") & (rr.alpha == 0.1) & (rr.seed == 0) & (rr.method == "scp_sample")]
         self.lots_by_target = rr.groupby("target").lot.nunique().to_dict()
+        c4 = ROOT / "results" / "cycle4"
+        self.c4 = {}
+        if (c4 / "robust_lots.csv").exists():
+            rl = pd.concat([pd.read_csv(f) for f in (c4 / "robust_lots.csv", c4 / "robust_lots_gbm_cnn.csv") if f.exists()])
+            self.c4["robust_lots"] = rl
+            self.c4["robust_q"] = pd.concat([pd.read_csv(f) for f in (c4 / "robust_quantiles.csv", c4 / "robust_quantiles_gbm_cnn.csv") if f.exists()])
+        for n in ("seq_summary", "seq_success", "seq_tests", "shift_indicators_screen"):
+            if (c4 / f"{n}.csv").exists():
+                self.c4[n] = pd.read_csv(c4 / f"{n}.csv")
+        if (c4 / "shift_indicators_decision.json").exists():
+            self.c4["ind"] = json.load(open(c4 / "shift_indicators_decision.json"))
         self.c3j = {n: json.load(open(c3 / f"{n}.json")) for n in ("neospectra_overlap", "decisions_meta", "season_tests_meta") if (c3 / f"{n}.json").exists()}
+
+    # ---- cycle 4: season-robust replay, season-sequential calibration, label-free indicators -----------------
+    def rb(self, model, m, method, field="coverage", subset="all"):
+        """Season-robust replay results. field: coverage | width | iscore | meets | seasons_cov | seasons_meets |
+        min_season_cov | width_inc (relative to LotCP-S for S/R/R2/S05/Rplain, to LotCP-A for A/AR/AR2/ARplain)."""
+        d = self.c4["robust_lots"]
+        g = d[(d.model == model) & (d.m == m) & (d.method == method)]
+        if subset == "ex2017":
+            g = g[g.target != 2017]
+        if field in ("coverage", "width", "iscore", "meets"):
+            return float(g[field].mean())
+        s = g.groupby("target")[["coverage", "meets"]].mean()
+        if field == "seasons_cov":
+            return int((s.coverage >= 0.9).sum())
+        if field == "seasons_meets":
+            return int((s.meets >= 0.9).sum())
+        if field == "min_season_cov":
+            return float(s.coverage.min())
+        if field == "width_inc":
+            base = "A" if method.startswith("A") else "S"
+            return float(g.width.mean() / self.rb(model, m, base, "width") - 1)
+        raise KeyError(field)
+
+    def rbr(self, method, m, field, fn=min, models=("pls", "plspub", "gbm", "cnn")):
+        return fn(self.rb(mo, m, method, field) for mo in models)
+
+    def rq(self, field, model="pls", m=10, fn=max):
+        q = self.c4["robust_q"]
+        return fn(q[(q.model == model) & (q.m == m)].groupby("target")[field].first())
+
+    def seq(self, model, m, method, field):
+        t = self.c4["seq_summary"]
+        return float(t[(t.model == model) & (t.m == m) & (t.method == method)][field].iloc[0])
 
     # ---- cycle 3 (review round 1): season-level summaries, tests, decisions with CIs -------------------------
     def ss(self, method, m, field="coverage_pooled", model="pls"):
@@ -646,6 +690,25 @@ def tables(r: R) -> dict:
                            "bounds at α = 0.10, lot harvested when ≥ 80 % of its scanned fruit are accepted, ASSUMED costs c_I = 1, c_D = 1/9, c_R = 1.5 per reference "
                            "fruit, lots of 1000 fruit; 137 target lots). Cost in units of the value of one marketable fruit, including reference tests. Δ: cost "
                            "difference to the split-conformal lower bound, the cheapest rule without reference fruit. 95 % CIs: two-stage season-cluster bootstrap of the pooled values.")
+    if r.c4.get("robust_lots") is not None:
+        lab = {"pls": "SNV PLS", "plspub": "Published PLS", "gbm": "LightGBM", "cnn": "1D-CNN"}
+        rows = []
+        for mo in ("pls", "plspub", "gbm", "cnn"):
+            def cell(meth, kind):
+                n = r.rb(mo, 10, meth, kind)
+                wi = r.rb(mo, 10, meth, "width_inc")
+                wi = 0.0 if abs(wi) < 0.005 else wi
+                return f"{n}/5" if meth in ("S", "A") else f"{n}/5 ({100 * wi:+.0f} %)"
+            rows.append({"Predictor": lab[mo],
+                         "LotCP-S": cell("S", "seasons_cov"), "LotCP-R2": cell("R2", "seasons_cov"), "LotCP-R": cell("R", "seasons_cov"),
+                         "LotCP-S at α = 0.05": cell("S05", "seasons_cov"), "R, plain quantiles": cell("Rplain", "seasons_cov"),
+                         "LotCP-A": cell("A", "seasons_meets"), "LotCP-AR": cell("AR", "seasons_meets"), "AR, plain quantiles": cell("ARplain", "seasons_meets")})
+        T["robust"] = _pipe(pd.DataFrame(rows), "Table 110. Season-robust replay (forward chaining, five target seasons, m = 10, nominal 0.90; exploratory). "
+                            "Columns LotCP-S to 'R, plain quantiles': number of target seasons whose lot-macro coverage reaches 0.90. Columns LotCP-A to "
+                            "'AR, plain quantiles': number of seasons in which at least 90 % of lot-draws reach 0.90 coverage (the lot-level target). "
+                            "In brackets: change of mean width relative to LotCP-S (marginal columns) or LotCP-A (lot-level columns). LotCP-R/R2: "
+                            "largest/second-largest per-season conformal multiplier; plain: per-season empirical quantile without the conformal "
+                            "correction (sensitivity analysis). Results for m = 5 are in results/cycle4.")
     p2 = r.t["table2_point_models_by_seed"]
     cost = p2.groupby("model").agg(fit=("fit_seconds", "mean"), pred=("predict_ms_per_1000", "mean")).reindex(["pls", "gbm", "cnn"])
     rows = [{"Component": {"pls": "PLS fit (final model)", "gbm": "LightGBM fit", "cnn": "1D-CNN fit (20 epochs)"}[k], "Time": f"{v.fit:.1f} s",

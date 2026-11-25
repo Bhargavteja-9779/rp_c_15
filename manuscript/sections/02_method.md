@@ -48,10 +48,18 @@ $$\hat q^{\,A}_m=Q_{1-\delta}\Big(\sum_{k=1}^{K_m}\frac{1}{K_m+1}\sum_{e=1}^{E}\
 
 Under exchangeable lots, the realised coverage within the new lot is at least $1-\alpha$ with probability at least $1-\delta$ (Appendix A, Proposition 2), a statement of the probably-approximately-correct type [@park2022]. We use $1-\alpha=0.90$ and $\delta=0.10$. LotCP-A and LotCP-S at a smaller $\alpha$ lie on the same family of intervals. LotCP-A does not buy assurance more cheaply. It chooses, from past lots and without target labels, the level that delivers the requested assurance.
 
-## 2.7 Planning the number of reference fruit
+## 2.7 Season-robust replay (LotCP-R, LotCP-AR)
+
+Sections 2.5 and 2.6 assume that the lots of a new season are exchangeable with the pooled lots of past seasons. Seasons differ, and a quantile pooled over past lots is dominated by the seasons that contributed most lots. LotCP-R keeps the score function of LotCP-S (the fitted bias, scale and constants are frozen) but replays the $m$-shot procedure separately within each past season $s=1,\dots,S$, giving per-season conformal multipliers
+
+$$\hat q_{m,s}=Q_{1-\alpha}\Big(\sum_{k\in s}\frac{1}{K_s+1}\sum_{e}\frac1E\sum_{i\notin A_{ke}}\frac{1}{n_k-m}\sum_j\frac{1}{J_{ki}}\delta_{S_{keij}}+\frac{1}{K_s+1}\delta_{+\infty}\Big), \qquad\text{(7)}$$
+
+the multiplier that would be valid for a new lot exchangeable with the $K_s$ lots of season $s$. LotCP-R uses the largest of the $S$ values and LotCP-R2 the second largest. LotCP-AR does the same with the lot-level quantile of Eq. (6). If seasons are exchangeable, the $k$-th largest of $S$ past-season multipliers is at least the corresponding multiplier of the new season with probability at least $(S+1-k)/(S+1)$, so a new lot of the new season is then covered with probability at least $1-\alpha$ (Appendix A, Proposition 3). The statement turns the number of past seasons into a design quantity: with four past seasons and $k=1$ the season-level probability is at least 0.8, with nine at least 0.9. Max-type aggregation over source distributions has been used to guarantee coverage for test points from one of the *source* distributions [@yang2026mdcp; @tsibulsky2025]; here the target season is unseen, and the guarantee is obtained by treating seasons, in turn, as exchangeable units.
+
+## 2.8 Planning the number of reference fruit
 
 The replay yields, for every $m$ and from past lots alone, the multiplier and the mean lot scale $\bar s_m$ over episodes, and hence a planned width $2\hat q_m\bar s_m$. The curve of planned width against $m$ can be drawn before the season and turns the choice of $m$ into an explicit trade between laboratory effort and precision. Calibration costs one extra model fit per source season, done offline; deployment computes two means and one variance per lot.
 
-## 2.8 From a bound to a harvest decision
+## 2.9 From a bound to a harvest decision
 
 Let $t$ be the minimum DMC a fruit must reach, $c_I$ the cost of accepting an immature fruit and $c_D$ the cost of withholding a mature one. If the probability that a fruit is below $t$ were known, expected cost would be minimised by accepting it when that probability is at most $\alpha^\ast=c_D/(c_I+c_D)$, the familiar newsvendor or Bayes threshold. A lower bound $L_{\alpha}(x)=f(x)+\hat b-\hat q^-_m\hat s$, with $\hat q^-_m$ calibrated as in Eq. (5) on the signed score $(\hat b-r)/\hat s$, gives the rule *harvest if* $L_{\alpha^\ast}(x)\ge t$, *otherwise wait or re-test*. Because the guarantee is marginal, not conditional on the spectrum, this rule is a calibrated approximation to the cost-optimal rule. A lot is harvested when at least a share $p$ of its scanned fruit is accepted, and it is called ready when at least a share $p$ of its fruit truly meets $t$ ($p=0.8$).

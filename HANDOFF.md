@@ -1,10 +1,10 @@
 # HANDOFF — read this first
 
-Updated 2026-11-25 00:13:24 · git HEAD `1cd0ac0 review round 2: three reports, triage, fixes (season-mean t-intervals, GHCP/SymmPI and verified fruit-NIR refs, exploratory labels, README); E5 leverage PLS baseline` · branch `claude/autonomous-research-project-qua0qp` (remote: origin)
+Updated 2026-11-25 08:55:24 · git HEAD `d221538 cycle4 pivot 3: pre-specified per-season conformal quantiles restored; plain-quantile sensitivity; Monte Carlo test of season-level statement` · branch `claude/autonomous-research-project-qua0qp` (remote: origin)
 
 ## Where we are
 * **Cycle 2 of 12**, phase `cycle2-setup`, status **RUNNING**, pivots used 0/3
-* **NEXT ACTION:** Cycle 3 complete: review round 2 (R1 6, R2 5 / novelty 11, R3 6; all major) triaged and fixed; submission zip rebuilt. G3 (novelty, needs >=20/25) and G10 (two clean review rounds) fail. NEXT (needs author decision): (a) pivot/new data for novelty, (b) review round 3 on the fixed draft, or (c) honest exit and submit as an audit-focused paper; author must fill affiliations/e-mails and confirm approval statement.
+* **NEXT ACTION:** Cycle 4: pivots 1-2 negative (season-sequential; label-free indicators), pivot 3 positive (season-robust replay, Prop. 3, 4 predictors). Manuscript updated. NEXT: blind review round 3 (novelty target > 23/25 set by author).
 * Journal: Smart Agricultural Technology (Elsevier) -- G1 verification pending in cycle 2
 * Topic: Few-shot conformal calibration of NIR fruit-maturity predictions across harvest seasons (risk-aware mango harvest decisions)
 * Hypothesis: a few destructively measured reference fruit per lot, used through a lot-exchangeable few-shot conformal calibration (LotCP-S / LotCP-A) calibrated on past lots, give NIR dry-matter error bars that keep their coverage on later harvest seasons and support better harvest decisions than error bars calibrated within the training seasons.
@@ -29,7 +29,6 @@ Updated 2026-11-25 00:13:24 · git HEAD `1cd0ac0 review round 2: three reports, 
 | G11 | pass | scripts/audit_numbers.py, scripts/audit_allowlist.txt | 0 untraced numbers in the rewritten manuscript (2026-11-25) |
 
 ## Last decisions
-- 2026-11-24 [cycle 2] The later-season mango lots and the LUCAS/KSSL vis-NIR tasks were all seen during cycle-1 development, so none can serve as an untouched TEST SET (rule 5). Decision: the G5 confirmation will be run (i) on mango with SEEDS_CONFIRM for the reference draws/episodes (fresh randomness, same lots — reported as a re-draw confirmation, not a fresh-data test) and (ii) on a dataset NOT opened in cycle 1, pre-registered in experiments/plan_v2.yaml before any of its data are loaded.
 - 2026-11-24 [cycle 2] Persistence: repository root plays the role of "project/"; remote = origin branch claude/autonomous-research-project-qua0qp. Supervisor scripts are provided for the user's machine; not installed as a boot service in this ephemeral cloud container.
 - 2026-11-24 [cycle 2] plan_v2 committed (5a045c5) before loading the NeoSpectra confirmation data; confirmation endpoints P1–P4 fixed.
 - 2026-11-24 [cycle 2] C2 lot rule applied as pre-registered: only 16 projects have >= 20 samples (< 20 required) -> lot = 1-degree cell; 20 cells have >= 20 samples (structure-only count). Target: `eoc_tot_c` (KSSL estimated organic carbon) as "soil organic carbon", log(1 + %). Expect low power (~20 evaluable target lots at m <= 10, ~10 at m = 20); accepted as pre-registered.
@@ -39,6 +38,7 @@ Updated 2026-11-25 00:13:24 · git HEAD `1cd0ac0 review round 2: three reports, 
 - Claims changed by plan_v4 evidence: efficiency of LotCP-S no longer a headline (replay buys validity, E2); decision savings credited to calibrated bounds, not reference fruit (E4); LotCP-A assurance stated as met in 2/5 seasons (E1); "pre-registered" → "pre-specified (internal git commit)".
 - R1-C10 rebutted with evidence: NeoSpectra layers disjoint from KSSL development layers (E7).
 - No second commodity found (E6): breadth stays limited; claims restricted to mango.
+- 2026-11-25 plan_v7: group_quantiles briefly changed to plain quantiles after a degenerate simulation (8 lots/season);
 
 ## Last failures (journal/ENTRIES)
 * 2026-11-10_03_FAILURE.md
@@ -46,6 +46,8 @@ Updated 2026-11-25 00:13:24 · git HEAD `1cd0ac0 review round 2: three reports, 
 * 2026-11-24_03_FAILURE.md
 * 2026-11-24_05_FAILURE.md
 * 2026-11-24_13_FAILURE.md
+* 2026-11-25_02_FAILURE.md
+* 2026-11-25_03_FAILURE.md
 
 ## Commands
 * Status: `python scripts/status.py`

@@ -177,7 +177,7 @@ class LotCP:
             return 1.0 / (qmask.sum() * L.s_cnt[L.s_inv])
         return np.ones(len(L.r))                      # ablation: every spectrum has unit mass
 
-    def group_quantiles(self, r, lot, sample, pred, group, n_episodes=None, seed=0):
+    def group_quantiles(self, r, lot, sample, pred, group, n_episodes=None, seed=0, plain=False):
         """Season-robust replay (plan_v7): with the FITTED constants (mu, sigma2, e0, nu0, scale) frozen, replay the m-shot
         procedure separately within each group of calibration lots (e.g. a harvest season) and return
         {group: multiplier}. For assure=None the multiplier is the group's lot-balanced (1 - alpha) score quantile;
@@ -209,10 +209,14 @@ class LotCP:
                     sc.append(s_); wt.append(w_)
                     if self.assure is not None:
                         lotq.append(weighted_quantile(s_, w_, 1 - self.alpha)); lotw.append(1.0 / ne)
+            # default: the group's own CONFORMAL quantile (one extra lot of mass at +inf), i.e. the multiplier that would be
+            # valid for a new lot exchangeable with the lots of that group (pre-specified, plan_v7). plain=True gives the
+            # plain empirical quantile (sensitivity analysis). Both satisfy Proposition 3; the default is more conservative.
+            im = 0.0 if plain else 1.0
             if self.assure is None:
-                out[g] = weighted_quantile(np.concatenate(sc), np.concatenate(wt), 1 - self.alpha, inf_mass=1.0)
+                out[g] = weighted_quantile(np.concatenate(sc), np.concatenate(wt), 1 - self.alpha, inf_mass=im)
             else:
-                out[g] = weighted_quantile(np.array(lotq), np.array(lotw), 1 - self.assure, inf_mass=1.0)
+                out[g] = weighted_quantile(np.array(lotq), np.array(lotw), 1 - self.assure, inf_mass=im)
         return out
 
     # ---- deployment ------------------------------------------------------------------------

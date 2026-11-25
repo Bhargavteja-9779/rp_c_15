@@ -28,3 +28,6 @@ Entries before 2026-11-24 are RECONSTRUCTED from git history, experiments/PROTOC
 Author asked for more novelty (option a), target blind novelty > 23/25. Pivot 1 (season-sequential calibration) failed
 its pre-stated success rule; kept as a negative result (results/cycle4). Next: pivot 2 (plan_v6), label-free
 lot-shift indicators and adaptive reference budgets.
+- 2026-11-25 plan_v7: group_quantiles briefly changed to plain quantiles after a degenerate simulation (8 lots/season);
+  reverted to the pre-specified conformal per-season quantile; plain variant kept as sensitivity (Rplain, ARplain).
+  Test simulation uses 12 lots/season (finite quantiles), 150 repetitions.

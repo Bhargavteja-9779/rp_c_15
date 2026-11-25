@@ -13,7 +13,8 @@ ALPHA, N_DRAWS = 0.10, 20
 
 
 def season_groups(sea, lot):
-    """Seasons with < 5 lots are merged with the next season (in time order)."""
+    """Seasons with < 5 lots are merged with the next season (in time order). (A group needs >= 9 usable lots for a finite
+    conformal quantile at alpha = 0.10; all source groups in this study had at least 11.)"""
     seasons = sorted(np.unique(sea))
     nl = {s: len(np.unique(lot[sea == s])) for s in seasons}
     groups, cur = [], []
@@ -48,11 +49,14 @@ def one(model, target, m):
         grp[np.isin(sea, g)] = i
     qS = cpS.group_quantiles(res, lot, smp, pred, grp, seed=ev["seed"] + 101 * m)
     qA = cpA.group_quantiles(res, lot, smp, pred, grp, seed=ev["seed"] + 101 * m)
+    qSp = cpS.group_quantiles(res, lot, smp, pred, grp, seed=ev["seed"] + 101 * m, plain=True)   # sensitivity: plain quantiles
+    qAp = cpA.group_quantiles(res, lot, smp, pred, grp, seed=ev["seed"] + 101 * m, plain=True)
     info = [dict(seasons="+".join(map(str, groups[g])), q_S=qS[g], q_A=qA.get(g, np.nan), q_S_pooled=cpS.q, q_A_pooled=cpA.q) for g in qS]
     qS_s, qA_s = sorted(qS.values()), sorted(qA.values())
     S = len(qS_s)
     mult = {"R": qS_s[-1] / cpS.q, "R2": (qS_s[-2] if S > 1 else qS_s[-1]) / cpS.q,
-            "AR": qA_s[-1] / cpA.q, "AR2": (qA_s[-2] if len(qA_s) > 1 else qA_s[-1]) / cpA.q}
+            "AR": qA_s[-1] / cpA.q, "AR2": (qA_s[-2] if len(qA_s) > 1 else qA_s[-1]) / cpA.q,
+            "Rplain": max(qSp.values()) / cpS.q, "ARplain": max(qAp.values()) / cpA.q}
     lots_t = build(d.y[tgt] - P["pred_tgt"], P["pred_tgt"], d.lot[tgt], d.sample[tgt])
     rng = np.random.default_rng([41, target, m])
     rows = []
@@ -64,7 +68,8 @@ def one(model, target, m):
             sup = rng.choice(L.ns, m, replace=False)
             q = ~np.isin(L.inv, sup)
             w = 1.0 / ((L.ns - m) * L.cnt[L.inv][q])
-            for name, cp, f in (("S", cpS, 1.0), ("R", cpS, mult["R"]), ("R2", cpS, mult["R2"]), ("A", cpA, 1.0), ("AR", cpA, mult["AR"]), ("AR2", cpA, mult["AR2"]), ("S05", cpS05, 1.0)):
+            for name, cp, f in (("S", cpS, 1.0), ("R", cpS, mult["R"]), ("R2", cpS, mult["R2"]), ("A", cpA, 1.0), ("AR", cpA, mult["AR"]), ("AR2", cpA, mult["AR2"]), ("S05", cpS05, 1.0),
+                                ("Rplain", cpS, mult["Rplain"]), ("ARplain", cpA, mult["ARplain"])):
                 b, hw = cp.predict(L.smean[sup], L.rv)
                 hw = hw * f
                 e_ = L.r[q] - b

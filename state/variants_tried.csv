@@ -13,7 +13,7 @@ v011,1,2026-11-11,ablation,LotCP-S lot-fold residuals,all,0.908 coverage better 
 v012,1,2026-11-12,baseline,slope/bias correction + source CP,all,worse at m=5 similar m>=10,baseline,added in review
 v013,1,2026-11-12,baseline,spiking PLS refit x1 / x20,all m=10,worse than mean bias correction,baseline,added in review
 v014,1,2026-11-12,robustness,LotCP split constants (disjoint halves),all,no optimism,check,
-v015,1,2026-11-12,robustness,single-instrument deployment unit,all,0.914 coverage,check,
+v015,1,2026-11-12,robustness,single-instrument deployment unit,all,0.919 coverage at m=10 (corrected 2026-11-24 after review R1; the earlier 0.914 was not traceable to a result file),check,
 v016,1,2026-11-14,method,remove shrinkage (plain mean default),soil LUCAS + mango rerun,shrinkage harmful on LUCAS,yes,deviation D5 (after external data)
 v017,1,2026-11-15,method,LotCP-A lot-level assurance delta=0.10/0.20,all + soil,0.90-0.92 of lots reach 0.90 (mango),yes,deviation D7 (added after results)
 v018,1,2026-11-16,method,reference-budget planner,all,median abs rel error 7 %,yes,

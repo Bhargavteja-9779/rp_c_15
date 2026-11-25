@@ -1,87 +1,57 @@
-# 4. Proposed method
+# 2. Method
 
-## 4.1 Setting and notation
+## 2.1 Setting and a model of the failure
 
-Data are nested. A *lot* $k$ is a set of fruit harvested from one orchard block on one date; it contains $n_k$ reference *samples* $i$ (a piece of fruit tissue with one oven-dried DMC value $y_{ki}$), and sample $i$ has $J_{ki}\ge 1$ *scans* with spectra $x_{kij}$. Lots are nested in seasons. A point predictor $f$ maps a spectrum to a DMC estimate, and $r_{kij}=y_{ki}-f(x_{kij})$ is the residual of a scan. For a new lot the user scans all fruit of interest and measures $m\ge 0$ randomly chosen reference samples destructively. For each remaining scan we want an interval $C(x)$ such that $\mathbb{P}\{y\in C(x)\}\ge 1-\alpha$. Fig. 1 shows where the procedure developed below enters the harvest workflow.
+A *lot* $k$ is the fruit harvested from one orchard block on one date. It contains $n_k$ reference *samples* $i$ (a piece of fruit tissue with one oven-dried DMC value $y_{ki}$), and sample $i$ has $J_{ki}\ge1$ *scans* $x_{kij}$. Lots are nested in seasons. A point predictor $f$ gives residuals $r_{kij}=y_{ki}-f(x_{kij})$. For a new lot the user scans the fruit and measures $m\ge0$ randomly chosen samples destructively; for every other scan an interval $C(x)$ with $\mathbb{P}\{y\in C(x)\}\ge1-\alpha$ is wanted. Split conformal prediction [@lei2018] returns $f(x)\pm q$, with $q$ the $\lceil(n+1)(1-\alpha)\rceil/n$ empirical quantile of held-out absolute residuals, and is valid when test and calibration residuals are exchangeable. We describe a residual by
 
-Split conformal prediction [@lei2018] takes residuals of a held-out calibration set, computes the $\lceil (n+1)(1-\alpha)\rceil/n$ empirical quantile $q$ of their absolute values and returns $f(x)\pm q$. The guarantee requires the test residual to be exchangeable with the calibration residuals.
+$$r_{kij}=b_k+u_{ki}+e_{kij},\qquad b_k\sim(\mu,\tau^2),\quad u_{ki}\sim(0,\sigma_k^2),\quad e_{kij}\sim(0,\varepsilon_k^2), \qquad\text{(1)}$$
 
-## 4.2 A model of why the guarantee fails
+with a lot bias $b_k$, a sample effect and scan-to-scan variation. Eq. (1) motivates the estimators; coverage does not depend on it. If calibration residuals are held out at random, each calibration scan has lot-mates in the training set, the predictor has partly absorbed $b_k$, and the residuals are too small. Holding out lots exposes the between-lot variance of the training seasons; holding out seasons also exposes the part of $b_k$ shared by a season.
 
-We describe the residual of a scan in lot $k$ by
+## 2.2 Season-held-out residuals and bias correction
 
-$$r_{kij} = b_k + u_{ki} + e_{kij}, \qquad b_k \sim (\mu,\tau^2),\quad u_{ki}\sim(0,\sigma_k^2),\quad e_{kij}\sim(0,\varepsilon_k^2), \qquad\text{(1)}$$
+For each source season $s$ the predictor is refitted without $s$ and predicts the scans of $s$, giving season-held-out residuals $\tilde r_{kij}$ for every source scan; the deployed predictor uses all source seasons. This is cross-conformal calibration [@vovk2015] with seasons as folds. From these residuals the one-way random-effects moments $\hat\mu$, $\hat\sigma^2$ (between samples within lots) and $\hat\tau^2$ (between lots) are estimated by the method of moments. For a new lot with reference set $A$, $|A|=m$, the bias is the mean reference residual,
 
-where $b_k$ is a lot bias (the calibration is systematically high or low for this block, date, instrument mix and fruit condition), $u_{ki}$ a sample effect and $e_{kij}$ scan-to-scan variation. Eq. (1) is used only to motivate the estimators; coverage does not depend on it being true. If calibration residuals are held out at random, each calibration scan has lot-mates in the training set, the predictor has partly absorbed $b_k$, and the calibration residuals are too small. Holding out whole lots exposes $\tau^2$ as it is *within* the training seasons. Holding out whole seasons additionally exposes the component of $b_k$ that is common to a season.
+$$\hat b=\bar r_A\quad(m\ge1),\qquad \hat b=\hat\mu\quad(m=0). \qquad\text{(2)}$$
 
-## 4.3 Season-held-out residuals
+Empirical-Bayes shrinkage of $\bar r_A$ towards $\hat\mu$ was part of the pre-specified design; it was immaterial on mango and harmful under a large campaign shift on soil spectra, and it is reported only as an ablation (Supplementary Note S5).
 
-Let the source data comprise seasons $\mathcal{S}$. For each $s\in\mathcal{S}$ we fit the predictor on $\mathcal{S}\setminus\{s\}$ and predict the scans of season $s$, which gives out-of-fold predictions $\tilde f(x_{kij})$ and residuals $\tilde r_{kij}=y_{ki}-\tilde f(x_{kij})$ for every source scan. The deployed predictor $f$ is fitted on all of $\mathcal{S}$. This is a cross-conformal construction [@vovk2015] with seasons as folds. Sample-grouped and lot-grouped five-fold versions are computed in the same way and serve as ablations.
+## 2.3 Lot scale (LotCP-S)
 
-## 4.4 Bias correction
+Lots differ in residual spread as well as bias. LotCP-S divides the score by
 
-Let $\bar r_{ki}$ be the mean residual of sample $i$ over its scans and $\bar r_k$ the mean of $\bar r_{ki}$ over the samples of lot $k$. From the season-held-out residuals of the $K$ source lots we estimate, by the method of moments for a one-way random-effects layout,
+$$\hat s^2=\hat u^2+\hat e^2,\qquad \hat u^2=\frac{\nu_0\hat\sigma^2+(m-1)s_A^2}{\nu_0+m-1},\qquad \hat e^2=\frac{\sum_i\sum_j\big(f(x_{ij})-\bar f_i\big)^2}{\sum_i(J_i-1)}, \qquad\text{(3)}$$
 
-$$\hat\mu=\frac1K\sum_k \bar r_k,\qquad \hat\sigma^2=\frac{\sum_k\sum_i(\bar r_{ki}-\bar r_k)^2}{\sum_k (n_k-1)},\qquad \hat\tau^2=\max\Big\{0,\; \frac{1}{K-1}\sum_k(\bar r_k-\hat\mu)^2-\hat\sigma^2\,\frac1K\sum_k\frac1{n_k}\Big\}. \qquad\text{(2)}$$
+where $s_A^2$ is the variance of the $m$ reference residual means, shrunk towards $\hat\sigma^2$ with pseudo-count $\nu_0\in\{5,10,20,40\}$ (chosen as the value giving the narrowest calibrated source intervals), and $\hat e^2$ is the pooled within-sample variance of the *predictions* of repeated scans of the new lot. $\hat e^2$ needs no reference value. When a lot has no repeated scans it is replaced by its mean over the source lots. LotCP without the suffix uses $\hat s\equiv1$.
 
-For a new lot with reference set $A$, $|A|=m$, the bias is estimated by the mean reference residual,
+## 2.4 Replaying the m-shot procedure on past lots
 
-$$\hat b = \bar r_A \quad (m\ge1),\qquad \hat b=\hat\mu \quad (m=0). \qquad\text{(3)}$$
+The half-width must reflect that $\hat b$ and $\hat s$ come from only $m$ samples. We obtain it by replaying deployment on the past. For each source lot $k$ with at least $m+10$ samples and each episode $e=1,\dots,E$, a reference set $A_{ke}$ of $m$ samples is drawn, $\hat b_{ke}$ and $\hat s_{ke}$ are computed from it by Eqs. (2)–(3), and the remaining scans give scores
 
-The corrected point prediction is $f(x)+\hat b$. The protocol originally specified an empirical-Bayes shrinkage of this mean towards $\hat\mu$ [@efron1975], $\hat b=\hat\mu+w_m(\bar r_A-\hat\mu)$ with $w_m=\hat\tau^2/(\hat\tau^2+\hat\sigma^2/m)$. It is evaluated as an ablation ("+ shrinkage"). We do not use it in the reported method, because it brought no benefit on the mango data and is unsafe when the new population is shifted by more than the between-lot variation seen in the past (Sections 11 and 13). The variance components of Eq. (2) remain in use for the scale estimate below.
+$$S_{keij}=|\tilde r_{kij}-\hat b_{ke}|/\hat s_{ke},\qquad i\notin A_{ke}. \qquad\text{(4)}$$
 
-## 4.5 Lot-specific scale (LotCP-S)
+The multiplier $\hat q_m$ is the $(1-\alpha)$ quantile of the lot-balanced score distribution
 
-Lots differ not only in bias but in residual spread. LotCP-S divides the score by
+$$\hat q_m=Q_{1-\alpha}\Big(\sum_{k=1}^{K_m}\frac{1}{K_m+1}\sum_{e=1}^{E}\frac1E\sum_{i\notin A_{ke}}\frac{1}{n_k-m}\sum_{j}\frac{1}{J_{ki}}\delta_{S_{keij}}+\frac{1}{K_m+1}\delta_{+\infty}\Big), \qquad\text{(5)}$$
 
-$$\hat s^2=\hat u^2+\hat e^2,\qquad \hat u^2=\frac{\nu_0\hat\sigma^2+(m-1)s_A^2}{\nu_0+m-1},\qquad \hat e^2=\frac{\sum_i\sum_j\big(f(x_{ij})-\bar f_i\big)^2}{\sum_i (J_i-1)}. \qquad\text{(4)}$$
+in which every lot carries equal weight, every sample equal weight within its lot and every scan equal weight within its sample. The interval for a scan of the new lot is $C(x)=f(x)+\hat b\pm\hat q_m\hat s$. For $m=0$ and $\hat s\equiv1$, Eq. (5) is the hierarchical conformal quantile of Lee et al. [@lee2023] on season-held-out residuals; for $m\ge1$ it is their mean-centred few-shot score. What the replay changes, relative to a plug-in alternative that standardises each past lot by its own full-information bias and scale, is that the estimation error of $\hat b$ and $\hat s$ at the deployed $m$ enters the quantile. Section 4.3 measures what this buys.
 
-Here $s_A^2$ is the sample variance of the $m$ reference residual means, shrunk towards the prior $\hat\sigma^2$ with pseudo-count $\nu_0$ (for $m<2$, $\hat u^2=\hat\sigma^2$), and $\hat e^2$ is the pooled within-sample variance of the *predictions* of repeated scans in the new lot, where $\bar f_i$ is the mean prediction of sample $i$. The term $\hat e^2$ needs no reference value: it measures how much the reading of the same fruit changes from scan to scan (different cheek, instrument unit or fruit temperature). When a lot has no repeated scans, $\hat e^2$ is replaced by its mean over the source lots, $e_0$. The pseudo-count is chosen from $\{5,10,20,40\}$ as the value giving the narrowest calibrated intervals on the source lots. LotCP without the suffix uses $\hat s\equiv 1$.
+## 2.5 What is guaranteed
 
-## 4.6 Episodic lot-balanced conformal quantile
+If the predictor and the constants are fixed, the calibration lots and the new lot are exchangeable, and samples are exchangeable within lots, the score of a random non-reference scan of the new lot, computed with a random reference set, is exchangeable with the calibration scores, and $\mathbb{P}\{y\in C(x)\}\ge1-\alpha$ for every $m$, with the probability taken over lots, reference draws and scans (Appendix A, Proposition 1, which covers random reference sets, three levels and unequal lot sizes). In our use these conditions hold only approximately. Calibration residuals come from season-held-out predictors; the constants are estimated from the calibration lots; lots of a new season are not exchangeable with past lots when the season differs systematically; and the guarantee is marginal over lots, not conditional on the lot [@barber2021limits]. The third gap is the one that matters, and Section 4 measures it season by season.
 
-The half-width must reflect the fact that $\hat b$ and $\hat s$ are estimated from only $m$ samples. We obtain it by replaying the deployment on the past. For each source lot $k$ with at least $m+10$ samples and each episode $e=1,\dots,E$, we draw a reference set $A_{ke}$ of $m$ samples at random, compute $\hat b_{ke}$ and $\hat s_{ke}$ from Eqs. (3)–(4) using only $A_{ke}$ (and the lot's unlabelled scans), and form the scores of the remaining scans,
+## 2.6 Lot-level assurance (LotCP-A)
 
-$$S_{keij}=\frac{|\tilde r_{kij}-\hat b_{ke}|}{\hat s_{ke}},\qquad i\notin A_{ke}. \qquad\text{(5)}$$
+A grower harvests one lot at a time, so a statement about the lot is more useful than one averaged over lots. For a lot $k$ and draw $e$ let $Q_{ke}$ be the weighted $(1-\alpha)$ quantile of the scores of Eq. (4) over the non-reference scans of that lot. A multiplier $q$ covers at least $1-\alpha$ of those scans exactly when $q\ge Q_{ke}$. LotCP-A therefore takes
 
-The half-width multiplier is the $(1-\alpha)$ quantile of the lot-balanced score distribution,
+$$\hat q^{\,A}_m=Q_{1-\delta}\Big(\sum_{k=1}^{K_m}\frac{1}{K_m+1}\sum_{e=1}^{E}\frac1E\delta_{Q_{ke}}+\frac{1}{K_m+1}\delta_{+\infty}\Big). \qquad\text{(6)}$$
 
-$$\hat q_m = Q_{1-\alpha}\Big(\sum_{k=1}^{K_m}\frac{1}{K_m+1}\sum_{e=1}^{E}\frac1E\sum_{i\notin A_{ke}}\frac{1}{n_k-m}\sum_{j=1}^{J_{ki}}\frac{1}{J_{ki}}\,\delta_{S_{keij}}+\frac{1}{K_m+1}\,\delta_{+\infty}\Big), \qquad\text{(6)}$$
+Under exchangeable lots, the realised coverage within the new lot is at least $1-\alpha$ with probability at least $1-\delta$ (Appendix A, Proposition 2), a statement of the probably-approximately-correct type [@park2022]. We use $1-\alpha=0.90$ and $\delta=0.10$. LotCP-A and LotCP-S at a smaller $\alpha$ lie on the same family of intervals. LotCP-A does not buy assurance more cheaply. It chooses, from past lots and without target labels, the level that delivers the requested assurance.
 
-where $K_m$ is the number of usable source lots and $\delta$ a point mass. Every lot carries the same total weight whatever its size, every sample the same weight within its lot, and every scan the same weight within its sample. The interval for a scan $x$ of the new lot is
+## 2.7 Planning the number of reference fruit
 
-$$C(x)=\big[f(x)+\hat b-\hat q_m\hat s,\; f(x)+\hat b+\hat q_m\hat s\big]. \qquad\text{(7)}$$
+The replay yields, for every $m$ and from past lots alone, the multiplier and the mean lot scale $\bar s_m$ over episodes, and hence a planned width $2\hat q_m\bar s_m$. The curve of planned width against $m$ can be drawn before the season and turns the choice of $m$ into an explicit trade between laboratory effort and precision. Calibration costs one extra model fit per source season, done offline; deployment computes two means and one variance per lot.
 
-For $m=0$ and $\hat s\equiv1$, Eq. (6) is the hierarchical conformal prediction (HCP) quantile of Lee et al. [@lee2023] applied to season-held-out residuals. For $m\ge1$ and $\hat s\equiv1$ (LotCP) it is their mean-centred few-shot score applied to season-held-out model residuals. LotCP-S adds the lot-specific scale.
+## 2.8 From a bound to a harvest decision
 
-## 4.7 What is guaranteed, and what is not
-
-Suppose the predictor and the constants $(\hat\mu,\hat\sigma^2,e_0,\nu_0)$ are fixed, the $K_m$ calibration lots and the test lot are exchangeable, and samples are exchangeable within lots. Then the score of a random scan of a random non-reference sample of the test lot, computed with a random reference set, is hierarchically exchangeable with the calibration scores, and Theorem 1 of Lee et al. [@lee2023] gives $\mathbb{P}\{y\in C(x)\}\ge 1-\alpha$ for every $m$, with the probability taken over lots, reference draws and scans. A formal statement that covers random reference sets, three nested levels and lots of unequal size is given with its proof in Appendix A (Proposition 1). A Monte-Carlo check under simulated exchangeable lots is part of the unit tests of the released code.
-
-The assumptions are not met exactly in our use. (i) Calibration residuals come from season-held-out predictors, not from the deployed predictor. (ii) The constants are estimated from the calibration lots themselves. (iii) Lots of a future season are not exchangeable with past lots if the new season differs systematically; season-held-out residuals emulate such a difference but cannot guarantee that the next one is of the same size. (iv) The guarantee is marginal over lots; it does not promise the nominal coverage within each lot [@barber2021limits]. The experiments measure how much these gaps matter.
-
-## 4.8 Lot-level assurance (LotCP-A)
-
-A marginal guarantee averages over lots: some lots are covered above the nominal level and others below it, and a grower harvests one lot at a time. A statement about the lot itself is more useful: *in at least a fraction $1-\delta$ of lots, at least a fraction $1-\alpha$ of the fruit is covered*. The lot structure makes such a statement available. For a lot $k$ and a reference draw $e$, let $Q_{ke}$ be the weighted $(1-\alpha)$ quantile of the scores of Eq. (5) over the non-reference scans of that lot, with the within-lot weights of Eq. (6). The interval of Eq. (7) with multiplier $q$ covers at least $1-\alpha$ of those scans exactly when $q\ge Q_{ke}$. LotCP-A therefore replaces Eq. (6) by a quantile over lots of the lot-wise quantiles,
-
-$$\hat q^{\,A}_m = Q_{1-\delta}\Big(\sum_{k=1}^{K_m}\frac{1}{K_m+1}\sum_{e=1}^{E}\frac1E\,\delta_{Q_{ke}}+\frac{1}{K_m+1}\,\delta_{+\infty}\Big). \qquad\text{(8)}$$
-
-If the calibration lots and the new lot are exchangeable, including their numbers of samples and scans, then $Q$ of the new lot is exchangeable with the calibration values, and the realised coverage among the non-reference scans of the new lot is at least $1-\alpha$ with probability at least $1-\delta$ over lots and reference draws (Appendix A, Proposition 2). This is a guarantee of the probably-approximately-correct type, in the spirit of prediction sets that hold for most tasks in meta-learning [@park2022] and of the second-moment coverage of Lee et al. [@lee2023]; here the task is a harvest lot and the few-shot adaptation is the bias and scale correction. It concerns the scanned fruit of the lot, not a hypothetical infinite population, and it is subject to the same caveats as the marginal guarantee. We use $\delta=0.10$ and, for comparison, $\delta=0.20$, with $1-\alpha=0.90$. A unit test of the released code checks the statement on simulated lots that differ in bias and scale.
-
-## 4.9 Planning the reference budget before the season
-
-The episodic replay has a by-product that is useful in its own right. For every $m$ it yields, from past lots alone, the multiplier $\hat q_m$ (or $\hat q_m^{A}$) and the average lot scale $\bar s_m$ over the replayed episodes, and therefore a *planned width* $2\hat q_m\bar s_m$: the interval width that the user should expect in the coming season if $m$ reference samples are taken per lot. The curve of planned width against $m$ can be drawn before any fruit of the new season is scanned, and it turns the choice of the number of reference samples into an explicit trade between laboratory effort and the precision of the error bar. Section 9 compares planned and realised widths.
-
-## 4.10 Computational cost
-
-Calibration needs one additional model fit per source season, which is done once and offline. The episodic quantile costs $O(K E N)$ score evaluations for $N$ scans per lot. At deployment the method computes two means and one variance per lot.
-
-## 4.11 From a calibrated bound to a harvest decision
-
-Let $t$ be the minimum DMC a fruit must reach. The grower can make two errors: accepting a fruit whose true DMC is below $t$, at cost $c_I$ (an immature fruit enters the harvest), or withholding a fruit whose DMC is at least $t$, at cost $c_D$ (a ready fruit is left for a later pass or re-tested). If the probability that a fruit is below specification were known, the expected cost would be minimised by accepting it whenever that probability is at most $\alpha^\ast=c_D/(c_I+c_D)$. A lower bound $L(x)$ with $\mathbb{P}\{y<L(x)\}\le\alpha^\ast$ therefore yields the rule
-
-$$\text{harvest if } L_{\alpha^\ast}(x)\ge t,\qquad \text{otherwise wait or re-test}, \qquad\text{(9)}$$
-
-with $L_{\alpha}(x)=f(x)+\hat b-\hat q_m^{-}\hat s$, where $\hat q_m^{-}$ is calibrated as in Eq. (6) but on the signed score $(\hat b-r)/\hat s$, so that only under-estimates of DMC count as misses. The rule uses the cost ratio only through $\alpha^\ast$, so a grower who cannot state costs in money can still state that withholding a mature fruit is, say, a ninth as bad as accepting an immature one ($\alpha^\ast=0.10$). Two qualifications apply. The conformal guarantee is marginal over fruit and lots, not conditional on the spectrum, so Eq. (9) is a calibrated approximation to the cost-optimal rule, not the rule itself. And it is only as good as the calibration: with an uncalibrated bound, $\alpha^\ast$ no longer corresponds to the realised risk.
-
-At the level of a lot, the grower decides whether to pick the block now. We use the simple rule "harvest the lot when at least a share $p$ of its scanned fruit are accepted by Eq. (9)", and call a lot ready when at least a share $p$ of its fruit truly meets the specification ($p=0.8$ in the main analysis, 0.9 in the supplement).
+Let $t$ be the minimum DMC a fruit must reach, $c_I$ the cost of accepting an immature fruit and $c_D$ the cost of withholding a mature one. If the probability that a fruit is below $t$ were known, expected cost would be minimised by accepting it when that probability is at most $\alpha^\ast=c_D/(c_I+c_D)$, the familiar newsvendor or Bayes threshold. A lower bound $L_{\alpha}(x)=f(x)+\hat b-\hat q^-_m\hat s$, with $\hat q^-_m$ calibrated as in Eq. (5) on the signed score $(\hat b-r)/\hat s$, gives the rule *harvest if* $L_{\alpha^\ast}(x)\ge t$, *otherwise wait or re-test*. Because the guarantee is marginal, not conditional on the spectrum, this rule is a calibrated approximation to the cost-optimal rule. A lot is harvested when at least a share $p$ of its scanned fruit is accepted, and it is called ready when at least a share $p$ of its fruit truly meets $t$ ($p=0.8$).

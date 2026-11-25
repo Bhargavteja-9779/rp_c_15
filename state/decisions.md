@@ -16,3 +16,10 @@ Entries before 2026-11-24 are RECONSTRUCTED from git history, experiments/PROTOC
 - 2026-11-24 [cycle 2] plan_v2 committed (5a045c5) before loading the NeoSpectra confirmation data; confirmation endpoints P1–P4 fixed.
 - 2026-11-24 [cycle 2] C2 lot rule applied as pre-registered: only 16 projects have >= 20 samples (< 20 required) -> lot = 1-degree cell; 20 cells have >= 20 samples (structure-only count). Target: `eoc_tot_c` (KSSL estimated organic carbon) as "soil organic carbon", log(1 + %). Expect low power (~20 evaluable target lots at m <= 10, ~10 at m = 20); accepted as pre-registered.
 - 2026-11-24 [cycle 2] C2 crashed (NaN coordinates in cell construction, a coding bug); fixed by building cells only for samples with coordinates (they were already excluded by the 'ok' mask). No results had been produced; no plan change.
+
+## 2026-11-24 — cycle 3 (review round 1)
+- Ledger v015 corrected: single-instrument LotCP-S coverage is 0.919 at m=10 (results/robustness, factor=unit); the logged 0.914 was not traceable (R1 number check).
+- Manuscript restructured (≤10k words): old sections archived in manuscript/sections_v2_archive/; Secs 10–14 and the full decision analysis moved to Supplementary Notes S5–S7; development history to S8.
+- Claims changed by plan_v4 evidence: efficiency of LotCP-S no longer a headline (replay buys validity, E2); decision savings credited to calibrated bounds, not reference fruit (E4); LotCP-A assurance stated as met in 2/5 seasons (E1); "pre-registered" → "pre-specified (internal git commit)".
+- R1-C10 rebutted with evidence: NeoSpectra layers disjoint from KSSL development layers (E7).
+- No second commodity found (E6): breadth stays limited; claims restricted to mango.

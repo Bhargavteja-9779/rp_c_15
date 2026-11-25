@@ -1,5 +1,5 @@
 ---
-title: "Risk-aware mango harvest decisions using few-shot conformal calibration of near-infrared spectroscopy across harvest seasons"
+title: "How far do near-infrared error bars hold across harvest seasons? Season-aware conformal calibration for mango harvest decisions"
 ---
 
 **P N Bhargav Teja^a^, Ragavan K^a,\*^**

@@ -17,8 +17,8 @@ import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[1]
 MS = ROOT / "manuscript"
-TITLE = ("Risk-aware mango harvest decisions using few-shot conformal calibration of near-infrared spectroscopy across harvest seasons")
-SHORT_TITLE = "Risk-aware mango harvest decisions with few-shot conformal NIR calibration"
+TITLE = ("How far do near-infrared error bars hold across harvest seasons? Season-aware conformal calibration for mango harvest decisions")
+SHORT_TITLE = "Season-aware conformal calibration of NIR error bars for mango harvest decisions"
 
 
 # --------------------------------------------------------------------------- result access

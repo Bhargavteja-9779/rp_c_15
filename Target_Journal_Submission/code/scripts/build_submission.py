@@ -138,21 +138,22 @@ def cover_letter(r):
         f"and {r.V['n_lots']} harvest lots, we audit such error bars lot by lot on later seasons: at a nominal 90 % they covered only "
         f"{100*min(r.m(k,0) for k in ('scp_sample','gauss','qrf','cqr_sample','ensemble','mc_dropout')):.0f}–"
         f"{100*max(r.m(k,0) for k in ('scp_sample','gauss','qrf','cqr_sample','ensemble','mc_dropout')):.0f} % of the reference values.",
-        "We then study a few-shot conformal calibration in which a few fruit per lot are tested destructively. With five to ten "
-        f"reference fruit it raised coverage in every target season, to {r.ss('lotcp_s',10):.3f} pooled ({r.ss('lotcp_s',10,'coverage_ex2017'):.3f} "
-        "without the first, over-covered target season). Matched comparisons show which parts of the calibration matter, and "
-        "where it falls short: shifts between seasons that past seasons do not span leave coverage slightly below nominal, and "
-        "a lot-level guarantee held pooled but not season by season. In an exploratory harvest simulation under explicitly "
-        "assumed costs, deciding on a calibrated lower bound instead of the point value lowered the expected cost in every "
-        "season; additional reference fruit gave no detectable further saving. We report these limits, including an "
-        "efficiency endpoint that was not confirmed on independent handheld-NIR data, as findings rather than footnotes.",
+        "We then evaluate remedies. Testing five to ten fruit per lot with a few-shot conformal calibration raised coverage "
+        f"in every season, to {r.ss('lotcp_s',10):.3f} pooled, but not to 90 % in every season, because seasons differ by more "
+        "than past lots suggest. Calibrating within each past season and across seasons, following multi-environment conformal "
+        "prediction, reached 90 % coverage in all five seasons for four predictive models and repeated draws of reference fruit "
+        "(exploratory). A width-matched comparison shows that its benefit is choosing the confidence level from past seasons, "
+        "not narrower intervals. Two plausible alternatives (learning the shift from earlier lots of the season, and spectral "
+        "warning signs) did not help, and an efficiency endpoint pre-specified for independent handheld-NIR soil data was not "
+        "confirmed; we report these results in full. In an exploratory harvest simulation under explicitly assumed costs, a "
+        "calibrated lower bound was cheaper than the point prediction, and extra reference fruit gave no detectable further saving.",
         f"We believe the work fits the scope of {JOURNAL} because it gives users of handheld NIR instruments an evidence-based "
         "account of when an error bar can be trusted for a harvest decision, and a practical procedure for checking it. The "
         "evaluation is retrospective, the costs are assumed and labelled as such, and a prospective orchard validation remains to be done.",
         "The manuscript is original, has not been published, and is not under consideration elsewhere. [Both authors have "
         "approved the submission — to be confirmed by the authors.] The study uses public data sets and involves no human participants or animals. The authors "
         "declare no competing interests, and the research received no specific funding. The use of generative AI in the "
-        "research and in preparing the manuscript is declared in the manuscript. The data are publicly available at the links given in the data "
+        "research and in preparing the manuscript, including an AI-simulated internal review (not external peer review), is declared in the manuscript. The data are publicly available at the links given in the data "
         "availability statement, and the code is available from the corresponding author on reasonable request.",
         "Thank you for considering our manuscript.",
         f"Yours sincerely,\n\n{CORR}\nCorresponding author, on behalf of both authors",
@@ -258,10 +259,17 @@ def make_zip():
              "09_Declaration_of_Competing_Interest.docx": M / "declaration_of_competing_interest.docx"}
     for k, v in files.items():
         shutil.copy2(v, d / k)
+    # authors-only note (journal suggestion, title rationale, desk-rejection assessment) — NOT for upload
+    subprocess.run(["pandoc", str(ROOT / "journal_selection" / "submission_assessment.md"), "-o",
+                    str(d / "00b_FOR_AUTHORS_ONLY_Journal_Title_DeskReject_Assessment.docx")], check=True)
     nfig = export_figures(d / "07_Figures")
     (d / "00_README_Submission_Checklist.txt").write_text(f"""Submission package for {JOURNAL} (Elsevier)
 Manuscript: {TITLE}
 Authors: {AUTHORS} (corresponding author: {CORR})
+
+Suggested journal: Smart Agricultural Technology (Elsevier; Q1 per JCR-derived listings, ESCI; publisher-reported average
+69-72 days to acceptance). See 00b (FOR THE AUTHORS ONLY - do not upload) for the journal suggestion, title rationale,
+recent comparable papers in the journal (DOIs) and the desk-rejection assessment.
 
 Contents
   01 Cover letter                     02 Title page (author details, CRediT, funding, declarations)

@@ -1,6 +1,10 @@
 Submission package for Smart Agricultural Technology (Elsevier)
-Manuscript: Risk-aware mango harvest decisions using few-shot conformal calibration of near-infrared spectroscopy across harvest seasons
+Manuscript: How far do near-infrared error bars hold across harvest seasons? Season-aware conformal calibration for mango harvest decisions
 Authors: P N Bhargav Teja, Ragavan K (corresponding author: Ragavan K)
+
+Suggested journal: Smart Agricultural Technology (Elsevier; Q1 per JCR-derived listings, ESCI; publisher-reported average
+69-72 days to acceptance). See 00b (FOR THE AUTHORS ONLY - do not upload) for the journal suggestion, title rationale,
+recent comparable papers in the journal (DOIs) and the desk-rejection assessment.
 
 Contents
   01 Cover letter                     02 Title page (author details, CRediT, funding, declarations)

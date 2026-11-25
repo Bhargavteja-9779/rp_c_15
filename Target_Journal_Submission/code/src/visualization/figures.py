@@ -1,6 +1,8 @@
 """Stage 5: publication figures, all drawn from machine-generated result files."""
 from __future__ import annotations
 
+from pathlib import Path
+
 import json
 
 import matplotlib
@@ -424,16 +426,21 @@ def fig_economics(cfg, fdir):
 
 
 def graphical_abstract(cfg, fdir):
-    """Graphical abstract: workflow strip and two headline results (from machine-generated tables)."""
-    tdir = out_dir(cfg, "tables")
-    if not (tdir / "table16_harvest_fruit.csv").exists():
+    """Graphical abstract: workflow strip and coverage by harvest season (from result files; SNV PLS, m = 10)."""
+    ss, rl = Path("results/cycle3/season_summary.csv"), Path("results/cycle4/robust_lots.csv")
+    if not (ss.exists() and rl.exists()):
         return
-    s = pd.read_csv(tdir / "table16_harvest_fruit.csv")
-    main = pd.read_csv(tdir / "table3_main_intervals.csv")
-    z = s[(s.model == "pls") & (s.threshold == 15)]
-    fig = plt.figure(figsize=(7.0, 3.2))
-    ax = fig.add_axes([0, 0.62, 1, 0.38]); ax.axis("off"); ax.set_xlim(0, 100); ax.set_ylim(0, 20)
-    steps = ["Scan mangoes\n(handheld NIR)", "Predict dry\nmatter (DMC)", "Test m fruit;\ncorrect lot bias\n& scale (LotCP)", "Calibrated\nlower bound", "Harvest or\nwait / re-test"]
+    s = pd.read_csv(ss)
+    r = pd.read_csv(rl)
+    r = r[(r.model == "pls") & (r.m == 10)]
+    seasons = [2017, 2018, 2019, 2020, 2021]
+    base = s[(s.model == "pls") & (s.method == "scp_sample") & (s.m == 0)].iloc[0]
+    series = {"Standard error bar\n(split CP, no reference fruit)": [100 * base[f"cov_{t}"] for t in seasons],
+              "Few-shot calibration\n(LotCP-S, 10 reference fruit)": [100 * r[(r.method == "S") & (r.target == t)].coverage.mean() for t in seasons],
+              "Season-aware calibration\n(LotCP-R2, 10 reference fruit)": [100 * r[(r.method == "R2") & (r.target == t)].coverage.mean() for t in seasons]}
+    fig = plt.figure(figsize=(7.0, 3.4))
+    ax = fig.add_axes([0, 0.64, 1, 0.36]); ax.axis("off"); ax.set_xlim(0, 100); ax.set_ylim(0, 20)
+    steps = ["Scan mangoes\n(handheld NIR)", "Predict dry\nmatter (DMC)", "Test 5–10 fruit;\ncorrect lot\nbias & scale", "Season-aware\nconformal\nlower bound", "Harvest or\nwait / re-test"]
     cols = ["#fdeee6", "#fdeee6", "#e8f1fc", "#e8f1fc", "#e6f6ee"]
     for i, (t, c) in enumerate(zip(steps, cols)):
         x = 2 + i * 19.6
@@ -441,26 +448,18 @@ def graphical_abstract(cfg, fdir):
         ax.text(x + 8.25, 10, t, ha="center", va="center", fontsize=7.5)
         if i < 4:
             ax.annotate("", (x + 19.4, 10), (x + 16.7, 10), arrowprops=dict(arrowstyle="-|>", color=C["muted"]))
-    a1 = fig.add_axes([0.08, 0.1, 0.38, 0.42])
-    vals = [100 * main[(main.method == "scp_sample") & (main.m == 0)].coverage.iloc[0], 100 * main[(main.method == "lotcp_s") & (main.m == 5)].coverage.iloc[0]]
-    a1.bar([0, 1], vals, color=[C["red"], C["blue"]], width=0.55)
-    a1.axhline(90, color=C["ink"], ls=":", lw=0.8)
-    for i, v in enumerate(vals):
-        a1.text(i, v + 1, f"{v:.0f} %", ha="center", fontsize=7)
-    a1.set_xticks([0, 1]); a1.set_xticklabels(["Standard\nerror bar", "LotCP-S,\n5 ref. fruit"], fontsize=7); a1.set_ylim(60, 100)
-    a1.set_title("Coverage on later seasons (target 90 %)", fontsize=7.5); a1.grid(axis="x", visible=False)
-    a2 = fig.add_axes([0.58, 0.1, 0.38, 0.42])
-    p = z[(z.rule == "point")].immature_among_accepted.iloc[0]
-    q = z[(z.rule == "lotcp_s_lower") & (z.m == 10) & np.isclose(z.alpha, 0.1)].immature_among_accepted.iloc[0]
-    a2.bar([0, 1], [100 * p, 100 * q], color=[C["red"], C["blue"]], width=0.55)
-    for i, v in enumerate([100 * p, 100 * q]):
-        a2.text(i, v + 0.3, f"{v:.1f} %", ha="center", fontsize=7)
-    a2.set_xticks([0, 1]); a2.set_xticklabels(["Point\nprediction", "LotCP-S bound,\n10 ref. fruit"], fontsize=7)
-    a2.set_title("Immature fruit among harvested (spec 15 %)", fontsize=7.5); a2.grid(axis="x", visible=False)
-    y1 = z[(z.rule == "point")].compliant_accepted.iloc[0]
-    y2 = z[(z.rule == "lotcp_s_lower") & (z.m == 10) & np.isclose(z.alpha, 0.1)].compliant_accepted.iloc[0]
-    fig.text(0.5, -0.07, f"Mature fruit cleared: {100 * y1:.0f} % vs {100 * y2:.0f} % (the price of a 90 % lower bound).\nRetrospective simulation on 137 later-season lots.",
-             ha="center", fontsize=7, color=C["muted"])
+    a1 = fig.add_axes([0.08, 0.12, 0.62, 0.44])
+    w = 0.26
+    for j, ((lab, v), col) in enumerate(zip(series.items(), [C["red"], C["muted"], C["blue"]])):
+        a1.bar(np.arange(5) + (j - 1) * w, v, width=w, color=col, label=lab)
+    a1.axhline(90, color=C["ink"], ls=":", lw=0.8, label="Target coverage, 90 %")
+    a1.set_xticks(range(5)); a1.set_xticklabels([str(t) for t in seasons], fontsize=7); a1.set_ylim(70, 100)
+    a1.set_ylabel("Coverage (%)", fontsize=7); a1.tick_params(labelsize=7)
+    a1.set_title("Coverage on each later harvest season", fontsize=7.5); a1.grid(axis="x", visible=False)
+    a1.legend(fontsize=6.3, frameon=False, loc="upper left", bbox_to_anchor=(1.01, 1.0))
+    fig.text(0.5, -0.04, "Retrospective, forward-chaining evaluation on 137 later-season lots of a public mango NIR data set (SNV PLS).\n"
+             "Season-aware calibration is exploratory; its width is about that of a fixed 92 % level chosen from past seasons.",
+             ha="center", fontsize=6.5, color=C["muted"])
     fig.savefig(fdir / "graphical_abstract.png", dpi=300, bbox_inches="tight"); fig.savefig(fdir / "graphical_abstract.pdf", bbox_inches="tight")
     plt.close(fig)
 

@@ -1,5 +1,5 @@
 ---
-title: "Supplementary material: Risk-aware mango harvest decisions using few-shot conformal calibration of near-infrared spectroscopy across harvest seasons"
+title: "Supplementary material: How far do near-infrared error bars hold across harvest seasons? Season-aware conformal calibration for mango harvest decisions"
 ---
 
 All tables in this file are written by `src/statistics/analysis.py` from the raw result files; the same tables are provided as CSV files.

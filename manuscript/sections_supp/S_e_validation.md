@@ -33,7 +33,7 @@ The failure of sample-fold split conformal prediction is larger for the more fle
 
 ## S5.3 External validation on soil vis–NIR spectra
 
-The experiments so far use one fruit and one instrument family. We therefore repeated the central comparisons on two soil subsets of the Open Soil Spectral Library (Section 3), a different material, spectral range, instrument and reference chemistry, in a field where adjusting a library model with a few local samples is established practice. Table 12 and Fig. 10 give the results.
+The experiments so far use one fruit and one instrument family. We therefore repeated the central comparisons on two soil subsets of the Open Soil Spectral Library [@safanelli2025] (described below), a different material, spectral range, instrument and reference chemistry, in a field where adjusting a library model with a few local samples is established practice. Table 12 and Fig. 10 give the results.
 
 {{T:soil}}
 

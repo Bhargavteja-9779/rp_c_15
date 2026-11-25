@@ -576,12 +576,12 @@ def tables(r: R) -> dict:
                          "Holm p": "<0.001" if x.p_holm < 0.001 else f"{x.p_holm:.3f}", "r": f"{x.rank_biserial:+.2f}",
                          "Criterion met": ("yes (re-draw check)" if x.confirmed else "no (re-draw check)") if x.dataset.startswith("mango")
                          else ("uninformative" if x.endpoint == "P4" else ("yes" if x.confirmed else "no"))})
-        T["confirm"] = _pipe(pd.DataFrame(rows), "Table 109. Pre-registered confirmation of the frozen method (experiments/plan_v2.yaml) on five seeds fixed in advance (100–104), "
+        T["confirm"] = _pipe(pd.DataFrame(rows), "Table 109. Pre-specified confirmation of the frozen method (internally committed plan, available on request) on five seeds fixed in advance (100–104), "
                              "20 reference draws per seed, lot and m. Unit of analysis: target lot; Wilcoxon signed-rank test, Holm correction over the four endpoints per data set; "
                              "95 % CI: bootstrap over lots; r: matched-pairs rank-biserial correlation. An endpoint is confirmed when Holm p < 0.05, the CI excludes 0 and |r| ≥ 0.2 "
                              "in the expected direction. Negative interval-score differences and positive share differences favour the proposed method. The mango rows are fresh "
                              "reference draws on lots examined during development and are not an independent confirmation. P3 and P4 compare coverage shares without a width "
-                             "constraint (Section 6.3); P4 had too few lots and is counted as uninformative.")
+                             "constraint (Section 4.4); P4 had too few lots and is counted as uninformative.")
     # ---- cycle 3 main tables ----------------------------------------------------------------------------
     if "season_summary" in r.c3:
         lab = dict(LABEL, biascorr_full="Bias corr. + lot scale, no replay", biascorr_rep="Bias corr. + replicate scale, no replay")
@@ -617,11 +617,11 @@ def tables(r: R) -> dict:
                     lo, hi = float(r.st(ref, comp, out, m, "boot_lo", model)), float(r.st(ref, comp, out, m, "boot_hi", model))
                     rows.append({"Comparison": labc, "Outcome": labo, "PLS": mlab, "m": m,
                                  "Season-mean difference": f"{d * float(r.st(ref, comp, out, m, 'season_avg_diff', model)):+.3f}" if d == 1 else f"{d * float(r.st(ref, comp, out, m, 'season_avg_diff', model)):+.1f}",
-                                 "95% season-cluster CI": f"{d*lo:+.3f} to {d*hi:+.3f}" if d == 1 else f"{d*lo:+.1f} to {d*hi:+.1f}",
+                                 "95% season interval": f"{d*lo:+.3f} to {d*hi:+.3f}" if d == 1 else f"{d*lo:+.1f} to {d*hi:+.1f}",
                                  "Seasons favouring": f"{int(r.st(ref, comp, out, m, 'seasons_ref_better', model))}/5"})
-        T["c3tests"] = _pipe(pd.DataFrame(rows), "Table 4. Season-level comparisons (exploratory except where Section 6.4 states otherwise). Differences are "
-                             "oriented so that positive values favour the first method (lower interval score, higher coverage or share). CI: two-stage bootstrap that "
-                             "resamples seasons and then lots within seasons (2,000 resamples). With five seasons an exact sign test cannot reach p < 0.05 "
+        T["c3tests"] = _pipe(pd.DataFrame(rows), "Table 4. Season-level comparisons (all exploratory; Section 3.8). Differences are "
+                             "oriented so that positive values favour the first method (lower interval score, higher coverage or share). Season-mean difference: mean of "
+                             "the five season differences; season interval: descriptive t-interval on those five values (4 df). With five seasons an exact sign test cannot reach p < 0.05 "
                              "(smallest two-sided p = 0.0625); all lot-level tests are in the supplementary tables.")
     if "decisions_ci" in r.c3:
         lab = {"point": "Point prediction", "scp_lower": "Split-CP lower bound", "point_bc": "Bias-corrected point", "bc_lower": "Bias corr. + source margin",
@@ -645,7 +645,7 @@ def tables(r: R) -> dict:
         T["c3dec"] = _pipe(pd.DataFrame(rows), "Table 5. Harvest decisions at the operating point fixed before this analysis (exploratory; specification 15 % DMC, "
                            "bounds at α = 0.10, lot harvested when ≥ 80 % of its scanned fruit are accepted, ASSUMED costs c_I = 1, c_D = 1/9, c_R = 1.5 per reference "
                            "fruit, lots of 1000 fruit; 137 target lots). Cost in units of the value of one marketable fruit, including reference tests. Δ: cost "
-                           "difference to the split-conformal lower bound, the cheapest rule without reference fruit. 95 % CIs: two-stage season-cluster bootstrap.")
+                           "difference to the split-conformal lower bound, the cheapest rule without reference fruit. 95 % CIs: two-stage season-cluster bootstrap of the pooled values.")
     p2 = r.t["table2_point_models_by_seed"]
     cost = p2.groupby("model").agg(fit=("fit_seconds", "mean"), pred=("predict_ms_per_1000", "mean")).reindex(["pls", "gbm", "cnn"])
     rows = [{"Component": {"pls": "PLS fit (final model)", "gbm": "LightGBM fit", "cnn": "1D-CNN fit (20 epochs)"}[k], "Time": f"{v.fit:.1f} s",
@@ -677,7 +677,7 @@ def render(text: str, r: R, T: dict, audit: bool = False) -> str:
             return wrap(str(r.V[expr[2:]]))
         if expr.startswith("T:"):
             return wrap(T[expr[2:]]) if audit else T[expr[2:]]
-        return wrap(str(eval(expr, {"__builtins__": {"abs": abs, "round": round, "min": min, "max": max, "float": float, "int": int, "len": len}, **ns})))
+        return wrap(str(eval(expr, {"__builtins__": {"abs": abs, "round": round, "min": min, "max": max, "float": float, "int": int, "len": len, "range": range}, **ns})))
 
     return re.sub(r"\{\{(.+?)\}\}", sub, text)
 

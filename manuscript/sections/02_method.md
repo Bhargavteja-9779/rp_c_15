@@ -14,7 +14,7 @@ For each source season $s$ the predictor is refitted without $s$ and predicts th
 
 $$\hat b=\bar r_A\quad(m\ge1),\qquad \hat b=\hat\mu\quad(m=0). \qquad\text{(2)}$$
 
-Empirical-Bayes shrinkage of $\bar r_A$ towards $\hat\mu$ was part of the pre-specified design; it was immaterial on mango and harmful under a large campaign shift on soil spectra, and it is reported only as an ablation (Supplementary Note S5).
+Empirical-Bayes shrinkage [@efron1975] of $\bar r_A$ towards $\hat\mu$ was part of the pre-specified design; it was immaterial on mango and harmful under a large campaign shift on soil spectra, and it is reported only as an ablation (Supplementary Note S5).
 
 ## 2.3 Lot scale (LotCP-S)
 
@@ -34,7 +34,7 @@ The multiplier $\hat q_m$ is the $(1-\alpha)$ quantile of the lot-balanced score
 
 $$\hat q_m=Q_{1-\alpha}\Big(\sum_{k=1}^{K_m}\frac{1}{K_m+1}\sum_{e=1}^{E}\frac1E\sum_{i\notin A_{ke}}\frac{1}{n_k-m}\sum_{j}\frac{1}{J_{ki}}\delta_{S_{keij}}+\frac{1}{K_m+1}\delta_{+\infty}\Big), \qquad\text{(5)}$$
 
-in which every lot carries equal weight, every sample equal weight within its lot and every scan equal weight within its sample. The interval for a scan of the new lot is $C(x)=f(x)+\hat b\pm\hat q_m\hat s$. For $m=0$ and $\hat s\equiv1$, Eq. (5) is the hierarchical conformal quantile of Lee et al. [@lee2023] on season-held-out residuals; for $m\ge1$ it is their mean-centred few-shot score. What the replay changes, relative to a plug-in alternative that standardises each past lot by its own full-information bias and scale, is that the estimation error of $\hat b$ and $\hat s$ at the deployed $m$ enters the quantile. Section 4.3 measures what this buys.
+in which every lot carries equal weight, every sample equal weight within its lot and every scan equal weight within its sample. The interval for a scan of the new lot is $C(x)=f(x)+\hat b\pm\hat q_m\hat s$. For $m=0$ and $\hat s\equiv1$, Eq. (5) is the hierarchical conformal quantile of Lee et al. [@lee2023] on season-held-out residuals; for $m\ge1$ it is the mean-centred score that Lee et al. propose when a few outcomes of the test group are observed (their Remark 1), and generalized hierarchical conformal prediction addresses the same few-shot setting by other means [@mallick2026ghcp]; related symmetry-based inference covers partially observed hierarchical data [@dobriban2023symmpi]. What the replay changes, relative to a plug-in alternative that standardises each past lot by its own full-information bias and scale, is that the estimation error of $\hat b$ and $\hat s$ at the deployed $m$ enters the quantile. Section 4.3 measures what this buys.
 
 ## 2.5 What is guaranteed
 

@@ -28,7 +28,7 @@ manuscript additionally needs `pandoc` and, for the PDF, LibreOffice.
 
 The main data set is public: *Mango DMC and NIR spectra*, Mendeley Data,
 doi:[10.17632/46htwnp833](https://doi.org/10.17632/46htwnp833) version 6, file
-`MangoDMC_NIR_Data_v4.csv` (260 MB, CC BY 4.0). It is **not** redistributed here.
+`MangoDMC_NIR_Data_v4.csv` (260 MB, CC BY 4.0; the file keeps the name "v4" inside data-set version 6). It is **not** redistributed here.
 
 ```bash
 python -m src.data.download        # downloads to data/raw/ and verifies the SHA-256 checksum
@@ -83,6 +83,7 @@ Run after `run_all.py --mode full`, in this order; each writes to its own folder
 | `python -m experiments.season_inference` | v4 E1 | `results/cycle3/season_*.csv` | season-level summaries, season-cluster bootstrap, sign tests |
 | `python -m experiments.assurance_frontier` | v4 E3 | `results/cycle3/assurance_frontier.csv` | lot-level assurance against width |
 | `python -m experiments.decisions_uncertainty` | v4 E4 | `results/cycle3/decisions_*.csv` | decisions at a fixed operating point with CIs, LOSO choice of α, planner error by source seasons |
+| `python -m experiments.pls_leverage` | v4 E5 | `results/cycle3/pls_leverage*.csv` | leverage-based PLS intervals |
 | `python -m experiments.neospectra_overlap` | v4 E7 | `results/cycle3/neospectra_overlap.json` | overlap of NeoSpectra and development soil layers |
 
 Then `python -m manuscript.build_manuscript` and `python -m scripts.audit_numbers`.
@@ -96,8 +97,13 @@ the data file in place,
 python run_all.py --mode full --from eval
 ```
 
-recomputes every interval result, statistic, table, figure and the manuscript from those
-predictions in about 45 minutes. Reference draws and episodes are seeded
+recomputes the main interval results, statistics, tables and figures from those predictions in
+about 45 minutes. The analyses added in cycles 2–3 (tables of season-level comparisons, the
+confirmation, the decision intervals and the published-PLS rows) are NOT part of this command: run
+the scripts listed under "Analyses added after the main run" afterwards (about 30 minutes in total),
+then build the manuscript. `run_all.py` also writes run-state files under `state/` (lock, heartbeat,
+queue, compute ledger) used by the autonomous research loop; with `--resume` it skips stages marked
+done, and a stage that failed three times is skipped and reported in the log. Reference draws and episodes are seeded
 (`config/default.yaml: eval.seed`), so the numbers are reproduced exactly. Retraining from scratch
 (`--from crossfit` after deleting `results/predictions/`) reproduces PLS and LightGBM exactly and
 the CNN up to floating-point differences between machines.

@@ -12,7 +12,7 @@
  "G3": {
   "status": "fail",
   "evidence": "state/novelty_ledger.json scores",
-  "note": "15/25 (blind; author 17); breadth 2 < 3. Cycle 3 E6: no second public fruit data set with season/lot structure exists (journal 2026-11-24_15); claims restricted to mango. Data-limited, not fixable by more compute."
+  "note": "round 2 blind 11/25 (diff 2, mech 3, evid 2, breadth 2, signif 2); GHCP (arXiv 2608.15500) narrows differentiation; no second fruit data set. Needs pivot or new data."
  },
  "G4": {
   "status": "pass-partial",
@@ -46,8 +46,8 @@
  },
  "G10": {
   "status": "fail",
-  "evidence": "review/round_1.md (R1 4/10, R2 6/10, R3 5/10, all major)",
-  "note": "round 1 triaged; plan_v4 E1-E7 run; manuscript rewritten (7.9k words). Round 2 pending with fresh reviewers."
+  "evidence": "review/round_2.md",
+  "note": "round 2: R1 6/10, R2 5/10, R3 6/10, all major; fixes applied 2026-11-25"
  },
  "G11": {
   "status": "pass",

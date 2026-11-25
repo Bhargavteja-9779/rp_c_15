@@ -3,7 +3,9 @@
 Lots within a season share the season effect, so lot-level Wilcoxon tests overstate the evidence. Here every
 headline comparison is reported (i) pooled over lots, (ii) as the average of season means, (iii) excluding 2017 (two
 source seasons, over-covered) and (iv) excluding 2018 (used to design deviation D1), with
-  * a two-stage season-cluster bootstrap CI (seasons resampled, then lots within each resampled season),
+  * a descriptive t-interval (n_seasons - 1 df) for the SEASON-MEAN difference, the estimand printed in the paper
+    (round-2 review: the earlier bootstrap below targets the lot-weighted pooled mean, a different quantity),
+  * a two-stage season-cluster bootstrap CI of the lot-weighted POOLED difference (kept as pooled_boot_lo/hi),
   * an exact sign test over the five season-mean differences (smallest attainable two-sided p = 0.0625),
   * a linear mixed model diff ~ 1 + (1 | season) on lot-level differences (REML; Wald CI of the intercept). With 4-5
     seasons the season variance is often estimated at the boundary; the mixed-model p is kept in the CSV but not used
@@ -15,7 +17,7 @@ import warnings
 
 import numpy as np
 import pandas as pd
-from scipy.stats import binomtest
+from scipy.stats import binomtest, t as tdist
 
 from src.utils import load_config, out_dir
 
@@ -112,13 +114,17 @@ def tests(d, seed=0):
                     smeans = jj.groupby("target")["diff"].mean()
                     k = int((smeans > 0).sum()); n = int((smeans != 0).sum())
                     lo, hi = season_boot(jj, "diff", rng)
+                    ns = len(smeans)
+                    se = smeans.std(ddof=1) / np.sqrt(ns)
+                    tq = tdist.ppf(0.975, ns - 1)
+                    t_lo, t_hi = smeans.mean() - tq * se, smeans.mean() + tq * se
                     est, mlo, mhi, mp = mixed(jj)
                     rows.append(dict(model=model, reference=ref, comparator=oth + ("@m0" if at0 else ""), outcome=out,
                                      m=m, subset=subset, n_lots=len(jj), n_seasons=len(smeans), mean_diff=jj["diff"].mean(),
-                                     season_avg_diff=smeans.mean(), boot_lo=lo, boot_hi=hi,
+                                     season_avg_diff=smeans.mean(), boot_lo=t_lo, boot_hi=t_hi, pooled_boot_lo=lo, pooled_boot_hi=hi,
                                      seasons_ref_better=k, sign_p=binomtest(k, n, 0.5).pvalue if n else np.nan,
                                      mixed_est=est, mixed_lo=mlo, mixed_hi=mhi, mixed_p=mp,
-                                     boot_excludes_0=bool(lo > 0 or hi < 0)))
+                                     boot_excludes_0=bool(t_lo > 0 or t_hi < 0), pooled_boot_excludes_0=bool(lo > 0 or hi < 0)))
     t = pd.DataFrame(rows)
     return t
 

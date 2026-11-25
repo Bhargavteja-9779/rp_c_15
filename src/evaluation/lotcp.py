@@ -177,6 +177,44 @@ class LotCP:
             return 1.0 / (qmask.sum() * L.s_cnt[L.s_inv])
         return np.ones(len(L.r))                      # ablation: every spectrum has unit mass
 
+    def group_quantiles(self, r, lot, sample, pred, group, n_episodes=None, seed=0):
+        """Season-robust replay (plan_v7): with the FITTED constants (mu, sigma2, e0, nu0, scale) frozen, replay the m-shot
+        procedure separately within each group of calibration lots (e.g. a harvest season) and return
+        {group: multiplier}. For assure=None the multiplier is the group's lot-balanced (1 - alpha) score quantile;
+        for assure=delta it is the group's (1 - delta) quantile of lot-wise (1 - alpha) quantiles. Groups are thereby
+        scored with one common score function, so under exchangeable groups the k-th largest of S group multipliers
+        exceeds a new group's multiplier with probability >= (S + 1 - k) / (S + 1) (Appendix A, Proposition 3)."""
+        rng = np.random.default_rng(seed)
+        n_ep = n_episodes or self.n_episodes
+        out = {}
+        r, lot, sample, group = np.asarray(r, float), np.asarray(lot), np.asarray(sample), np.asarray(group)
+        for g in np.unique(group):
+            k = group == g
+            lots = [L for L in _build_lots(r[k], lot[k], sample[k], None if pred is None else np.asarray(pred)[k])
+                    if len(L.s_mean) >= self.m + self.min_query]
+            if not lots:
+                continue
+            sc, wt, lotq, lotw = [], [], [], []
+            for L in lots:
+                ne = 1 if self.m == 0 else n_ep
+                for _ in range(ne):
+                    sup = rng.choice(len(L.s_mean), self.m, replace=False)
+                    qmask = np.ones(len(L.s_mean), bool); qmask[sup] = False
+                    b = self.bias(L.s_mean[sup])
+                    s_hat = self.lot_scale(L.s_mean[sup], L.rep_var, self.nu0) if self.scale != "none" else 1.0
+                    rows = qmask[L.s_inv]
+                    e = L.r[rows] - b
+                    s_ = (np.abs(e) if self.side == "two" else -e) / s_hat
+                    w_ = self._w_query(L, qmask)[rows] / ne
+                    sc.append(s_); wt.append(w_)
+                    if self.assure is not None:
+                        lotq.append(weighted_quantile(s_, w_, 1 - self.alpha)); lotw.append(1.0 / ne)
+            if self.assure is None:
+                out[g] = weighted_quantile(np.concatenate(sc), np.concatenate(wt), 1 - self.alpha, inf_mass=1.0)
+            else:
+                out[g] = weighted_quantile(np.array(lotq), np.array(lotw), 1 - self.assure, inf_mass=1.0)
+        return out
+
     # ---- deployment ------------------------------------------------------------------------
     def predict(self, support_sample_means: np.ndarray, rep_var: float = np.nan):
         """Return (bias correction, half-width) for a new lot given its m reference residual means

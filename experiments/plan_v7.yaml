@@ -9,3 +9,8 @@ comparisons: SNV and published PLS, forward chaining, m in {5,10}, alpha 0.10, 2
 success_rule: ex-2017 coverage >= 0.90 for both predictors AND seasons with coverage >= 0.90 >= 4/5 AND width increase
   over LotCP-S <= 15 %; for LotCP-AR: lot-level target met in >= 4/5 seasons with width increase over LotCP-A <= 15 %.
 status: exploratory; no tuning on target seasons.
+addendum_after_primary_results (2026-11-25): >
+  Primary results seen (R fails width, R2 passes; AR passes for published PLS only, AR2 passes). Added BEFORE running:
+  the same frozen procedure on LightGBM and 1D-CNN (seed 0, forward chaining) as a generalisation check, and a matched
+  comparison of R2 against LotCP-S run at a fixed smaller alpha giving the same mean width (alpha grid 0.05/0.10 interpolated
+  is not available, so: LotCP-S at alpha = 0.05 reported side by side). No change to the method.
